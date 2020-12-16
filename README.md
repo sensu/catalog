@@ -5,6 +5,16 @@ monitoring integrations (e.g. Linux system monitoring checks, or NGINX service
 health monitoring), and pipeline integrations (e.g. Pagerduty, Elasticsearch, 
 Splunk, Ansible Tower). 
 
+- [Project Goals](#project-goals)
+- [Integration Template Guidelines](#integration-template-guidelines)
+  - [All templates](#all-templates)
+  - [Check templates](#check-templates)
+  - [Pipeline templates](#pipeline-templates)
+  - [Filter templates](#filter-templates)
+  - [Mutator templates](#mutator-templates)
+  - [Asset resources](#asset-resources)
+- [Contributing](#contributing)
+
 ## Project Goals 
 
 The goal of this project is to provide reference implementations for effective 

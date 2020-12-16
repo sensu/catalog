@@ -1,0 +1,132 @@
+---
+# Description
+#   The Sensu Slack Handler is a Sensu Event Handler that sends alerts to 
+#   Slack. 
+#
+# Instructions
+#   1. Add "slack" to the "alert" handler set.
+#
+#      To create the "alert" handler set, please run:
+#
+#      $ sensuctl handler create alert --type set --handlers slack
+#
+#      If you already have a handler set called "alert", please run:
+#
+#      $ sensuctl edit handler alert
+#
+#      NOTE: the sensuctl edit command will open your default editor; please
+#      modify the "handlers" attribute by adding "slack".
+#
+#   2. Configure the following secrets using your preferred Sensu Go Secrets
+#      provider:
+#
+#      - slack_webhook_url
+#      - slack_channel
+#
+#      NOTE: example secret resources using the "env" provider are included in
+#      this template; to add your secrets to the Sensu Backend, please modify
+#      /etc/default/sensu-backend or /etc/sysconfig/sensu-backend and restart
+#      the sensu-backend service.
+#
+#   3. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - https://github.com/sensu/sensu-slack-handler
+#   - https://docs.sensu.io/sensu-go/latest/reference/secrets/
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - @calebhailey
+type: Handler
+api_version: core/v2
+metadata:
+  name: slack
+spec:
+  command: sensu-slack-handler
+  env_vars: null
+  filters:
+  - is_incident
+  - not_silenced
+  handlers: null
+  runtime_assets:
+  - sensu/sensu-slack-handler:1.3.1
+  secrets:
+  - name: SLACK_WEBHOOK_URL
+    secret: slack_webhook_url
+  - name: SLACK_CHANNEL
+    secret: slack_channel
+  timeout: 0
+  type: pipe
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: slack_webhook_url
+spec:
+  provider: env
+  id: SENSU_SLACK_WEBHOOK_URL
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: slack_channel
+spec:
+  provider: env
+  id: SENSU_SLACK_CHANNEL
+---
+type: Asset
+api_version: core/v2
+metadata:
+  annotations:
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-slack-handler
+    io.sensu.bonsai.name: sensu-slack-handler
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.tags: ""
+    io.sensu.bonsai.tier: Supported
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-slack-handler
+    io.sensu.bonsai.version: 1.3.1
+  created_by: sensu
+  labels:
+    sensu.io/managed_by: sensuctl
+  name: sensu/sensu-slack-handler:1.3.1
+spec:
+  builds:
+  - filters:
+    - entity.system.os == 'windows'
+    - entity.system.arch == 'amd64'
+    headers: null
+    sha512: 860b5ffe190b861ce648c536acd4f76cff0a3f40f4682d08d97ba5ed066c1e1bc460b14a736838551cc56499a87dce85b301e6bbe953e220dab200070f4c91db
+    url: https://assets.bonsai.sensu.io/59367c16c65971706eecabe5979627b0c3bbea5d/sensu-slack-handler_1.3.1_windows_amd64.tar.gz
+  - filters:
+    - entity.system.os == 'darwin'
+    - entity.system.arch == 'amd64'
+    headers: null
+    sha512: 5efd7dc774ca374f6d5dd068ebe51f7739d3f8d92629906f0a6fd5de65cf89fc1cb644ba5a55478a65b7b6ff93a85d936f8aa9c8e62014a8766ed391b6660f92
+    url: https://assets.bonsai.sensu.io/59367c16c65971706eecabe5979627b0c3bbea5d/sensu-slack-handler_1.3.1_darwin_amd64.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'armv7'
+    headers: null
+    sha512: f2d7224cca5627900e2784444ba8c58085430f3ec032a6b77a7b454bfce76c398c20fe61fb50b3e7787045109961d47e0f6c07c321bc81b681cdc2c8bf16ac78
+    url: https://assets.bonsai.sensu.io/59367c16c65971706eecabe5979627b0c3bbea5d/sensu-slack-handler_1.3.1_linux_armv7.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm64'
+    headers: null
+    sha512: f301b7938444f146b6721a88a03ebab2fb991c4791107df8c3ae6d9ad39103a2abb8899c9b2e98ee8f56563aea49e1143d0a58ec36de5dd506ea1ba92b0faa66
+    url: https://assets.bonsai.sensu.io/59367c16c65971706eecabe5979627b0c3bbea5d/sensu-slack-handler_1.3.1_linux_arm64.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == '386'
+    headers: null
+    sha512: 9a39e4ebc03404d0e0a41024d7d571b3da5667dc2d8ca09dcfac770da705b5b623df84d01a31fc6b66baeed7239c3aa92cd566c095701663a8758fb07e0c628a
+    url: https://assets.bonsai.sensu.io/59367c16c65971706eecabe5979627b0c3bbea5d/sensu-slack-handler_1.3.1_linux_386.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'
+    headers: null
+    sha512: 0218c0584fa5b3d91288e3d6abf2ddf8535683a4557cc4135ea5c47ad98ce8b8779726b3c135a531d413e9152060dbd4e6091e6e110c2c08edeee2e3068ef342
+    url: https://assets.bonsai.sensu.io/59367c16c65971706eecabe5979627b0c3bbea5d/sensu-slack-handler_1.3.1_linux_amd64.tar.gz
+  filters: null
+  headers: null

@@ -1,0 +1,111 @@
+---
+# Description
+#   The Sensu Squadcast Handler is a Sensu Event Handler that alerts to
+#   the Squadcast incident management service.
+#
+# Instructions
+#   1. Add "squadcast" to the "incident-management" handler set.
+#
+#      To create the "incident-management" handler set, please run:
+#
+#      $ sensuctl handler create incident-management --type set --handlers squadcast
+#
+#      If you already have a handler set called "incident-management", please run:
+#
+#      $ sensuctl edit handler incident-management
+#
+#      NOTE: the sensuctl edit command will open your default editor; please
+#      modify the "handlers" attribute by adding "squadcast".
+#
+#   2. Configure the following secrets using your preferred Sensu Go Secrets
+#      provider:
+#
+#      - squadcast_api_url
+#
+#      NOTE: example secret resources using the "env" provider are included in
+#      this template; to add your secrets to the Sensu Backend, please modify
+#      /etc/default/sensu-backend or /etc/sysconfig/sensu-backend and restart
+#      the sensu-backend service.
+#
+#   3. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - https://github.com/SquadcastHub/sensu-squadcast-handler#sensu-squadcast-handler
+#   - https://docs.sensu.io/sensu-go/latest/reference/secrets/
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Todd Campbell, @nixwiz
+type: Handler
+api_version: core/v2
+metadata:
+  name: squadcast
+spec:
+  command: sensu-squadcast-handler
+  env_vars: null
+  filters:
+  - is_incident
+  - not_silenced
+  handlers: null
+  runtime_assets:
+  - SquadcastHub/sensu-squadcast-handler:0.3.0
+  secrets:
+  - name: SENSU_SQUADCAST_APIURL
+    secret: squadcast_api_url
+  timeout: 0
+  type: pipe
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: squadcast_api_url
+spec:
+  provider: env
+  id: SQUADCAST_API_URL
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: SquadcastHub/sensu-squadcast-handler:0.3.0
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/SquadcastHub/sensu-squadcast-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/SquadcastHub/sensu-squadcast-handler
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 0.3.0
+    io.sensu.bonsai.namespace: SquadcastHub
+    io.sensu.bonsai.name: sensu-squadcast-handler
+    io.sensu.bonsai.tags: handler, squadcast
+spec:
+  builds:
+    - url: https://assets.bonsai.sensu.io/7ac65462f760c5cb53cf4da9cf51416dddea70ea/sensu-squadcast-handler_0.3.0_windows_amd64.tar.gz
+      sha512: 8018512e61559596ca569519e5033c26dd0fc526ec4fb3cb6aa0b9f0e3588a14ad8847b7534080054a379b7fffc4d211296c7a7ff14070f94b224914ea6560e3
+      filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/7ac65462f760c5cb53cf4da9cf51416dddea70ea/sensu-squadcast-handler_0.3.0_linux_armv7.tar.gz
+      sha512: 936ae43d794913035bd5c7a9d49487110133c9c388f444f6c7a9d43384350211d0c2591f9c471cc5ec327780ea735740e32129bb1371f3853c63b8016f18f8ca
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io/7ac65462f760c5cb53cf4da9cf51416dddea70ea/sensu-squadcast-handler_0.3.0_linux_arm64.tar.gz
+      sha512: 7f8d7791e2b355ebd7e5c048027458edff13c2a8471b61d0b8f3b43f9000184f44258026a7c9652376739e671e601c807fd5f1a3f2cb9fc9989d852dd1cb299d
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io/7ac65462f760c5cb53cf4da9cf51416dddea70ea/sensu-squadcast-handler_0.3.0_linux_386.tar.gz
+      sha512: ea01d2cab96831ada13cadd2b46bdc46495dbd522a1ed1d2dd8e64b4f8b1e2850e1cb8e7256ed147c4bf137133b6ffe63def4f53db953545bc4d020cafc72b49
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io/7ac65462f760c5cb53cf4da9cf51416dddea70ea/sensu-squadcast-handler_0.3.0_linux_amd64.tar.gz
+      sha512: 5deb1e4a4998bbdf2ce4fc5bf7039ed27a5db59b1358067b4a905dfb75714dd988d920d9a98435e9cb2da0e524a3c4131f92bf5c6b7e4f4eb639c179ef4de4e9
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/7ac65462f760c5cb53cf4da9cf51416dddea70ea/sensu-squadcast-handler_0.3.0_darwin_amd64.tar.gz
+      sha512: 3ae534c87fb04cfe1a6543828a44109f59ce1ba307edb2e5f35c669ff94a828e63b93f6fff9227e37341f378aad7c28ddeda4a667c7d6cdb20781cae7f654762
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'

@@ -1,0 +1,61 @@
+---
+# Description
+#   The Sensu Splunk TCP Handler is a Sensu Event Handler that sends events to
+#   be indexed in Splunk via a Universal Forwarder.
+#
+# Instructions
+#   1. Add "splunk_tcp" to the "event-storage" handler set.
+#
+#      To create the "event-storage" handler set, please run:
+#
+#      $ sensuctl handler create event-storage --type set --handlers splunk_tcp
+#
+#      If you already have a handler set called "event-storage", please run:
+#
+#      $ sensuctl edit handler event-storage
+#
+#      NOTE: the sensuctl edit command will open your default editor; please
+#      modify the "handlers" attribute by adding "splunk_tcp".
+#
+#   2. You will need to configure a Splunk Universal Forwarder to listen on a
+#      TCP port for events from this handler.  That can be done by modifying
+#      the inputs.conf and providing a configuration similar to the following:
+#
+#      [tcp://:7758]
+#      index=sensu-events
+#
+#      The documentation links below include information on configuring TCP
+#      inputs via the web console or CLI. 
+#
+#   3. Configure the socket information for this TCP handler to match the
+#      configuration specified above.  It has the following defaults:
+#
+#      - host: localhost
+#      - port: 7758
+#
+#   4. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - https://docs.sensu.io/sensu-go/latest/reference/handlers/#tcp-udp-handlers
+#   - https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Monitornetworkports
+#   - https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Todd Campbell, @nixwiz
+type: Handler
+api_version: core/v2
+metadata:
+  name: splunk_tcp
+spec:
+  env_vars: []
+  filters: []
+  handlers: []
+  runtime_assets: []
+  secrets:
+  socket:
+    host: localhost
+    port: 7758
+  timeout: 0
+  type: tcp

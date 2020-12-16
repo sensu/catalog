@@ -1,0 +1,115 @@
+---
+# Description
+#   The Sensu Microsoft Teams Handler is a Sensu Event Handler that alerts to
+#   the Microsoft Teams channels.
+#
+# Instructions
+#   1. Add "teams" to the "alert" handler set.
+#
+#      To create the "alert" handler set, please run:
+#
+#      $ sensuctl handler create alert --type set --handlers teams
+#
+#      If you already have a handler set called "alert", please run:
+#
+#      $ sensuctl edit handler alert
+#
+#      NOTE: the sensuctl edit command will open your default editor; please
+#      modify the "handlers" attribute by adding "teams".
+#
+#   2. Configure the following secrets using your preferred Sensu Go Secrets
+#      provider:
+#
+#      - microsoft_teams_webhook_url
+#
+#      NOTE: example secret resources using the "env" provider are included in
+#      this template; to add your secrets to the Sensu Backend, please modify
+#      /etc/default/sensu-backend or /etc/sysconfig/sensu-backend and restart
+#      the sensu-backend service.
+#
+#   3. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - https://bonsai.sensu.io/assets/sensu/sensu-microsoft-teams-handler
+#   - https://docs.sensu.io/sensu-go/latest/reference/secrets/
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Todd Campbell, @nixwiz
+type: Handler
+api_version: core/v2
+metadata:
+  name: teams
+spec:
+  command: >-
+    sensu-microsoft-teams-handler
+    --icon-url https://www.sensu.io/img/sensu-logo.png
+    --title-template "Sensu Event - {{.Entity.Name}}/{{.Check.Name}}"
+  env_vars: null
+  filters:
+  - is_incident
+  - not_silenced
+  handlers: null
+  runtime_assets:
+  - sensu/sensu-microsoft-teams-handler:0.1.1
+  secrets:
+  - name: MICROSOFT_TEAMS_WEBHOOK_URL
+    secret: microsoft_teams_webhook_url
+  timeout: 0
+  type: pipe
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: microsoft_teams_webhook_url
+spec:
+  provider: env
+  id: MICROSOFT_TEAMS_WEBHOOK_URL
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu/sensu-microsoft-teams-handler:0.1.1
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-microsoft-teams-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-microsoft-teams-handler
+    io.sensu.bonsai.tier: Enterprise
+    io.sensu.bonsai.version: 0.1.1
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: sensu-microsoft-teams-handler
+    io.sensu.bonsai.tags: handler, teams
+    io.sensu.bonsai.message: This asset is for users with a valid Enterprise license
+spec:
+  builds:
+    - url: https://assets.bonsai.sensu.io//sensu-microsoft-teams-handler_0.1.1_windows_amd64.tar.gz
+      sha512: 1fea081b7c0a6464cb37157495e3e83d3498e9a8a0a9709fdece10b78f68f6c23889f2ace65eb37be8d2b5105dcdcf0028cb93814abddf246d73174ddd82ba0c
+      filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io//sensu-microsoft-teams-handler_0.1.1_darwin_amd64.tar.gz
+      sha512: 55fafa83eb8193a074d2d9babc69e79597998299a3fde488e2502f4c790fd0a69f74d9d42a000c8a488d5752ec09b9fd6a356aa8f03fa0e43b1727eb546604d8
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io//sensu-microsoft-teams-handler_0.1.1_linux_armv7.tar.gz
+      sha512: 541d198e1999ac5c6f81d5e079f6eeade1c3a158d33daead3dadffc1de84d0695490acfb71b94bf7e7d624c5fb39df011b9f62b39c724ea3d3789534be1a4198
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io//sensu-microsoft-teams-handler_0.1.1_linux_arm64.tar.gz
+      sha512: 20205f660f60aac7660a7fcb4f02cbbb4d23b51e4b2775907677029b6a72c995f1850ba4ef94799c9b1bd59578c625c56858aa821d7af01f3992dcb6b431156a
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io//sensu-microsoft-teams-handler_0.1.1_linux_386.tar.gz
+      sha512: 6260231d71c98640f58438f5276f583f9b5adf5f7af3cc4cdc3f02489cae04adcb5b47492a1d558c59f0ed06ab6f745140b1aeec558def7aa7a11b4d4ca06e1a
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io//sensu-microsoft-teams-handler_0.1.1_linux_amd64.tar.gz
+      sha512: 57251f304f17d9ce77ddbe7863e91fcca9f8aa89054d977ef482e63cb72fde75409bdaf83071bbd025e2f9fc5fc99d3f6da5faf053f03687da4bfde2c65e8378
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'

@@ -1,0 +1,87 @@
+---
+# Description
+# Searches for processes based on either the command name or a substring in
+# the command line.  It can search for multiple processes and, on a per-string
+# basis, set the number of processes expected, severity if the number of
+# processes is not met, and whether or not to search the full command line for
+# the requested string.
+#
+# Instructions
+#   1. Add the "system/linux" or "system/linux/process" subscription to agents
+#      that should run this check.
+#   2. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - Usage: https://github.com/sensu/sensu-processes-check#sensu-processes-check
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Todd Campbell, @nixwiz
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: check-processes
+spec:
+  command: >-
+    sensu-check-processes
+    --search "{{ .annotations.sensu_processes_check_search | default `[{\"search_string\": \"sshd\"}]` }}"
+  runtime_assets:
+    - sensu/sensu-processes-check:0.2.0
+  publish: false
+  subscriptions:
+    - system/linux
+    - system/linux/process
+  interval: 30
+  timeout: 10
+  ttl: 0
+  proxy_entity_name: ""
+  stdin: false
+  handlers:
+    - alert
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu/sensu-processes-check:0.2.0
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-processes-check
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-processes-check
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 0.2.0
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: sensu-processes-check
+    io.sensu.bonsai.tags: check, process
+spec:
+  builds:
+    - url: https://assets.bonsai.sensu.io/b19cae31bd6bda5594375b01c7c2a73c2db939bc/sensu-processes-check_0.2.0_windows_amd64.tar.gz
+      sha512: 42e2d7189eb3b7e15841327aaa12007d95ee455956952f90f9d6844b3d466e722844ed0693d4998ac89a53c2036656a2c4b30948899aa1c518db974b799845d2
+      filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/b19cae31bd6bda5594375b01c7c2a73c2db939bc/sensu-processes-check_0.2.0_darwin_amd64.tar.gz
+      sha512: 957c00899718c7cacf8bd2369c6da983abd5eb050841f857f70e003986ce01409390545cca95defaebaa069c310b69750c05ecff003675d60ef4a1f790d75ea2
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/b19cae31bd6bda5594375b01c7c2a73c2db939bc/sensu-processes-check_0.2.0_linux_armv7.tar.gz
+      sha512: 20cc5b1bc595a0520ce387ed3df07346316e33e3d277a8ff1644b55a0f6e089215c379367deef570bd0c5b10987c4491cd0b513cf2b78bc55ea2fba020e60a28
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io/b19cae31bd6bda5594375b01c7c2a73c2db939bc/sensu-processes-check_0.2.0_linux_arm64.tar.gz
+      sha512: c68b5f0a5902e7ce47616fe2e9aaaa3bf86037354fa20a8b106efb4379d8adea2ed42a80e0e5dc64b602395826eed8534227522b4609e19f8e4da1907cdb1644
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io/b19cae31bd6bda5594375b01c7c2a73c2db939bc/sensu-processes-check_0.2.0_linux_386.tar.gz
+      sha512: 4c47caa022a18e78dbec5284a3a7c1e9b3098d76c123a8ff016765666821a30318188cd673abf6fc6971a30832dc031433f2010fea28cda13d19d3b2f9362adf
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io/b19cae31bd6bda5594375b01c7c2a73c2db939bc/sensu-processes-check_0.2.0_linux_amd64.tar.gz
+      sha512: 70e830f7d1e693dd75f408037bd13b433abf897cf5036a80a2d051d238a4519aa3ea385069bfc162e8875062d74b584702512a17120174ac14889659729bbebe
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'

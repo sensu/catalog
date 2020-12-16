@@ -1,0 +1,142 @@
+---
+# Description
+#   The Sensu EC2 handler is a Sensu Event Handler that checks an AWS
+#   EC2 instance and removes it from Sensu if it is not in one of the specified
+#   state.
+#
+# Instructions
+#   1. Add "aws-ec2" to the "deregistration" handler set.
+#
+#      To create the "deregistration" handler set, please run:
+#
+#      $ sensuctl handler create deregistration --type set --handlers aws-ec2
+#
+#      If you already have a handler set called "deregistration", please run:
+#
+#      $ sensuctl edit handler deregistration
+#
+#      NOTE: the sensuctl edit command will open your default editor; please
+#      modify the "handlers" attribute by adding "aws-ec2".
+#
+#   2. If using the AWS environment variables for credentails (and not using
+#      them from the ~/.aws/credentials file or an EC2 IAM role), configure the
+#      following secrets using your preferred Sensu Go Secrets provider:
+#
+#      - aws_secret_access_key
+#      - aws_access_key_id
+#      - aws_region
+#
+#      NOTE: example secret resources using the "env" provider are included in
+#      this template; to add your secrets to the Sensu Backend, please modify
+#      /etc/default/sensu-backend or /etc/sysconfig/sensu-backend and restart
+#      the sensu-backend service.
+#
+#   3. For connecting to the backend to complete the deregistraion, configure the
+#      following secrets using your preferred Sensu Go Secrets provider:
+#
+#      - sensu_api_key
+#
+#   4. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - https://github.com/sensu/sensu-ec2-handler#sensu-ec2-handler
+#   - https://docs.sensu.io/sensu-go/latest/reference/secrets/
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Todd Campbell, @nixwiz
+type: Handler
+api_version: core/v2
+metadata:
+  name: aws-ec2
+spec:
+  command: >-
+    sensu-ec2-handler
+    --sensu-api-url http://localhost:8080
+    --aws-allowed-instance-states running
+  env_vars: null
+  filters:
+    - is_incident
+  handlers: null
+  runtime_assets:
+    - sensu/sensu-ec2-handler:0.4.0
+  secrets:
+    - name: AWS_SECRET_ACCESS_KEY
+      secret: aws_secret_access_key
+    - name: AWS_ACCESS_KEY_ID
+      secret: aws_access_key_id
+    - name: AWS_REGION
+      secret: aws_region
+    - name: SENSU_API_KEY
+      secret: sensu_api_key
+  timeout: 0
+  type: pipe
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: aws_secret_access_key
+spec:
+  provider: env
+  id: AWS_SECRET_ACCESS_KEY
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: aws_access_key_id
+spec:
+  provider: env
+  id: AWS_ACCESS_KEY_ID
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: aws_region
+spec:
+  provider: env
+  id: AWS_REGION
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: sensu_api_key
+spec:
+  provider: env
+  id: SENSU_API_KEY
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu/sensu-ec2-handler:0.4.0
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-ec2-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-ec2-handler
+    io.sensu.bonsai.tier: Supported
+    io.sensu.bonsai.version: 0.4.0
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: sensu-ec2-handler
+    io.sensu.bonsai.tags: aws, ec2, handler, keepalive
+spec:
+    builds:
+    - url: https://assets.bonsai.sensu.io/6b9165a327a8cce7e6e8cf77ef92fadf25460671/sensu-ec2-handler_0.4.0_windows_amd64.tar.gz
+      sha512: 8d4325f0bedd1bd5efea046cb494ed394dea0d78472db48d5c31bf4f5e7277cc7b4421478db68b3aec5833c907aa900ab2ab634d33d0f1cecbbf08e8b645a2b7
+      filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/6b9165a327a8cce7e6e8cf77ef92fadf25460671/sensu-ec2-handler_0.4.0_darwin_amd64.tar.gz
+      sha512: 5af4c71bbc2f8d0d26108332873361d5bddf90c0fa2f7b6628bd5a03f30afc574d3a887d211e4a5e82d25d36f7cb649fa9b378c05fcd6cd482551099dd5dc8e5
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/6b9165a327a8cce7e6e8cf77ef92fadf25460671/sensu-ec2-handler_0.4.0_linux_386.tar.gz
+      sha512: 16e214d35bc68000c691e9a3803e3714bb2c7e0e9fc85124c6932757b6bd0b937e6dd9fc7757725d5f061f7ba79776a4e2c4d4283878332e8bec2f6f79c937e5
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io/6b9165a327a8cce7e6e8cf77ef92fadf25460671/sensu-ec2-handler_0.4.0_linux_amd64.tar.gz
+      sha512: 92e6b492cfdfd598dcc34e0b8870d468d40dee47711732f8472bbcde633ed7a9925d897bc7e1f2c5388bee05f21271f27ae4949561d64c746d9efdeec6784685
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'

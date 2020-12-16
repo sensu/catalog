@@ -1,0 +1,59 @@
+---
+# Description
+#   metric-windows-disk-usage.ps1 is a powershell script to collect capacity 
+#   metrics from the Windows OS
+# Instructions
+#   1. Add the "system/windows" or "system/windows/disk" subscription to agents
+#      that should run this check.
+#   2. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - Usage: https://github.com/sensu/sensu-windows-powershell-checks
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Jef Spaleta, @jspaleta
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: metrics-disk-usage
+spec:
+  command: Powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -NoLogo -Command metric-windows-disk-usage.ps1
+  runtime_assets:
+    - sensu/sensu-windows-powershell-checks:0.0.4
+  publish: false
+  subscriptions:
+    - system/windows
+    - system/windows/disk
+  interval: 60
+  timeout: 20
+  ttl: 0
+  proxy_entity_name: ""
+  stdin: false
+  output_metric_format: graphite_plaintext
+  output_metric_handlers:
+    - metric-storage
+---
+type: Asset
+api_version: core/v2
+metadata:
+  annotations:
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-windows-powershell-checks
+    io.sensu.bonsai.name: sensu-windows-powershell-checks
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.tags: ""
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-windows-powershell-checks
+    io.sensu.bonsai.version: 0.0.4
+  labels:
+    sensu.io/managed_by: sensuctl
+  name: sensu/sensu-windows-powershell-checks:0.0.4
+spec:
+  builds:
+  - filters:
+    - entity.system.os == 'windows'
+    headers: null
+    sha512: a694627656dba4d3b7f22cd2f0b1daa5806f0a641ca93febb5cf459c897b26cee94de6373e3a196fa30f202d447c4eaa99cb90e1ca0c4a9eea43a9e44b82b56e
+    url: https://assets.bonsai.sensu.io/b4c5875e8d272d096f4bf0f69d2598b1755fe4a3/sensu-windows-powershell-checks.tar.gz
+

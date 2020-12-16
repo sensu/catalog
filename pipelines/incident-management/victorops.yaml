@@ -1,0 +1,111 @@
+---
+# Description
+#   The Sensu VictorOps Handler is a Sensu Event Handler that alerts to
+#   the VictorOps incident reponse service.
+#
+# Instructions
+#   1. Add "victorops" to the "incident-management" handler set.
+#
+#      To create the "incident-management" handler set, please run:
+#
+#      $ sensuctl handler create incident-management --type set --handlers victorops
+#
+#      If you already have a handler set called "incident-management", please run:
+#
+#      $ sensuctl edit handler incident-management
+#
+#      NOTE: the sensuctl edit command will open your default editor; please
+#      modify the "handlers" attribute by adding "victorops".
+#
+#   2. Configure the following secrets using your preferred Sensu Go Secrets
+#      provider:
+#
+#      - victorops_routingkey
+#
+#      NOTE: example secret resources using the "env" provider are included in
+#      this template; to add your secrets to the Sensu Backend, please modify
+#      /etc/default/sensu-backend or /etc/sysconfig/sensu-backend and restart
+#      the sensu-backend service.
+#
+#   3. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - https://github.com/nixwiz/sensu-victorops-handler#sensu-victorops-handler
+#   - https://docs.sensu.io/sensu-go/latest/reference/secrets/
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Todd Campbell, @nixwiz
+type: Handler
+api_version: core/v2
+metadata:
+  name: victorops
+spec:
+  command: sensu-victorops-handler
+  env_vars: null
+  filters:
+  - is_incident
+  - not_silenced
+  handlers: null
+  runtime_assets:
+  - nixwiz/sensu-victorops-handler:0.2.0
+  secrets:
+  - name: SENSU_VICTOROPS_ROUTINGKEY
+    secret: victorops_routingkey
+  timeout: 0
+  type: pipe
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: victorops_routingkey
+spec:
+  provider: env
+  id: VICTOROPS_ROUTINGKEY
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: nixwiz/sensu-victorops-handler:0.2.0
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/nixwiz/sensu-victorops-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/nixwiz/sensu-victorops-handler
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 0.2.0
+    io.sensu.bonsai.namespace: nixwiz
+    io.sensu.bonsai.name: sensu-victorops-handler
+    io.sensu.bonsai.tags: handler
+spec:
+  builds:
+    - url: https://assets.bonsai.sensu.io/5a7e4447fae7083108d51abee3209d7cffd42dee/sensu-victorops-handler_0.2.0_linux_armv7.tar.gz
+      sha512: f988a155e6cfc62124be701d2b61bd6bdf3079a4fc4e89ce82a1908709a9dbef2c869087d42b847b8ff529843184ed4a1a448950e70ebd8d6660c65b3a7c2e1d
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io/5a7e4447fae7083108d51abee3209d7cffd42dee/sensu-victorops-handler_0.2.0_linux_arm64.tar.gz
+      sha512: bdcc57406ea5afa0e941030ce40d84ddc3b1129a3890789e26e8bf829443cf4fd3c90cb7bd172adef4577f89199d787008744af84a4cfdfc68df8cfd831f7612
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io/5a7e4447fae7083108d51abee3209d7cffd42dee/sensu-victorops-handler_0.2.0_linux_386.tar.gz
+      sha512: 5d93f0185477347eefb667a99a6043ec64d309209ff756b0a7682dd0073f9d058fcc87b4bef047616929c28c800604e6f2b54875f9869a80cb4ba78f10e5d860
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io/5a7e4447fae7083108d51abee3209d7cffd42dee/sensu-victorops-handler_0.2.0_linux_amd64.tar.gz
+      sha512: 486d76a04e75d6096adc56226b6cf07afd481a421ef6e999af7b0b9382df8d50f2fa8fa88e1725db3c354b41137f17b91534d22adf3f38d886e7ddca92ce4b9b
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/5a7e4447fae7083108d51abee3209d7cffd42dee/sensu-victorops-handler_0.2.0_windows_amd64.tar.gz
+      sha512: 50f45bc579fb863b77432b24aff24b71b0b033e6c471ef9f04c921a8c890b157484ce41a73193a89d4ddb50dfc09d4e491753b3d810e67b6eea784d2fb6b89d6
+      filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/5a7e4447fae7083108d51abee3209d7cffd42dee/sensu-victorops-handler_0.2.0_darwin_amd64.tar.gz
+      sha512: 00b8d839519ea3aee11e8814f59dfebbf4231bbcb8befddd7038c59db2dc4d8887b676d623ba0155760487604ba421ed0dd3a3f8ec0e70e50cb3e85e783992be
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'

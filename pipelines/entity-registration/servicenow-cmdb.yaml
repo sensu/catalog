@@ -1,0 +1,139 @@
+---
+# Description
+#   The Sensu ServiceNow Handler is a Sensu Event Handler that registers
+#   entities as configuration items in ServiceNow's CMDB product.
+#
+# Instructions
+#
+#      NOTE: for this to work as a registration handler, the entity-registration
+#      handler set must be part of the registration handler set.  Yes, you can
+#      nest handler sets.
+#
+#   1. Add "servicenow-cmdb" to the "entity-registration" handler set.
+#
+#      To create the "entity-registration" handler set, please run:
+#
+#      $ sensuctl handler create entity-registration --type set --handlers servicenow-cmdb
+#
+#      If you already have a handler set called "entity-registration", please run:
+#
+#      $ sensuctl edit handler entity-registration
+#
+#      NOTE: the sensuctl edit command will open your default editor; please
+#      modify the "handlers" attribute by adding "servicenow-cmdb".
+#
+#   2. Configure the following secrets using your preferred Sensu Go Secrets
+#      provider:
+#
+#      - servicenow_host
+#      - servicenow_username
+#      - servicenow_password
+#
+#      NOTE: example secret resources using the "env" provider are included in
+#      this template; to add your secrets to the Sensu Backend, please modify
+#      /etc/default/sensu-backend or /etc/sysconfig/sensu-backend and restart
+#      the sensu-backend service.
+#
+#   3. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - https://github.com/sensu/sensu-servicenow-handler#sensu-servicenow-handler
+#   - https://docs.sensu.io/sensu-go/latest/reference/secrets/
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Todd Campbell, @nixwiz
+type: Handler
+api_version: core/v2
+metadata:
+  name: servicenow-cmdb
+spec:
+  command: >-
+    sensu-servicenow-handler
+    --cmdbCiTable cmdb_ci
+  env_vars: null
+  filters: null
+  handlers: null
+  runtime_assets:
+    - sensu/sensu-servicenow-handler:1.0.0
+  secrets:
+    - name: SERVICENOW_HOST
+      secret: servicenow_host
+    - name: SERVICENOW_USERNAME
+      secret: servicenow_username
+    - name: SERVICENOW_PASSWORD
+      secret: servicenow_password
+  timeout: 0
+  type: pipe
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: servicenow_username
+spec:
+  provider: env
+  id: SERVICENOW_USERNAME
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: servicenow_password
+spec:
+  provider: env
+  id: SERVICENOW_PASSWORD
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: servicenow_host
+spec:
+  provider: env
+  id: SERVICENOW_HOST
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu-servicenow-handler:1.0.0
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-servicenow-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-servicenow-handler
+    io.sensu.bonsai.tier: Enterprise
+    io.sensu.bonsai.version: 1.0.0
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: sensu-servicenow-handler
+    io.sensu.bonsai.tags: handler, hosted
+    io.sensu.bonsai.message: This asset is for users with a valid Enterprise license
+spec:
+  builds:
+    - url: https://assets.bonsai.sensu.io//sensu-servicenow-handler_1.0.0_windows_amd64.tar.gz
+      sha512: 746256eb79377d8eb41b53febeba054ecb228493358df6b27af81a079cc42281bd7476eaed54aa4cc2fe719d212e1ee178cdb4e1e90d4a25cd14f056b341b02f
+      filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io//sensu-servicenow-handler_1.0.0_darwin_amd64.tar.gz
+      sha512: 95bab794e5e82f52c46ca3081c6c5f2fa1eb4225798e8110c2745c1e146158d20db12d13bf5cc304d4ae3d51d5b397917f3bebf2868bb22dab297e21dd6f6873
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io//sensu-servicenow-handler_1.0.0_linux_armv7.tar.gz
+      sha512: '0856db3663f226ecf90e0221207f1da6f65c79b51af961305a1da1764f33dc893336f67a3f21cfa95d05e8a1d3bc60caf5dce530fefc86d2dbe858901e9e6d3f'
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io//sensu-servicenow-handler_1.0.0_linux_arm64.tar.gz
+      sha512: f63e276d9f7bc9621e2dd7d9cf3e14429dbbb16dca76e674b377afaafe1a05ac84fc4022a0b320078c29a76fc68c28d9b24b1c9b4addf684d70894930bde012a
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io//sensu-servicenow-handler_1.0.0_linux_386.tar.gz
+      sha512: a0f0d685f03d95264affd6690e49a7de5bfcf9a4babfd963d766d5276ffbd8a19b2e933b20881e5a02e406c83b9df3cfb8854a7fdff8febe346219b5f2b0b124
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io//sensu-servicenow-handler_1.0.0_linux_amd64.tar.gz
+      sha512: e1932d4b12c9dd5c430059f56989d14b4d2192131b87dea70c3a1ca9bf902556d17f5f43c4250c09a0f9c815c781536ca03434c1b6631898964b10f9f8ce8b5d
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'

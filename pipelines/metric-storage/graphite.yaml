@@ -1,0 +1,139 @@
+---
+# Description
+#   The Sensu Graphite Handler is a Sensu Event Handler that sends metrics to
+#   the time series database Graphite.
+#
+# Instructions
+#   1. Add "graphite" to the "metric-storage" handler set.
+#
+#      To create the "metric-storage" handler set, please run:
+#
+#      $ sensuctl handler create metric-storage --type set --handlers graphite
+#
+#      If you already have a handler set called "metric-storage", please run:
+#
+#      $ sensuctl edit handler metric-storage
+#
+#      NOTE: the sensuctl edit command will open your default editor; please
+#      modify the "handlers" attribute by adding "graphite".
+#
+#   2. Configure the following secrets using your preferred Sensu Go Secrets
+#      provider:
+#
+#      - graphite_host (e.g. "localhost")
+#      - graphite_port (e.g. 2003)
+#
+#      NOTE: example secret resources using the "env" provider are included in
+#      this template; to add your secrets to the Sensu Backend, please modify
+#      /etc/default/sensu-backend or /etc/sysconfig/sensu-backend and restart
+#      the sensu-backend service.
+#
+#   3. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - https://github.com/nixwiz/sensu-go-graphite-handler#sensu-go-graphite-handler-plugin
+#   - https://docs.sensu.io/sensu-go/latest/reference/secrets/
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - @calebhailey
+#   - @jspaleta
+#   - @nixwiz
+type: Handler
+api_version: core/v2
+metadata:
+  name: graphite
+spec:
+  command: >-
+    sensu-go-graphite-handler
+    --host $GRAPHITE_HOST
+    --port $GRAPHITE_PORT
+  env_vars: null
+  filters:
+  - has_metrics
+  handlers: null
+  runtime_assets:
+  - nixwiz/sensu-go-graphite-handler:0.4.0
+  secrets:
+  - name: GRAPHITE_HOST
+    secret: graphite_host
+  - name: GRAPHITE_PORT
+    secret: graphite_port
+  timeout: 10
+  type: pipe
+---
+ type: Secret
+ api_version: secrets/v1
+ metadata:
+   name: graphite_host
+ spec:
+   provider: env
+   id: GRAPHITE_HOST
+---
+ type: Secret
+ api_version: secrets/v1
+ metadata:
+   name: graphite_port
+ spec:
+   provider: env
+   id: GRAPHITE_PORT
+---
+type: Asset
+api_version: core/v2
+metadata:
+  annotations:
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/nixwiz/sensu-go-graphite-handler
+    io.sensu.bonsai.name: sensu-go-graphite-handler
+    io.sensu.bonsai.namespace: nixwiz
+    io.sensu.bonsai.tags: graphite, handler
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/nixwiz/sensu-go-graphite-handler
+    io.sensu.bonsai.version: 0.4.0
+  name: nixwiz/sensu-go-graphite-handler:0.4.0
+spec:
+  builds:
+  - filters:
+    - entity.system.os == 'darwin'
+    - entity.system.arch == 'amd64'
+    headers: null
+    sha512: a9ecc281a6320a92ed4818afddfdaf072be71bee3c24bf34c2fd30af17affd4c9a4140cc8ace451812eeed630412bb216d228040a07640db8330cf90dca13c06
+    url: https://assets.bonsai.sensu.io/f198b915d57c582c037429570a24777c75f5e83e/sensu-go-graphite-handler_0.4.0_windows_amd64.tar.gz
+  - filters:
+    - entity.system.os == 'darwin'
+    - entity.system.arch == '386'
+    headers: null
+    sha512: f8d640ac581907fb3a9032d5c6b690a747b6f72634d6ed895d966b7c2a93f6d55ba1e2716fbdec4c40c2cd2c8abf2c34f52b45de9e064ccba07948e3c5de34e6
+    url: https://assets.bonsai.sensu.io/f198b915d57c582c037429570a24777c75f5e83e/sensu-go-graphite-handler_0.4.0_darwin_386.tar.gz
+  - filters:
+    - entity.system.os == 'darwin'
+    - entity.system.arch == 'amd64'
+    headers: null
+    sha512: 4aeed05d1d444ea12ee3509c41d105927f4f1ade1d2a60a49058d08d9ca039109a50b1f9ff795b81c232e767f444a4681a591e64ea2c396bbe38eeb892170b59
+    url: https://assets.bonsai.sensu.io/f198b915d57c582c037429570a24777c75f5e83e/sensu-go-graphite-handler_0.4.0_darwin_amd64.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'armv7'
+    headers: null
+    sha512: 31713395d68a0b03ed4e8e835777c8573819d49af40926d6d7c1fe2ce4bcf1adcdafc6fa0b11e44c3946e6dbb4bdf065727048af2d3348259a5b8eafde564561
+    url: https://assets.bonsai.sensu.io/f198b915d57c582c037429570a24777c75f5e83e/sensu-go-graphite-handler_0.4.0_linux_armv7.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm64'
+    headers: null
+    sha512: e6345ccc7c095df022e922c6daf367316a06312fd6498b487ed3129494f8779d6de9060efb8f53c997011263d397bfea13213049dfdb4d10710659358b00d347
+    url: https://assets.bonsai.sensu.io/f198b915d57c582c037429570a24777c75f5e83e/sensu-go-graphite-handler_0.4.0_linux_arm64.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == '386'
+    headers: null
+    sha512: a0123d4fcead84ce79a19ecc36b38ed59c18b230e9f284b8ee12ab65ba21a013cd07ca2b0fe9595114975f36b9ae19a6f9c1edd40aac593d8eb9ceaae846298f
+    url: https://assets.bonsai.sensu.io/f198b915d57c582c037429570a24777c75f5e83e/sensu-go-graphite-handler_0.4.0_linux_386.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'
+    headers: null
+    sha512: 596ed1f365a45980b37160c74ac67ad830bb62069a705f347a66f27fa091c5eb492359887ac8be7e85cf6690e905e813ae4d331f75ed4cc3b815edfc580606ac
+    url: https://assets.bonsai.sensu.io/f198b915d57c582c037429570a24777c75f5e83e/sensu-go-graphite-handler_0.4.0_linux_amd64.tar.gz
+  filters: null
+  headers: null

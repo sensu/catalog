@@ -1,0 +1,127 @@
+---
+# Description
+# Remediate issues using SaltStack Enterprise RaaS API
+#
+# Instructions
+#   1. Add "saltstack" to the "remediation" handler set.
+#
+#      To create the "remediation" handler set, please run:
+#
+#      $ sensuctl handler create remediation --type set --handlers saltstack
+#
+#      If you already have a handler set called "remediation", please run:
+#
+#      $ sensuctl edit handler remediation
+#
+#      NOTE: the sensuctl edit command will open your default editor; please
+#      modify the "handlers" attribute by adding "saltstack".
+#
+#   2. Configure the following secrets using your preferred Sensu Go Secrets
+#      provider:
+#
+#      - saltstack_username
+#      - saltstack_password
+#
+#      NOTE: example secret resources using the "env" provider are included in
+#      this template; to add your secrets to the Sensu Backend, please modify
+#      /etc/default/sensu-backend or /etc/sysconfig/sensu-backend and restart
+#      the sensu-backend service.
+#
+#   3. Configure remediation actions via annotations in your checks per the
+#      plugin documentation.
+#
+#   4. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - https://github.com/sensu/sensu-saltstack-handler#sensu-saltstack-enterprise-handler
+#   - https://docs.sensu.io/sensu-go/latest/reference/secrets/
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Todd Campbell, @nixwiz
+type: Handler
+api_version: core/v2
+metadata:
+  name: saltstack
+spec:
+  command: >-
+    sensu-saltstack-handler
+    --api-url https://localhost
+    --minion-template "{{.Entity.Name}}"
+  env_vars: null
+  filters:
+    - not_silenced
+  handlers: null
+  runtime_assets:
+    - sensu/sensu-saltstack-handler:0.4.0
+  secrets:
+    - name: SALTSTACK_USERNAME
+      secret: saltstack_username
+    - name: SALTSTACK_PASSWORD
+      secret: saltstack_password
+  timeout: 0
+  type: pipe
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: saltstack_username
+spec:
+  provider: env
+  id: SALTSTACK_USERNAME
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: saltstack_password
+spec:
+  provider: env
+  id: SALTSTACK_PASSWORD
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu/sensu-saltstack-handler:0.4.0
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-saltstack-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-saltstack-handler
+    io.sensu.bonsai.tier: Enterprise
+    io.sensu.bonsai.version: 0.4.0
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: sensu-saltstack-handler
+    io.sensu.bonsai.tags: remediation, salt, saltstack
+    io.sensu.bonsai.message: This asset is for users with a valid Enterprise license
+spec:
+  builds:
+    - url: https://assets.bonsai.sensu.io//sensu-saltstack-handler_0.4.0_windows_amd64.tar.gz
+      sha512: b91c296425c3dd71a0e9161345a94aba19c818677f55405f81d0a1186d8094c60fe95a7fc59a6b0fc5e3b28e5ca4707b9a06df543fc5a2be4107d062c34a3ec9
+      filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io//sensu-saltstack-handler_0.4.0_darwin_amd64.tar.gz
+      sha512: e64a131ace3ea54f19c43fdf3919c544eeb74940d3ec10d9342b63291b87a94d2fb42a5407b45ccae82cf8a887eed68fa45f6314d4af63d1901bfa54c4cdbc28
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io//sensu-saltstack-handler_0.4.0_linux_armv7.tar.gz
+      sha512: 4f75cceb7dc2d38d1851dfa752bebe1ea6f5fe8c030ba4124f58b8bf5f687b3aaf4fc1ed06fd9db2b4555cab6edddc9895107699a81b3b6c60c66785e54c9ae4
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io//sensu-saltstack-handler_0.4.0_linux_arm64.tar.gz
+      sha512: 893dfa944f07f4e1c6b2db1d4a9345678c4485c02cf07bfe4294cbae9f01853c0e40a71763cfa37b2de25c4bed66cda0dfecf60c39bdfce439b512abb5d78419
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io//sensu-saltstack-handler_0.4.0_linux_386.tar.gz
+      sha512: 29ee12508c7b45e44e60f6f83c803dec897ca36851e925f94479dfe9d4b1cc615313e42a7657af33c73a17246e82ce5a796562f4c5a218a74dfc74a89b785aba
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io//sensu-saltstack-handler_0.4.0_linux_amd64.tar.gz
+      sha512: dfda3976905f8ad896b08727c65cf9cf81ff78b17d6b1099e7b9aed57960f7b95753d2bd4dba507268d2cded0102b7e2f13d32fcc23a1ba40f0d0adcd33a13bd
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'

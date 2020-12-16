@@ -1,0 +1,124 @@
+---
+# Description
+#   The Sensu Flowdock Handler is a Sensu Event Handler that alerts to
+#   the Flowdock collaboration/chat platform.
+#
+# Instructions
+#   1. Add "flowdock" to the "alert" handler set.
+#
+#      To create the "alert" handler set, please run:
+#
+#      $ sensuctl handler create alert --type set --handlers flowdock
+#
+#      If you already have a handler set called "alert", please run:
+#
+#      $ sensuctl edit handler alert
+#
+#      NOTE: the sensuctl edit command will open your default editor; please
+#      modify the "handlers" attribute by adding "flowdock".
+#
+#   2. Configure the following secrets using your preferred Sensu Go Secrets
+#      provider:
+#
+#      - flowdock_token
+#      - flowdock_backendurl (e.g. https://sensu.example.com:3000)
+#
+#      NOTE: example secret resources using the "env" provider are included in
+#      this template; to add your secrets to the Sensu Backend, please modify
+#      /etc/default/sensu-backend or /etc/sysconfig/sensu-backend and restart
+#      the sensu-backend service.
+#
+#   3. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - https://github.com/nixwiz/sensu-go-flowdock-handler#sensu-go-flowdock-handler
+#   - https://docs.sensu.io/sensu-go/latest/reference/secrets/
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - @calebhailey
+#   - @jspaleta
+#   - @nixwiz
+type: Handler
+api_version: core/v2
+metadata:
+  name: flowdock
+spec:
+  command: sensu-go-flowdock-handler
+  env_vars: null
+  filters:
+  - is_incident
+  - not_silenced
+  handlers: null
+  runtime_assets:
+  - nixwiz/sensu-go-flowdock-handler:0.6.3
+  secrets:
+  - name: SENSU_FLOWDOCK_TOKEN
+    secret: flowdock_token
+  - name: SENSU_FLOWDOCK_BACKENDURL
+    secret: flowdock_backendurl
+  timeout: 0
+  type: pipe
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: flowdock_token
+spec:
+  provider: env
+  id: SENSU_FLOWDOCK_TOKEN
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: flowdock_backendurl
+spec:
+  provider: env
+  id: SENSU_FLOWDOCK_BACKENDURL
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: nixwiz/sensu-go-flowdock-handler:0.6.3
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/nixwiz/sensu-go-flowdock-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/nixwiz/sensu-go-flowdock-handler
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 0.6.3
+    io.sensu.bonsai.namespace: nixwiz
+    io.sensu.bonsai.name: sensu-go-flowdock-handler
+    io.sensu.bonsai.tags: flowdock, handler
+spec:
+  builds:
+    - url: https://assets.bonsai.sensu.io/5a7bf345358195fdd25fc8f440ad9d9787f147ce/sensu-go-flowdock-handler_0.6.3_windows_amd64.tar.gz
+      sha512: e362a17f736f9ba5cb857c32d6c8b281367bd73dfa9712c43bfb5863629a4edb7c71ed2795a7f1136b1bbb7beefaee248dce6e352cf6994acac968afddbb2744
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/5a7bf345358195fdd25fc8f440ad9d9787f147ce/sensu-go-flowdock-handler_0.6.3_darwin_amd64.tar.gz
+      sha512: 30a3f2c09328dea87cf0bdedcf49dae7283643324c79b7c586b3f800894b4724b2f463303bf2c2abaae81fe6506109f4d7e02a7beb647f6451a8e963e46bbcab
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/5a7bf345358195fdd25fc8f440ad9d9787f147ce/sensu-go-flowdock-handler_0.6.3_linux_armv7.tar.gz
+      sha512: c4395804abe06a508fe81b8824342e9312be5c587c9fe48dd858de8794a6a08414b5483d4fa204671b3770d71ca3d048bca0d6bbabdb58df4cace1e9fa47194d
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io/5a7bf345358195fdd25fc8f440ad9d9787f147ce/sensu-go-flowdock-handler_0.6.3_linux_arm64.tar.gz
+      sha512: cb16da292c14266763d0b315604e9fff685398b2dd3a602b4e2644eb61fd269d71c8ea23928333728868a050ec126f63794ccb8863a7b1b96a5ce0ec88abf231
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io/5a7bf345358195fdd25fc8f440ad9d9787f147ce/sensu-go-flowdock-handler_0.6.3_linux_386.tar.gz
+      sha512: 6179318d0ffb95fe4e71c6cafa19ff4035a68d51f67ffd2cedb4bee7133b43837bafbf933e48c435bdd07e54a6d52c62b485b6ee02443692696109d264e132f7
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io/5a7bf345358195fdd25fc8f440ad9d9787f147ce/sensu-go-flowdock-handler_0.6.3_linux_amd64.tar.gz
+      sha512: aacf5b720fb2e138bbc9c8d4532b4276fab140ac8744a1d715f36bd4ed88ef0a5f7db8e07c210fd477c5cda087f03d971749be7cad020d26313b29967d39511c
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'

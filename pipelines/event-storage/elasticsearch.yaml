@@ -1,0 +1,134 @@
+---
+# Description
+#   The Sensu Elasticsearch Handler is a Sensu Event Handler that sends events
+#   and metrics data to Elasticsearch
+#
+# Instructions
+#   1. Add "elasticsearch" to the "event-storage" handler set.
+#
+#      To create the "event-storage" handler set, please run:
+#
+#      $ sensuctl handler create event-storage --type set --handlers elasticsearch
+#
+#      If you already have a handler set called "event-storage", please run:
+#
+#      $ sensuctl edit handler event-storage
+#
+#      NOTE: the sensuctl edit command will open your default editor; please
+#      modify the "handlers" attribute by adding "elasticsearch".
+#
+#   2. Configure the following secrets using your preferred Sensu Go Secrets
+#      provider:
+#
+#      - elasticsearch_username
+#      - elasticsearch_password
+#
+#      NOTE: example secret resources using the "env" provider are included in
+#      this template; to add your secrets to the Sensu Backend, please modify
+#      /etc/default/sensu-backend or /etc/sysconfig/sensu-backend and restart
+#      the sensu-backend service.
+#
+#   3. By default the index is named "sensu_events", this can be changed with
+#      the '--index' option.
+#
+#   4. As more events are sent to Elasticsearch, it may become necessary for
+#      you to refresh the fields for the index patterns.  This is especially
+#      true when you are making use of labels within your checks and/or
+#      entities.
+#
+#   5. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - https://bonsai.sensu.io/assets/sensu/sensu-elasticsearch-handler
+#   - https://docs.sensu.io/sensu-go/latest/reference/secrets/
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Todd Campbell, @nixwiz
+type: Handler
+api_version: core/v2
+metadata:
+  name: elasticsearch
+spec:
+  command: >-
+    sensu-elasticsearch-handler
+    --index-rotation daily
+    --omit-redundant-fields
+    --url http://localhost:9200
+  env_vars: null
+  filters:
+    - not_silenced
+  handlers: null
+  runtime_assets:
+    - sensu/sensu-elasticsearch-handler:0.3.0
+  secrets:
+    - name: ELASTICSEARCH_USERNAME
+      secret: elasticsearch_username
+    - name: ELASTICSEARCH_PASSWORD
+      secret: elasticsearch_password
+  timeout: 0
+  type: pipe
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: elasticsearch_username
+spec:
+  provider: env
+  id: ELASTICSEARCH_USERNAME
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: elasticsearch_password
+spec:
+  provider: env
+  id: ELASTICSEARCH_PASSWORD
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu/sensu-elasticsearch-handler:0.3.0
+  labels: 
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-elasticsearch-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-elasticsearch-handler
+    io.sensu.bonsai.tier: Supported
+    io.sensu.bonsai.version: 0.3.0
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: sensu-elasticsearch-handler
+    io.sensu.bonsai.tags: elasticsearch, handler
+    io.sensu.bonsai.message: This asset is for users with a valid Enterprise license
+spec:
+  builds:
+    - url: https://assets.bonsai.sensu.io//sensu-elasticsearch-handler_0.3.0_windows_amd64.tar.gz
+      sha512: c325158a5227c9fc4369e5c4e00f3cca8ddeddc7a2e2abdec131637ecfc26eb1a0f24df17ee8d901432ef0f1ac804e6e78aecdd4920a5bcfce6986819acdb72b
+      filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io//sensu-elasticsearch-handler_0.3.0_darwin_amd64.tar.gz
+      sha512: 8567e3651cc1cd38653a9fa25f811f29220a5ff3714559441407e917eb3c94f3fa2c5b58ebb314983298c625676a36c136585e0562cb758eb9ea8397d69f123f
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io//sensu-elasticsearch-handler_0.3.0_linux_armv7.tar.gz
+      sha512: 9a8a2fe3e4c270313009684b55415cd1194eeb5e6f45741de4983d07dfd9943e782b85ce9736327b961a007e0006ea86c10a0e6a6ca8451440e9bfcc48dd7505
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io//sensu-elasticsearch-handler_0.3.0_linux_arm64.tar.gz
+      sha512: 442198bb03e8edcab17536f9a4575755b1225200fd182ac1528febbcfeb910ab6b01ed5f27a58f5a9a712d59bb1c87a700fa2458f089cb5d0b7782964cf4858d
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io//sensu-elasticsearch-handler_0.3.0_linux_386.tar.gz
+      sha512: 7de7b18f676b9e1af7ff0cf0623b48bd8cb0a3ad10ea147905fc3547265232dfc725af6d194c2a5478eafe89da17b6c96887ebcc9df00abe316e3e0b70f74771
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io//sensu-elasticsearch-handler_0.3.0_linux_amd64.tar.gz
+      sha512: e8a583a120cf7015c39efee0d15ed6471342262aedfb8180eb35be80af11f67fdb4ab6751cceacee24f74087084e1a52031efcf4dd27088000726f973dce6192
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'

@@ -1,0 +1,125 @@
+---
+# Description
+#   The Sensu Timestream Handler is a Sensu Event Handler that sends metrics to
+#   the AWS Timestream time series database service.
+#
+# Instructions
+#   1. Add "timestream" to the "metric-storage" handler set.
+#
+#      To create the "metric-storage" handler set, please run:
+#
+#      $ sensuctl handler create metric-storage --type set --handlers timestream
+#
+#      If you already have a handler set called "metric-storage", please run:
+#
+#      $ sensuctl edit handler metric-storage
+#
+#      NOTE: the sensuctl edit command will open your default editor; please
+#      modify the "handlers" attribute by adding "timestream".
+#
+#   2. If using the AWS environment variables for credentails (and not using
+#      them from the ~/.aws/credentials file or an EC2 IAM role), configure the
+#      following secrets using your preferred Sensu Go Secrets provider:
+#
+#      - aws_secret_access_key
+#      - aws_access_key_id
+#
+#      NOTE: example secret resources using the "env" provider are included in
+#      this template; to add your secrets to the Sensu Backend, please modify
+#      /etc/default/sensu-backend or /etc/sysconfig/sensu-backend and restart
+#      the sensu-backend service.
+#
+#   3. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - https://bonsai.sensu.io/assets/sensu/sensu-aws-timestream-handler
+#   - https://docs.sensu.io/sensu-go/latest/reference/secrets/
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Todd Campbell, @nixwiz
+type: Handler
+api_version: core/v2
+metadata:
+  name: timestream
+spec:
+  type: pipe
+  command: >-
+    sensu-aws-timestream-handler
+    --database sensu
+    --table sensu_metrics
+    --region us-west-2
+  timeout: 10
+  filters:
+  - has_metrics
+  runtime_assets:
+  - sensu/sensu-aws-timestream-handler:0.2.0
+  secrets:
+    - name: AWS_SECRET_ACCESS_KEY
+      secret: aws_secret_access_key
+    - name: AWS_ACCESS_KEY_ID
+      secret: aws_access_key_id
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: aws_secret_access_key
+spec:
+  provider: env
+  id: AWS_SECRET_ACCESS_KEY
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: aws_access_key_id
+spec:
+  provider: env
+  id: AWS_ACCESS_KEY_ID
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu/sensu-aws-timestream-handler:0.2.0
+  labels: 
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-aws-timestream-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-aws-timestream-handler
+    io.sensu.bonsai.tier: Enterprise
+    io.sensu.bonsai.version: 0.2.0
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: sensu-aws-timestream-handler
+    io.sensu.bonsai.tags: aws, handler, timestream
+    io.sensu.bonsai.message: This asset is for users with a valid Enterprise license
+spec:
+  builds:
+    - url: https://assets.bonsai.sensu.io//sensu-aws-timestream-handler_0.2.0_linux_armv7.tar.gz
+      sha512: 2f00363cdbb3a3b185d6eac89ef132181fa5d61ea53c0afe48a26a1aec449c70d6725ff144261817892f6b7c955215471c1e922bd30e8d02be07498cb4381915
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io//sensu-aws-timestream-handler_0.2.0_windows_amd64.tar.gz
+      sha512: 6631ef929e82a01e9001811368fc8d17077d2a76ddc69d116b28df9a3a8b6936c57047976c32e03ac8badd56ad3abe1fb9da3899fc5da26558b23ff8a5d15a20
+      filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io//sensu-aws-timestream-handler_0.2.0_darwin_amd64.tar.gz
+      sha512: 60e035c3949798a1cc564ce0560a29100208d663de5a9bf5cf30e5402fb8f6d66688770fc492b6c11a5ef3ba03d495109d093bf48db33eac5996eb6d4c5c39cf
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io//sensu-aws-timestream-handler_0.2.0_linux_arm64.tar.gz
+      sha512: 4971f7ce366ad2b6a7f0302d6f335c5989ec2252068d048c4edc627c416df20089aa052a105d0b43012d957dd703ed7781a8e7701749a986ae2a689adc0b24d2
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io//sensu-aws-timestream-handler_0.2.0_linux_386.tar.gz
+      sha512: 304b52a1c2246c992806e900c58e5ebcffabf8b67eca15f8dfc2ccc92e0f155b3dbf7170b4d041e8ffd4c5d853ddecb7d8d110333197b639fe392c361560ddb4
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io//sensu-aws-timestream-handler_0.2.0_linux_amd64.tar.gz
+      sha512: b4cd55cae9c4f1d08d3766ed453119c2545097eb90b34e963b46eedf451583dd3f60f49a695627ce0f20874f67a88a3d308ecdcbdd95f91bce7995db1ef261b1
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'

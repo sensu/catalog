@@ -1,0 +1,150 @@
+---
+# Description
+#   Provide metrics for load average using /proc/loadavg
+#
+# Instructions
+#   1. Add the "system/linux" or "system/linux/load" subscription to agents
+#      that should run this check.
+#   2. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - Usage: https://github.com/sensu-plugins/sensu-plugins-load-checks#usage-examples
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Nikki Attea, @nikkixdev
+#   - Caleb Hailey, @calebhailey
+#   - Todd Campbell, @nixwiz
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: metrics-load
+spec:
+  command: metrics-load.rb
+  interval: 10
+  publish: false
+  runtime_assets:
+  - sensu-plugins/sensu-plugins-load-checks:5.1.0
+  - sensu/sensu-ruby-runtime:0.0.10
+  subscriptions:
+  - load
+  output_metric_format: graphite_plaintext
+  output_metric_handlers:
+  - metric-storage
+---
+type: Asset
+api_version: core/v2
+metadata:
+  annotations:
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu-plugins/sensu-plugins-load-checks
+    io.sensu.bonsai.name: sensu-plugins-load-checks
+    io.sensu.bonsai.namespace: sensu-plugins
+    io.sensu.bonsai.tags: ruby-runtime-2.4.4
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu-plugins/sensu-plugins-load-checks
+    io.sensu.bonsai.version: 5.1.0
+  name: sensu-plugins/sensu-plugins-load-checks:5.1.0
+spec:
+  builds:
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'
+    headers: null
+    sha512: e58bb37a167b084789d64c86af4f65fc7d68274d739a754dfda786fc3e29f54e85098160f111dfb0c024424e67e53f9f8d5b8cc312906f741b2fcdee0bbaf2d5
+    url: https://assets.bonsai.sensu.io/b63652f8114c3076ee8d6f7281a11f21f13ab3ad/sensu-plugins-load-checks_5.1.0_debian9_linux_amd64.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'
+    - entity.system.platform_family == 'debian'
+    headers: null
+    sha512: b4ab388bb1ca7c95563d03eecedf363699b56d8f746c5a789f0dc5ecc8539589982c039882049efaa7c99af693af8eae2f28d27b9f39965cddcb9228509d1b30
+    url: https://assets.bonsai.sensu.io/b63652f8114c3076ee8d6f7281a11f21f13ab3ad/sensu-plugins-load-checks_5.1.0_debian_linux_amd64.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'
+    - entity.system.platform_family == 'rhel'
+    - entity.system.platform_version.split('.')[0] == '7'
+    headers: null
+    sha512: d96ac8f18be6d2b75ff4cba5c2809b6bfd7ec140a92609a950193f829569e0a2bc1571c06dd902426e0b5c30dab0bff9f52e18ee8932f237c154f3030b1fc3ba
+    url: https://assets.bonsai.sensu.io/b63652f8114c3076ee8d6f7281a11f21f13ab3ad/sensu-plugins-load-checks_5.1.0_centos7_linux_amd64.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'
+    - entity.system.platform_family == 'rhel'
+    - entity.system.platform_version.split('.')[0] == '6'
+    headers: null
+    sha512: 47edb2864a03701dd39576c3b5561641949a41da7f76d36b18744a5e38ab2c61e19e939f6e44a71dffc6cf19c6200425b0071a3894d0cf9cf0badd7e3da53b9e
+    url: https://assets.bonsai.sensu.io/b63652f8114c3076ee8d6f7281a11f21f13ab3ad/sensu-plugins-load-checks_5.1.0_centos6_linux_amd64.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'
+    - entity.system.platform_family == 'rhel'
+    headers: null
+    sha512: 4bf85e9eba3a1e1791b6636bb8de9286c1c12c56197ba09bd7dad94cc96a860680848aefa591a7b23bafad2cdeaf847ab925f66a96281903ff383297177e52da
+    url: https://assets.bonsai.sensu.io/b63652f8114c3076ee8d6f7281a11f21f13ab3ad/sensu-plugins-load-checks_5.1.0_centos_linux_amd64.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'
+    - entity.system.platform == 'alpine'
+    headers: null
+    sha512: f3f8bc21ad7aaa8dc4075e7274ee9400d03d0fec539dd30509f8344321f296438588f92a359842e5629af9d5efa5024fdde4ee6f6a544678301997ba88c26f20
+    url: https://assets.bonsai.sensu.io/b63652f8114c3076ee8d6f7281a11f21f13ab3ad/sensu-plugins-load-checks_5.1.0_alpine3.8_linux_amd64.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'
+    - entity.system.platform == 'alpine'
+    - entity.system.platform_version.split('.')[0] == '3'
+    headers: null
+    sha512: 88591d59a72464f00035955b5e29b70872b266bd0b0ce786820e1a40f1472b64e86344733645a2347067192ce59799f6bd36e6ebdd8e0958fe40aa0546b631d0
+    url: https://assets.bonsai.sensu.io/b63652f8114c3076ee8d6f7281a11f21f13ab3ad/sensu-plugins-load-checks_5.1.0_alpine_linux_amd64.tar.gz
+  filters: null
+  headers: null
+---
+type: Asset
+api_version: core/v2
+metadata:
+  annotations:
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-ruby-runtime
+    io.sensu.bonsai.name: sensu-ruby-runtime
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.tags: ""
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-ruby-runtime
+    io.sensu.bonsai.version: 0.0.10
+  name: sensu/sensu-ruby-runtime:0.0.10
+spec:
+  builds:
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'
+    - entity.system.platform_family == 'rhel'
+    - parseInt(entity.system.platform_version.split('.')[0]) == 6
+    headers: null
+    sha512: cbee19124b7007342ce37ff9dfd4a1dde03beb1e87e61ca2aef606a7ad3c9bd0bba4e53873c07afa5ac46b0861967a9224511b4504dadb1a5e8fb687e9495304
+    url: https://assets.bonsai.sensu.io/5123017d3dadf2067fa90fc28275b92e9b586885/sensu-ruby-runtime_0.0.10_ruby-2.4.4_centos6_linux_amd64.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'
+    - entity.system.platform_family == 'debian'
+    headers: null
+    sha512: a28952fd93fc63db1f8988c7bc40b0ad815eb9f35ef7317d6caf5d77ecfbfd824a9db54184400aa0c81c29b34cb48c7e8c6e3f17891aaf84cafa3c134266a61a
+    url: https://assets.bonsai.sensu.io/5123017d3dadf2067fa90fc28275b92e9b586885/sensu-ruby-runtime_0.0.10_ruby-2.4.4_debian_linux_amd64.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'
+    - entity.system.platform_family == 'rhel'
+    - parseInt(entity.system.platform_version.split('.')[0]) > 6
+    headers: null
+    sha512: 338b88b568a3213fa234640da2e037d1487fc3c639bc62340f2fb71eac8af9a90566cffc768d15035406ac5c049350006d73f3a07ae15f9528e1c6a9af2944cb
+    url: https://assets.bonsai.sensu.io/5123017d3dadf2067fa90fc28275b92e9b586885/sensu-ruby-runtime_0.0.10_ruby-2.4.4_centos_linux_amd64.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'
+    - entity.system.platform == 'alpine'
+    - entity.system.platform_version.split('.')[0] == '3'
+    headers: null
+    sha512: 8d768d1fba545898a8d09dca603457eb0018ec6829bc5f609a1ea51a2be0c4b2d13e1aa46139ecbb04873449e4c76f463f0bdfbaf2107caf37ab1c8db87d5250
+    url: https://assets.bonsai.sensu.io/5123017d3dadf2067fa90fc28275b92e9b586885/sensu-ruby-runtime_0.0.10_ruby-2.4.4_alpine_linux_amd64.tar.gz
+  filters: null
+  headers: null

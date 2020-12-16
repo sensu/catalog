@@ -1,0 +1,92 @@
+---
+# Description
+# Check for Kubernetes events
+#
+# Instructions
+#   1. Add the "kubernetes" or "kubernetes/events" subscription to agents
+#      that should run this check.
+#   2. This check can either use "in cluster" (running in a contariner in
+#      a Kubernetes pod) or kubeconfig style (same as kubectl) authentication
+#      when connecting to the API to query events.  The default is "in cluster".
+#   3. This check creates events using the Agent API, so it will need to be
+#      enabled and accessible.  This is enabled on http:127.0.0.1:3031 by
+#      default.
+#   4. This check requires that 'stdin' be set to true as it reads in its
+#      check definition to determine at what interval it is running.
+#   5. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - https://github.com/sensu/sensu-kubernetes-events#sensu-kubernetes-events-check
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Todd Campbell, @nixwiz
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: sensu-kubernetes-events
+spec:
+  command: >-
+    sensu-kubernetes-events
+    --agent-api-url http://127.0.0.1:3031/events
+    --event-type "!=Normal"
+  runtime_assets:
+    - sensu/sensu-kubernetes-events:0.1.0-alpha4
+  publish: false
+  subscriptions:
+    - kubernetes
+    - kubernetes/events
+  interval: 30
+  timeout: 10
+  ttl: 0
+  proxy_entity_name: ""
+  stdin: true
+  handlers:
+    - alert
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu/sensu-kubernetes-events:0.1.0-alpha4
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-kubernetes-events
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-kubernetes-events
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 0.1.0-alpha3
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: sensu-kubernetes-events
+    io.sensu.bonsai.tags: check, kubernetes
+spec:
+  builds:
+    - url: https://assets.bonsai.sensu.io/c84576bbd5bc3c13e18da18e1e9c0e8e9aaf8da0/sensu-kubernetes-events_0.1.0-alpha4_windows_amd64.tar.gz
+      sha512: 952576442814b94f1fd383032a898e9cc8f715a51321ecd8d9a0ebb2b87af0577baed9da42f308787228cd5ef42d11d046dbb773422b9c14aabfca8b038bae00
+      filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/c84576bbd5bc3c13e18da18e1e9c0e8e9aaf8da0/sensu-kubernetes-events_0.1.0-alpha4_darwin_amd64.tar.gz
+      sha512: ea36870e92d03472aba7184b1a34b4e7f12bddbcedb7c5c97df3871dfe829290babacbedb99d3ee166a4453aa8f56b377f00a31c0ee3a0407448e5673ca6b1f0
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/c84576bbd5bc3c13e18da18e1e9c0e8e9aaf8da0/sensu-kubernetes-events_0.1.0-alpha4_linux_armv7.tar.gz
+      sha512: 4ac2379b5de4dd59f2fb7bd80054c8ac0ecfcab8dcb5c7c9758a09d1f0a8dfda01cf07e2602006af430094a6843a6fbaafbdaa21cf8aaa369e69dba2e8629b0e
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io/c84576bbd5bc3c13e18da18e1e9c0e8e9aaf8da0/sensu-kubernetes-events_0.1.0-alpha4_linux_arm64.tar.gz
+      sha512: 0a38e632928390a3b6f7cfd56cf8b49f8d787e70ce775bba6c77b644d922608309b3db4f42eb060b27cf086c92bf593c8059e0adf8657b3625a5466b27b5172b
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io/c84576bbd5bc3c13e18da18e1e9c0e8e9aaf8da0/sensu-kubernetes-events_0.1.0-alpha4_linux_386.tar.gz
+      sha512: 1559ae949e239eaa7bf0ecc0724eca38b1db9630d7c25370a39c44932786487a5ef7cd4bf13fd30c0751af1d39f7e1ee2ee21e4dbf16cd6306029efec3c752e3
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io/c84576bbd5bc3c13e18da18e1e9c0e8e9aaf8da0/sensu-kubernetes-events_0.1.0-alpha4_linux_amd64.tar.gz
+      sha512: e50b73fd34299bfa9b780b3be189398d945998506f470e3044ca46bd0092231dcc3b18258c5376aa605dffb549faf00b6a53b2335bda854332e37e384005a5ab
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'

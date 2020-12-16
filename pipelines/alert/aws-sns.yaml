@@ -1,0 +1,151 @@
+---
+# Description
+#   The Sensu AWS SNS Handler is a Sensu Event Handler that alerts to
+#   the AWS Simple Notification Service (SNS).
+#
+# Instructions
+#   1. Add "aws-sns" to the "alert" handler set.
+#
+#      To create the "alert" handler set, please run:
+#
+#      $ sensuctl handler create alert --type set --handlers aws-sns
+#
+#      If you already have a handler set called "alert", please run:
+#
+#      $ sensuctl edit handler alert
+#
+#      NOTE: the sensuctl edit command will open your default editor; please
+#      modify the "handlers" attribute by adding "aws-sns".
+#
+#   2. If using the AWS environment variables for credentails (and not using
+#      them from the ~/.aws/credentials file or an EC2 IAM role), configure the
+#      following secrets using your preferred Sensu Go Secrets provider:
+#
+#      - aws_secret_access_key
+#      - aws_access_key_id
+#      - aws_region
+#
+#      Regardless of AWS credentials above, either configure the following
+#      secret using your secrets provider, or remove it from the secrets
+#      definitions and provide the topic ARN via the --topic-arn argument
+#      to the command:
+#
+#      - sns_topic_arn
+#
+#      NOTE: example secret resources using the "env" provider are included in
+#      this template; to add your secrets to the Sensu Backend, please modify
+#      /etc/default/sensu-backend or /etc/sysconfig/sensu-backend and restart
+#      the sensu-backend service.
+#
+#   3. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - https://github.com/nixwiz/sensu-aws-sns-handler#sensu-aws-sns-handler
+#   - https://docs.sensu.io/sensu-go/latest/reference/secrets/
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Todd Campbell, @nixwiz
+type: Handler
+api_version: core/v2
+metadata:
+  name: aws-sns
+spec:
+  command: sensu-aws-sns-handler
+  env_vars: null
+  filters:
+    - is_incident
+    - not_silenced
+  handlers: null
+  runtime_assets:
+    - nixwiz/sensu-aws-sns-handler:0.2.0
+  secrets:
+    - name: AWS_SECRET_ACCESS_KEY
+      secret: aws_secret_access_key
+    - name: AWS_ACCESS_KEY_ID
+      secret: aws_access_key_id
+    - name: AWS_REGION
+      secret: aws_region
+    - name: SNS_TOPIC_ARN
+      secret: sns_topic_arn
+  timeout: 0
+  type: pipe
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: aws_secret_access_key
+spec:
+  provider: env
+  id: AWS_SECRET_ACCESS_KEY
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: aws_access_key_id
+spec:
+  provider: env
+  id: AWS_ACCESS_KEY_ID
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: aws_region
+spec:
+  provider: env
+  id: AWS_REGION
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: sns_topic_arn
+spec:
+  provider: env
+  id: SNS_TOPIC_ARN
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu-aws-sns-handler:0.2.0
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/nixwiz/sensu-aws-sns-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/nixwiz/sensu-aws-sns-handler
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 0.2.0
+    io.sensu.bonsai.namespace: nixwiz
+    io.sensu.bonsai.name: sensu-aws-sns-handler
+    io.sensu.bonsai.tags: aws, handler
+spec:
+  builds:
+    - url: https://assets.bonsai.sensu.io/5c303a960fa9024705f74d16851caa4ffcd72d42/sensu-aws-sns-handler_0.2.0_darwin_amd64.tar.gz
+      sha512: f1a756e027f57fc9aaedd5bfa10e942bc4f89f935f2418e72c0376de40dc6b2ceb0cc34f79a5b4f1154b9558a336b6460f9ab56068bfe2ce8711fedaa356222e
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/5c303a960fa9024705f74d16851caa4ffcd72d42/sensu-aws-sns-handler_0.2.0_linux_armv7.tar.gz
+      sha512: '059348fb1793c0a47cabc6654a8755a45352f5ffdd988d61b0c2e6abda92531c8a551adf8220955316b8e2ac7c3d0fedeb369ec8873b010a97bb85ec08c7507b'
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io/5c303a960fa9024705f74d16851caa4ffcd72d42/sensu-aws-sns-handler_0.2.0_linux_arm64.tar.gz
+      sha512: 9f23e2f259bd39d5fe2a70abe57847dc7435a18a833c9146dffe2568d5ec762a8b93a98e1d72a77d3d05faef11ff43c3860285f016a48b4028f0565ba674a36f
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io/5c303a960fa9024705f74d16851caa4ffcd72d42/sensu-aws-sns-handler_0.2.0_linux_386.tar.gz
+      sha512: 4369889e333362493ecbbf4da2bafcc0b1543b0a0fed620adacb28935898b45a1c541dcc5c5a38342a740f2044a0fa86dc869a0e6d60a92e7a657c0e6878e6f2
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io/5c303a960fa9024705f74d16851caa4ffcd72d42/sensu-aws-sns-handler_0.2.0_linux_amd64.tar.gz
+      sha512: dee9f75fe76d5db553fb178eb5cdbe79b755b086ff8e271c6dbcdb1614e2f4e124970e8d54768ac79bdce67c08818436e429de32e4a49ee149003d6604b555ac
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/5c303a960fa9024705f74d16851caa4ffcd72d42/sensu-aws-sns-handler_0.2.0_windows_amd64.tar.gz
+      sha512: dd27d56cfb1d36bbc8e640b5815cb2772c2177bd40e202324a97dbb118d748b992c7261391c1c1c89a8ca4ec0a942f66982c4feb79bf2bb62199c9d3c94dfc7b
+      filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'

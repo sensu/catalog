@@ -1,0 +1,49 @@
+---
+# Description
+#   The Sensu Fatigue Check filter is an event filter that allows you to
+#   manage alert fatigue by having granular control over which events
+#   get forwarded to handlers.  This is done by tuning annotations on a
+#   per-check and/or per-entity basis.
+#
+# Instructions
+#   1. Add "fatigue-check" to the filters of one or more of your individual handlers.
+#
+#   2. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - https://github.com/nixwiz/sensu-go-fatigue-check-filter#sensu-go-fatigue-check-filter
+#   - https://docs.sensu.io/sensu-go/latest/guides/reduce-alert-fatigue/#approach-2-use-an-event-filter-asset
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Todd Campbell, @nixwiz
+type: EventFilter
+api_version: core/v2
+metadata:
+  name: fatigue-check
+spec:
+  action: allow
+  expressions:
+    - fatigue_check(event)
+  runtime_assets:
+    - nixwiz/sensu-go-fatigue-check-filter:0.6.2
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu-go-fatigue-check-filter
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/nixwiz/sensu-go-fatigue-check-filter
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/nixwiz/sensu-go-fatigue-check-filter
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 0.6.2
+    io.sensu.bonsai.namespace: nixwiz
+    io.sensu.bonsai.name: sensu-go-fatigue-check-filter
+    io.sensu.bonsai.tags: eventfilter, filter
+spec:
+  builds:
+    - url: https://assets.bonsai.sensu.io/9d58cca88863fcf6fbc50c560daeb78429b6009e/sensu-go-fatigue-check-filter_0.6.2.tar.gz
+      sha512: da861daf54032c28d9131a3800c0a8de122f591cd2bc7b9601e11e529e63a1fd3227fe67c5e3a800164224111fbe477dadee59196287d6b2e9c183b99b03f37d
+      filters: []

@@ -1,0 +1,144 @@
+---
+# Description
+#   The Sensu Jira Handler is a Sensu Event Handler that alerts to
+#   Atlassian's Jira Service Desk product.
+#
+# Instructions
+#   1. Add "jira-servicedesk" to the "incident-management" handler set.
+#
+#      To create the "incident-management" handler set, please run:
+#
+#      $ sensuctl handler create incident-management --type set --handlers jira-servicedesk
+#
+#      If you already have a handler set called "incident-management", please run:
+#
+#      $ sensuctl edit handler incident-management
+#
+#      NOTE: the sensuctl edit command will open your default editor; please
+#      modify the "handlers" attribute by adding "jira-servicedesk".
+#
+#   2. Configure the following secrets using your preferred Sensu Go Secrets
+#      provider:
+#
+#      - jira_url
+#      - jira_username
+#      - jira_password
+#
+#      NOTE: example secret resources using the "env" provider are included in
+#      this template; to add your secrets to the Sensu Backend, please modify
+#      /etc/default/sensu-backend or /etc/sysconfig/sensu-backend and restart
+#      the sensu-backend service.
+#
+#   3. Set the appropriate Jira Project Key for your Service Desk Project with
+#      --jira-project-key.
+#
+#   4. Adjust the Issue Description Template to suit your needs by changing
+#      --jira-issue-description.
+#
+#   5. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - https://github.com/sensu/sensu-jira-handler#sensu-go-jira-handler
+#   - https://docs.sensu.io/sensu-go/latest/reference/secrets/
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Todd Campbell, @nixwiz
+type: Handler
+api_version: core/v2
+metadata:
+  name: jira-servicedesk
+spec:
+  command: >-
+    sensu-jira-handler
+    --jira-issue-type Incident
+    --jira-issue-description "{{.Entity.Name}}/{{.Check.Name}}: {{.Check.State}}"
+    --jira-project-key ISD
+  env_vars: null
+  filters:
+    - is_incident
+    - not_silenced
+  handlers: null
+  runtime_assets:
+    - sensu/sensu-jira-handler:2.0.0
+  secrets:
+    - name: JIRA_URL
+      secret: jira_url
+    - name: JIRA_USERNAME
+      secret: jira_username
+    - name: JIRA_PASSWORD
+      secret: jira_password
+  timeout: 0
+  type: pipe
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: jira_username
+spec:
+  provider: env
+  id: JIRA_USERNAME
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: jira_password
+spec:
+  provider: env
+  id: JIRA_PASSWORD
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: jira_url
+spec:
+  provider: env
+  id: JIRA_URL
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu/sensu-jira-handler:2.0.0
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-jira-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-jira-handler
+    io.sensu.bonsai.tier: Enterprise
+    io.sensu.bonsai.version: 2.0.0
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: sensu-jira-handler
+    io.sensu.bonsai.tags: handler, hosted
+    io.sensu.bonsai.message: This asset is for users with a valid Enterprise license
+spec:
+  builds:
+    - url: https://assets.bonsai.sensu.io//sensu-jira-handler_2.0.0_windows_amd64.tar.gz
+      sha512: 5262151fda197fcfea65034d68fa9f875f356ef9f93a617271b5780406fac4f2899470f0e1380a2b9f4b96d6d45161b5cff70483eacda0bfb9366db7f76ede2d
+      filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io//sensu-jira-handler_2.0.0_darwin_amd64.tar.gz
+      sha512: b272d0d8f63bb4da9c15d20d31eb0a6f3599b1bc7abc350df15d4a5a6b5cd23a30657288309a0b6b57df1d8e303b5b22cab145c68d8690c7e0ffaad0096fffe2
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io//sensu-jira-handler_2.0.0_linux_armv7.tar.gz
+      sha512: 0d6d9668638381bab9ca3ac0d2257a85853d7fb2045f55d5cc96ac5472383f18f5a34e7c9528c016041bf170cb1a6ef8d74bf540bb7c4b6a62107a00e1090960
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io//sensu-jira-handler_2.0.0_linux_arm64.tar.gz
+      sha512: ec13593e1c6d2c374c75b9125e16a0bf13ba840f871348d7778a7f671b7f9a6b71db54d067defc7c89df9cf8112ab03baf608ee55333bcf9a0d1af2ebd552db2
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io//sensu-jira-handler_2.0.0_linux_386.tar.gz
+      sha512: d79100f2e4ab6fd7344b4d1353eb80cadc5b055e5a1d5df7356145a896cd0a218fe97f93628215ead66425216b50a52f5ec852a7832528a57c9546040a8d0908
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io//sensu-jira-handler_2.0.0_linux_amd64.tar.gz
+      sha512: 7ea641e2fdf9eb291551c07e192d167552c6ba633df52e9dc7f7bfbe3c829a8ebb03e98dc1d9bad7ee1be5dc1cf8c5a81bb1db6026a77470472ee41a7b6ddceb
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'

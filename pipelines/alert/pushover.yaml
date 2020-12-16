@@ -1,0 +1,124 @@
+---
+# Description
+#   The Sensu Pushover Handler is a Sensu Event Handler that alerts to
+#   the Pushover notification service.
+#
+# Instructions
+#   1. Add "pushover" to the "alert" handler set.
+#
+#      To create the "alert" handler set, please run:
+#
+#      $ sensuctl handler create alert --type set --handlers pushover
+#
+#      If you already have a handler set called "alert", please run:
+#
+#      $ sensuctl edit handler alert
+#
+#      NOTE: the sensuctl edit command will open your default editor; please
+#      modify the "handlers" attribute by adding "pushover".
+#
+#   2. Configure the following secrets using your preferred Sensu Go Secrets
+#      provider:
+#
+#      - pushover_token
+#      - pushover_userkey
+#
+#      NOTE: example secret resources using the "env" provider are included in
+#      this template; to add your secrets to the Sensu Backend, please modify
+#      /etc/default/sensu-backend or /etc/sysconfig/sensu-backend and restart
+#      the sensu-backend service.
+#
+#   3. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - https://github.com/nixwiz/sensu-go-pushover-handler#sensu-go-pushover-handler
+#   - https://docs.sensu.io/sensu-go/latest/reference/secrets/
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - @calebhailey
+#   - @jspaleta
+#   - @nixwiz
+type: Handler
+api_version: core/v2
+metadata:
+  name: pushover
+spec:
+  command: sensu-go-pushover-handler
+  env_vars: null
+  filters:
+  - is_incident
+  - not_silenced
+  handlers: null
+  runtime_assets:
+  - nixwiz/sensu-go-pushover-handler:0.8.0
+  secrets:
+  - name: SENSU_PUSHOVER_TOKEN
+    secret: pushover_token
+  - name: SENSU_PUSHOVER_USERKEY
+    secret: pushover_userkey
+  timeout: 0
+  type: pipe
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: pushover_token
+spec:
+  provider: env
+  id: SENSU_PUSHOVER_TOKEN
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: pushover_userkey
+spec:
+  provider: env
+  id: SENSU_PUSHOVER_USERKEY
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: nixwiz/sensu-go-pushover-handler:0.8.0
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/nixwiz/sensu-go-pushover-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/nixwiz/sensu-go-pushover-handler
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 0.8.0
+    io.sensu.bonsai.namespace: nixwiz
+    io.sensu.bonsai.name: sensu-go-pushover-handler
+    io.sensu.bonsai.tags: handler
+spec:
+  builds:
+    - url: https://assets.bonsai.sensu.io/1b868b6ae4a6af8f16a1670ce8019e1cccb99107/sensu-go-pushover-handler_0.8.0_darwin_amd64.tar.gz
+      sha512: b20f5ca4570e1aed85cc752072a61ba207107565fd1371774ee18a1e91cd28e53c52d122d9750e8aaa56af817c5fec2462ced1d320de88572279d147e1fe5d60
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/1b868b6ae4a6af8f16a1670ce8019e1cccb99107/sensu-go-pushover-handler_0.8.0_linux_armv7.tar.gz
+      sha512: 6cc0884ba4095e64ae839219e616dd8579ab706a5ebb8b0c45e625f9188559dd8383673ed33f470e2ba02d9ff6d2f30b6c212d1d917ed48fe75495ae1f222583
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io/1b868b6ae4a6af8f16a1670ce8019e1cccb99107/sensu-go-pushover-handler_0.8.0_linux_arm64.tar.gz
+      sha512: 5c173ab4bc75ea70f48ae9e8763577269181779a838bc5db9e9b10cf33096116edccaed767a8fcbf619fe0f4dfb0406e6c18775cfd84ec59bdb23f5baa081b37
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io/1b868b6ae4a6af8f16a1670ce8019e1cccb99107/sensu-go-pushover-handler_0.8.0_linux_386.tar.gz
+      sha512: fe79a94fd9ad26ef1b8368e3d0fe55bc34caa1e84a6186b87b9724084cf3bbbb19fa3d5bcca559963cad7480e15df54ec7758fee897b7f8b566ab1c10c8c18c0
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io/1b868b6ae4a6af8f16a1670ce8019e1cccb99107/sensu-go-pushover-handler_0.8.0_linux_amd64.tar.gz
+      sha512: 9c67c91b72f186fd5fe1387b170b98058973c7f87e71f4325d7d0ed0530e34cbc1cb70514fecbc98e39ece0d9668ec472e10a82fad884f18021ac9b7307707b3
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/1b868b6ae4a6af8f16a1670ce8019e1cccb99107/sensu-go-pushover-handler_0.8.0_windows_amd64.tar.gz
+      sha512: e222743fce15703b55314c6348afd70d5960cbf78c31ef6cf00a4638aa78f8eac39da946e86723a6a579102fb82acebfec5b7fcf4b6aa544887a1d9457fa62f7
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'

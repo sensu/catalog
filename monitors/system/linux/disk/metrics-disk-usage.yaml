@@ -1,0 +1,140 @@
+---
+# Description
+#   This plugin uses df to collect disk capacity metrics
+#   disk-usage-metrics.rb looks at /proc/stat which doesnt hold capacity
+#   metrics.
+#
+# Instructions
+#   1. Add the "system/linux" or "system/linux/disk" subscription to agents
+#      that should run this check.
+#   2. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - Usage: https://github.com/sensu-plugins/sensu-plugins-disk-checks#help
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Nikki Attea, @nikkixdev
+#   - Caleb Hailey, @calebhailey
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: metrics-disk-usage
+spec:
+  command: metrics-disk-usage.rb
+  runtime_assets:
+    - sensu-plugins/sensu-plugins-disk-checks:5.1.3
+    - sensu/sensu-ruby-runtime:0.0.10
+  publish: false
+  subscriptions:
+    - system/linux
+    - system/linux/disk
+  interval: 30
+  timeout: 10
+  ttl: 0
+  proxy_entity_name: ""
+  stdin: false
+  output_metric_format: graphite_plaintext
+  output_metric_handlers:
+    - metric-storage
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu-plugins/sensu-plugins-disk-checks:5.1.3
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu-plugins/sensu-plugins-disk-checks
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu-plugins/sensu-plugins-disk-checks
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 5.1.3
+    io.sensu.bonsai.namespace: sensu-plugins
+    io.sensu.bonsai.name: sensu-plugins-disk-checks
+    io.sensu.bonsai.tags: ruby-runtime-2.4.4
+spec:
+  builds:
+    - url: https://assets.bonsai.sensu.io/55a44d04b3a82f4366b6c110b2fe547912f5494a/sensu-plugins-disk-checks_5.1.3_debian9_linux_amd64.tar.gz
+      sha512: 63f8d2c2c597270cc82217bd609e6f3068247416bc623dc076ef62b20a12d893424b9b0b3118628a5290f3ddfe3318e38ce36c9502acce956bb774bb96f18609
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/55a44d04b3a82f4366b6c110b2fe547912f5494a/sensu-plugins-disk-checks_5.1.3_debian_linux_amd64.tar.gz
+      sha512: af4efed00da115bda0db37bb5c75d00b0601a035bbcf8920b03043cc18b646330901f5f803662e930ce45011deb199ca8688770ff57f3e93a3b953623b30dd1b
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'
+        - entity.system.platform_family == 'debian'
+    - url: https://assets.bonsai.sensu.io/55a44d04b3a82f4366b6c110b2fe547912f5494a/sensu-plugins-disk-checks_5.1.3_centos7_linux_amd64.tar.gz
+      sha512: 7ad47f19f761a4945f18693240c6492190997ac6fa11fcde35ffd2d272cfe5a650154eed0b7bc72826e51a489e9cd8df2a3c8d88f40b5372029c8dee0838dafb
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'
+        - entity.system.platform_family == 'rhel'
+        - entity.system.platform_version.split('.')[0] == '7'
+    - url: https://assets.bonsai.sensu.io/55a44d04b3a82f4366b6c110b2fe547912f5494a/sensu-plugins-disk-checks_5.1.3_centos6_linux_amd64.tar.gz
+      sha512: 31f447357b5e2f3f55f0e1bf9b29ad7ec122d3ea75ef9a22f4abe199715722dd02115961921351ad5a63a8215a6006f6eb2b39433dfbe6b7515c9c684eab4ba2
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'
+        - entity.system.platform_family == 'rhel'
+        - entity.system.platform_version.split('.')[0] == '6'
+    - url: https://assets.bonsai.sensu.io/55a44d04b3a82f4366b6c110b2fe547912f5494a/sensu-plugins-disk-checks_5.1.3_alpine3.8_linux_amd64.tar.gz
+      sha512: 648e59d151e9efedd1b2e8fb7d6e5f74c2bf971f14c4183643e6a1f7c80b480d14a2043f9e47c0be5bc7e04f0f92964b19fb4f9cd9d39a6a862d1f7bdbc1f6b1
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'
+        - entity.system.platform == 'alpine'
+    - url: https://assets.bonsai.sensu.io/55a44d04b3a82f4366b6c110b2fe547912f5494a/sensu-plugins-disk-checks_5.1.3_alpine_linux_amd64.tar.gz
+      sha512: 54e6b65e70a42f24a98caed540f7db9eef14deca1d2a1dde0ba47952e0c815cdc4680b0bfae7a64866964d2ab7f0ff8b8063cad9cc96b7d0206f4dd17e09e87d
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'
+        - entity.system.platform == 'alpine'
+        - entity.system.platform_version.split('.')[0] == '3'
+---
+type: Asset
+api_version: core/v2
+metadata:
+  annotations:
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-ruby-runtime
+    io.sensu.bonsai.name: sensu-ruby-runtime
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.tags: ""
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-ruby-runtime
+    io.sensu.bonsai.version: 0.0.10
+  name: sensu/sensu-ruby-runtime:0.0.10
+spec:
+  builds:
+    - filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'
+        - entity.system.platform_family == 'rhel'
+        - parseInt(entity.system.platform_version.split('.')[0]) == 6
+      headers: null
+      sha512: cbee19124b7007342ce37ff9dfd4a1dde03beb1e87e61ca2aef606a7ad3c9bd0bba4e53873c07afa5ac46b0861967a9224511b4504dadb1a5e8fb687e9495304
+      url: https://assets.bonsai.sensu.io/5123017d3dadf2067fa90fc28275b92e9b586885/sensu-ruby-runtime_0.0.10_ruby-2.4.4_centos6_linux_amd64.tar.gz
+    - filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'
+        - entity.system.platform_family == 'debian'
+      headers: null
+      sha512: a28952fd93fc63db1f8988c7bc40b0ad815eb9f35ef7317d6caf5d77ecfbfd824a9db54184400aa0c81c29b34cb48c7e8c6e3f17891aaf84cafa3c134266a61a
+      url: https://assets.bonsai.sensu.io/5123017d3dadf2067fa90fc28275b92e9b586885/sensu-ruby-runtime_0.0.10_ruby-2.4.4_debian_linux_amd64.tar.gz
+    - filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'
+        - entity.system.platform_family == 'rhel'
+        - parseInt(entity.system.platform_version.split('.')[0]) > 6
+      headers: null
+      sha512: 338b88b568a3213fa234640da2e037d1487fc3c639bc62340f2fb71eac8af9a90566cffc768d15035406ac5c049350006d73f3a07ae15f9528e1c6a9af2944cb
+      url: https://assets.bonsai.sensu.io/5123017d3dadf2067fa90fc28275b92e9b586885/sensu-ruby-runtime_0.0.10_ruby-2.4.4_centos_linux_amd64.tar.gz
+    - filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'
+        - entity.system.platform == 'alpine'
+        - entity.system.platform_version.split('.')[0] == '3'
+      headers: null
+      sha512: 8d768d1fba545898a8d09dca603457eb0018ec6829bc5f609a1ea51a2be0c4b2d13e1aa46139ecbb04873449e4c76f463f0bdfbaf2107caf37ab1c8db87d5250
+      url: https://assets.bonsai.sensu.io/5123017d3dadf2067fa90fc28275b92e9b586885/sensu-ruby-runtime_0.0.10_ruby-2.4.4_alpine_linux_amd64.tar.gz

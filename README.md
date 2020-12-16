@@ -6,6 +6,7 @@ health monitoring), and pipeline integrations (e.g. Pagerduty, Elasticsearch,
 Splunk, Ansible Tower). 
 
 - [Project Goals](#project-goals)
+- [Usage](#usage)
 - [Integration Template Guidelines](#integration-template-guidelines)
   - [All templates](#all-templates)
   - [Check templates](#check-templates)
@@ -23,6 +24,28 @@ everything a new Sensu user needs to get up and running and rapidly deploy
 across a large fleet of systems. Today there are already over 200 integration 
 templates available including dozens of monitors for third-party services and 
 integrations with various systems of record. 
+
+## Usage 
+
+1. Clone this repository
+
+   ```
+   $ git clone https://github.com/sensu/catalog.git 
+   ```
+   
+2. Enable an individual integration using `sensuctl`: 
+
+   ```
+   $ cd catalog
+   $ sensuctl create -f monitors/nginx/check-nginx-status.yaml 
+   ```
+   
+   Alternatively, you can recursively enable all integrations from a given 
+   subdirectory using `sensuctl create -r -f`:
+   
+   ```
+   $ sensuctl create -r -f monitors/nginx/
+   ```
 
 ## Integration Template Guidelines
 
@@ -232,7 +255,6 @@ How to do it:
   **always welcome**.
   
 Thanks in advance for your contributions! 
-
 
 [mac]: #monitoring-as-code
 [rewards]: https://sensu.io/contributor-rewards 

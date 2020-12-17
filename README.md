@@ -1,4 +1,4 @@
-# Sensu Catalogs 
+# Sensu Go Integration Catalog 
 
 This repository contains [monitoring as code][mac] templates for enabling various
 monitoring integrations (e.g. Linux system monitoring checks, or NGINX service 

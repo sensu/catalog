@@ -1,0 +1,49 @@
+---
+# Description
+#
+#   Filter repeated events
+# 
+#   This event filter will only allow event processing (e.g. sending alerts or 
+#   creating incidents) for the first occurrence of an event, and then again 
+#   only once per hour. This filter will work with events produced by Sensu 
+#   checks with any interval that are fractions of a minute or hour (e.g. 10, 
+#   15, 20, 30, 60, 120, 180, 300, 360, or 600 seconds). 
+# 
+#   The filter expression is performing a modulus operator calculation; i.e. 
+#   calculating the remainder after dividing occurrences by the number of event 
+#   occurrences the check would normally produce in an hour. For example, a 
+#   check with a 30 second interval should produce 120 events per hour (i.e. 
+#   3600 / 30 = 120); this filter will only process events with 30-second 
+#   intervals on the 120th, 240th, 360th, 480th, and 600th occurrence (and so 
+#   on).
+# 
+#   This filter does not use any custom filter plugins (i.e. no runtime_assets 
+#   are required). 
+# 
+# Instructions
+# 
+#   1. Create the filter_repeated_hourly filter resource. 
+#      
+#      $ sensuctl create -f filter-repeated-hourly.yaml 
+#   
+#   2. Add the filter_repeated_hourly filter to a handler. 
+#
+#      ```
+#      filters:
+#      - is_incident
+#      - filter_repeated_hourly
+#      ```
+# 
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - @calebhailey
+type: EventFilter
+api_version: core/v2
+metadata:
+  name: filter_repeated_hourly
+  namespace: default
+spec:
+  action: allow
+  expressions:
+  - event.check.occurrences == 1 || event.check.occurrences % (3600 / event.check.interval) == 0
+  runtime_assets: null

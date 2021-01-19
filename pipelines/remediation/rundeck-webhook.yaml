@@ -16,18 +16,12 @@
 #      NOTE: the sensuctl edit command will open your default editor; please
 #      modify the "handlers" attribute by adding "rundeck-webhook".
 #
-#   2. Configure the following secrets using your preferred Sensu Go Secrets
-#      provider:
-#
-#      - rundeck_webhook
-#
-#      NOTE: example secret resources using the "env" provider are included in
-#      this template; to add your secrets to the Sensu Backend, please modify
-#      /etc/default/sensu-backend or /etc/sysconfig/sensu-backend and restart
-#      the sensu-backend service.
-#
-#   3. Configure remediation actions via annotations in your checks per the
+#   2. Configure remediation actions via annotations in your checks per the
 #      plugin documentation.
+#
+#   3. So that the remediation job runs on the proper node, ensure that your
+#      Rundeck webhook's definition has a 'Node Filter' set to
+#      'name: ${data.entity.metadata.name}'
 #
 #   4. More configuration options are available for this plugin; please see the
 #      plugin documentation for more details.
@@ -53,64 +47,53 @@ spec:
     - is_incident
   handlers: null
   runtime_assets:
-    - sensu/sensu-rundeck-handler:0.1.0
-  secrets:
-    - name: RUNDECK_WEBHOOK
-      secret: rundeck_webhook
+    - sensu/sensu-rundeck-handler:0.2.0
   timeout: 0
   type: pipe
----
-type: Secret
-api_version: secrets/v1
-metadata:
-  name: rundeck_webhook
-spec:
-  provider: env
-  id: RUNDECK_WEBHOOK
 ---
 type: Asset
 api_version: core/v2
 metadata:
-  name: sensu/sensu-rundeck-handler:0.1.0
+  name: sensu/sensu-rundeck-handler:0.2.0
   labels:
   annotations:
     io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-rundeck-handler
     io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-rundeck-handler
     io.sensu.bonsai.tier: Community
-    io.sensu.bonsai.version: 0.1.0
+    io.sensu.bonsai.version: 0.2.0
     io.sensu.bonsai.namespace: sensu
     io.sensu.bonsai.name: sensu-rundeck-handler
     io.sensu.bonsai.tags: handler, remediation, rundeck
     io.sensu.bonsai.message: This asset is for users with a valid Enterprise license
 spec:
   builds:
-    - url: https://assets.bonsai.sensu.io/pEnzSwudBzFL2AKK93R%2BKw%3D%3D/sensu-rundeck-handler_0.1.0_windows_amd64.tar.gz
-      sha512: 2d5ec2ccf063716dd0afd0741bd59d69a1a7bdf7864a4c29cdb788f72d25acb25377243b8bfac96ca92859fe2156b9b81a6d03616a776a731dc4828f66c19510
+    - url: https://assets.bonsai.sensu.io//sensu-rundeck-handler_0.2.0_windows_amd64.tar.gz
+      sha512: 8c33dafea26caba099e8518009492dd4a199e773f90b84b87f3569b0c11ff08aa6e133f3c176e18b5adcaff4b0c56ca72aeff9946620510d5b406403ccfd2d51
       filters:
         - entity.system.os == 'windows'
         - entity.system.arch == 'amd64'
-    - url: https://assets.bonsai.sensu.io/pEnzSwudBzFL2AKK93R%2BKw%3D%3D/sensu-rundeck-handler_0.1.0_darwin_amd64.tar.gz
-      sha512: '080ff60a15769af434e4c9ee1dac085b614fedbfc287da3f6937cd56aa3ffa1c151a93d1ac4f683961d20b71a646fc54c5150f8b0e17c2821f6f8ae4a5d1640c'
+    - url: https://assets.bonsai.sensu.io//sensu-rundeck-handler_0.2.0_darwin_amd64.tar.gz
+      sha512: 493864dd3135b1f34f1445e58d0103fa6f7d4e2ed1565b8c21d39450c5768c747afeccddaaf92e816c4f5a6d57fbac3b502cf5c74e33eccd0027a7cda4617350
       filters:
         - entity.system.os == 'darwin'
         - entity.system.arch == 'amd64'
-    - url: https://assets.bonsai.sensu.io/pEnzSwudBzFL2AKK93R%2BKw%3D%3D/sensu-rundeck-handler_0.1.0_linux_armv7.tar.gz
-      sha512: 4bbfbe47d38a343ded18907620029d95fe2575345edd2dc2c5d4022dd2a2918634cd1cf523ab3595eedf7989f77bda0f5be09d61ffd3f273410dd06ed04ce023
+    - url: https://assets.bonsai.sensu.io//sensu-rundeck-handler_0.2.0_linux_armv7.tar.gz
+      sha512: 20e04dd187f0c6f09aa75c3dc776798230e9c5897c963acddffe43d58339aefe2ad9a19bb3dbce29f7842658baf1ac1a265c033adbded3fc9f34a23cd5c295a9
       filters:
         - entity.system.os == 'linux'
         - entity.system.arch == 'armv7'
-    - url: https://assets.bonsai.sensu.io/pEnzSwudBzFL2AKK93R%2BKw%3D%3D/sensu-rundeck-handler_0.1.0_linux_arm64.tar.gz
-      sha512: 9605d1cadb78ffe00e6bf6ae5d2cfaf1f47eae9c21d17f9ef97434ea9629918ff614d9074cc5b22eb921676650ea7f2aca6e2b234bc284479afae19ecd653d53
+    - url: https://assets.bonsai.sensu.io//sensu-rundeck-handler_0.2.0_linux_arm64.tar.gz
+      sha512: 16a9089b0a8edbc95521f0e423ba02313d27f31232e45657fd54d1d87efa9e0d098af57c892bcc7a111e862eacf8a0f31b684e1f0e863821582897fa0efb68f7
       filters:
         - entity.system.os == 'linux'
         - entity.system.arch == 'arm64'
-    - url: https://assets.bonsai.sensu.io/pEnzSwudBzFL2AKK93R%2BKw%3D%3D/sensu-rundeck-handler_0.1.0_linux_386.tar.gz
-      sha512: 8baf3bb6a9eb236ed501e9b13cddac401bbe24d26824ae5d04f15a9c7039eacf5d7351a370736a926383efa4bc2090f227e37b8dafa780d1f9801801d9585687
+    - url: https://assets.bonsai.sensu.io//sensu-rundeck-handler_0.2.0_linux_386.tar.gz
+      sha512: ce6aaf1abb7b764f647215abfd4aabc007ea603f4837f518e06fcf60b03ee30892ec1b2f5164b87ab125cb01866217c1ec4b753bb3c8e35ca5dbb7809aa2fc6b
       filters:
         - entity.system.os == 'linux'
         - entity.system.arch == '386'
-    - url: https://assets.bonsai.sensu.io/pEnzSwudBzFL2AKK93R%2BKw%3D%3D/sensu-rundeck-handler_0.1.0_linux_amd64.tar.gz
-      sha512: 0c78b1e33c5112acbaef4b20d1f5810aac27c265c63d82f439fe98cd8f5a6d20d76552bdecfb71d3bc3cddef0c57bf508a300d27d2e747a470bfc8eea95076f0
+    - url: https://assets.bonsai.sensu.io//sensu-rundeck-handler_0.2.0_linux_amd64.tar.gz
+      sha512: 64d52625a29f12460c062dbdc786841d93863f41085f49ffebf29918901b75fd10847cd94811e5ad01b72804bc131090a544f34e863068ec5ee35276f27f297d
       filters:
         - entity.system.os == 'linux'
         - entity.system.arch == 'amd64'

@@ -49,7 +49,7 @@ spec:
   - not_silenced
   handlers: null
   runtime_assets:
-  - nixwiz/sensu-victorops-handler:0.2.0
+  - nixwiz/sensu-victorops-handler:0.3.0
   secrets:
   - name: SENSU_VICTOROPS_ROUTINGKEY
     secret: victorops_routingkey
@@ -67,45 +67,45 @@ spec:
 type: Asset
 api_version: core/v2
 metadata:
-  name: nixwiz/sensu-victorops-handler:0.2.0
+  name: nixwiz/sensu-victorops-handler:0.3.0
   labels:
   annotations:
     io.sensu.bonsai.url: https://bonsai.sensu.io/assets/nixwiz/sensu-victorops-handler
     io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/nixwiz/sensu-victorops-handler
     io.sensu.bonsai.tier: Community
-    io.sensu.bonsai.version: 0.2.0
+    io.sensu.bonsai.version: 0.3.0
     io.sensu.bonsai.namespace: nixwiz
     io.sensu.bonsai.name: sensu-victorops-handler
     io.sensu.bonsai.tags: handler
 spec:
   builds:
-    - url: https://assets.bonsai.sensu.io/5a7e4447fae7083108d51abee3209d7cffd42dee/sensu-victorops-handler_0.2.0_linux_armv7.tar.gz
-      sha512: f988a155e6cfc62124be701d2b61bd6bdf3079a4fc4e89ce82a1908709a9dbef2c869087d42b847b8ff529843184ed4a1a448950e70ebd8d6660c65b3a7c2e1d
-      filters:
-        - entity.system.os == 'linux'
-        - entity.system.arch == 'armv7'
-    - url: https://assets.bonsai.sensu.io/5a7e4447fae7083108d51abee3209d7cffd42dee/sensu-victorops-handler_0.2.0_linux_arm64.tar.gz
-      sha512: bdcc57406ea5afa0e941030ce40d84ddc3b1129a3890789e26e8bf829443cf4fd3c90cb7bd172adef4577f89199d787008744af84a4cfdfc68df8cfd831f7612
-      filters:
-        - entity.system.os == 'linux'
-        - entity.system.arch == 'arm64'
-    - url: https://assets.bonsai.sensu.io/5a7e4447fae7083108d51abee3209d7cffd42dee/sensu-victorops-handler_0.2.0_linux_386.tar.gz
-      sha512: 5d93f0185477347eefb667a99a6043ec64d309209ff756b0a7682dd0073f9d058fcc87b4bef047616929c28c800604e6f2b54875f9869a80cb4ba78f10e5d860
-      filters:
-        - entity.system.os == 'linux'
-        - entity.system.arch == '386'
-    - url: https://assets.bonsai.sensu.io/5a7e4447fae7083108d51abee3209d7cffd42dee/sensu-victorops-handler_0.2.0_linux_amd64.tar.gz
-      sha512: 486d76a04e75d6096adc56226b6cf07afd481a421ef6e999af7b0b9382df8d50f2fa8fa88e1725db3c354b41137f17b91534d22adf3f38d886e7ddca92ce4b9b
-      filters:
-        - entity.system.os == 'linux'
-        - entity.system.arch == 'amd64'
-    - url: https://assets.bonsai.sensu.io/5a7e4447fae7083108d51abee3209d7cffd42dee/sensu-victorops-handler_0.2.0_windows_amd64.tar.gz
-      sha512: 50f45bc579fb863b77432b24aff24b71b0b033e6c471ef9f04c921a8c890b157484ce41a73193a89d4ddb50dfc09d4e491753b3d810e67b6eea784d2fb6b89d6
+    - url: https://assets.bonsai.sensu.io/3b53d65b080e9383c03543b36b9c36c7ca47476e/sensu-victorops-handler_0.3.0_windows_amd64.tar.gz
+      sha512: 883b28d27fe41168e67861e4dbb4c679ab71f8ba1d4f662b8a80a9867116c37938c51f71bd6b31a77fa8cb17497998b2acb92189eed7d2b4fa0ca58df3e8f41a
       filters:
         - entity.system.os == 'windows'
         - entity.system.arch == 'amd64'
-    - url: https://assets.bonsai.sensu.io/5a7e4447fae7083108d51abee3209d7cffd42dee/sensu-victorops-handler_0.2.0_darwin_amd64.tar.gz
-      sha512: 00b8d839519ea3aee11e8814f59dfebbf4231bbcb8befddd7038c59db2dc4d8887b676d623ba0155760487604ba421ed0dd3a3f8ec0e70e50cb3e85e783992be
+    - url: https://assets.bonsai.sensu.io/3b53d65b080e9383c03543b36b9c36c7ca47476e/sensu-victorops-handler_0.3.0_darwin_amd64.tar.gz
+      sha512: 3603b3336ac1bb39733a1a7aa11f2a8010b5ff633123231e705e100bb43dc559febf2904d7cd4576e4cec94a6b963430e2f0cfcb59d7a5a5ed92b363a3e2922c
       filters:
         - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/3b53d65b080e9383c03543b36b9c36c7ca47476e/sensu-victorops-handler_0.3.0_linux_armv7.tar.gz
+      sha512: 58861888c6c3c4aa821cfdc8b1d00e9fc1f2917377694e9f3ba54f2aeb24d911422d3c9fdc76649ac4822ac4031272543d14e405226ccdb64906d57e4a57935b
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io/3b53d65b080e9383c03543b36b9c36c7ca47476e/sensu-victorops-handler_0.3.0_linux_arm64.tar.gz
+      sha512: 420993569ebcfbadb8e5fdb05be247c7f3dd54b614a4dc39782bfe45ff40e547258d20234264dc807948878e535b29575ee2457588ea9c1149b635b57d651d40
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io/3b53d65b080e9383c03543b36b9c36c7ca47476e/sensu-victorops-handler_0.3.0_linux_386.tar.gz
+      sha512: 9e899c8405fe6ffe2664aed3c498b6ba6eaf19035da35f09dacc1487c4bad4e9af979bde9cf1fbf63e97caae29dd36942981b32e187db5052820328ffd2a6595
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io/3b53d65b080e9383c03543b36b9c36c7ca47476e/sensu-victorops-handler_0.3.0_linux_amd64.tar.gz
+      sha512: 5ca4ee11d575645d9836f89b5ded9296c6c06f955896a14c88e8513c48dbc4c902f4ea1fb5be15762fd59f67982220984e41ad5665db6cf32527f1cf43e51430
+      filters:
+        - entity.system.os == 'linux'
         - entity.system.arch == 'amd64'

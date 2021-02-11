@@ -63,12 +63,15 @@ api_version: core/v2
 metadata:
   name: pagerduty
 spec:
-  command: sensu-pagerduty-handler
-  env_vars: null
+  command: >-
+    sensu-pagerduty-handler
+    --dedup-key-template "{{.Entity.Namespace}}-{{.Entity.Name}}-{{.Check.Name}}"
+    --status-map "{\"info\":[0],\"warning\": [1],\"critical\": [2],\"error\": [3,127]}"
+    --summary-template "[{{.Entity.Namespace}}] {{.Entity.Name}}/{{.Check.Name}}: {{.Check.State}}"
+    --details-template "{{.Check.Output}}\n\n{{.Check}}"
   filters:
   - is_incident
   - not_silenced
-  handlers: null
   runtime_assets:
   - sensu/sensu-pagerduty-handler:2.1.0
   secrets:

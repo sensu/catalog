@@ -67,7 +67,7 @@ spec:
   - not_silenced
   handlers: null
   runtime_assets:
-    - sensu/sensu-email-handler:0.9.0
+    - sensu/sensu-email-handler:1.0.0
   secrets:
   - name: SMTP_PASSWORD
     secret: smtp_password
@@ -105,7 +105,7 @@ spec:
 type: Asset
 api_version: core/v2
 metadata:
-  name: sensu/sensu-email-handler:0.9.0
+  name: sensu/sensu-email-handler:1.0.0
   labels:
   annotations:
     io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-email-handler
@@ -114,44 +114,36 @@ metadata:
     io.sensu.bonsai.tags: handler
     io.sensu.bonsai.tier: Supported
     io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-email-handler
-    io.sensu.bonsai.version: 0.9.0
+    io.sensu.bonsai.version: 1.0.0
 spec:
   builds:
-  - filters:
-    - entity.system.os == 'darwin'
-    - entity.system.arch == 'amd64'
-    headers: null
-    sha512: ce30c9be2cc44e0aec04655947b4153ce738197c3e904ca5e6f1c2208d50b3a271ed903e3d250b36d15b3207b6c96059314788b49a4571dd9db7dd5145ba3814
-    url: https://assets.bonsai.sensu.io/67760148c69987d0a0b9379aded62b2b6a5127d4/sensu-email-handler_0.9.0_windows_amd64.tar.gz
-  - filters:
-    - entity.system.os == 'darwin'
-    - entity.system.arch == 'amd64'
-    headers: null
-    sha512: c62342f00cdc19337b56864286fa5b60c75cb7e9b494bff612efedb7a15b05b098757a0e5871653fefce483722f32487dd111b69a9b664cce3a52347f668a7a9
-    url: https://assets.bonsai.sensu.io/67760148c69987d0a0b9379aded62b2b6a5127d4/sensu-email-handler_0.9.0_darwin_amd64.tar.gz
-  - filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == 'armv7'
-    headers: null
-    sha512: 6c44bcee1669742a9ef4eb5cf1099e54312d1c3e2f1174da0429ee8cc6077298a19ab0af0de71fd865357f05bbdf1ecfb731eb7b900721b93608dfeeb361d94d
-    url: https://assets.bonsai.sensu.io/67760148c69987d0a0b9379aded62b2b6a5127d4/sensu-email-handler_0.9.0_linux_armv7.tar.gz
-  - filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == 'arm64'
-    headers: null
-    sha512: c0c0d9d6f53ed53af218673c669756feb60758b685ff1dcedcd371732c9f304b1bb4f5ae6638fd4e79161e8c9bb5cfd0d318cf30ef18fef050c744cb424f5367
-    url: https://assets.bonsai.sensu.io/67760148c69987d0a0b9379aded62b2b6a5127d4/sensu-email-handler_0.9.0_linux_arm64.tar.gz
-  - filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == '386'
-    headers: null
-    sha512: 59bbcc034abeabf55f4ab1f0efac5d6ced546308e9eeabea5d7cf8b152053d36fbc85899535df91dc434b20294a43510944ee496f0bd09c48b809242207c435c
-    url: https://assets.bonsai.sensu.io/67760148c69987d0a0b9379aded62b2b6a5127d4/sensu-email-handler_0.9.0_linux_386.tar.gz
-  - filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == 'amd64'
-    headers: null
-    sha512: 5a04dabffb188c730dcae7235dea1f5544ba4933d16c3b11e35801beea43bdcadd30dc8ea15bb1fa9745c15b166906bf8e25b871ed8d432f65295f36b1e9a435
-    url: https://assets.bonsai.sensu.io/67760148c69987d0a0b9379aded62b2b6a5127d4/sensu-email-handler_0.9.0_linux_amd64.tar.gz
-  filters: null
-  headers: null
+    - url: https://assets.bonsai.sensu.io/ed14b018b98866341a90f162aa70647b5e170241/sensu-email-handler_1.0.0_windows_amd64.tar.gz
+      sha512: 2914efa5929718f9b032d7c8245e0eb44d7eae46dcdeb14fcaa7448b52abc0e154782c5a71088905b6815e0851e275e203105a1d6d08318e87e90313e617aa44
+      filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/ed14b018b98866341a90f162aa70647b5e170241/sensu-email-handler_1.0.0_darwin_amd64.tar.gz
+      sha512: 7ce77736ad0419286a5b5d296cb8f6d635ccbaeae4f3ad401b60ea5ae41e4908ffdaac47652c39ca57af451a1f8b870a713c559dca2730996a5d37706e12c781
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/ed14b018b98866341a90f162aa70647b5e170241/sensu-email-handler_1.0.0_linux_armv7.tar.gz
+      sha512: d6bf755521fa9ac76c63e9862c47e5cf917207c11f646609fbef6d3d96071e5c1efb29162b1670a653fa2430375915d6178bed4b2759b043979d8273eae80608
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io/ed14b018b98866341a90f162aa70647b5e170241/sensu-email-handler_1.0.0_linux_arm64.tar.gz
+      sha512: 594f832081122e4fe7b64f5c400da2bf66afe5e0827753fe137f486149ba062b6a72fa3210cbf285433d722b0b1823bade8516ba8d3783cb00af6a7f703abce8
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io/ed14b018b98866341a90f162aa70647b5e170241/sensu-email-handler_1.0.0_linux_386.tar.gz
+      sha512: c0006f1e43f24d7a39beb4ddd4edfd890c978932cfa294e96a741494b6da5e82b1e3a051265fa7525f4046b64b5cdd44eb5a49e6de577b880824f163dc656490
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io/ed14b018b98866341a90f162aa70647b5e170241/sensu-email-handler_1.0.0_linux_amd64.tar.gz
+      sha512: 5b936e16fcb38b84a768a7c1db3d055ee59693b46e1f2b5e215b1d2ba4f6815956a41d4d38322827fcbfd9290148f7d68c3fba3f607716cbb593d1be2845e77d
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'

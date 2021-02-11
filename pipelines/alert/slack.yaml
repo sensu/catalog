@@ -43,6 +43,7 @@ api_version: core/v2
 metadata:
   name: slack
 spec:
+  type: pipe
   command: >-
     sensu-slack-handler
     --channel ${SLACK_CHANNEL}
@@ -51,7 +52,6 @@ spec:
   filters:
   - is_incident
   - not_silenced
-  handlers: null
   runtime_assets:
   - sensu/sensu-slack-handler:1.4.0
   secrets:
@@ -60,7 +60,6 @@ spec:
   - name: SLACK_CHANNEL
     secret: slack_channel
   timeout: 0
-  type: pipe
 ---
 type: Secret
 api_version: secrets/v1

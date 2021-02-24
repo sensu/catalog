@@ -43,12 +43,15 @@ api_version: core/v2
 metadata:
   name: slack
 spec:
-  command: sensu-slack-handler
-  env_vars: null
+  type: pipe
+  command: >-
+    sensu-slack-handler
+    --channel ${SLACK_CHANNEL}
+    --username SensuGo
+    --description-template "{{ .Check.Output }}\n\n[namespace: {{.Entity.Namespace}}]"
   filters:
   - is_incident
   - not_silenced
-  handlers: null
   runtime_assets:
   - sensu/sensu-slack-handler:1.4.0
   secrets:
@@ -57,7 +60,6 @@ spec:
   - name: SLACK_CHANNEL
     secret: slack_channel
   timeout: 0
-  type: pipe
 ---
 type: Secret
 api_version: secrets/v1

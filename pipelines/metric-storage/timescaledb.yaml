@@ -27,7 +27,13 @@
 #      compute instance, please modify /etc/default/sensu-backend or 
 #      /etc/sysconfig/sensu-backend and restart the sensu-backend service.
 #
-#   3. More configuration options are available for this plugin; please see the
+#   3. SSL Mode
+#
+#      WARNING: this example template has sslmode disabled, which is not 
+#      recommended for production workloads. Please modify the configuration
+#      accordingly.
+#
+#   4. More configuration options are available for this plugin; please see the
 #      plugin documentation for more details.
 #
 # Documentation
@@ -60,8 +66,6 @@ type: Secret
 api_version: secrets/v1
 metadata:
   name: timescaledb_dsn
-  labels:
-    sensu.io/workflow: sensu-flow/v1
 spec:
   provider: env
   id: SENSU_TIMESCALEDB_DSN
@@ -70,8 +74,6 @@ type: Asset
 api_version: core/v2
 metadata:
   name: sensu/sensu-timescaledb-handler:0.5.0
-  labels:
-    sensu.io/workflow: sensu-flow/v1
 spec:
   builds:
   - filters:
@@ -88,3 +90,4 @@ spec:
     url: https://assets.bonsai.sensu.io/d9f1a59dae64fd188e0715123071ced35702f8fd/sensu-timescaledb-handler_0.5.0_linux_amd64.tar.gz
   filters: null
   headers: null
+

@@ -33,7 +33,15 @@
 #      recommended for production workloads. Please modify the configuration
 #      accordingly.
 #
-#   4. More configuration options are available for this plugin; please see the
+#   4. Database schema
+#
+#      Because TimescaleDB is based on a traditional RDBMS (PostgreSQL), the 
+#      database needs to be pre-configured with a schema. See the handler 
+#      documentation for more information: 
+#
+#      https://bonsai.sensu.io/assets/sensu/sensu-timescaledb-handler#example-database
+#
+#   5. More configuration options are available for this plugin; please see the
 #      plugin documentation for more details.
 #
 # Documentation

@@ -4,7 +4,7 @@
 #   Generate cluster metrics from Sensu using the Sensu graphql endpoint
 #
 # Instructions
-#   1. Ensure there is an Sensu api-key for a user with appropriate cluster-wide read access
+#   1. Ensure there is a Sensu api-key for a user with appropriate cluster-wide read access
 #      for Sensu events, entities, and namespaces
 #      Ex:
 #      sensuctl user create cluster-metrics --password='3yBa!#k90vq'
@@ -114,6 +114,3 @@ spec:
     url: https://assets.bonsai.sensu.io/39369b9db9846b0a437bcff1be0f47ab9012a31e/sensu-cluster-metrics_0.0.1_linux_amd64.tar.gz
   filters: null
   headers: null
-
-
-

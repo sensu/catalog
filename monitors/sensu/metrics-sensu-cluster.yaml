@@ -8,8 +8,8 @@
 #      for Sensu events, entities, and namespaces
 #      Ex:
 #      sensuctl user create cluster-metrics --password='3yBa!#k90vq'
-#      sensuctl role create cluster-metrics-role --verb get,list --resource entities,namespaces,events
-#      sensuctl role-binding create cluster-metrics-binding --role=cluster-metrics-role --user=cluster-metrics
+#      sensuctl cluster-role create cluster-metrics-role --verb get,list --resource entities,namespaces,events
+#      sensuctl cluster-role-binding create cluster-metrics-binding --cluster-role=cluster-metrics-role --user=cluster-metrics
 #      sensuctl api-key grant cluster-metrics
 
 #   2. Configure the cluster-metrics-api-key secret using your preferred Sensu Go Secrets provider

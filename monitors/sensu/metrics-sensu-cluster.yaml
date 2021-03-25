@@ -1,0 +1,119 @@
+---
+# Description
+#
+#   Generate cluster metrics from Sensu using the Sensu graphql endpoint
+#
+# Instructions
+#   1. Ensure there is an Sensu api-key for a user with appropriate cluster-wide read access
+#      for Sensu events, entities, and namespaces
+#      Ex:
+#      sensuctl user create cluster-metrics --password='3yBa!#k90vq'
+#      sensuctl role create cluster-metrics-role --verb get,list --resource entities,namespaces,events
+#      sensuctl role-binding create cluster-metrics-binding --role=cluster-metrics-role --user=cluster-metrics
+#      sensuctl api-key grant cluster-metrics
+
+#   2. Configure the cluster-metrics-api-key secret using your preferred Sensu Go Secrets provider
+#      NOTE: example secret resource using the "env" provider are included in
+#      this template; to add your secrets to the Sensu Backend, please modify
+#      /etc/default/sensu-backend or /etc/sysconfig/sensu-backend and restart
+#      the sensu-backend service.
+#
+#      NOTE: to use secrets with checks requires mTLS be enabled.
+# 
+#   3. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - Usage: https://github.com/sensu/sensu-cluster-metrics
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Jef Spaleta, @jspaleta
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: metrics-sensu-cluster
+spec:
+  command: >-
+    sensu-cluster-metrics
+    --url {{ .annotations.sensu_cluster_metrics_url | default "http://localhost:8080/graphql" }}
+    --output-format {{ .annotations.sensu_cluster_metrics_format | default "opentsdb_line" }}
+  runtime_assets:
+    - sensu/sensu-cluster-metrics:0.0.1
+  publish: false
+  secrets:
+    - name: CLUSTER_API_KEY
+      secret: sensu_cluster_metrics_api_key
+  subscriptions:
+    - sensu
+  interval: 30
+  timeout: 10
+  ttl: 0
+  stdin: false
+  output_metric_format: opentsdb_line
+  output_metric_handlers:
+    - metric-storage
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: sensu_cluster_metrics_api_key
+spec:
+  provider: env
+  id: CLUSTER_API_KEY
+---
+type: Asset
+api_version: core/v2
+metadata:
+  annotations:
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-cluster-metrics
+    io.sensu.bonsai.name: sensu-cluster-metrics
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.tags: ""
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-cluster-metrics
+    io.sensu.bonsai.version: 0.0.1
+  name: sensu/sensu-cluster-metrics:0.0.1
+spec:
+  builds:
+  - filters:
+    - entity.system.os == 'windows'
+    - entity.system.arch == 'amd64'
+    headers: null
+    sha512: b81d2466d64fb3e7e61411761aa2b8b9b41805c152885a7e9bb88aaf361de05f03b0b9116162cd1e871f85871b768c4cccfdc2f507939157f2ca7a526de5b9ae
+    url: https://assets.bonsai.sensu.io/39369b9db9846b0a437bcff1be0f47ab9012a31e/sensu-cluster-metrics_0.0.1_windows_amd64.tar.gz
+  - filters:
+    - entity.system.os == 'darwin'
+    - entity.system.arch == 'amd64'
+    headers: null
+    sha512: 733d449c279392bc38a842dd7c8666cd45b3f006a2ade1fccd38ccaca7f93b243459f99f55508a50d1147a6825aa753eecd6eebb0dcd8df91a8cb1438dd2f90c
+    url: https://assets.bonsai.sensu.io/39369b9db9846b0a437bcff1be0f47ab9012a31e/sensu-cluster-metrics_0.0.1_darwin_amd64.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'armv7'
+    headers: null
+    sha512: cbbf5f2c781414c68a3078301a4370941beef56911ac6fd2b60357965670d1b76e0b29645b28a0aaba03413839cae098993f7d6580a3628d66f045988e3af95d
+    url: https://assets.bonsai.sensu.io/39369b9db9846b0a437bcff1be0f47ab9012a31e/sensu-cluster-metrics_0.0.1_linux_armv7.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm64'
+    headers: null
+    sha512: 8deb9dba1fac1c91ae8d0870c0e5accc6e6b59a0006c70407066f4a41ee3d6c5a2d5d7b1e3d77238cf1705973b18d53cfda2fa5b61d3f298bca323e7d923b6b1
+    url: https://assets.bonsai.sensu.io/39369b9db9846b0a437bcff1be0f47ab9012a31e/sensu-cluster-metrics_0.0.1_linux_arm64.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == '386'
+    headers: null
+    sha512: c540e8a5f83cde55b4a620f1a71a26a1b8464c3a83f0f83f39ffdbb1a3ccfbae59627001d644f7d7e91af7a8129c7d8dac5a0b72f8d1ca88cfcf5cdde98e4d8f
+    url: https://assets.bonsai.sensu.io/39369b9db9846b0a437bcff1be0f47ab9012a31e/sensu-cluster-metrics_0.0.1_linux_386.tar.gz
+  - filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'
+    headers: null
+    sha512: efc446cfb9920f151409a45fe1297bf0bd88871944585516d7700303c81a4c642cf0ea31d38d9fc3d8e42677cbc0fc4f4a8d3fea0f670afb2de9362943ae8dfb
+    url: https://assets.bonsai.sensu.io/39369b9db9846b0a437bcff1be0f47ab9012a31e/sensu-cluster-metrics_0.0.1_linux_amd64.tar.gz
+  filters: null
+  headers: null
+
+
+

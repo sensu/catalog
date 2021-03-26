@@ -59,7 +59,7 @@ spec:
     - not_silenced
   handlers: null
   runtime_assets:
-    - sensu/sensu-aws-sns-handler:0.4.0
+    - sensu/sensu-aws-sns-handler:0.5.0
   secrets:
     - name: AWS_SECRET_ACCESS_KEY
       secret: aws_secret_access_key
@@ -107,45 +107,45 @@ spec:
 type: Asset
 api_version: core/v2
 metadata:
-  name: sensu-aws-sns-handler:0.4.0
+  name: sensu-aws-sns-handler:0.5.0
   labels:
   annotations:
     io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-aws-sns-handler
     io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-aws-sns-handler
     io.sensu.bonsai.tier: Community
-    io.sensu.bonsai.version: 0.4.0
+    io.sensu.bonsai.version: 0.5.0
     io.sensu.bonsai.namespace: sensu
     io.sensu.bonsai.name: sensu-aws-sns-handler
     io.sensu.bonsai.tags: aws, handler
 spec:
   builds:
-    - url: https://assets.bonsai.sensu.io/d3dfaeaa928f9b9d78b0cd2ab8193906fdf47978/sensu-aws-sns-handler_0.4.0_windows_amd64.tar.gz
-      sha512: 6d04fb339421b0df7cd16999fe286387c17d162de12ad951eaf7487ac5720d956273457b5c941deb7fb5cd2608d689e575b457ee9cce79bfb2b041794049df2d
+    - url: https://assets.bonsai.sensu.io/b3d7751856b5b61b43c83c906df26724d2678ae2/sensu-aws-sns-handler_0.5.0_windows_amd64.tar.gz
+      sha512: e175740512fa5d96f1e735c81f9746cd16374c8907aaa69504b68e52d0db71027a824c35f4af4c3be771e6f1f9b9273b1d3bea83161c940bb1fd599a6c65e3b0
       filters:
         - entity.system.os == 'windows'
         - entity.system.arch == 'amd64'
-    - url: https://assets.bonsai.sensu.io/d3dfaeaa928f9b9d78b0cd2ab8193906fdf47978/sensu-aws-sns-handler_0.4.0_darwin_amd64.tar.gz
-      sha512: 8ae4599049ef36ccac9076223e4e756df563b6e62117d990edff241edf6059b64cee9589cd04aa2b0e822eb7ba19ccc652d02f4cbff0212fc2ba39b83f29b038
+    - url: https://assets.bonsai.sensu.io/b3d7751856b5b61b43c83c906df26724d2678ae2/sensu-aws-sns-handler_0.5.0_darwin_amd64.tar.gz
+      sha512: 5cbe650086bcdb40466ab08fbb4a929984beb14a0823e4be4c35b74c90445c40c42f18bdb91696bfe081fc8a02d39dd35d48e3a1698ce965ac2d7d3439902078
       filters:
         - entity.system.os == 'darwin'
         - entity.system.arch == 'amd64'
-    - url: https://assets.bonsai.sensu.io/d3dfaeaa928f9b9d78b0cd2ab8193906fdf47978/sensu-aws-sns-handler_0.4.0_linux_armv7.tar.gz
-      sha512: 2096c7d97f12d13c451ab502dd82432e7c4c33a339408381b92d7befe5fc03174cf741c3defab4e5f6f159421b13669d5a8220672869ce3e3d422b637ef66206
+    - url: https://assets.bonsai.sensu.io/b3d7751856b5b61b43c83c906df26724d2678ae2/sensu-aws-sns-handler_0.5.0_linux_armv7.tar.gz
+      sha512: bd19de51d9274668219f897b7934a17710804740291e4ab8a946a99dd749b30015640733d46b9c9f89771c34d3925f5afb119d8043fce98a47fc4c6b3d001182
       filters:
         - entity.system.os == 'linux'
         - entity.system.arch == 'armv7'
-    - url: https://assets.bonsai.sensu.io/d3dfaeaa928f9b9d78b0cd2ab8193906fdf47978/sensu-aws-sns-handler_0.4.0_linux_arm64.tar.gz
-      sha512: 8d5e41f9c0056ffe8651b4389df102f66a92cc27409562fff15c7f34970afaa435b1927cda13d8759ab163c36ac9dc72f40de60c3af1df59a64acc4429190b7f
+    - url: https://assets.bonsai.sensu.io/b3d7751856b5b61b43c83c906df26724d2678ae2/sensu-aws-sns-handler_0.5.0_linux_arm64.tar.gz
+      sha512: a8f91f56dce878932e873a1258f683624145d251a5c6adf53e9198e4a4f1f5c91d3de2ffd5c1b0ae5bb4deb0652e3ab6f8416c96bcde750f8ca135d7c4d8d7bf
       filters:
         - entity.system.os == 'linux'
         - entity.system.arch == 'arm64'
-    - url: https://assets.bonsai.sensu.io/d3dfaeaa928f9b9d78b0cd2ab8193906fdf47978/sensu-aws-sns-handler_0.4.0_linux_386.tar.gz
-      sha512: 27d28837d47e7193e85d0d4a27f8b2c4c3d442178152c9d776037bb41318cbe8c44cf08918d834ee86c86c7818603c3468b0e360f1ba7f798656e03a84a4e3ff
+    - url: https://assets.bonsai.sensu.io/b3d7751856b5b61b43c83c906df26724d2678ae2/sensu-aws-sns-handler_0.5.0_linux_386.tar.gz
+      sha512: 88b4e43f98a9ca8b485d74be96be16e2f9b2aa8c1600dee392ce5212843d2a9a586bc78409cd46042d776d40853b65b7049bc4efcc556abfe723796bd4b04b58
       filters:
         - entity.system.os == 'linux'
         - entity.system.arch == '386'
-    - url: https://assets.bonsai.sensu.io/d3dfaeaa928f9b9d78b0cd2ab8193906fdf47978/sensu-aws-sns-handler_0.4.0_linux_amd64.tar.gz
-      sha512: d7dc78363dbe333481c08890946bf1dad3157c6f79fd9562e20b531f312e924e74eccde5f1431a584116c861f6b441a7a6898ddbd7fe85c495b1d3e4ae66f7f9
+    - url: https://assets.bonsai.sensu.io/b3d7751856b5b61b43c83c906df26724d2678ae2/sensu-aws-sns-handler_0.5.0_linux_amd64.tar.gz
+      sha512: 23e85a545c5e5f117dba645def517b0170f3ccd45cbba27fabe2a07a5178f0ee2dd49fda547d8b12cff4bfda62599bc356ded0e39a4a57f11932d56875b69de3
       filters:
         - entity.system.os == 'linux'
         - entity.system.arch == 'amd64'

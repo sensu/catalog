@@ -22,8 +22,8 @@ spec:
     check-mail-delay.rb
     --queue {{ .annotations.check_mail_delay_queue | default "all" }}
     --delay {{ .annotations.check_mail_delay_delay | default 3600 }}
-    --warning {{ .annotations.check_mail_delay_warning | default 50 }}
-    --critical {{ .annotations.check_mail_delay_critical | default 100 }}
+    --warnnum {{ .annotations.check_mail_delay_warning | default 50 }}
+    --critnum {{ .annotations.check_mail_delay_critical | default 100 }}
   runtime_assets:
   - sensu-plugins/sensu-plugins-postfix:2.0.0
   - sensu/sensu-ruby-runtime:0.0.10

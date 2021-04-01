@@ -88,29 +88,6 @@ spec:
     value: "{{ .name }}"
 
 ---
-# Kubelet resource metrics
-type: CheckConfig
-api_version: core/v2
-metadata:
-  name: kubelet-resource-metrics
-spec:
-  command: >-
-    wget -q -O-
-    http://${HOST_IP:-"127.0.0.1"}:{{ .labels.kubelet_readonly_api_port | default "10255" }}/metrics/resource
-  publish: true
-  interval: 10
-  subscriptions:
-  - kubelet
-  - daemonset
-  timeout: 3
-  output_metric_format: prometheus_text
-  output_metric_handlers:
-  - metrics
-  output_metric_tags:
-  - name: entity
-    value: "{{ .name }}"
-
----
 # Kubelet probe metrics
 type: CheckConfig
 api_version: core/v2

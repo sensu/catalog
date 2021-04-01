@@ -1,0 +1,59 @@
+---
+# Description
+#   Collect host metrics (including kubelet hosts) using the Prometheus node_exporter
+#
+# Instructions
+#   1. Configure the $NODE_EXPORTER_HOST environment variable to the host IP address.
+#      For Sensu Agents running as a Kubernetes daemonset this can be configured
+#      via the "ClusterFirstWithHostNet" dnsPolicy, and using the Kubernetes
+#      Downward API to expose the host IP address as an environment variable,
+#      as follows:
+#
+#      env:
+#      - name: NODE_EXPORTER_HOST
+#        valueFrom:
+#          fieldRef:
+#            fieldPath: status.hostIP
+#
+#      The value of $NODE_EXPORTER_HOST can also be managed via the env_vars field in
+#      the CheckConfig spec – just uncomment the example provided in this template.
+#
+#   2. Configure a "node_metrics_port" Sensu entity label to customize the port
+#      that should be used to scrape metrics from the node_exporter (default: 9100).
+#
+#   3. No runtime assets are required to use this template with the official Sensu Go
+#      Docker container where the wget utility is pre-installed (via the default Alpine
+#      linux base image), -OR- with Sensu Agents running on linux hosts with wget
+#      pre-installed.
+#
+# Documentation
+#   - https://github.com/prometheus/node_exporter#readme
+#   - https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
+#   - https://kubernetes.io/docs/tasks/inject-data-application/downward-api-volume-expose-pod-information/
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - @calebhailey
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: node_exporter
+spec:
+  command: >-
+    wget -q -O-
+    http://${NODE_EXPORTER_HOST}:{{ .labels.node_exporter_port | default "9100" }}/metrics
+  #env_vars:
+  #- "NODE_EXPORTER_HOST=127.0.0.1"
+  runtime_assets: []
+  publish: true
+  interval: 30
+  subscriptions:
+  - daemonset
+  timeout: 10
+  ttl: 0
+  output_metric_format: prometheus_text
+  output_metric_handlers:
+  - metrics
+  output_metric_tags:
+  - name: entity
+    value: "{{ .name }}"

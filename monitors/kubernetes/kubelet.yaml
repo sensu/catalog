@@ -1,0 +1,147 @@
+---
+# Description
+#   Collect kubelet metrics from the metrics-server API
+#
+# Instructions
+#   1. Configure the $KUBELET_HOST environment variable to the host IP address.
+#      For Sensu Agents running as a Kubernetes daemonset this can be configured 
+#      via the "ClusterFirstWithHostNet" dnsPolicy, and using the Kubernetes 
+#      Downward API to expose the host IP address as an environment variable, as 
+#      follows:
+#
+#      env:
+#      - name: KUBELET_HOST
+#        valueFrom:
+#          fieldRef:
+#            fieldPath: status.hostIP
+#
+#      The value of $KUBELET_HOST can also be managed via the env_vars field in 
+#      the CheckConfig spec – just uncomment the examples provided in this template.
+#
+#   2. Configure a "kubelet_readonly_api_port" Sensu entity label to customize the port
+#      that should be used to scrape metrics from the node_exporter (default: 10255).
+#
+#   3. No runtime assets are required to use this template with the official Sensu Go
+#      Docker container where the wget utility is pre-installed (via the default Alpine
+#      linux base image), -OR- with Sensu Agents running on linux hosts with wget
+#      pre-installed.
+#
+# Documentation
+#   - https://kubernetes.io/docs/concepts/cluster-administration/system-metrics/
+#   - https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
+#   - https://kubernetes.io/docs/tasks/inject-data-application/downward-api-volume-expose-pod-information/
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - @calebhailey
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: kubelet-healthz
+spec:
+  command: >-
+    wget -q -O-
+    http://${KUBELET_HOST}:{{ .labels.kubelet_readonly_api_port | default "10255" }}/healthz
+  #env_vars:
+  #- "KUBELET_HOST=127.0.0.1"
+  publish: true
+  interval: 10
+  subscriptions:
+  - kubelet
+  - daemonset
+  timeout: 3
+  handlers: []
+  
+---
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: kubelet-etcd-health
+spec:
+  command: >-
+    wget -q -O-
+    http://${KUBELET_HOST}:{{ .labels.kubelet_readonly_api_port | default "10255" }}/healthz
+  #env_vars:
+  #- "KUBELET_HOST=127.0.0.1"
+  publish: true
+  interval: 10
+  subscriptions:
+  - kubelet
+  - daemonset
+  timeout: 3
+  handlers: []
+  
+---
+# Kubelet metrics
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: kubelet-metrics
+spec:
+  command: >-
+    wget -q -O-
+    http://${KUBELET_HOST}:{{ .labels.kubelet_readonly_api_port | default "10255" }}/metrics
+  #env_vars:
+  #- "KUBELET_HOST=127.0.0.1"
+  publish: true
+  interval: 10
+  subscriptions:
+  - kubelet
+  - daemonset
+  timeout: 3
+  output_metric_format: prometheus_text
+  output_metric_handlers:
+  - metrics
+  output_metric_tags:
+  - name: entity
+    value: "{{ .name }}"
+
+---
+# Kubelet probe metrics
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: kubelet-probe-metrics
+spec:
+  command: >-
+    wget -q -O-
+    http://${KUBELET_HOST}:{{ .labels.kubelet_readonly_api_port | default "10255" }}/metrics/probes
+  #env_vars:
+  #- "KUBELET_HOST=127.0.0.1"
+  publish: true
+  interval: 10
+  subscriptions:
+  - kubelet
+  - daemonset
+  timeout: 3
+  output_metric_format: prometheus_text
+  output_metric_handlers:
+  - metrics
+  output_metric_tags:
+  - name: entity
+    value: "{{ .name }}"
+
+---
+# Cadvisor metrics as exposed via the Kubelet API
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: cadvisor-metrics
+spec:
+  command: >-
+    wget -q -O-
+    http://${KUBELET_HOST}:{{ .labels.kubelet_readonly_api_port | default "10255" }}/metrics/cadvisor
+  #env_vars:
+  #- "KUBELET_HOST=127.0.0.1"
+  publish: true
+  interval: 10
+  subscriptions:
+  - kubelet
+  - daemonset
+  timeout: 3
+  output_metric_format: prometheus_text
+  output_metric_handlers:
+  - metrics
+  output_metric_tags:
+  - name: entity
+    value: "{{ .name }}"

@@ -3,19 +3,19 @@
 #   Collect kubelet metrics from the metrics-server API
 #
 # Instructions
-#   1. Configure the $KUBELET_HOST_IP environment variable to the host IP address.
+#   1. Configure the $KUBELET_HOST environment variable to the host IP address.
 #      For Sensu Agents running as a Kubernetes daemonset this can be configured 
 #      via the "ClusterFirstWithHostNet" dnsPolicy, and using the Kubernetes 
 #      Downward API to expose the host IP address as an environment variable, as 
 #      follows:
 #
 #      env:
-#      - name: KUBELET_HOST_IP
+#      - name: KUBELET_HOST
 #        valueFrom:
 #          fieldRef:
 #            fieldPath: status.hostIP
 #
-#      The value of $KUBELET_HOST_IP can also be managed via the env_vars field in 
+#      The value of $KUBELET_HOST can also be managed via the env_vars field in 
 #      the CheckConfig spec – just uncomment the examples provided in this template.
 #
 #   2. Configure a "kubelet_readonly_api_port" Sensu entity label to customize the port
@@ -41,9 +41,9 @@ metadata:
 spec:
   command: >-
     wget -q -O-
-    http://${KUBELET_HOST_IP}:{{ .labels.kubelet_readonly_api_port | default "10255" }}/healthz
+    http://${KUBELET_HOST}:{{ .labels.kubelet_readonly_api_port | default "10255" }}/healthz
   #env_vars:
-  #- "KUBELET_HOST_IP=127.0.0.1"
+  #- "KUBELET_HOST=127.0.0.1"
   publish: true
   interval: 10
   subscriptions:
@@ -60,9 +60,9 @@ metadata:
 spec:
   command: >-
     wget -q -O-
-    http://${KUBELET_HOST_IP}:{{ .labels.kubelet_readonly_api_port | default "10255" }}/healthz
+    http://${KUBELET_HOST}:{{ .labels.kubelet_readonly_api_port | default "10255" }}/healthz
   #env_vars:
-  #- "KUBELET_HOST_IP=127.0.0.1"
+  #- "KUBELET_HOST=127.0.0.1"
   publish: true
   interval: 10
   subscriptions:
@@ -80,9 +80,9 @@ metadata:
 spec:
   command: >-
     wget -q -O-
-    http://${KUBELET_HOST_IP}:{{ .labels.kubelet_readonly_api_port | default "10255" }}/metrics
+    http://${KUBELET_HOST}:{{ .labels.kubelet_readonly_api_port | default "10255" }}/metrics
   #env_vars:
-  #- "HOST_IP=127.0.0.1"
+  #- "KUBELET_HOST=127.0.0.1"
   publish: true
   interval: 10
   subscriptions:
@@ -105,9 +105,9 @@ metadata:
 spec:
   command: >-
     wget -q -O-
-    http://${KUBELET_HOST_IP}:{{ .labels.kubelet_readonly_api_port | default "10255" }}/metrics/probes
+    http://${KUBELET_HOST}:{{ .labels.kubelet_readonly_api_port | default "10255" }}/metrics/probes
   #env_vars:
-  #- "KUBELET_HOST_IP=127.0.0.1"
+  #- "KUBELET_HOST=127.0.0.1"
   publish: true
   interval: 10
   subscriptions:
@@ -130,9 +130,9 @@ metadata:
 spec:
   command: >-
     wget -q -O-
-    http://${KUBELET_HOST_IP}:{{ .labels.kubelet_readonly_api_port | default "10255" }}/metrics/cadvisor
+    http://${KUBELET_HOST}:{{ .labels.kubelet_readonly_api_port | default "10255" }}/metrics/cadvisor
   #env_vars:
-  #- "KUBELET_HOST_IP=127.0.0.1"
+  #- "KUBELET_HOST=127.0.0.1"
   publish: true
   interval: 10
   subscriptions:

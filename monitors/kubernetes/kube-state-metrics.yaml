@@ -17,8 +17,6 @@
 #
 # Documentation
 #   - https://github.com/kubernetes/kube-state-metrics#readme
-#   - https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
-#   - https://kubernetes.io/docs/tasks/inject-data-application/downward-api-volume-expose-pod-information/
 #
 # Contributors
 #   The following individuals have contributed to this configuration template:

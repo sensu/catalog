@@ -1,0 +1,46 @@
+---
+# Description
+#   Collect kubelet metrics from the metrics-server API
+#
+# Instructions
+#   1. This check assumes that "kube-state-metrics" is deployed in the kube-system
+#      namespace in Kubernetes, with a service named "kube-state-system", per the
+#      "standard example" found here: https://github.com/kubernetes/kube-state-metrics/blob/master/examples/standard/
+#
+#      If kube-state-metrics is running in a different namespace or using a different
+#      Kubernetes named service, you may need to modify the check command URL accordingly.
+#
+#   2. No runtime assets are required to use this template with the official Sensu Go
+#      Docker container where the wget utility is pre-installed (via the default Alpine
+#      linux base image), -OR- with Sensu Agents running on linux hosts with wget
+#      pre-installed.
+#
+# Documentation
+#   - https://github.com/kubernetes/kube-state-metrics#readme
+#   - https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
+#   - https://kubernetes.io/docs/tasks/inject-data-application/downward-api-volume-expose-pod-information/
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - @calebhailey
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: kube-state-metrics
+spec:
+  command: >-
+    wget -q -O-
+    http://kube-state-metrics.kube-system.svc.cluster.local:8080/metrics
+  publish: true
+  round_robin: true
+  interval: 10
+  subscriptions:
+  - daemonset
+  - kube-state-metrics
+  timeout: 3
+  output_metric_format: prometheus_text
+  output_metric_handlers:
+  - metrics
+  output_metric_tags:
+  - name: entity
+    value: "{{ .name }}"

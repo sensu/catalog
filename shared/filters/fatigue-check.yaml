@@ -40,7 +40,7 @@ metadata:
     io.sensu.bonsai.tier: Community
     io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-go-fatigue-check-filter
     io.sensu.bonsai.version: 0.8.1
-  name: sensu/sensu-go-fatigue-check-filter
+  name: sensu/sensu-go-fatigue-check-filter:0.8.1
 spec:
   builds:
   - sha512: d584a9c62631044e8496abca2fd7cdbe724b3b68fb09fe8dcb93da07b73f6a0211a4d6cc20ea23dd9d1ce5a580d409d9cb21e5a227f33dd7ed4c496ec0eba4a0

@@ -32,7 +32,7 @@
 #      plugin documentation for more details.
 #
 # Documentation
-#   - https://github.com/nixwiz/sensu-go-graphite-handler#sensu-go-graphite-handler-plugin
+#   - https://github.com/sensu/sensu-go-graphite-handler#sensu-go-graphite-handler-plugin
 #   - https://docs.sensu.io/sensu-go/latest/reference/secrets/
 #
 # Contributors
@@ -54,7 +54,7 @@ spec:
   - has_metrics
   handlers: null
   runtime_assets:
-  - nixwiz/sensu-go-graphite-handler:0.4.0
+  - sensu/sensu-go-graphite-handler:0.5.2
   secrets:
   - name: GRAPHITE_HOST
     secret: graphite_host
@@ -83,57 +83,53 @@ type: Asset
 api_version: core/v2
 metadata:
   annotations:
-    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/nixwiz/sensu-go-graphite-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-go-graphite-handler
     io.sensu.bonsai.name: sensu-go-graphite-handler
-    io.sensu.bonsai.namespace: nixwiz
-    io.sensu.bonsai.tags: graphite, handler
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.tags: ""
     io.sensu.bonsai.tier: Community
-    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/nixwiz/sensu-go-graphite-handler
-    io.sensu.bonsai.version: 0.4.0
-  name: nixwiz/sensu-go-graphite-handler:0.4.0
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-go-graphite-handler
+    io.sensu.bonsai.version: 0.5.2
+  created_by: admin
+  name: sensu/sensu-go-graphite-handler:0.5.2
+  namespace: default
 spec:
   builds:
   - filters:
-    - entity.system.os == 'darwin'
+    - entity.system.os == 'windows'
     - entity.system.arch == 'amd64'
     headers: null
-    sha512: a9ecc281a6320a92ed4818afddfdaf072be71bee3c24bf34c2fd30af17affd4c9a4140cc8ace451812eeed630412bb216d228040a07640db8330cf90dca13c06
-    url: https://assets.bonsai.sensu.io/f198b915d57c582c037429570a24777c75f5e83e/sensu-go-graphite-handler_0.4.0_windows_amd64.tar.gz
-  - filters:
-    - entity.system.os == 'darwin'
-    - entity.system.arch == '386'
-    headers: null
-    sha512: f8d640ac581907fb3a9032d5c6b690a747b6f72634d6ed895d966b7c2a93f6d55ba1e2716fbdec4c40c2cd2c8abf2c34f52b45de9e064ccba07948e3c5de34e6
-    url: https://assets.bonsai.sensu.io/f198b915d57c582c037429570a24777c75f5e83e/sensu-go-graphite-handler_0.4.0_darwin_386.tar.gz
+    sha512: ccf05dd47749d38239324f4c9fc80655cd4c78e9f3001bbee65a1194b5ac995f26ee87d8b262ae05f101151fd25e11225910ed53bdd485c340ecee5479647138
+    url: https://assets.bonsai.sensu.io/f083cd89b855bb6769c7fd46b81cd787013d06f4/sensu-go-graphite-handler_0.5.2_windows_amd64.tar.gz
   - filters:
     - entity.system.os == 'darwin'
     - entity.system.arch == 'amd64'
     headers: null
-    sha512: 4aeed05d1d444ea12ee3509c41d105927f4f1ade1d2a60a49058d08d9ca039109a50b1f9ff795b81c232e767f444a4681a591e64ea2c396bbe38eeb892170b59
-    url: https://assets.bonsai.sensu.io/f198b915d57c582c037429570a24777c75f5e83e/sensu-go-graphite-handler_0.4.0_darwin_amd64.tar.gz
+    sha512: 43f1970844a59fbde5a2227bfa2ce3f8bfff27bd271933df1eacde3e0579dbb222910bf90a4ee43ddf32d9221737ca3419011b5d7998e29f62905de1de6f6c12
+    url: https://assets.bonsai.sensu.io/f083cd89b855bb6769c7fd46b81cd787013d06f4/sensu-go-graphite-handler_0.5.2_darwin_amd64.tar.gz
   - filters:
     - entity.system.os == 'linux'
     - entity.system.arch == 'armv7'
     headers: null
-    sha512: 31713395d68a0b03ed4e8e835777c8573819d49af40926d6d7c1fe2ce4bcf1adcdafc6fa0b11e44c3946e6dbb4bdf065727048af2d3348259a5b8eafde564561
-    url: https://assets.bonsai.sensu.io/f198b915d57c582c037429570a24777c75f5e83e/sensu-go-graphite-handler_0.4.0_linux_armv7.tar.gz
+    sha512: 7badfd4ee4f6adccc9b3f3c99f6b4019bcd911b81b0b6ab5610c87e8abe68d0e4e94cd0e593410a43822ab43fafcf46c576c53dea4b58ee03788c8181c433847
+    url: https://assets.bonsai.sensu.io/f083cd89b855bb6769c7fd46b81cd787013d06f4/sensu-go-graphite-handler_0.5.2_linux_armv7.tar.gz
   - filters:
     - entity.system.os == 'linux'
     - entity.system.arch == 'arm64'
     headers: null
-    sha512: e6345ccc7c095df022e922c6daf367316a06312fd6498b487ed3129494f8779d6de9060efb8f53c997011263d397bfea13213049dfdb4d10710659358b00d347
-    url: https://assets.bonsai.sensu.io/f198b915d57c582c037429570a24777c75f5e83e/sensu-go-graphite-handler_0.4.0_linux_arm64.tar.gz
+    sha512: b7eeebd30cfd47eeb8cf8cd803cd67bb827323567ab3e11027a7baa437569632f0c259911f86bfd5daa36cf92fb196747c25c29bab95b396eae7b44418b84cc0
+    url: https://assets.bonsai.sensu.io/f083cd89b855bb6769c7fd46b81cd787013d06f4/sensu-go-graphite-handler_0.5.2_linux_arm64.tar.gz
   - filters:
     - entity.system.os == 'linux'
     - entity.system.arch == '386'
     headers: null
-    sha512: a0123d4fcead84ce79a19ecc36b38ed59c18b230e9f284b8ee12ab65ba21a013cd07ca2b0fe9595114975f36b9ae19a6f9c1edd40aac593d8eb9ceaae846298f
-    url: https://assets.bonsai.sensu.io/f198b915d57c582c037429570a24777c75f5e83e/sensu-go-graphite-handler_0.4.0_linux_386.tar.gz
+    sha512: 6c193eda33cbfaa3be346400b6b7b6f89ae62d5957da728a022efd292ea9863150a0c4790cceeb42f2c4b2bb2a53fa47951bf268c418f41a25d902f240e33004
+    url: https://assets.bonsai.sensu.io/f083cd89b855bb6769c7fd46b81cd787013d06f4/sensu-go-graphite-handler_0.5.2_linux_386.tar.gz
   - filters:
     - entity.system.os == 'linux'
     - entity.system.arch == 'amd64'
     headers: null
-    sha512: 596ed1f365a45980b37160c74ac67ad830bb62069a705f347a66f27fa091c5eb492359887ac8be7e85cf6690e905e813ae4d331f75ed4cc3b815edfc580606ac
-    url: https://assets.bonsai.sensu.io/f198b915d57c582c037429570a24777c75f5e83e/sensu-go-graphite-handler_0.4.0_linux_amd64.tar.gz
+    sha512: b9e0028fc343999d7fd9c464e895225f66e229c97fe3a3f4f9ccb996eb0275482b2d7e0d723fa0c265ddd4720977704cb7e6f03a5e19f75dfc41074f72a78ff7
+    url: https://assets.bonsai.sensu.io/f083cd89b855bb6769c7fd46b81cd787013d06f4/sensu-go-graphite-handler_0.5.2_linux_amd64.tar.gz
   filters: null
   headers: null

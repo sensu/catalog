@@ -12,7 +12,7 @@
 #      plugin documentation for more details.
 #
 # Documentation
-#   - https://github.com/nixwiz/sensu-go-fatigue-check-filter#sensu-go-fatigue-check-filter
+#   - https://github.com/sensu/sensu-go-fatigue-check-filter#sensu-go-fatigue-check-filter
 #   - https://docs.sensu.io/sensu-go/latest/guides/reduce-alert-fatigue/#approach-2-use-an-event-filter-asset
 #
 # Contributors
@@ -27,23 +27,22 @@ spec:
   expressions:
     - fatigue_check(event)
   runtime_assets:
-    - nixwiz/sensu-go-fatigue-check-filter:0.6.2
+    - sensu/sensu-go-fatigue-check-filter:0.8.1
 ---
 type: Asset
 api_version: core/v2
 metadata:
-  name: sensu-go-fatigue-check-filter
-  labels:
   annotations:
-    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/nixwiz/sensu-go-fatigue-check-filter
-    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/nixwiz/sensu-go-fatigue-check-filter
-    io.sensu.bonsai.tier: Community
-    io.sensu.bonsai.version: 0.6.2
-    io.sensu.bonsai.namespace: nixwiz
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-go-fatigue-check-filter
     io.sensu.bonsai.name: sensu-go-fatigue-check-filter
-    io.sensu.bonsai.tags: eventfilter, filter
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.tags: ""
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-go-fatigue-check-filter
+    io.sensu.bonsai.version: 0.8.1
+  name: sensu/sensu-go-fatigue-check-filter:0.8.1
 spec:
   builds:
-    - url: https://assets.bonsai.sensu.io/9d58cca88863fcf6fbc50c560daeb78429b6009e/sensu-go-fatigue-check-filter_0.6.2.tar.gz
-      sha512: da861daf54032c28d9131a3800c0a8de122f591cd2bc7b9601e11e529e63a1fd3227fe67c5e3a800164224111fbe477dadee59196287d6b2e9c183b99b03f37d
-      filters: []
+  - sha512: d584a9c62631044e8496abca2fd7cdbe724b3b68fb09fe8dcb93da07b73f6a0211a4d6cc20ea23dd9d1ce5a580d409d9cb21e5a227f33dd7ed4c496ec0eba4a0
+    url: https://assets.bonsai.sensu.io/5d3f277dff2847d55d5dcbcbc3db98296991bb67/sensu-go-fatigue-check-filter_0.8.1.tar.gz
+

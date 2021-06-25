@@ -88,9 +88,6 @@ metadata:
     io.sensu.bonsai.tier: Supported
     io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-slack-handler
     io.sensu.bonsai.version: 1.4.0
-  created_by: sensu
-  labels:
-    sensu.io/managed_by: sensuctl
   name: sensu/sensu-slack-handler:1.4.0
 spec:
   builds:

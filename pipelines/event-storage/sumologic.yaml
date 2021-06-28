@@ -1,0 +1,118 @@
+---
+# Description
+#   The Sensu Sumo Logic Handler is a Sensu Handler that sends Sensu
+#   observability data (events and metrics) to a Sumo Logic HTTP Logs
+#   and Metrics Source.
+#
+# Instructions
+#   1. Add "sumologic" to the "event-storage" handler set.
+#
+#      To create the "event-storage" handler set, please run:
+#
+#      $ sensuctl handler create event-storage --type set --handlers sumologic
+#
+#      If you already have a handler set called "event-storage", please run:
+#
+#      $ sensuctl edit handler event-storage
+#
+#      NOTE: the sensuctl edit command will open your default editor; please
+#      modify the "handlers" attribute by adding "sumologic".
+#
+#   2. Configure the following secrets using your preferred Sensu Go Secrets
+#      provider:
+#
+#      - sumologic_url (e.g. "https://endpointX.collection.usX.sumologic.com/receiver/v1/http/xxxxxxxxxxxxxxxxxxxx")
+#
+#      NOTE: example secret resources using the "env" provider are included in
+#      this template; to add your secrets to the Sensu Backend, please modify
+#      /etc/default/sensu-backend or /etc/sysconfig/sensu-backend and restart
+#      the sensu-backend service.
+#
+#   3. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - https://github.com/sensu/sensu-sumologic-handler#readme
+#   - https://docs.sensu.io/sensu-go/latest/reference/secrets/
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - @jspaleta
+#   - @calebhailey
+type: Handler
+api_version: core/v2
+metadata:
+  name: sumologic
+spec:
+  type: pipe
+  command: >-
+    sensu-sumologic-handler
+    --source-host "{{ .Entity.Name }}"
+    --source-name "{{ .Check.Name }}"
+    --disable-send-metrics
+  runtime_assets:
+  - sensu/sensu-sumologic-handler:0.1.0
+  secrets:
+  - name: SUMOLOGIC_URL
+    secret: sumologic_url
+  timeout: 10
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: sumologic_url
+spec:
+  provider: env
+  id: SUMOLOGIC_HTTP_COLLECTOR_URL
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu-sumologic-handler:0.1.0
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-sumologic-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-sumologic-handler
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 0.1.0
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: sensu-sumologic-handler
+    io.sensu.bonsai.tags: ''
+spec:
+  builds:
+  - url: https://assets.bonsai.sensu.io/e096a341ba6ea7663c4c5876ab4b7b8b596d7efe/sensu-sumologic-handler_0.1.0_windows_amd64.tar.gz
+    sha512: 643b17dea653079f22943e1d5c6ac9864008320ef7e70f1e81ddb539321726204c494581b66889bc5e7d0d76ec22df2aede3b48d56dda78ce6c86c8dee3e88c7
+    filters:
+    - entity.system.os == 'windows'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/e096a341ba6ea7663c4c5876ab4b7b8b596d7efe/sensu-sumologic-handler_0.1.0_darwin_amd64.tar.gz
+    sha512: a121d31fc9700b37e04094837c2f4a3d963acf7e45dee9f3ed7e21128fabfead94be2ad16b0f9e296fc1690d9c6db55e4d5d330b56e9bd56baa0af680a91b1a2
+    filters:
+    - entity.system.os == 'darwin'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/e096a341ba6ea7663c4c5876ab4b7b8b596d7efe/sensu-sumologic-handler_0.1.0_linux_armv6.tar.gz
+    sha512: 255cb4709c5d3455a940a45e5f31ef0087541d0dca38c9c9416f793ded160950fa301054534ddcfca80debf8175415b1cf424abb9455c8aeae3d1eebc7d8784c
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm'
+    - entity.system.arm_version == 6
+  - url: https://assets.bonsai.sensu.io/e096a341ba6ea7663c4c5876ab4b7b8b596d7efe/sensu-sumologic-handler_0.1.0_linux_armv7.tar.gz
+    sha512: e76732897df8a7a16a36a0a466138677fcfad8aa11c89ec8c766acf133f1da27e7cd5f8ac7e3730a103d814ab15e48ad1fc8cbffeb399c6736b2318a57f8dece
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm'
+    - entity.system.arm_version == 7
+  - url: https://assets.bonsai.sensu.io/e096a341ba6ea7663c4c5876ab4b7b8b596d7efe/sensu-sumologic-handler_0.1.0_linux_arm64.tar.gz
+    sha512: b6af853232959a61454b8eed9ea62cdf0d5cef750c5a68d740c6e946f371d758465c70aa399e03544f4adf09a760a14d352b1cef464d97817e410d8f05f4a3a6
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm64'
+  - url: https://assets.bonsai.sensu.io/e096a341ba6ea7663c4c5876ab4b7b8b596d7efe/sensu-sumologic-handler_0.1.0_linux_386.tar.gz
+    sha512: d2562f6969efa12b2b5b4ee81e5c937bccf9977263085b2b8170715d8332845f91b699e25d58fac280f16c3bc08320d97d1cea82bca3f75951b269bf14386969
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == '386'
+  - url: https://assets.bonsai.sensu.io/e096a341ba6ea7663c4c5876ab4b7b8b596d7efe/sensu-sumologic-handler_0.1.0_linux_amd64.tar.gz
+    sha512: 8c221b8045515d63af7e66269dd63fc62a6db2eab42bd8c3895cfaa70e93602e66101d6abd93b36424a8b61c58f3e9bce88892258172571bf4eb8f91c5b53103
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'

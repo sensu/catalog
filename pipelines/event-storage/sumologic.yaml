@@ -51,7 +51,7 @@ spec:
     --source-name "{{ .Check.Name }}"
     --disable-send-metrics
   runtime_assets:
-  - sensu/sensu-sumologic-handler:0.1.0
+  - sensu/sensu-sumologic-handler:0.1.1
   secrets:
   - name: SUMOLOGIC_URL
     secret: sumologic_url
@@ -68,51 +68,51 @@ spec:
 type: Asset
 api_version: core/v2
 metadata:
-  name: sensu/sensu-sumologic-handler:0.1.0
+  name: sensu/sensu-sumologic-handler:0.1.1
   annotations:
     io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-sumologic-handler
     io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-sumologic-handler
     io.sensu.bonsai.tier: Community
-    io.sensu.bonsai.version: 0.1.0
+    io.sensu.bonsai.version: 0.1.1
     io.sensu.bonsai.namespace: sensu
     io.sensu.bonsai.name: sensu-sumologic-handler
     io.sensu.bonsai.tags: ''
 spec:
   builds:
-  - url: https://assets.bonsai.sensu.io/e096a341ba6ea7663c4c5876ab4b7b8b596d7efe/sensu-sumologic-handler_0.1.0_windows_amd64.tar.gz
-    sha512: 643b17dea653079f22943e1d5c6ac9864008320ef7e70f1e81ddb539321726204c494581b66889bc5e7d0d76ec22df2aede3b48d56dda78ce6c86c8dee3e88c7
+  - url: https://assets.bonsai.sensu.io/648a6ebbc73354eec2305e4995a9e12ee7c76efa/sensu-sumologic-handler_0.1.1_windows_amd64.tar.gz
+    sha512: cc68647bb61e83c3ed2c76a83210350e1b85de1b8d5892a47c45e616d2750b45a2e3132979a272f7b2c8b9213a4b50352a7b4a3178a700dac044f21088821958
     filters:
     - entity.system.os == 'windows'
     - entity.system.arch == 'amd64'
-  - url: https://assets.bonsai.sensu.io/e096a341ba6ea7663c4c5876ab4b7b8b596d7efe/sensu-sumologic-handler_0.1.0_darwin_amd64.tar.gz
-    sha512: a121d31fc9700b37e04094837c2f4a3d963acf7e45dee9f3ed7e21128fabfead94be2ad16b0f9e296fc1690d9c6db55e4d5d330b56e9bd56baa0af680a91b1a2
+  - url: https://assets.bonsai.sensu.io/648a6ebbc73354eec2305e4995a9e12ee7c76efa/sensu-sumologic-handler_0.1.1_darwin_amd64.tar.gz
+    sha512: 995b36eabd075fe2213efdfc2d17aec3f5f2d62dee7f3d8331b8370525bb1ba9c8307cb76e9bb4d2c2dda36141ca84df9f1938548fdd5c631615561294174520
     filters:
     - entity.system.os == 'darwin'
     - entity.system.arch == 'amd64'
-  - url: https://assets.bonsai.sensu.io/e096a341ba6ea7663c4c5876ab4b7b8b596d7efe/sensu-sumologic-handler_0.1.0_linux_armv6.tar.gz
-    sha512: 255cb4709c5d3455a940a45e5f31ef0087541d0dca38c9c9416f793ded160950fa301054534ddcfca80debf8175415b1cf424abb9455c8aeae3d1eebc7d8784c
+  - url: https://assets.bonsai.sensu.io/648a6ebbc73354eec2305e4995a9e12ee7c76efa/sensu-sumologic-handler_0.1.1_linux_armv6.tar.gz
+    sha512: 4ed2c699109ea5a136a2735784391213d146cd14ed71e97a2982390b913f3e82e0cee8d29b5f3f583ac9be6ce62fa390ab4fe154707bc50623a58a0e44099a46
     filters:
     - entity.system.os == 'linux'
     - entity.system.arch == 'arm'
     - entity.system.arm_version == 6
-  - url: https://assets.bonsai.sensu.io/e096a341ba6ea7663c4c5876ab4b7b8b596d7efe/sensu-sumologic-handler_0.1.0_linux_armv7.tar.gz
-    sha512: e76732897df8a7a16a36a0a466138677fcfad8aa11c89ec8c766acf133f1da27e7cd5f8ac7e3730a103d814ab15e48ad1fc8cbffeb399c6736b2318a57f8dece
+  - url: https://assets.bonsai.sensu.io/648a6ebbc73354eec2305e4995a9e12ee7c76efa/sensu-sumologic-handler_0.1.1_linux_armv7.tar.gz
+    sha512: 4e5b00c1a9cbf7a24d70dd5b191414e583decd75cf476240db68a42ef98078792a85019baf2ce17376d6692dfaf68eeebc5513787c48de415fee3d78382d5129
     filters:
     - entity.system.os == 'linux'
     - entity.system.arch == 'arm'
     - entity.system.arm_version == 7
-  - url: https://assets.bonsai.sensu.io/e096a341ba6ea7663c4c5876ab4b7b8b596d7efe/sensu-sumologic-handler_0.1.0_linux_arm64.tar.gz
-    sha512: b6af853232959a61454b8eed9ea62cdf0d5cef750c5a68d740c6e946f371d758465c70aa399e03544f4adf09a760a14d352b1cef464d97817e410d8f05f4a3a6
+  - url: https://assets.bonsai.sensu.io/648a6ebbc73354eec2305e4995a9e12ee7c76efa/sensu-sumologic-handler_0.1.1_linux_arm64.tar.gz
+    sha512: 408cfe98864c04b7b82aa2ffec5106d90f70781a233faeac43757e523ab439fb8d34527cb5ab9d9bb23fcfa9a029beeb2480154c360d12bc65e0d1bb98b7b3a2
     filters:
     - entity.system.os == 'linux'
     - entity.system.arch == 'arm64'
-  - url: https://assets.bonsai.sensu.io/e096a341ba6ea7663c4c5876ab4b7b8b596d7efe/sensu-sumologic-handler_0.1.0_linux_386.tar.gz
-    sha512: d2562f6969efa12b2b5b4ee81e5c937bccf9977263085b2b8170715d8332845f91b699e25d58fac280f16c3bc08320d97d1cea82bca3f75951b269bf14386969
+  - url: https://assets.bonsai.sensu.io/648a6ebbc73354eec2305e4995a9e12ee7c76efa/sensu-sumologic-handler_0.1.1_linux_386.tar.gz
+    sha512: b589dfd9a257521267fd2d7912f0f01624d54ae06d48a0b9fdced77b1d6ba9c8d68544d31bd4a15ebf7c1b4153713ba64c1f1c203fb36e1a450e3bfe70ba2e8a
     filters:
     - entity.system.os == 'linux'
     - entity.system.arch == '386'
-  - url: https://assets.bonsai.sensu.io/e096a341ba6ea7663c4c5876ab4b7b8b596d7efe/sensu-sumologic-handler_0.1.0_linux_amd64.tar.gz
-    sha512: 8c221b8045515d63af7e66269dd63fc62a6db2eab42bd8c3895cfaa70e93602e66101d6abd93b36424a8b61c58f3e9bce88892258172571bf4eb8f91c5b53103
+  - url: https://assets.bonsai.sensu.io/648a6ebbc73354eec2305e4995a9e12ee7c76efa/sensu-sumologic-handler_0.1.1_linux_amd64.tar.gz
+    sha512: 9b7f3dad4a826f79edb5715229ae8970607d43e6c100cb5d410e655712d1ce1066aa2d13b51c2adc17f03a8d14fddc19e3b0d611c64c07dee1ace94bb7cde83c
     filters:
     - entity.system.os == 'linux'
     - entity.system.arch == 'amd64'

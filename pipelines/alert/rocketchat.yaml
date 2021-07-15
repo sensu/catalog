@@ -47,7 +47,7 @@ metadata:
 spec:
   type: pipe
   command: >-
-    sensu-rocketchat-handler --channel ${ROCKETCHAT_CHANNEL}i --url ${ROCKETCHAT_URL}
+    sensu-rocketchat-handler --channel ${ROCKETCHAT_CHANNEL} --url ${ROCKETCHAT_URL}
     --description-template "{{ .Check.Output }}\n\n[namespace: {{.Entity.Namespace}}]"
   filters:
   - is_incident

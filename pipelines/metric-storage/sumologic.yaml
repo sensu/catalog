@@ -5,18 +5,18 @@
 #   and Metrics Source as metrics.
 #
 # Instructions
-#   1. Add "sumologic" to the "metric-storage" handler set.
+#   1. Add "sumologic-metrics" to the "metric-storage" handler set.
 #
 #      To create the "metric-storage" handler set, please run:
 #
-#      $ sensuctl handler create metric-storage --type set --handlers sumologic
+#      $ sensuctl handler create metric-storage --type set --handlers sumologic-metrics
 #
 #      If you already have a handler set called "metric-storage", please run:
 #
 #      $ sensuctl edit handler metric-storage
 #
 #      NOTE: the sensuctl edit command will open your default editor; please
-#      modify the "handlers" attribute by adding "sumologic".
+#      modify the "handlers" attribute by adding "sumologic-metrics".
 #
 #   2. Configure the following secrets using your preferred Sensu Go Secrets
 #      provider:

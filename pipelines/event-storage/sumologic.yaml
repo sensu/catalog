@@ -5,7 +5,7 @@
 #   and Metrics Source as log records.
 #
 # Instructions
-#   1. Add "sumologic" to the "event-storage" handler set.
+#   1. Add "sumologic-logs" to the "event-storage" handler set.
 #
 #      To create the "event-storage" handler set, please run:
 #

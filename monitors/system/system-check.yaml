@@ -1,0 +1,53 @@
+---
+# Description
+#   Sensu's cross-platform system check collects the following metrics:
+#
+#   - CPU
+#   - Load
+#   - Memory
+#   - Swap
+#   - Uptime
+#   - I/O (coming soon)
+#
+# Instructions
+#   1. Add a "system", "system/all", "system/linux", "system/windows", or "system/macos"
+#      subscription to all agents (corresponding to their OS)
+#
+#   2. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - Usage: https://github.com/sensu/system-check
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Caleb Hailey, @calebhailey
+#   - Jef Spaleta, @jspaleta
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: system-check
+spec:
+  command: system-check --interval 3
+  runtime_assets:
+  - sensu/system-check:0.1.0
+  publish: true
+  interval: 30
+  timeout: 5
+  subscriptions:
+  - system
+  - system/all
+  - system/linux
+  - system/windows
+  - system/macos
+  output_metric_format: prometheus_text
+  output_metric_handlers:
+  - sumologic-metrics
+  - metrics-debug
+  output_metric_tags:
+  - name: entity
+    value: "{{ .name }}"
+  - name: namespace
+    value: "{{ .namespace }}"
+  - name: os
+    value: "{{ .system.os }}"

@@ -12,6 +12,10 @@ spec:
   - http
   - nginx
   - webserver
+  supported_platforms:
+  - darwin
+  - linux
+  - windows
   contributors:
   - "@nixwiz"
   - "@calebhailey"

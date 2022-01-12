@@ -1,0 +1,17 @@
+---
+api_version: v1
+type: Integration
+metadata:
+  namespace: sensu
+  name: nginx-healthcheck
+spec: 
+  class: community
+  provider: agent/check
+  short_description: NGINX monitoring
+  tags:
+  - http
+  - nginx
+  - webserver
+  contributors:
+  - "@nixwiz"
+  - "@calebhailey"

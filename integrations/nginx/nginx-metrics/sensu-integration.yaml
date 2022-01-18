@@ -2,7 +2,7 @@
 api_version: catalog/v1
 type: Integration
 metadata:
-  namespace: sensu
+  namespace: nginx
   name: nginx-metrics
 spec: 
   class: community

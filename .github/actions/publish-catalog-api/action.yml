@@ -1,0 +1,16 @@
+---
+name: 'Sensu Catalog API Publisher'
+description: 'Publish a generated Sensu Catalog API'
+author: 'sensu'
+inputs:
+  release-dir:
+    description: 'The path to the generated release directory'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.release-dir }}
+branding:
+  icon: 'globe'
+  color: 'green'

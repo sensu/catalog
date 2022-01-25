@@ -16,9 +16,37 @@ spec:
   interval: 30
   timeout: 10
   pipelines:
-  - api_version: core/v2
-    type: Pipeline
-    name: pagerduty
+    - api_version: core/v2
+      type: Pipeline
+      name: alerts
+    - api_version: core/v2
+      type: Pipeline
+      name: incident-management
+---
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: nginx-metrics
+spec:
+  command: >-
+    metrics-nginx.rb
+    --url {{ .annotations.metrics_nginx_url | default "http://localhost:80/nginx_status" }}
+  runtime_assets:
+    - sensu-plugins/sensu-plugins-nginx:3.1.2
+    - sensu/sensu-ruby-runtime:0.0.10
+  publish: false
+  subscriptions:
+    - nginx
+  interval: 30
+  timeout: 10
+  output_metric_format: graphite_plaintext
+  output_metric_tags:
+    - name: entity
+      value: "{{ .name }}"
+  pipelines:
+    - api_version: core/v2
+      type: Pipeline
+      name: metrics
 ---
 type: Asset
 api_version: core/v2

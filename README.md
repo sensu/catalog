@@ -20,14 +20,14 @@ Splunk, Ansible Tower).
 The goal of this project is to provide reference implementations for effective
 monitoring with Sensu Go. The Sensu Catalog should (eventually) provide
 everything a new Sensu user needs to get up and running and rapidly deploy
-across a large fleet of systems. 
+across a large fleet of systems.
 
 ## Sensu Integration Guidelines
 
 ### Sensu Integration Specification
 
-A Sensu Catalog is a collection of Sensu Integrations. 
-The contents of this catalog are periodically published to the official [Sensu Catalog API][catalog-api], which is hosted at https://catalog.sensu.io. 
+A Sensu Catalog is a collection of Sensu Integrations.
+The contents of this catalog are periodically published to the official [Sensu Catalog API][catalog-api], which is hosted at https://catalog.sensu.io.
 
 _NOTE: Sensu Integrations resemble Sensu Go API resources, but they are not processed by Sensu Go directly; see the [[sensu/catalog-api]][catalog-api] for more information._
 
@@ -114,14 +114,14 @@ integrations/
   All resources _must_ be in YAML format, for consistency and comment support.
   All YAML files should use the `.yaml` file extension (not `.yml`), because we're picky that way.
 
-* **logo.png**: Sensu Integration logo to be displayed in the in-app integration browser. 
+* **logo.png**: Sensu Integration logo to be displayed in the in-app integration browser.
 
 * **README.md**: Sensu Integration documentation, including overview, setup, and links to supplemental reference documentation.
   _NOTE: Sensu Integrations READMEs support [GitHub-flavored Markdown][github-md]._
 
-* **CHANGELOG.md**: Sensu Integration changelog (optional & not currently used by the in-app browser). 
+* **CHANGELOG.md**: Sensu Integration changelog (optional & not currently used by the in-app browser).
 
-* **img/**: supplemental image contents (for use in README.md). 
+* **img/**: supplemental image contents (for use in README.md).
   _NOTE: only JPEG, PNG, and GIF images in the `img/` subdirectory are supported (external image links are not supported)._
 
 ### Integration guidelines
@@ -129,7 +129,7 @@ integrations/
 1. **YAML format**. All integration metadata (`sensu-integration.yaml`) and resources (`sensu-resources.yaml`) _must_ be in YAML format, for consistency and comment support.
    All YAML files should use the `.yaml` file extension (not `.yml`), because we're picky that way.
 
-1. **Namespace templating**. Resource definitions (`sensu-resources.yaml`) _should not_ include a namespace. 
+1. **Namespace templating**. Resource definitions (`sensu-resources.yaml`) _should not_ include a namespace.
 
 1. **Linting**. All integrations will be validated via [super-linter][linter].
    We recommend [running it locally][linter-local] to streamline PR approval.
@@ -207,7 +207,7 @@ integrations/
    For example: `sensu/system-check:0.5.0`.
 
 1. Asset resources _should_ include an organization or author the resource name.
-   For example, the official Sensu Pagerduty plugin hosted in the "sensu" organization on GitHub ([sensu/sensu-pagerduty-handler][pagerduty-plugin]), and published to under the "sensu" organization on Bonsai ([sensu/sensu-pagerduty-handler][pagerduty-bonsai]) should be named: `sensu/sensu-pagerduty-handler:2.1.0`. 
+   For example, the official Sensu Pagerduty plugin hosted in the "sensu" organization on GitHub ([sensu/sensu-pagerduty-handler][pagerduty-plugin]), and published to under the "sensu" organization on Bonsai ([sensu/sensu-pagerduty-handler][pagerduty-bonsai]) should be named: `sensu/sensu-pagerduty-handler:2.1.0`.
 
 1. All [Sensu Assets][assets] resources must refer to assets hosted on [Bonsai][bonsai].
 
@@ -242,6 +242,7 @@ How to do it:
 Thanks in advance for your contributions!
 
 [mac]: #monitoring-as-code
+[catalog-api]: https://github.com/sensu/catalog-api
 [rewards]: https://sensu.io/contributor-rewards
 [bonsai]: https://bonsai.sensu.io
 [assets]: https://docs.sensu.io/sensu-go/latest/plugins/assets/
@@ -249,6 +250,6 @@ Thanks in advance for your contributions!
 [linter]: https://github.com/github/super-linter/
 [linter-local]: https://github.com/github/super-linter/blob/master/docs/run-linter-locally.md
 [github-md]: https://github.github.com/gfm/
-[yaml-multiline]: https://yaml-multiline.info 
+[yaml-multiline]: https://yaml-multiline.info
 [pagerduty-plugin]: https://github.com/sensu/sensu-pagerduty-handler
 [pagerduty-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-pagerduty-handler

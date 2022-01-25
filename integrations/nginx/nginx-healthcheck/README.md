@@ -125,4 +125,4 @@ This integration produces the following events that should be processed by an al
 [sensu-plugins-nginx-github]: https://github.com/sensu-plugins/sensu-plugins-nginx
 [sensu-ruby-runtime-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-ruby-runtime
 [sensu-ruby-runtime-github]: https://github.com/sensu/sensu-ruby-runtime
-[worker_connection_limit]: https://nginx.org/en/docs/ngx_core_module.html#worker_connections
+[worker_connections_limit]: https://nginx.org/en/docs/ngx_core_module.html#worker_connections

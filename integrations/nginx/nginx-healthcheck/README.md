@@ -56,7 +56,7 @@ This integration is compatible with the [Sumo Logic NGINX app][sumologic-nginx-a
 <!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->
 
 - [sensu-plugins/sensu-plugins-nginx:3.1.2][sensu-plugins-nginx-bonsai] ([GitHub][sensu-plugins-nginx-github])
-- [sensu/sensu-ruby-runtime:0.0.10][sensu-ruby-runtime-github]([GitHub][sensu-ruby-runtime-github])
+- [sensu/sensu-ruby-runtime:0.0.10][sensu-ruby-runtime-github] ([GitHub][sensu-ruby-runtime-github])
 
 ## Metrics & Events
 

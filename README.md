@@ -6,13 +6,13 @@ health monitoring), and pipeline integrations (e.g. Pagerduty, Elasticsearch,
 Splunk, Ansible Tower).
 
 - [Project Goals](#project-goals)
-- [Integration Template Guidelines](#integration-template-guidelines)
-  - [All templates](#all-templates)
-  - [Check templates](#check-templates)
-  - [Pipeline templates](#pipeline-templates)
-  - [Filter templates](#filter-templates)
-  - [Mutator templates](#mutator-templates)
-  - [Asset resources](#asset-resources)
+- [Sensu Integration Specification](#sensu-integration-specification)
+  - [Integration directory structure](#integration-directory-structure)
+  - [Integration API specification](#integration-api-specification)
+- [Sensu Integration Guidelines](#integration-template-guidelines)
+  - [CheckConfig guidelines](#checkconfig-guidelines)
+  - [Pipeline templates](#pipeline-guidelines)
+  - [Asset resources](#asset-guidelines)
 - [Contributing](#contributing)
 
 ## Project Goals
@@ -22,14 +22,53 @@ monitoring with Sensu Go. The Sensu Catalog should (eventually) provide
 everything a new Sensu user needs to get up and running and rapidly deploy
 across a large fleet of systems.
 
-## Sensu Integration Guidelines
-
-### Sensu Integration Specification
+## Sensu Integration Specification
 
 A Sensu Catalog is a collection of Sensu Integrations.
 The contents of this catalog are periodically published to the official [Sensu Catalog API][catalog-api], which is hosted at https://catalog.sensu.io.
 
-_NOTE: Sensu Integrations resemble Sensu Go API resources, but they are not processed by Sensu Go directly; see the [[sensu/catalog-api]][catalog-api] for more information._
+See below for individual [integration contents](#integration-directory-structure) and [API specification](#integration-api-specification).
+
+### Integration directory structure
+
+Sensu Integrations are defined as files on disk in the following structure:
+
+```
+integrations/
+└── <namespace; e.g. "nginx">/
+    └── <integration; e.g. "nginx-healthcheck">/
+        ├── img/
+        │   ├── dashboard-1.gif
+        │   └── dashboard-2.png
+        ├── CHANGELOG.md
+        ├── README.md
+        ├── logo.png
+        ├── sensu-integration.yaml
+        └── sensu-resources.yaml
+```
+
+* **sensu-integration.yaml**: Sensu Integration metadata, including integration title and description.
+  All integration _must_ be in YAML format, for consistency and comment support.
+  All YAML files should use the `.yaml` file extension (not `.yml`), because we're picky that way.
+
+* **sensu-resources.yaml**: Sensu API resources to be applied/installed by the integration including Checks, Handlers, Assets, and more.
+  All resources _must_ be in YAML format, for consistency and comment support.
+  All YAML files should use the `.yaml` file extension (not `.yml`), because we're picky that way.
+
+* **logo.png**: Sensu Integration logo to be displayed in the in-app integration browser.
+
+* **README.md**: Sensu Integration documentation, including overview, setup, and links to supplemental reference documentation.
+  _NOTE: Sensu Integrations READMEs support [GitHub-flavored Markdown][github-md]._
+
+* **CHANGELOG.md**: Sensu Integration changelog (optional & not currently used by the in-app browser).
+
+* **img/**: supplemental image contents (for use in README.md).
+  _NOTE: only JPEG, PNG, and GIF images in the `img/` subdirectory are supported (external image links are not supported)._
+
+### Integration API specification
+
+Sensu Integrations resemble Sensu Go API resources, but they are _not_ processed by Sensu Go directly.
+See the [[sensu/catalog-api]][catalog-api] project for more information.
 
 **Example:**
 
@@ -38,7 +77,7 @@ _NOTE: Sensu Integrations resemble Sensu Go API resources, but they are not proc
 api_version: catalog/v1
 type: Integration
 metadata:
-  namespace: sensu
+  namespace: nginx
   name: nginx-healthcheck
 spec:
   class: "supported"
@@ -88,43 +127,9 @@ spec:
         --url {{ .annotations.check_nginx_status_url | default "[[url]]" }}
 ```
 
-### Integration structure
+### Sensu Integration guidelines
 
-Sensu Integrations are defined as files on disk in the following structure:
-
-```
-integrations/
-└── <service; e.g. "nginx">/
-    └── <integration; e.g. "nginx-healthcheck">/
-        ├── img/
-        │   ├── dashboard-1.gif
-        │   └── dashboard-2.png
-        ├── CHANGELOG.md
-        ├── README.md
-        ├── logo.png
-        ├── sensu-integration.yaml
-        └── sensu-resources.yaml
-```
-
-* **sensu-integration.yaml**: Sensu Integration metadata, including integration title and description.
-  All integration _must_ be in YAML format, for consistency and comment support.
-  All YAML files should use the `.yaml` file extension (not `.yml`), because we're picky that way.
-
-* **sensu-resources.yaml**: Sensu API resources to be applied/installed by the integration including Checks, Handlers, Assets, and more.
-  All resources _must_ be in YAML format, for consistency and comment support.
-  All YAML files should use the `.yaml` file extension (not `.yml`), because we're picky that way.
-
-* **logo.png**: Sensu Integration logo to be displayed in the in-app integration browser.
-
-* **README.md**: Sensu Integration documentation, including overview, setup, and links to supplemental reference documentation.
-  _NOTE: Sensu Integrations READMEs support [GitHub-flavored Markdown][github-md]._
-
-* **CHANGELOG.md**: Sensu Integration changelog (optional & not currently used by the in-app browser).
-
-* **img/**: supplemental image contents (for use in README.md).
-  _NOTE: only JPEG, PNG, and GIF images in the `img/` subdirectory are supported (external image links are not supported)._
-
-### Integration guidelines
+Please note the following guidelines for comopsing Sensu Integration:
 
 1. **YAML format**. All integration metadata (`sensu-integration.yaml`) and resources (`sensu-resources.yaml`) _must_ be in YAML format, for consistency and comment support.
    All YAML files should use the `.yaml` file extension (not `.yml`), because we're picky that way.
@@ -139,6 +144,8 @@ integrations/
    _NOTE: at this time we do not wish to enforce strict naming conventions.
    We will resolve naming conflicts on a case-by-case basis, which means resource names will be subject to change._
 
+## Sensu Integration Guidelines
+
 #### CheckConfig guidelines
 
 1. Check templates resources _should_ be defined in the following order (by
@@ -149,15 +156,12 @@ integrations/
     * Secret(s)
     * Asset(s)
 
-1. Check resources _must_ recommend one or more named subscriptions. At a
-   minimum this should include the corresponding integrations sub-directory
-   as the default naming convention. For example, all PostgreSQL monitoring
-   templates should include the ["postgres"](integrations/postgres)
-   subscription. Check resources may optionally include additional/alternate
-   subscription names (e.g. "pg" or "postgresql").
+1. Check resources _must_ recommend one or more named subscriptions.
+   At a minimum this should include the corresponding integrations "namespace" (sub-directory) as the default naming convention.
+   For example, all PostgreSQL monitoring templates should include the ["postgres"](integrations/postgres) subscription.
+   Check resources may optionally include additional/alternate subscription names (e.g. "pg" or "postgresql").
 
-1. The `command` field _should_ preferably be wrapped using the [YAML `>-` multiline "block
-   scalar" syntax][yaml-multiline] for readability.
+1. The `command` field _should_ preferably be wrapped using the [YAML `>-` multiline "block scalar" syntax][yaml-multiline] for readability.
 
     ```yaml
     spec:
@@ -167,15 +171,11 @@ integrations/
         -c {{ .annotations.disk_usage_critical | default 95 }}
     ```
 
-1. As shown in the example above, check commands should include tunables
-   using [Sensu tokens][tokens], preferably sourced from Entity annotations
-   with explicitly configured defaults.
+1. As shown in the example above, check commands should include tunables using [Sensu tokens][tokens], preferably sourced from Entity **annotations** (not labels) with explicitly configured defaults.
 
-1. Check resources _should_ use the "interval" scheduler, with a minimum
-   interval of `30` seconds.
+1. Check resources _should_ use the "interval" scheduler, with a minimum interval of `30` seconds.
 
-1. Check timeout _should_ be set to a non-zero value and should not be greater
-   than 50% of the interval.
+1. Check timeout _should_ be set to a non-zero value and should not be greater than 50% of the interval.
 
 #### Pipeline guidlines
 

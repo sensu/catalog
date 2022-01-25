@@ -1,0 +1,15 @@
+---
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: helloworld
+spec:
+  command: >-
+    echo "Hello {{ .annotations.helloworld | default 'Sensu Integration' }} world!"
+  runtime_assets: []
+  publish: true
+  subscriptions:
+  - example
+  interval: 30
+  timeout: 10
+  pipelines: []

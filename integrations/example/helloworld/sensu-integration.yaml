@@ -1,0 +1,47 @@
+---
+api_version: v1
+type: Integration
+metadata:
+  namespace: example
+  name: helloworld
+spec:
+  class: community
+  provider: agent/check
+  short_description: Example Sensu Integration
+  supported_platforms:
+  - linux
+  - windows
+  - darwin
+  tags:
+  - example
+  - helloworld
+  contributors:
+  - "@sensu"
+  prompts:
+  - var: integration_name
+    type: string
+    prompt: "Integration Name"
+    default: helloworld
+  - var: integration_interval
+    type: int
+    prompt: "How often do you want to perform this healthcheck (in seconds)?"
+    default: 30
+  - var: integration_world
+    type: int
+    prompt: "What world do you want to greet?"
+    default: 30
+  resource_updates:
+  - type: CheckConfig
+    api_version: core/v2
+    name: helloworld
+    fields:
+    - name: metadata.name
+      action: replace
+      value: integration_name
+    - name: spec.interval
+      action: replace
+      value: integration_interval
+    - name: spec.command
+      action: replace
+      template: >-
+        echo "Hello {{ .annotations.helloworld | default '[[ integration_world ]]' }} world!"

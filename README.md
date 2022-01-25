@@ -9,10 +9,10 @@ Splunk, Ansible Tower).
 - [Sensu Integration Specification](#sensu-integration-specification)
   - [Integration directory structure](#integration-directory-structure)
   - [Integration API specification](#integration-api-specification)
-- [Sensu Integration Guidelines](#integration-template-guidelines)
+- [Sensu Integration Guidelines](#sensu-integration-guidelines)
   - [CheckConfig guidelines](#checkconfig-guidelines)
-  - [Pipeline templates](#pipeline-guidelines)
-  - [Asset resources](#asset-guidelines)
+  - [Pipeline guidelines](#pipeline-guidelines)
+  - [Asset guidelines](#asset-guidelines)
 - [Contributing](#contributing)
 
 ## Project Goals
@@ -189,7 +189,7 @@ Please note the following guidelines for comopsing Sensu Integration:
 
 1. Check timeout _should_ be set to a non-zero value and should not be greater than 50% of the interval.
 
-#### Pipeline guidlines
+#### Pipeline guidelines
 
 1. Pipeline template resources should be defined in the following order
    (by resource type):
@@ -213,7 +213,7 @@ Please note the following guidelines for comopsing Sensu Integration:
    By default, use the built-in `is_incident` and `not_silenced` filters.
    However, we do encourage you to share your filters, as appropriate in the `shared` directory.
 
-#### Asset resources
+#### Asset guidelines
 
 1. Asset resources and their corresponding `runtime_assets` references _must_ include a version reference in their resource name.
    For example: `sensu/system-check:0.5.0`.

@@ -47,22 +47,22 @@ integrations/
         └── sensu-resources.yaml
 ```
 
-* **sensu-integration.yaml**: Sensu Integration metadata, including integration title and description.
-  All integration _must_ be in YAML format, for consistency and comment support.
-  All YAML files should use the `.yaml` file extension (not `.yml`), because we're picky that way.
-
-* **sensu-resources.yaml**: Sensu API resources to be applied/installed by the integration including Checks, Handlers, Assets, and more.
+* **`sensu-resources.yaml`**: Sensu API resources to be applied/installed by the integration including Checks, Handlers, Assets, and more.
   All resources _must_ be in YAML format, for consistency and comment support.
   All YAML files should use the `.yaml` file extension (not `.yml`), because we're picky that way.
 
-* **logo.png**: Sensu Integration logo to be displayed in the in-app integration browser.
+* **`sensu-integration.yaml`**: Sensu Integration metadata, including integration title and description.
+  All integration _must_ be in YAML format, for consistency and comment support.
+  All YAML files should use the `.yaml` file extension (not `.yml`), because we're picky that way.
 
-* **README.md**: Sensu Integration documentation, including overview, setup, and links to supplemental reference documentation.
+* **`logo.png`**: Sensu Integration logo to be displayed in the in-app integration browser.
+
+* **`README.md`**: Sensu Integration documentation, including overview, setup, and links to supplemental reference documentation.
   _NOTE: Sensu Integrations READMEs support [GitHub-flavored Markdown][github-md]._
 
-* **CHANGELOG.md**: Sensu Integration changelog (optional & not currently used by the in-app browser).
+* **`CHANGELOG.md`**: Sensu Integration changelog (optional & not currently used by the in-app browser).
 
-* **img/**: supplemental image contents (for use in README.md).
+* **`img/`**: supplemental image contents (for use in README.md).
   _NOTE: only JPEG, PNG, and GIF images in the `img/` subdirectory are supported (external image links are not supported)._
 
 ### Integration API specification

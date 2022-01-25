@@ -1,7 +1,7 @@
 ## Overview
 
 <!-- Integration TOC (do not modify) -->
-- [Dashboard(s)](#dashboard-s-)
+- [Dashboards](#dashboards)
 - [Setup](#setup)
 - [Plugins](#plugins)
 - [Metrics & Events](#metrics--events)

@@ -16,7 +16,7 @@ Monitor NGINX health status using the [NGINX `stub_status` module][nginx_stub_st
 
 This integration provides the following resources:
 
-* `nginx-healthcheck` [check].
+* `nginx-healthcheck` [check]
 * `sensu-plugins/sensu-plugins-nginx:3.1.2` [asset]
 * `sensu/sensu-ruby-runtime:0.0.10` [asset]
 

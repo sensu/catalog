@@ -75,7 +75,7 @@ This integration collects the following [metrics]:
 * `handled`
 
   The total number of handled connections.
-  Generally, the parameter value is the same as accepts unless some resource limits have been reached (for example, the [`worker_connections` limit][work_connections_limit]).
+  Generally, the parameter value is the same as accepts unless some resource limits have been reached (for example, the [`worker_connections` limit][worker_connections_limit]).
 
 * `requests`
 

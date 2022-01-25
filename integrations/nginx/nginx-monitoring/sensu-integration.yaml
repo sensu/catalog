@@ -3,8 +3,8 @@ api_version: catalog/v1
 type: Integration
 metadata:
   namespace: nginx
-  name: nginx-healthcheck
-spec: 
+  name: nginx-monitoring
+spec:
   class: community
   provider: agent/check
   short_description: NGINX monitoring

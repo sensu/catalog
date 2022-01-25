@@ -1,13 +1,5 @@
 ## Overview
 
-<!-- Integration TOC (do not modify) -->
-- [Dashboards](#dashboards)
-- [Setup](#setup)
-- [Plugins](#plugins)
-- [Metrics & Events](#metrics--events)
-- [Alerts](#alerts)
-- [Reference Documentation](#reference-documentation)
-
 <!-- Sensu Integration description; supports markdown -->
 
 Monitor NGINX health status using the [NGINX `stub_status` module][nginx_stub_status].
@@ -19,6 +11,14 @@ This integration provides the following resources:
 * `nginx-healthcheck` [check]
 * `sensu-plugins/sensu-plugins-nginx:3.1.2` [asset]
 * `sensu/sensu-ruby-runtime:0.0.10` [asset]
+
+<!-- Integration TOC (do not modify) -->
+- [Dashboards](#dashboards)
+- [Setup](#setup)
+- [Plugins](#plugins)
+- [Metrics & Events](#metrics--events)
+- [Alerts](#alerts)
+- [Reference Documentation](#reference-documentation)
 
 ### Dashboards
 

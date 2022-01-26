@@ -1,12 +1,3 @@
-<!-- Integration TOC (do not modify) -->
-- [Overview](#overview)
-- [Dashboards](#dashboards)
-- [Setup](#setup)
-- [Plugins](#plugins)
-- [Metrics & Events](#metrics--events)
-- [Alerts](#alerts)
-- [Reference Documentation](#reference-documentation)
-
 ## Overview
 
 <!-- Sensu Integration description; supports markdown -->

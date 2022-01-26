@@ -8,14 +8,14 @@ spec:
   class: community
   provider: agent/check
   short_description: NGINX monitoring
-  tags:
-  - http
-  - nginx
-  - webserver
   supported_platforms:
   - darwin
   - linux
   - windows
+  tags:
+  - http
+  - nginx
+  - webserver
   contributors:
   - "@nixwiz"
   - "@calebhailey"

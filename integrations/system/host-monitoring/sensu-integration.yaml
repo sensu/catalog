@@ -1,0 +1,41 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: system
+  name: host-monitoring
+spec:
+  class: supported
+  provider: agent/check
+  short_description: Host monitoring
+  supported_platforms:
+  - darwin
+  - linux
+  - windows
+  # support_urls:
+  # - https://sensu.io/contact
+  # - https://discourse.sensu.io/c/integrations/
+  tags:
+  - system
+  - host
+  - os
+  - windows
+  - linux
+  - macos
+  - cpu
+  - memory
+  - io
+  - load
+  - uptime
+  - swap
+  contributors:
+  - "@sensu"
+  - "@calebhailey"
+  - "@nixwiz"
+  - "@jspaleta"
+  - "@thoward"
+  # related_integrations:
+  # - system/network-interface-monitoring
+  # - system/disk-monitoring
+  # - system/filesystem-monitoring
+  # - system/process-monitoring

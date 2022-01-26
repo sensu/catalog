@@ -13,8 +13,10 @@ spec:
   - linux
   - windows
   # support_urls:
-  # - https://sensu.io/contact
-  # - https://discourse.sensu.io/c/integrations/
+  # - url: https://sensu.io/contact
+  #   icon: SupportIcon
+  # - url: https://discourse.sensu.io/c/integrations/
+  #   icon: ForumIcon
   tags:
   - system
   - host

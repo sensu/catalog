@@ -178,7 +178,7 @@ This integration produces the following events that should be processed by an al
 [metrics]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
-
+[sensu-plus]: https://sensu.io/features/analytics
 [sumo-host-app]: https://www.sumologic.com/application/host-and-process-metrics/
 [sumo-host-metrics]: https://help.sumologic.com/07Sumo-Logic-Apps/14Hosts_and_Operating_Systems/Host_and_Process_Metrics/Collect_Metrics_for_Host_and_Processes
 [sumo-host-app-blogpost]: https://www.sumologic.com/blog/monitoring-host-process-metrics/

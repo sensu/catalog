@@ -1,0 +1,20 @@
+---
+type: Integration
+api_version: v1
+metadata:
+  namespace: pagerduty
+  name: pagerduty-incidents
+spec:
+  class: supported
+  provider: backend/incidents
+  short_description: Pagerduty Incidents
+  tags:
+  - pagerduty
+  - incidents
+  - alerts
+  contributors:
+  - "@sensu"
+  - "@nixwiz"
+  - "@calebhailey"
+  - "@jspaleta"
+  - "@thoward"

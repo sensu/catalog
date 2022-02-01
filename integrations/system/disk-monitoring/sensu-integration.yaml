@@ -1,0 +1,39 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: system
+  name: disk-monitoring
+spec:
+  class: supported
+  provider: agent/check
+  short_description: Disk monitoring
+  supported_platforms:
+  - darwin
+  - linux
+  - windows
+  # support_urls:
+  # - url: https://sensu.io/contact
+  #   icon: SupportIcon
+  # - url: https://discourse.sensu.io/c/integrations/
+  #   icon: ForumIcon
+  tags:
+  - system
+  - host
+  - os
+  - windows
+  - linux
+  - macos
+  - disk
+  - volumes
+  contributors:
+  - "@sensu"
+  - "@calebhailey"
+  - "@jspaleta"
+  - "@thoward"
+  - "@nikkixdev"
+  # related_integrations:
+  # - system/network-interface-monitoring
+  # - system/host-monitoring
+  # - system/filesystem-monitoring
+  # - system/process-monitoring

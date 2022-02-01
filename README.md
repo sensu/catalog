@@ -139,6 +139,44 @@ spec:
         --url {{ .annotations.check_nginx_status_url | default "[[url]]" }}
 ```
 
+* `class`
+
+  Integration class. Must be one of the following values: 
+
+  * `supported` (first-party catalog templates)
+  * `partner` (third-party catalog templates)
+  * `community` 
+
+* `provider`
+
+  Integration provider. Must be one of the following values:
+
+  * `application`
+  * `agent`
+  * `agent/monitoring`
+  * `agent/discovery`
+  * `backend`
+  * `backend/alert`
+  * `backend/incidents`
+  * `backend/metrics`
+  * `backend/events`
+  * `backend/deregistration`
+  * `backend/remediation`
+  * `backend/other`
+  * `cli`
+  * `cli/command`
+  * `universal`
+  * `universal/runtime`
+
+* `short_description`
+
+* `supported_platforms` (for checks only?)
+
+* `tags`
+
+* `contributors`
+
+
 ### Sensu Integration guidelines
 
 Please note the following guidelines for comopsing Sensu Integration:
@@ -188,6 +226,15 @@ Please note the following guidelines for comopsing Sensu Integration:
 1. Check resources _should_ use the "interval" scheduler, with a minimum interval of `30` seconds.
 
 1. Check timeout _should_ be set to a non-zero value and should not be greater than 50% of the interval.
+
+1. Check pipelines _should_ be configured to one of the following generic pipelines.
+
+   - `alert` (e.g. Slack, Mattermost, Microsoft Teams)
+   - `incident-management` (e.g. Pagerduty, ServiceNow)
+   - `metrics` (e.g. Sumo Logic, InfluxDB, TimescaleDB, Prometheus)
+   - `events` (e.g. Sumo Logic, Elasticsearch, Splunk)
+   - `deregistration` (e.g. Chef, Puppet, Ansible, EC2)
+   - `remediation` (e.g. Ansible Tower, Rundeck, SaltStack)
 
 #### Pipeline guidelines
 

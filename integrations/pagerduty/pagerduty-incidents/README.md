@@ -1,14 +1,3 @@
-#
-# Documentation
-#   - https://github.com/sensu/sensu-pagerduty-handler#sensu-pagerduty-handler
-#   - https://docs.sensu.io/sensu-go/latest/reference/secrets/
-#
-# Contributors
-#   The following individuals have contributed to this configuration template:
-#   - Todd Campbell, @nixwiz
-
-
-
 ## Overview
 
 <!-- Sensu Integration description; supports markdown -->

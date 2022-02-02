@@ -141,11 +141,12 @@ spec:
 
 * `class`
 
-  Integration class. Must be one of the following values: 
+  Integration class. Must be one of the following values:
 
+  * `community`
   * `supported` (first-party catalog templates)
+  * `enterprise` (first-party catalog templates that require a valid license)
   * `partner` (third-party catalog templates)
-  * `community` 
 
 * `provider`
 
@@ -170,12 +171,19 @@ spec:
 
 * `short_description`
 
-* `supported_platforms` (for checks only?)
+  Integration short description (e.g. "Pagerduty Incidents"), displayed as the integration name in the in-app integration browser.
+
+* `supported_platforms`
+
+  Used for checks only.
 
 * `tags`
 
+  List of tags (e.g. keywords). Used for integration filtering.
+
 * `contributors`
 
+  List of GitHub @usernames. To be displayed on integration detail pages.
 
 ### Sensu Integration guidelines
 

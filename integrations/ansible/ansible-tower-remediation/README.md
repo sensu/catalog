@@ -31,14 +31,14 @@ This integration is compatible with the [Ansible Tower Jobs dashboard][ansible-t
 
    [Create an application using the Ansible Tower admin console][ansible-tower-application].
 
-   [Create an application token using the Ansble Tower admin console][ansible-tower-app-token].
+   [Create an application OAuth token using the Ansble Tower admin console][ansible-tower-app-token].
 
 1. Configure Secrets Management
 
    This integration requires the following [Sensu Secrets][secrets]:
 
    - `ansible_tower_host` (hostname or IP address of the Ansible Tower API)
-   - `ansible_tower_token`
+   - `ansible_tower_token` (Ansible Tower application OAuth token)
 
    _NOTE: this integration creates one or more Sensu Secrets using the "env" provider. The corresponding environment variables need to be set on every sensu-backend in the Sensu deployment. To add the environment variables, please modify `/etc/default/sensu-backend` or `/etc/sysconfig/sensu-backend` and restart the sensu-backend service(s)._
 

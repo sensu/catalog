@@ -58,7 +58,7 @@ This integration does not produce any events that should be processed by an aler
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
-1. This plugin uses a [Sensu Token][tokens] for variable substitution.
+1. This integration uses [Handler Templating][handler-templating] for variable substitution.
 
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
@@ -72,6 +72,7 @@ This integration does not produce any events that should be processed by an aler
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
+[handler-templating]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handler-templates/
 [sensu-plus]: https://sensu.io/features/analytics
 [{{dashboard-link}}]: #
 [{{asset-name}}-bonsai]: #

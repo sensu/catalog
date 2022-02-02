@@ -62,7 +62,7 @@ This integration produces the following events which should be processed by an a
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
-1. This plugin uses a [Sensu Token][tokens] for variable substitution.
+1. This integration uses [Sensu Tokens][tokens] for variable substitution.
 
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/

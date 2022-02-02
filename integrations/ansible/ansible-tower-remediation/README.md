@@ -118,7 +118,7 @@ This integration does not produce any events that should be processed by an aler
 [sensu-ansible-handler-github]: https://github.com/sensu/sensu-ansible-handler
 [ansible-tower-job-templates]: https://docs.ansible.com/ansible-tower/latest/html/userguide/job_templates.html
 [ansible-tower-jobs-dashboard]: https://docs.ansible.com/ansible-tower/latest/html/userguide/jobs.html
-[ansible-tower-application]: #https://docs.ansible.com/ansible-tower/latest/html/userguide/applications_auth.html#create-a-new-application
+[ansible-tower-application]: https://docs.ansible.com/ansible-tower/latest/html/userguide/applications_auth.html#create-a-new-application
 [ansible-tower-app-token]: https://docs.ansible.com/ansible-tower/latest/html/userguide/applications_auth.html#add-tokens
 [ansible-tower-api-reference]: https://docs.ansible.com/ansible-tower/latest/html/towerapi/api_ref.html
 [ansible-tower-auth-guide]: https://docs.ansible.com/ansible-tower/latest/html/administration/oauth2_token_auth.html

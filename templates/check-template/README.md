@@ -79,5 +79,5 @@ This integration produces the following events which should be processed by an a
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [sensu-plus]: https://sensu.io/features/analytics
 [{{dashboard-link}}]: #
-[{{asset-name}}-bonsai]: #
-[{{asset-name}}-github]: #
+[{{asset_name}}-bonsai]: #
+[{{asset_name}}-github]: #

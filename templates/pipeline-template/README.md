@@ -77,5 +77,5 @@ This integration does not produce any events that should be processed by an aler
 [handler-templating]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handler-templates/
 [sensu-plus]: https://sensu.io/features/analytics
 [{{dashboard-link}}]: #
-[{{asset-name}}-bonsai]: #
-[{{asset-name}}-github]: #
+[{{asset_name}}-bonsai]: #
+[{{asset_name}}-github]: #

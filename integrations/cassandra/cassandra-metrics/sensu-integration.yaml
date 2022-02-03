@@ -5,7 +5,7 @@ metadata:
   namespace: cassandra
   name: cassandra-metrics
 spec:
-  class: supported
+  class: community
   provider: agent/monitoring
   short_description: Cassandra Metrics
   supported_platforms:

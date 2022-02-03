@@ -5,7 +5,7 @@ metadata:
   namespace: cassandra
   name: cassandra-schema-check
 spec:
-  class: supported
+  class: community
   provider: agent/monitoring
   short_description: Cassandra Schema Check
   supported_platforms:

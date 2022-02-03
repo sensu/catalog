@@ -1,0 +1,22 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: cassandra
+  name: cassandra-metrics
+spec:
+  class: supported
+  provider: agent/monitoring
+  short_description: Cassandra Metrics
+  supported_platforms:
+    - darwin
+    - linux
+    - windows
+  tags:
+    - cassandra
+    - database
+    - metrics
+  contributors:
+    - "@sensu"
+    - "@nixwiz"
+    - "@thoward"

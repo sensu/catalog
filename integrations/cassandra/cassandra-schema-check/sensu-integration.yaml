@@ -1,0 +1,21 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: cassandra
+  name: cassandra-schema-check
+spec:
+  class: supported
+  provider: agent/monitoring
+  short_description: Cassandra Schema Check
+  supported_platforms:
+    - darwin
+    - linux
+    - windows
+  tags:
+    - cassandra
+    - database
+  contributors:
+    - "@sensu"
+    - "@nixwiz"
+    - "@thoward"

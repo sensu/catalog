@@ -64,13 +64,9 @@ This integration does not produce any events that should be processed by an aler
 1. This integration uses [Handler Templating][handler-templating] for variable substitution
 
 <!-- Links -->
-[check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
 [asset]: https://docs.sensu.io/sensu-go/latest/plugins/assets/
-[subscription]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/
-[agents]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/
 [annotation]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#general-configuration-flags
 [plugins]: https://docs.sensu.io/sensu-go/latest/plugins/
-[metrics]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [handler-templating]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handler-templates/

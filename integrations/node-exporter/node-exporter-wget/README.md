@@ -26,8 +26,8 @@ This integration provides the following resources:
 
 2. Configure the `NODE_EXPORTER_HOST` environment variable to the host IP address.
       For Sensu Agents running as a Kubernetes daemonset this can be configured
-      via the `ClusterFirstWithHostNet` [Kubernetes dnsPolicy][dns_policy], and using the Kubernetes
-      Downward API to expose the host IP address as an environment variable,
+      via the `ClusterFirstWithHostNet` [Kubernetes dnsPolicy][dns_policy], and using the 
+      [Kubernetes Downward API][downward_api] to expose the host IP address as an environment variable,
       as follows:
 
 ```yaml      
@@ -72,6 +72,7 @@ This integration does not produce any events that should be processed by an aler
 
 <!-- Links -->
 [dns_policy]: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
+[downward_api]: https://kubernetes.io/docs/tasks/inject-data-application/downward-api-volume-expose-pod-information/#the-downward-api
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
 [asset]: https://docs.sensu.io/sensu-go/latest/plugins/assets/
 [subscription]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/

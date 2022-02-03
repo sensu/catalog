@@ -18,7 +18,7 @@ This integration provides the following resources:
 
 <!-- List of supported dashboards w/ screenshots (supports png, jpeg, and gif images; relative paths only; e.g. `![](img/dashboard-1.png)` )-->
 
-There are no supported dashboards for this integration.
+There are no known supported dashboards for this integration.
 
 ## Setup
 

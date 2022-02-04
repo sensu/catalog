@@ -3,14 +3,13 @@ type: Integration
 api_version: v1
 metadata:
   namespace: mattermost
-  name: mattermost-incidents
+  name: mattermost-alerts
 spec:
   class: supported
-  provider: backend/incidents
-  short_description: Mattermost Incidents
+  provider: backend/alerts
+  short_description: Mattermost Alerts
   tags:
   - mattermost  
-  - incidents
   - alerts
   contributors:
   - "@sensu"

@@ -1,0 +1,20 @@
+---
+name: 'Sensu Catalog API Generator'
+description: 'Generate Sensu Catalog API from a Catalog repository'
+author: 'sensu'
+inputs:
+  catalog-api-version:
+    description: 'The version of the API tool to use'
+    required: true
+    default: '0.1.0-alpha.4'
+outputs:
+  release-dir:
+    description: 'The path of the generated release directory'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.catalog-api-version }}
+branding:
+  icon: 'globe'
+  color: 'green'

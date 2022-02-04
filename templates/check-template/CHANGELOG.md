@@ -9,9 +9,9 @@ to [Semantic Versioning][semver].
 
 - *n/a*
 
-## [0.1.0] - {{current-date}}
+## [0.1.0] - {{current_date}}
 
-- Initial add of `{{integration-name}}` integration.
+- Initial add of `{{integration_name}}` integration.
 
 
 [changelog]: http://keepachangelog.com/en/1.0.0/

@@ -6,13 +6,13 @@ metadata:
   name: {{integration_name}}
 spec:
   class: community # community, supported, enterprise, or partner
-  provider: backend/incidents # backend, backend/alert, backend/incidents, backend/metrics, backend/events, backend/deregistration, backend/remediation, or backend/other
+  provider: backend/incidents # should be one of: "backend", "backend/alert", "backend/incidents", "backend/metrics", "backend/events", "backend/deregistration", "backend/remediation", or "backend/other"
   short_description: {{integration_short_name}}
   supported_platforms:
-  - darwin
-  - linux
-  - windows
+    - darwin
+    - linux
+    - windows
   tags:
-  - {{integration_namespace}}
+    - {{integration_namespace}}
   contributors:
-  - "@sensu"
+    - "@sensu"

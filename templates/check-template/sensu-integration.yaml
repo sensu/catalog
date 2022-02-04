@@ -6,13 +6,13 @@ metadata:
   name: {{integration_name}}
 spec:
   class: community # community, supported, enterprise, or partner
-  provider: agent/monitoring # agent, agent/monitoring, or agent/discovery
+  provider: agent/monitoring # should be one of: "agent", "agent/monitoring", or "agent/discovery"
   short_description: {{integration_short_name}}
   supported_platforms:
-  - darwin
-  - linux
-  - windows
+    - darwin
+    - linux
+    - windows
   tags:
-  - {{integration_namespace}}
+    - {{integration_namespace}}
   contributors:
-  - "@sensu"
+    - "@sensu"

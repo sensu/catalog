@@ -10,8 +10,8 @@ This integration provides the following resources:
 
 * `slack` [pipeline]
 * `slack` [handler]
-* `slack_webhook_url` [secret]
-* `slack_channel` [secret]
+* `slack_webhook_url` [secrets]
+* `slack_channel` [secrets]
 * `sensu/sensu-slack-handler` [asset]
 
 ## Dashboards
@@ -68,6 +68,7 @@ This integration does not produce any events that should be processed by an aler
 [annotation]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#general-configuration-flags
 [plugins]: https://docs.sensu.io/sensu-go/latest/plugins/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
+[secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [handler-templating]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handler-templates/
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/

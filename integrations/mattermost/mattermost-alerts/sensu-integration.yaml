@@ -1,0 +1,18 @@
+---
+type: Integration
+api_version: v1
+metadata:
+  namespace: mattermost
+  name: mattermost-incidents
+spec:
+  class: supported
+  provider: backend/incidents
+  short_description: Mattermost Incidents
+  tags:
+  - mattermost  
+  - incidents
+  - alerts
+  contributors:
+  - "@sensu"
+  - "@calebhailey"
+  - "@jspaleta"

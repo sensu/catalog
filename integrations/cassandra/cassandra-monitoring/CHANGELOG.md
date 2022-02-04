@@ -11,7 +11,7 @@ to [Semantic Versioning][semver].
 
 ## [0.1.0] - 2022-02-03
 
-- Initial add of `cassandra-schema-check` integration.
+- Initial add of `cassandra-monitoring` integration.
 
 
 [changelog]: http://keepachangelog.com/en/1.0.0/

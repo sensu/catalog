@@ -1,9 +1,10 @@
 ## Overview
 
-The `cassandra-metrics` integration provides a Sensu check that uses Apache Cassandra's `nodetool` to collect metrics in Graphite format.
+The `cassandra-monitoring` integration provides two Sensu checks which use Apache Cassandra's `nodetool` check for node schema disagreements, and to collect metrics in Graphite format.
 
 This integration includes the following resources:
 
+* `check-cassandra-schema` [check]
 * `metrics-cassandra-graphite` [check]
 * `sensu-plugins/sensu-plugins-cassandra:3.0.2` [asset]
 * `sensu/sensu-ruby-runtime:0.0.10` [asset]
@@ -26,7 +27,7 @@ This integration includes the following resources:
    * `cassandra_hostname` (default: `localhost`)
    * `cassandra_port` (default: `7199`)
 
-It's also possible to edit the [check] definition, to add the `--cfstats` command-line option. This will allow you to get detailed metrics on keyspaces and column families. Use `--filter REGEX` option to only output metrics for column-families matching the regex.
+It's also possible to edit the `metrics-cassandra-graphite` [check] command to add the `--cfstats` command-line option. This will allow you to get detailed metrics on keyspaces and column families. Add the `--filter REGEX` option to only output metrics for column-families matching the regex.
 
 For more information, please read the [plugin documentation](sensu-plugins-cassandra-github).
 
@@ -35,9 +36,16 @@ For more information, please read the [plugin documentation](sensu-plugins-cassa
 * [sensu/sensu-plugins-cassandra][sensu-plugins-cassandra-bonsai] ([GitHub][sensu-plugins-cassandra-github])
 * [sensu/sensu-ruby-runtime][sensu-ruby-runtime-bonsai] ([GitHub][sensu-ruby-runtime-github])
 
+## Alerts
+
+This integration includes checks which generate the following status events, and emits them to the `alert` [pipeline]:
+
+* `check-cassandra-schema` [check]:
+  * `CRITICAL`: The plugin will generate a critical status event, if a node is unreachable, or if any nodes have a schema disagreement.
+
 ## Metrics & Events
 
-This integration collects the following [metrics] (in [Graphite format][graphite-format]):
+This integration collects the following [metrics] (in [Graphite format][graphite-format]), and emits them to the `metrics` [pipeline].
 
 **Info Metrics:**
 
@@ -140,6 +148,7 @@ This integration collects the following [metrics] (in [Graphite format][graphite
 [plugins]: https://docs.sensu.io/sensu-go/latest/plugins/
 [metrics]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
+[pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
 [secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/

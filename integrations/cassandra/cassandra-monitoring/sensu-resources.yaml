@@ -2,6 +2,34 @@
 type: CheckConfig
 api_version: core/v2
 metadata:
+  name: metrics-cassandra-graphite
+spec:
+  command: >-
+    metrics-cassandra-graphite.rb
+    -h {{ .annotations.cassandra_hostname | default "localhost" }}
+    -P {{ .annotations.cassandra_port | default 7199 }}
+  runtime_assets:
+    - sensu-plugins/sensu-plugins-cassandra:3.0.2
+    - sensu/sensu-ruby-runtime:0.0.10
+  publish: false
+  subscriptions:
+    - cassandra
+  interval: 30
+  timeout: 10
+  ttl: 0
+  proxy_entity_name: ""
+  stdin: false
+  output_metric_format: graphite_plaintext
+  output_metric_handlers:
+    - metric-storage
+  pipelines:
+    - api_version: core/v2
+      type: Pipeline
+      name: metrics
+---
+type: CheckConfig
+api_version: core/v2
+metadata:
   name: check-cassandra-schema
 spec:
   command: >-
@@ -19,8 +47,10 @@ spec:
   ttl: 0
   proxy_entity_name: ""
   stdin: false
-  handlers:
-    - alert
+  pipelines:
+    - api_version: core/v2
+      type: Pipeline
+      name: alert
 ---
 type: Asset
 api_version: core/v2

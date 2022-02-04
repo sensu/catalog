@@ -10,8 +10,8 @@ This integration provides the following resources:
 
 * `mattermost` [pipeline]
 * `slack` [handler]
-* `mattermost_webhook_url` [secret]
-* `slack_channel` [secret]
+* `mattermost_webhook_url` [secrets]
+* `mattermost_channel` [secrets]
 * `sensu/sensu-slack-handler` [asset]
 
 ## Dashboards
@@ -67,17 +67,14 @@ This integration does not produce any events that should be processed by an aler
 1. This integration uses [Handler Templating][handler-templating] for variable substitution
 
 <!-- Links -->
-[check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
 [asset]: https://docs.sensu.io/sensu-go/latest/plugins/assets/
-[subscription]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/
-[agents]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/
 [annotation]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#general-configuration-flags
 [plugins]: https://docs.sensu.io/sensu-go/latest/plugins/
-[metrics]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [handler-templating]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handler-templates/
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
+[secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [mattermost-webhook-url]: https://docs.mattermost.com/developer/webhooks-incoming.html
 [slack-plugin-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-slack-handler
 [slack-plugin-github]: https://github.com/sensu/sensu-slack-handler

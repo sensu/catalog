@@ -1,0 +1,18 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: {{integration_namespace}}
+  name: {{integration_name}}
+spec:
+  class: community # community, supported, enterprise, or partner
+  provider: agent/monitoring # should be one of: "agent", "agent/monitoring", or "agent/discovery"
+  short_description: {{integration_short_name}}
+  supported_platforms:
+    - darwin
+    - linux
+    - windows
+  tags:
+    - {{integration_namespace}}
+  contributors:
+    - "@sensu"

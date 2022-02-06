@@ -9,16 +9,16 @@ spec:
   provider: agent/monitoring # agent, agent/monitoring, or agent/discovery
   short_description: Network interface monitoring
   supported_platforms:
-  - darwin
-  - linux
-  - windows
+    - darwin
+    - linux
+    - windows
   tags:
-  - system
-  - host monitoring
-  - network monitoring
+    - system
+    - host monitoring
+    - network monitoring
   contributors:
-  - "@sensu"
-  - "@calebhailey"
-  - "@jspaleta"
-  - "@thoward"
-  - "@fguimond"
+    - "@sensu"
+    - "@calebhailey"
+    - "@jspaleta"
+    - "@thoward"
+    - "@fguimond"

@@ -9,7 +9,7 @@ The network interface monitoring integration provides metrics collection and ale
 This integration includes the following resources:
 
 * `network-interface-health` ([check])
-* `sensu/network-interface-check` ([asset])
+* `sensu/network-interface-check:0.1.0` ([asset])
 
 ## Dashboards
 
@@ -26,6 +26,7 @@ This integration is compatible with the [Sumo Logic Host monitoring dashboard][s
 
 1. Add one of the following [subscriptions] to [agents] that should run this check.
 
+   * `system`
    * `system/network`
    * `darwin`
    * `darwin/network`
@@ -159,7 +160,6 @@ This integration produces the following events which should be processed by an a
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
 [asset]: https://docs.sensu.io/sensu-go/latest/plugins/assets/
-[subscription]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/
 [subscriptions]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/
 [agents]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/
 [annotation]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#general-configuration-flags

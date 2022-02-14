@@ -179,35 +179,35 @@ spec:
         api_version: core/v2
         name: nginx-healthcheck
       patches:
-      - path: /metadata/name
-        op: replace
-        value: "[[check_name]]"
-      - path: /spec/interval
-        op: replace
-        value: interval
-      - path: /spec/command
-        op: replace
-        value: >-
-          check-nginx-status.rb
-          --url {{ .annotations.check_nginx_status_url | default "[[url]]" }}
-      - path: /spec/pipelines/-
-        op: add
-        value:
-          api_version: "core/v2"
-          type: "Pipeline"
-          name: "[[metrics_pipeline]]"
-      - path: /spec/pipelines/-
-        op: add
-        value:
-          api_version: "core/v2"
-          type: "Pipeline"
-          name: "[[alert_pipeline]]"
-      - path: /spec/pipelines/-
-        op: add
-        value:
-          api_version: "core/v2"
-          type: "Pipeline"
-          name: "[[incident_pipeline]]"
+        - path: /metadata/name
+          op: replace
+          value: "[[check_name]]"
+        - path: /spec/interval
+          op: replace
+          value: interval
+        - path: /spec/command
+          op: replace
+          value: >-
+            check-nginx-status.rb
+            --url {{ .annotations.check_nginx_status_url | default "[[url]]" }}
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: "core/v2"
+            type: "Pipeline"
+            name: "[[metrics_pipeline]]"
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: "core/v2"
+            type: "Pipeline"
+            name: "[[alert_pipeline]]"
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: "core/v2"
+            type: "Pipeline"
+            name: "[[incident_pipeline]]"
 ```
 
 * `class`

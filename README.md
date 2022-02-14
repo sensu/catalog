@@ -108,35 +108,106 @@ spec:
   - @calebhailey
   - @jspaleta
   - @thoward
- prompts:
-  - var: check_name
-    type: string
-    prompt: "Check Name"
-    default: nginx-healthcheck
-  - var: url
-    type: string
-    prompt: "Default URL"
-    default: "http://localhost:80/nginx_status"
-  - var: interval
-    type: int
-    prompt: "How often do you want to check X?"
-    default: 30
-  resource_updates:
-  - type: CheckConfig
-    api_version: core/v2
-    name: nginx-healthcheck
-    fields:
-    - name: metadata.name
-      action: replace
-      value: check_name
-    - name: spec.interval
-      action: replace
+  prompts:
+  - type: question
+    name: check_name
+    input:
+      type: string
+      title: Check Name
+      default: nginx-healthcheck
+      required: true
+  - type: question
+    name: url
+    input:
+      type: string
+      title: Default URL
+      description: >-
+        What is the default `nginx_status` endpoint URL that should be used?
+      format: url
+      default: http://127.0.0.1:80/nginx_status
+      required: false
+  - type: question
+    name: interval
+    input:
+      type: integer
+      title: Interval
+      description: >-
+        How often (in seconds.) do you want to check the status of nginx?
+      format: duration # See https://github.com/sensu/sensu-enterprise-go/blob/main/dashboard/src/app/component/base/WizardForm/types.ts#L204-L219
+      default: 30
+      required: false
+  - type: section
+    title: Pipeline Configuration
+  - type: markdown
+    body: >-
+      Configure one or more [pipelines] for processing NGINX monitoring data.
+
+      [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
+  - type: question
+    name: metrics_pipeline
+    input:
+      type: string
+      title: Metrics Pipeline
+      description: >-
+        How do you want to process metrics collected by this integration?
+      ref: core/v2/pipeline/metadata/name
+      filter: .metadata.labels.provider == "metrics"
+      required: false
+  - type: question
+    name: alert_pipeline
+    input:
+      type: string
+      title: Alert Pipeline
+      description: >-
+        How do you want to be alerted for failures detected by this pipeline (e.g. Slack or Microsoft Teams)?
+      ref: core/v2/pipeline/metadata/name
+      filter: .metadata.labels.provider == "alerts"
+      required: false
+  - type: question
+    name: alert_pipeline
+    input:
+      type: string
+      title: Incident Management Pipeline
+      description: >-
+        How do you want to process incidents for failures detected by this pipeline (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
+      ref: core/v2/pipeline/metadata/name
+      filter: .metadata.labels.provider == "incidents"
+      required: false
+  resource_patches:
+  - resource:
+      type: CheckConfig
+      api_version: core/v2
+      name: nginx-healthcheck
+    patches:
+    - path: /metadata/name
+      op: replace
+      value: "[[check_name]]"
+    - path: /spec/interval
+      op: replace
       value: interval
-    - name: spec.command
-      action: replace
-      template: >-
+    - path: /spec/command
+      op: replace
+      value: >-
         check-nginx-status.rb
         --url {{ .annotations.check_nginx_status_url | default "[[url]]" }}
+    - path: /spec/pipelines/-
+      op: add
+      value:
+        api_version: "core/v2"
+        type: "Pipeline"
+        name: "[[metrics_pipeline]]"
+    - path: /spec/pipelines/-
+      op: add
+      value:
+        api_version: "core/v2"
+        type: "Pipeline"
+        name: "[[alert_pipeline]]"
+    - path: /spec/pipelines/-
+      op: add
+      value:
+        api_version: "core/v2"
+        type: "Pipeline"
+        name: "[[incident_pipeline]]"
 ```
 
 * `class`
@@ -184,6 +255,65 @@ spec:
 * `contributors`
 
   List of GitHub @usernames. To be displayed on integration detail pages.
+
+* `prompts`
+
+  Used to configure user-provided variables for use in `resource_patches`.
+
+  * `type:question` prompts
+
+    Used to collect user input.
+
+    **Example:**
+
+    ```yaml
+    prompts:
+      - type: question
+        name: var1
+        input:
+          type: string
+          title: Alert Pipeline
+          description: >-
+            How do you want to be alerted for failures detected by this pipeline (e.g. Slack or Microsoft Teams)?
+          ref: core/v2/pipeline/metadata/name
+          filter: .metadata.labels.provider == "alerts"
+          required: false
+    ```
+
+  * `type:section` prompts
+
+    Used to split user-prompts into logical groupings. Typically used in conjunction with a `type:markdown` block.
+
+    ```yaml
+    prompts:
+      - type: section
+        title: Configuration
+    ```
+
+  * `type:markdown` prompts
+
+    Used to provide inline documentation in the user prompt dialogs.
+
+    ```yaml
+    prompts:
+      - type: markdown
+        body: >-
+          Hello, **inline documentation**. Use markdown blocks to provide users with additional context or instructions.
+
+          Markdown content can include code blocks.
+
+          **Example**
+
+          ```json
+          {
+            "foo": "bar"
+          }
+          ```
+    ```
+
+* `resource_patches`
+
+
 
 ### Sensu Integration guidelines
 

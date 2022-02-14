@@ -96,118 +96,118 @@ spec:
   provider: "agent/check"
   short_description: "NGINX monitoring"
   supported_platforms:
-  - linux
-  - windows
-  - darwin
+    - linux
+    - windows
+    - darwin
   tags:
-  - http
-  - nginx
-  - webserver
+    - http
+    - nginx
+    - webserver
   contributors:
-  - @sensu
-  - @calebhailey
-  - @jspaleta
-  - @thoward
+    - @sensu
+    - @calebhailey
+    - @jspaleta
+    - @thoward
   prompts:
-  - type: question
-    name: check_name
-    input:
-      type: string
-      title: Check Name
-      default: nginx-healthcheck
-      required: true
-  - type: question
-    name: url
-    input:
-      type: string
-      title: Default URL
-      description: >-
-        What is the default `nginx_status` endpoint URL that should be used?
-      format: url
-      default: http://127.0.0.1:80/nginx_status
-      required: false
-  - type: question
-    name: interval
-    input:
-      type: integer
-      title: Interval
-      description: >-
-        How often (in seconds.) do you want to check the status of nginx?
-      format: duration # See https://github.com/sensu/sensu-enterprise-go/blob/main/dashboard/src/app/component/base/WizardForm/types.ts#L204-L219
-      default: 30
-      required: false
-  - type: section
-    title: Pipeline Configuration
-  - type: markdown
-    body: >-
-      Configure one or more [pipelines] for processing NGINX monitoring data.
+    - type: question
+      name: check_name
+      input:
+        type: string
+        title: Check Name
+        default: nginx-healthcheck
+        required: true
+    - type: question
+      name: url
+      input:
+        type: string
+        title: Default URL
+        description: >-
+          What is the default `nginx_status` endpoint URL that should be used?
+        format: url
+        default: http://127.0.0.1:80/nginx_status
+        required: false
+    - type: question
+      name: interval
+      input:
+        type: integer
+        title: Interval
+        description: >-
+          How often (in seconds.) do you want to check the status of nginx?
+        format: duration # See https://github.com/sensu/sensu-enterprise-go/blob/main/dashboard/src/app/component/base/WizardForm/types.ts#L204-L219
+        default: 30
+        required: false
+    - type: section
+      title: Pipeline Configuration
+    - type: markdown
+      body: >-
+        Configure one or more [pipelines] for processing NGINX monitoring data.
 
-      [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
-  - type: question
-    name: metrics_pipeline
-    input:
-      type: string
-      title: Metrics Pipeline
-      description: >-
-        How do you want to process metrics collected by this integration?
-      ref: core/v2/pipeline/metadata/name
-      filter: .metadata.labels.provider == "metrics"
-      required: false
-  - type: question
-    name: alert_pipeline
-    input:
-      type: string
-      title: Alert Pipeline
-      description: >-
-        How do you want to be alerted for failures detected by this pipeline (e.g. Slack or Microsoft Teams)?
-      ref: core/v2/pipeline/metadata/name
-      filter: .metadata.labels.provider == "alerts"
-      required: false
-  - type: question
-    name: alert_pipeline
-    input:
-      type: string
-      title: Incident Management Pipeline
-      description: >-
-        How do you want to process incidents for failures detected by this pipeline (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
-      ref: core/v2/pipeline/metadata/name
-      filter: .metadata.labels.provider == "incidents"
-      required: false
+        [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
+    - type: question
+      name: metrics_pipeline
+      input:
+        type: string
+        title: Metrics Pipeline
+        description: >-
+          How do you want to process metrics collected by this integration?
+        ref: core/v2/pipeline/metadata/name
+        filter: .metadata.labels.provider == "metrics"
+        required: false
+    - type: question
+      name: alert_pipeline
+      input:
+        type: string
+        title: Alert Pipeline
+        description: >-
+          How do you want to be alerted for failures detected by this pipeline (e.g. Slack or Microsoft Teams)?
+        ref: core/v2/pipeline/metadata/name
+        filter: .metadata.labels.provider == "alerts"
+        required: false
+    - type: question
+      name: alert_pipeline
+      input:
+        type: string
+        title: Incident Management Pipeline
+        description: >-
+          How do you want to process incidents for failures detected by this pipeline (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
+        ref: core/v2/pipeline/metadata/name
+        filter: .metadata.labels.provider == "incidents"
+        required: false
   resource_patches:
-  - resource:
-      type: CheckConfig
-      api_version: core/v2
-      name: nginx-healthcheck
-    patches:
-    - path: /metadata/name
-      op: replace
-      value: "[[check_name]]"
-    - path: /spec/interval
-      op: replace
-      value: interval
-    - path: /spec/command
-      op: replace
-      value: >-
-        check-nginx-status.rb
-        --url {{ .annotations.check_nginx_status_url | default "[[url]]" }}
-    - path: /spec/pipelines/-
-      op: add
-      value:
-        api_version: "core/v2"
-        type: "Pipeline"
-        name: "[[metrics_pipeline]]"
-    - path: /spec/pipelines/-
-      op: add
-      value:
-        api_version: "core/v2"
-        type: "Pipeline"
-        name: "[[alert_pipeline]]"
-    - path: /spec/pipelines/-
-      op: add
-      value:
-        api_version: "core/v2"
-        type: "Pipeline"
-        name: "[[incident_pipeline]]"
+    - resource:
+        type: CheckConfig
+        api_version: core/v2
+        name: nginx-healthcheck
+      patches:
+      - path: /metadata/name
+        op: replace
+        value: "[[check_name]]"
+      - path: /spec/interval
+        op: replace
+        value: interval
+      - path: /spec/command
+        op: replace
+        value: >-
+          check-nginx-status.rb
+          --url {{ .annotations.check_nginx_status_url | default "[[url]]" }}
+      - path: /spec/pipelines/-
+        op: add
+        value:
+          api_version: "core/v2"
+          type: "Pipeline"
+          name: "[[metrics_pipeline]]"
+      - path: /spec/pipelines/-
+        op: add
+        value:
+          api_version: "core/v2"
+          type: "Pipeline"
+          name: "[[alert_pipeline]]"
+      - path: /spec/pipelines/-
+        op: add
+        value:
+          api_version: "core/v2"
+          type: "Pipeline"
+          name: "[[incident_pipeline]]"
 ```
 
 * `class`

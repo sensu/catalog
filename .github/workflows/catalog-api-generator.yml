@@ -20,7 +20,7 @@ jobs:
       - uses: ./.github/actions/generate-catalog-api
         id: generate-api
         with:
-          catalog-api-version: 0.1.0-alpha.5
+          catalog-api-version: 0.1.0-alpha.6
       - uses: ./.github/actions/publish-catalog-api
         with:
           release-dir: ${{ steps.generate-api.outputs.release-dir }}

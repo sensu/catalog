@@ -110,13 +110,6 @@ spec:
     - @thoward
   prompts:
     - type: question
-      name: check_name
-      input:
-        type: string
-        title: Check Name
-        default: nginx-healthcheck
-        required: true
-    - type: question
       name: url
       input:
         type: string
@@ -181,7 +174,7 @@ spec:
       patches:
         - path: /metadata/name
           op: replace
-          value: "[[check_name]]"
+          value: nginx-healthcheck-[[auto_suffix]]
         - path: /spec/interval
           op: replace
           value: interval
@@ -258,9 +251,11 @@ spec:
 
 * `prompts`
 
-  Used to configure user-provided variables for use in `resource_patches`.
+  Used to configure user-provided variables for use in `resource_patches`. Prompts can be composed from the following "blocks": `type:question`, `type:section`, and `type:markdown`.
 
-  * `type:question` prompts
+  **Examples**:
+
+  * `type:question`
 
     Used to collect user input.
 
@@ -271,16 +266,36 @@ spec:
       - type: question
         name: var1
         input:
+          type: int
+          title: Check Interval
+          description: >-
+            How often do you want to check the service health?
+          format: duration
+          default: 30
+          required: false
+      - type: question
+        name: var2
+        input:
           type: string
           title: Alert Pipeline
           description: >-
             How do you want to be alerted for failures detected by this pipeline (e.g. Slack or Microsoft Teams)?
           ref: core/v2/pipeline/metadata/name
           filter: .metadata.labels.provider == "alerts"
-          required: false
+          required: true
     ```
 
-  * `type:section` prompts
+    The following `input` fields may be configured:
+
+    * **`type`** (required): data type (allowed values: `string`, `int`, `bool`).
+    * **`title`** (required): input field title/label (displayed above the input field).
+    * **`required`** (required): indicates whether a user-input is required.
+    * **`description`** (optional): input field description (displayed below the input field).
+    * **`format`** (optional): input value display format (allowed values: `sh`, `ecmascript-5.1`, `cron`, `duration`, `tel`, `email`, `url`, `hostname`, `ipv4`, `ipv6`, `envvar`, `sha-256`, `sha-512`, `io.sensu.selector"`). Some display formats provide helpers to simplify user input.
+    * **`ref`** (optional): Sensu API resource reference in `<api_group>/<api_resource>/<api_field_path>` format. For example, `core/v2/Pipeline/metadata/name` refers to `core/v2` API group `Pipeline` resources, which will be presented to the user in a drop-down selector; once selected, the value of the `metadata/name` field will be captured as the input value.
+    * **`filter`** (optional): Sensu API resource reference filters in [Sensu Query Expression (SQE)] format (e.g. `.labels.provider == "alerts"`). Used to filter the results of a `ref`.
+
+  * `type:section`
 
     Used to split user-prompts into logical groupings. Typically used in conjunction with a `type:markdown` block.
 
@@ -290,7 +305,7 @@ spec:
         title: Configuration
     ```
 
-  * `type:markdown` prompts
+  * `type:markdown`
 
     Used to provide inline documentation in the user prompt dialogs.
 
@@ -313,7 +328,72 @@ spec:
 
 * `resource_patches`
 
+  Changes to apply to the Integration's Sensu Resources (i.e. `sensu-resources.yaml`). Resource patches are defined via two properties: a `resource` identifier, and a list of `patches`.
 
+  * `resource`
+
+    A Sensu API resource identifier. The resource identifier will be used to select a resource defined in `sensu-resources.yaml`.
+
+    **Example**:
+
+    ```yaml
+    resource:
+      api_version: core/v2
+      type: CheckConfig
+      name: helloworld
+    ```
+
+  * `patches`
+
+    A list of updates to apply to the selected resource, in [JSON Patch] format. Variable substitution is supported via `[[varname]]` references (i.e. double square brackets). All patches must specific a `path`, `op` (operation), and a `value`.
+
+    If an individual operation fails, it will be considered as optional and skipped.
+
+    **Example**:
+
+    ```yaml
+    patches:
+      - path: /spec/pipelines/-
+        op: add
+        value:
+    ```
+
+    **Fields**:
+
+    * `path`
+
+      Used to select a JSON field, in [JSON Pointer] format. JSON Pointer paths support array indexes (e.g. `/spec/subscriptions/0`), and `-` may be used to insert values at the end of an array (e.g. `/spec/subscriptions/-`).
+
+      **Example**:
+
+      ```json
+      {
+        "api_version": "",
+        "type": "CheckConfig",
+        "metadata": {
+          "name": "helloworld"
+        },
+        "spec": {
+          "command": "helloworld.sh",
+          "runtime_assets": []
+        }
+      }
+      ```
+
+      In the above example, the `command` field would be accessed via the [JSON Pointer] path: `/spec/command`.
+
+    * `op`
+
+      The patch operation to perform. The currently supported operations are [`add`][jsonpatch_add] and `remove`.
+
+      _NOTE: [JSON Patch] supports `add`, `remove`, `replace`, `copy`, and `move` operations, so additional operations may be supported in the future._
+
+    * `value`
+
+      The value to be applied in the patch. Variable substitution is supported via `[[varname]]` references (i.e. double square brackets). The following variables are available:
+
+      * **`auto_suffix`**: a randomly generated 8-digit hexadecimal string value (e.g. `168c41a1`)
+      * **User-provided variables**: supplied via a user `prompt` (see the `name` field of any `type:question` prompt)
 
 ### Sensu Integration guidelines
 
@@ -450,3 +530,8 @@ Thanks in advance for your contributions!
 [yaml-multiline]: https://yaml-multiline.info
 [pagerduty-plugin]: https://github.com/sensu/sensu-pagerduty-handler
 [pagerduty-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-pagerduty-handler
+[JSON Patch]: http://jsonpatch.com
+[JSON Pointer]: http://jsonpatch.com/#json-pointer
+[jsonpatch_add]: http://jsonpatch.com/#add
+[jsonpatch_replace]: http://jsonpatch.com/#replace
+[Sensu Query Expression (SQE)]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-filter/sensu-query-expressions/

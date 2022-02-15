@@ -125,7 +125,7 @@ spec:
         type: integer
         title: Interval
         description: >-
-          How often (in seconds.) do you want to check the status of nginx?
+          How often (in seconds) do you want to check the status of NGINX?
         format: duration
         default: 30
         required: false

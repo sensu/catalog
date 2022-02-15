@@ -287,13 +287,13 @@ spec:
 
     The following `input` fields may be configured:
 
-    * **`type`** (required): data type (allowed values: `string`, `int`, `bool`).
-    * **`title`** (required): input field title/label (displayed above the input field).
+    * **`type`** (required): data type; allowed values: `string`, `int`, `bool`.
+    * **`title`** (required): input field title/label, displayed above the input field.
+    * **`description`** (optional): input field description, displayed below the input field.
     * **`required`** (required): indicates whether a user-input is required.
-    * **`description`** (optional): input field description (displayed below the input field).
-    * **`format`** (optional): input value display format (allowed values: `sh`, `ecmascript-5.1`, `cron`, `duration`, `tel`, `email`, `url`, `hostname`, `ipv4`, `ipv6`, `envvar`, `sha-256`, `sha-512`, `io.sensu.selector"`). Some display formats provide helpers to simplify user input.
+    * **`format`** (optional): input value display format; allowed values: `sh`, `ecmascript-5.1`, `cron`, `duration`, `tel`, `email`, `url`, `hostname`, `ipv4`, `ipv6`, `envvar`, `sha-256`, `sha-512`, `io.sensu.selector`. Some display formats provide helpers to simplify user input.
     * **`ref`** (optional): Sensu API resource reference in `<api_group>/<api_resource>/<api_field_path>` format. For example, `core/v2/Pipeline/metadata/name` refers to `core/v2` API group `Pipeline` resources, which will be presented to the user in a drop-down selector; once selected, the value of the `metadata/name` field will be captured as the input value.
-    * **`filter`** (optional): Sensu API resource reference filters in [Sensu Query Expression (SQE)] format (e.g. `.labels.provider == "alerts"`). Used to filter the results of a `ref`.
+    * **`filter`** (optional): Sensu API resource reference filters in [Sensu Query Expression (SQE)] format; e.g. `.labels.provider == "alerts"`. Used to filter the results of a `ref`.
 
   * `type:section`
 

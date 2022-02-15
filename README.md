@@ -126,7 +126,7 @@ spec:
         title: Interval
         description: >-
           How often (in seconds.) do you want to check the status of nginx?
-        format: duration # See https://github.com/sensu/sensu-enterprise-go/blob/main/dashboard/src/app/component/base/WizardForm/types.ts#L204-L219
+        format: duration
         default: 30
         required: false
     - type: section

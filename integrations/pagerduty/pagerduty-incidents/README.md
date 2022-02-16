@@ -11,7 +11,7 @@ This integration provides the following resources:
 * `pagerduty` [pipeline]
 * `pagerduty` [handler]
 * `pagerduty_integration_key` [secret]
-* `sensu/sensu-pagerduty-handler` [asset]
+* `sensu/sensu-pagerduty-handler:2.1.0` [asset]
 
 ## Dashboards
 

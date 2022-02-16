@@ -1,0 +1,24 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: system
+  name: network-interface-monitoring
+spec:
+  class: supported # community, supported, enterprise, or partner
+  provider: agent/monitoring # agent, agent/monitoring, or agent/discovery
+  short_description: Network interface monitoring
+  supported_platforms:
+    - darwin
+    - linux
+    - windows
+  tags:
+    - system
+    - host monitoring
+    - network monitoring
+  contributors:
+    - "@sensu"
+    - "@calebhailey"
+    - "@jspaleta"
+    - "@thoward"
+    - "@fguimond"

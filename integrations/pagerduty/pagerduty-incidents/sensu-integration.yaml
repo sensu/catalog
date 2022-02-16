@@ -33,11 +33,10 @@ prompts:
     input:
       type: string
       title: Secret Provider
-      description: >-
-        Which secret provider
       enum:
         - env
         - vault
+      default: env
   - type: question
     name: secret_id
     input:
@@ -45,6 +44,7 @@ prompts:
       title: Secret ID
       description: >-
         Provide the Secret identifier (i.e. environment variable name, or Vault secret key/path)
+      default: PAGERDUTY_INTEGRATION_KEY
 resource_patches:
   - resource:
       api_version: secrets/v1

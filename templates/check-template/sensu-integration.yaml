@@ -16,3 +16,65 @@ spec:
     - {{integration_namespace}}
   contributors:
     - "@sensu"
+  prompts:
+    - type: section
+      title: Pipeline Configuration
+    - type: markdown
+      body: >-
+        Configure one or more [pipelines] for processing {{integration_short_name}} data.
+
+        [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
+    - type: question
+      name: alert_pipeline
+      input:
+        type: string
+        title: Alert Pipeline
+        description: >-
+          How do you want to be alerted for failures detected by this pipeline (e.g. Slack or Microsoft Teams)?
+        ref: core/v2/pipeline/metadata/name
+        filter: .metadata.labels.provider == "alerts"
+        required: false
+    - type: question
+      name: incident_pipeline
+      input:
+        type: string
+        title: Incident Management Pipeline
+        description: >-
+          How do you want to process incidents for failures detected by this pipeline (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
+        ref: core/v2/pipeline/metadata/name
+        filter: .metadata.labels.provider == "incidents"
+        required: false
+    - type: question
+      name: metrics_pipeline
+      input:
+        type: string
+        title: Metrics Pipeline
+        description: >-
+          How do you want to process metrics collected by this integration?
+        ref: core/v2/pipeline/metadata/name
+        filter: .metadata.labels.provider == "metrics"
+        required: false
+  resource_patches:
+    resource: 
+      api_version: core/v2
+      type: CheckConfig
+      name: example
+    patches:
+      - path: /spec/pipelines/-
+        op: add
+        value:
+          api_version: core/v2
+          type: Pipeline
+          name: "[[alert_pipeline]]"
+      - path: /spec/pipelines/-
+        op: add
+        value:
+          api_version: core/v2
+          type: Pipeline
+          name: "[[incident_pipeline]]"
+      - path: /spec/pipelines/-
+        op: add
+        value:
+          api_version: core/v2
+          type: Pipeline
+          name: "[[metrics_pipeline]]"

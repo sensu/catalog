@@ -82,5 +82,6 @@ This integration does not produce any events that should be processed by an aler
 [sensu-sumologic-handler-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-sumologic-handler
 [sensu-sumologic-handler-github]: https://github.com/sensu/sensu-sumologic-handler
 [sumologic-app-catalog]: https://www.sumologic.com/applications/
+[sumologic-access-keys]: https://help.sumologic.com/Manage/Security/Access-Keys
 [sumologic-hosted-collector]: https://help.sumologic.com/03Send-Data/Hosted-Collectors
 [sumologic-logs-and-metrics-source]: https://help.sumologic.com/03Send-Data/Sources/02Sources-for-Hosted-Collectors/HTTP-Source

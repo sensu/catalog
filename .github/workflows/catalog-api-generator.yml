@@ -2,9 +2,6 @@
 name: 'Generate Sensu Catalog API'
 
 on:
-  pull_request:
-    tags:
-      - '*'
   push:
     tags:
       - '**'

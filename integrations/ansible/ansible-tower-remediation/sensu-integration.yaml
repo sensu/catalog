@@ -6,7 +6,7 @@ metadata:
   name: ansible-tower-remediation
 spec:
   class: community # community, supported, enterprise, or partner
-  provider: backend/remediation # backend, backend/alert, backend/incidents, backend/metrics, backend/events, backend/deregistration, backend/remediation, or backend/other
+  provider: remediation # backend, backend/alert, backend/incidents, backend/metrics, backend/events, backend/deregistration, backend/remediation, or backend/other
   short_description: Ansible Tower Remediation
   tags:
   - ansible

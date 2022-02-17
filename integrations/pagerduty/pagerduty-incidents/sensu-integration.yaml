@@ -6,7 +6,7 @@ metadata:
   name: pagerduty-incidents
 spec:
   class: supported
-  provider: backend/incidents
+  provider: incidents
   short_description: Pagerduty Incidents
   tags:
   - pagerduty

@@ -6,7 +6,7 @@ metadata:
   name: nginx-monitoring
 spec:
   class: community
-  provider: agent/check
+  provider: monitoring
   short_description: NGINX monitoring
   supported_platforms:
   - darwin

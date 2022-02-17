@@ -6,7 +6,7 @@ metadata:
   name: cassandra-monitoring
 spec:
   class: community
-  provider: agent/monitoring
+  provider: monitoring
   short_description: Cassandra Monitoring
   supported_platforms:
     - darwin

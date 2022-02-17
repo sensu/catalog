@@ -216,22 +216,14 @@ spec:
 
   Integration provider. Must be one of the following values:
 
-  * `application`
-  * `agent`
-  * `agent/monitoring`
-  * `agent/discovery`
-  * `backend`
-  * `backend/alert`
-  * `backend/incidents`
-  * `backend/metrics`
-  * `backend/events`
-  * `backend/deregistration`
-  * `backend/remediation`
-  * `backend/other`
-  * `cli`
-  * `cli/command`
-  * `universal`
-  * `universal/runtime`
+  * `monitoring`
+  * `discovery`
+  * `alerts`
+  * `incidents`
+  * `metrics`
+  * `events`
+  * `deregistration`
+  * `remediation`
 
 * `short_description`
 

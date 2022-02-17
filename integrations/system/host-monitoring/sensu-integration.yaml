@@ -6,7 +6,7 @@ metadata:
   name: host-monitoring
 spec:
   class: supported
-  provider: agent/check
+  provider: monitoring
   short_description: Host monitoring
   supported_platforms:
   - darwin

@@ -1,15 +1,15 @@
 ---
 type: Integration
-api_version: v1
+api_version: catalog/v1
 metadata:
   namespace: mattermost
   name: mattermost-alerts
 spec:
   class: supported
-  provider: backend/alerts
+  provider: alerts
   short_description: Mattermost Alerts
   tags:
-  - mattermost  
+  - mattermost
   - alerts
   contributors:
   - "@sensu"

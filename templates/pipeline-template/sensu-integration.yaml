@@ -6,7 +6,7 @@ metadata:
   name: {{integration_name}}
 spec:
   class: community # community, supported, enterprise, or partner
-  provider: backend/incidents # should be one of: "backend", "backend/alert", "backend/incidents", "backend/metrics", "backend/events", "backend/deregistration", "backend/remediation", or "backend/other"
+  provider: incidents # should be one of: "alerts", "incidents", "metrics", "events", "deregistration", "remediation", "discovery"
   short_description: {{integration_short_name}}
   supported_platforms:
     - darwin

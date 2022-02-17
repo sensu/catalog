@@ -1,47 +1,51 @@
 ---
-api_version: v1
+api_version: catalog/v1
 type: Integration
 metadata:
   namespace: example
-  name: helloworld
-spec:
+  path: /helloworld/spec:
   class: community
-  provider: agent/check
+  provider: monitoring
   short_description: Example Sensu Integration
   supported_platforms:
-  - linux
-  - windows
-  - darwin
+    - linux
+    - windows
+    - darwin
   tags:
-  - example
-  - helloworld
+    - example
+    - helloworld
   contributors:
-  - "@sensu"
+    - "@sensu"
   prompts:
-  - var: integration_name
-    type: string
-    prompt: "Integration Name"
-    default: helloworld
-  - var: integration_interval
-    type: int
-    prompt: "How often do you want to perform this healthcheck (in seconds)?"
-    default: 30
-  - var: integration_world
-    type: int
-    prompt: "What world do you want to greet?"
-    default: 30
-  resource_updates:
-  - type: CheckConfig
-    api_version: core/v2
-    name: helloworld
-    fields:
-    - name: metadata.name
-      action: replace
-      value: integration_name
-    - name: spec.interval
-      action: replace
-      value: integration_interval
-    - name: spec.command
-      action: replace
-      template: >-
-        echo "Hello {{ .annotations.helloworld | default '[[ integration_world ]]' }} world!"
+    - type: question
+      name: integration_name
+      input:
+        type: string
+        title: "Integration Name"
+        default: helloworld
+    - name: integration_interval
+      type: int
+      input:
+        title: "How often do you want to perform this healthcheck (in seconds)?"
+        default: 30
+    - name: integration_world
+      type: int
+      input:
+        title: "What world do you want to greet?"
+        default: 30
+  resource_patches:
+    - resource:
+        type: CheckConfig
+        api_version: core/v2
+        name: helloworld
+      patches:
+        - path: /metadata/name
+          op: replace
+          value: "[[integration_name]]"
+        - path: /spec/interval
+          op: replace
+          value: "[[integration_interval]]"
+        - path: /spec/command
+          op: replace
+          template: >-
+            echo "Hello {{ .annotations.helloworld | default '[[ integration_world ]]' }} world!"

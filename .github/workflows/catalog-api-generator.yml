@@ -3,10 +3,8 @@ name: 'Generate Sensu Catalog API'
 
 on:
   push:
-    branches:
-      - '!*'
     tags:
-      - '*'
+      - '**'
 
 jobs:
   generate-and-publish-api:

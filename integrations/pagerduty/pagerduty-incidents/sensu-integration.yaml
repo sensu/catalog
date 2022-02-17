@@ -1,6 +1,6 @@
 ---
+api_version: catalog/v1
 type: Integration
-api_version: v1
 metadata:
   namespace: pagerduty
   name: pagerduty-incidents

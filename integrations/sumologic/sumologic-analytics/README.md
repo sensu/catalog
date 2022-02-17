@@ -29,17 +29,13 @@ This integration is compatible the the [Sumo Logic App Catalog][sumologic-app-ca
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
 
-1. Get a Sumo Logic Hosted Collector & an HTTP Logs and Metrics Source
+1. Create a hosted collector & configure an HTTP Logs & Metrics source
 
    [Create a Sumo Logic Hosted Collector][sumologic-hosted-collector] for Sensu Go, and configure an [HTTP Logs and Metrics Source][sumologic-logs-and-metrics-source].
 
-1. Configure Secrets Management
+1. Add the Sumo Logic HTTP Logs & Metrics source URL to your secrets provider
 
-   This integration requires the following [Sensu Secrets][secrets]:
-
-   - `sumologic_http_source_url`
-
-   _NOTE: this integration creates one or more Sensu Secrets using the "env" provider. The corresponding environment variables need to be set on every sensu-backend in the Sensu deployment. To add the environment variables, please modify `/etc/default/sensu-backend` or `/etc/sysconfig/sensu-backend` and restart the sensu-backend service(s)._
+   Create an environment variable or Hashicorp Vault secret for the HTTP Logs & Metrics source URL.
 
 ## Plugins
 

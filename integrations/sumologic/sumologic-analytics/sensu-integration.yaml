@@ -21,3 +21,42 @@ spec:
   - "@calebhailey"
   - "@jspaleta"
   - "@thoward"
+  prompts: 
+    - type: section
+      title: Secrets Management
+    - type: markdown
+      body: |
+        This integration requires a Sumo Logic HTTP Logs & Metrics Source URL for integration with Sumo Logic.
+
+        Please visit the Sumo Logic ["HTTP Logs and Metrics Source"] reference documentation for more information. 
+
+        ["HTTP Logs and Metrics Source"]: https://help.sumologic.com/03Send-Data/Sources/02Sources-for-Hosted-Collectors/HTTP-Source
+    - type: question
+      name: secret_provider
+      input: 
+        type: string
+        title: Secret Provider
+        enum:
+          - env
+          - vault
+        default: env
+    - type: question
+      name: secret_id
+      input:
+        type: string
+        title: Secret ID
+        description: >- 
+          Provide the Secret identifier (i.e. environment variable name, or Vault secret key/path)
+        default: SENSU_SUMOLOGIC_HTTP_SOURCE_URL
+  resource_patches:
+    - resource:
+        api_version: secrets/v1
+        type: Secret
+        name: sumologic_http_source_url  
+      patches: 
+        - path: spec/provider
+          op: replace
+          value: "[[secret_provider]]"
+        - path: spec/id
+          op: replace
+          value: "[[secret_id]]"

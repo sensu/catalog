@@ -94,7 +94,8 @@ metadata:
 spec:
   class: "supported"
   provider: "agent/check"
-  short_description: "NGINX monitoring"
+  display_name: "NGINX monitoring"
+  short_description: NGINX service health and performance monitoring
   supported_platforms:
     - linux
     - windows
@@ -225,9 +226,13 @@ spec:
   * `deregistration`
   * `remediation`
 
+* `display_name`
+
+  Integration display name (e.g. "Pagerduty Incidents"), displayed as the integration name in the in-app integration browser.
+
 * `short_description`
 
-  Integration short description (e.g. "Pagerduty Incidents"), displayed as the integration name in the in-app integration browser.
+  Integration short description (e.g. "Create and resolve incidents with Pagerduty"), displayed in the in-app integration browser on hover.
 
 * `supported_platforms`
 

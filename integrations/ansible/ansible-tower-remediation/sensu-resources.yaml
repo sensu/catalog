@@ -5,13 +5,13 @@ metadata:
   name: ansible-tower
 spec:
   workflows:
-  - name: ansible-tower
-    filters: []
-    mutator: {}
-    handler:
-      api_version: core/v2
-      type: Handler
-      name: ansible-tower
+    - name: ansible-tower
+      filters: []
+      mutator: {}
+      handler:
+        api_version: core/v2
+        type: Handler
+        name: ansible-tower
 ---
 type: Handler
 api_version: core/v2
@@ -23,13 +23,13 @@ spec:
   type: pipe
   command: sensu-ansible-handler --host ${ANSIBLE_HOST}
   runtime_assets:
-  - sensu/sensu-ansible-handler:2.1.0
+    - sensu/sensu-ansible-handler:2.1.0
   timeout: 10
   secrets:
-  - name: ANSIBLE_HOST
-    secret: ansible_tower_host
-  - name: ANSIBLE_TOKEN
-    secret: ansible_tower_token
+    - name: ANSIBLE_HOST
+      secret: ansible_tower_host
+    - name: ANSIBLE_TOKEN
+      secret: ansible_tower_token
 ---
 type: Secret
 api_version: secrets/v1
@@ -62,23 +62,23 @@ metadata:
     io.sensu.bonsai.version: 2.1.0
 spec:
   builds:
-  - url: https://assets.bonsai.sensu.io//builds/sensu-ansible-handler_2.1.0_linux_armv7.tar.gz
-    sha512: ea1a82bcd7c60c3be9d9f81c0d837c54914a6782fd545ad5c7a1589e3c81f9a3eb2f926dccf9896e2615a5a91f5ff128ef739aadb374e3ea0e54b9e12d760348
-    filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == 'armv7'
-  - url: https://assets.bonsai.sensu.io//builds/sensu-ansible-handler_2.1.0_linux_arm64.tar.gz
-    sha512: fc8e577a39f3b254b8fd38b5e997dccacaf4c75aa396f1e9d7b3e511da961dcca1180aaf089f29149fc33d2de68586be9f5bb005f0c859e3160685728f0a4372
-    filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == 'arm64'
-  - url: https://assets.bonsai.sensu.io//builds/sensu-ansible-handler_2.1.0_linux_386.tar.gz
-    sha512: 788959360e3aad513b1a469b9db4db87a0cd304f950d289c01fa62f976d5ecf97b8ff6695614d67ae74cb653c33632f97f4a9d13690c90292daea60f2c013e8c
-    filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == '386'
-  - url: https://assets.bonsai.sensu.io//builds/sensu-ansible-handler_2.1.0_linux_amd64.tar.gz
-    sha512: ba4f575f9160b084a51b70c60c73cdb145676a288a32c671f6eddf68b74f43ba7d887e8d4356059dec834e09d32cc05d044d09bb55e28030faecf01fdaf6c998
-    filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io//builds/sensu-ansible-handler_2.1.0_linux_armv7.tar.gz
+      sha512: ea1a82bcd7c60c3be9d9f81c0d837c54914a6782fd545ad5c7a1589e3c81f9a3eb2f926dccf9896e2615a5a91f5ff128ef739aadb374e3ea0e54b9e12d760348
+      filters:
+      - entity.system.os == 'linux'
+      - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io//builds/sensu-ansible-handler_2.1.0_linux_arm64.tar.gz
+      sha512: fc8e577a39f3b254b8fd38b5e997dccacaf4c75aa396f1e9d7b3e511da961dcca1180aaf089f29149fc33d2de68586be9f5bb005f0c859e3160685728f0a4372
+      filters:
+      - entity.system.os == 'linux'
+      - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io//builds/sensu-ansible-handler_2.1.0_linux_386.tar.gz
+      sha512: 788959360e3aad513b1a469b9db4db87a0cd304f950d289c01fa62f976d5ecf97b8ff6695614d67ae74cb653c33632f97f4a9d13690c90292daea60f2c013e8c
+      filters:
+      - entity.system.os == 'linux'
+      - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io//builds/sensu-ansible-handler_2.1.0_linux_amd64.tar.gz
+      sha512: ba4f575f9160b084a51b70c60c73cdb145676a288a32c671f6eddf68b74f43ba7d887e8d4356059dec834e09d32cc05d044d09bb55e28030faecf01fdaf6c998
+      filters:
+      - entity.system.os == 'linux'
+      - entity.system.arch == 'amd64'

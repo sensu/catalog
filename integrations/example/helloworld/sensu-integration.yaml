@@ -3,10 +3,11 @@ api_version: catalog/v1
 type: Integration
 metadata:
   namespace: example
-  path: /helloworld/spec:
+spec:
   class: community
   provider: monitoring
-  short_description: Example Sensu Integration
+  display_name: Helloworld
+  short_description: Example integration
   supported_platforms:
     - linux
     - windows

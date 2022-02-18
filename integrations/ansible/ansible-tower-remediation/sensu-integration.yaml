@@ -7,13 +7,14 @@ metadata:
 spec:
   class: community
   provider: remediation
-  short_description: Ansible Tower Remediation
+  display_name: Ansible Tower
+  short_description: Triggers Ansible Tower job templates for automated remediation.
   tags:
-  - ansible
-  - remediation
-  - self healing
-  - automation
+    - ansible
+    - remediation
+    - self healing
+    - automation
   contributors:
-  - "@sensu"
-  - "@calebhailey"
-  - "@jspaleta"
+    - "@sensu"
+    - "@calebhailey"
+    - "@jspaleta"

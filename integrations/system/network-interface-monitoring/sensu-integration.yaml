@@ -5,9 +5,10 @@ metadata:
   namespace: system
   name: network-interface-monitoring
 spec:
-  class: supported # community, supported, enterprise, or partner
-  provider: agent/monitoring # agent, agent/monitoring, or agent/discovery
-  short_description: Network interface monitoring
+  class: supported
+  provider: monitoring
+  display_name: Network interface monitoring
+  short_description: Cross-platform network interface monitoring for Windows, Linux, and macOS
   supported_platforms:
     - darwin
     - linux

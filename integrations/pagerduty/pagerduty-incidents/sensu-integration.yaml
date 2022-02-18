@@ -7,17 +7,18 @@ metadata:
 spec:
   class: supported
   provider: incidents
-  short_description: Pagerduty Incidents
+  display_name: Pagerduty
+  short_description: Create & resolve incidents in Pagerduty
   tags:
-  - pagerduty
-  - incidents
-  - alerts
+    - pagerduty
+    - incidents
+    - alerts
   contributors:
-  - "@sensu"
-  - "@nixwiz"
-  - "@calebhailey"
-  - "@jspaleta"
-  - "@thoward"
+    - "@sensu"
+    - "@nixwiz"
+    - "@calebhailey"
+    - "@jspaleta"
+    - "@thoward"
 prompts:
   - type: section
     title: Pagerduty Integration Key

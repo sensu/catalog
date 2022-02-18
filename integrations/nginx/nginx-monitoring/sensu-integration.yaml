@@ -7,15 +7,16 @@ metadata:
 spec:
   class: community
   provider: monitoring
-  short_description: NGINX monitoring
+  display_name: NGINX monitoring
+  short_description: Monitor NGINX service health and performance
   supported_platforms:
-  - darwin
-  - linux
-  - windows
+    - darwin
+    - linux
+    - windows
   tags:
-  - http
-  - nginx
-  - webserver
+    - http
+    - nginx
+    - webserver
   contributors:
-  - "@nixwiz"
-  - "@calebhailey"
+    - "@nixwiz"
+    - "@calebhailey"

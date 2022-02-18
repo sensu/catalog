@@ -7,11 +7,12 @@ metadata:
 spec:
   class: supported
   provider: alerts
-  short_description: Mattermost Alerts
+  display_name: Mattermost
+  short_description: Send alerts via Mattermost
   tags:
-  - mattermost
-  - alerts
+    - mattermost
+    - alerts
   contributors:
-  - "@sensu"
-  - "@calebhailey"
-  - "@jspaleta"
+    - "@sensu"
+    - "@calebhailey"
+    - "@jspaleta"

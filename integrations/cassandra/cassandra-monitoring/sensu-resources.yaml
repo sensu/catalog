@@ -2,7 +2,7 @@
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: metrics-cassandra-graphite
+  name: cassandra-metrics
 spec:
   command: >-
     metrics-cassandra-graphite.rb
@@ -18,19 +18,13 @@ spec:
   timeout: 10
   ttl: 0
   proxy_entity_name: ""
-  stdin: false
   output_metric_format: graphite_plaintext
-  output_metric_handlers:
-    - metric-storage
-  pipelines:
-    - api_version: core/v2
-      type: Pipeline
-      name: metrics
+  pipelines: []
 ---
 type: CheckConfig
 api_version: core/v2
 metadata:
-  name: check-cassandra-schema
+  name: cassandra-healthcheck
 spec:
   command: >-
     check-cassandra-schema.rb
@@ -47,10 +41,7 @@ spec:
   ttl: 0
   proxy_entity_name: ""
   stdin: false
-  pipelines:
-    - api_version: core/v2
-      type: Pipeline
-      name: alert
+  pipelines: []
 ---
 type: Asset
 api_version: core/v2

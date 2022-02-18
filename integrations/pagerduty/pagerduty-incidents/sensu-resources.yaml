@@ -5,18 +5,18 @@ metadata:
   name: pagerduty
 spec:
   workflows:
-  - name: pagerduty
-    filters:
-    - api_version: core/v2
-      type: EventFilter
-      name: is_incident
-    - api_version: core/v2
-      type: EventFilter
-      name: not_silenced
-    handler:
-      api_version: core/v2
-      type: Handler
-      name: pagerduty
+    - name: pagerduty
+      filters:
+      - api_version: core/v2
+        type: EventFilter
+        name: is_incident
+      - api_version: core/v2
+        type: EventFilter
+        name: not_silenced
+      handler:
+        api_version: core/v2
+        type: Handler
+        name: pagerduty
 ---
 type: Handler
 api_version: core/v2
@@ -30,10 +30,10 @@ spec:
     --summary-template "[{{.Entity.Namespace}}] {{.Entity.Name}}/{{.Check.Name}}: {{.Check.State}}"
     --details-template "{{.Check.Output}}\n\n{{.Check}}"
   runtime_assets:
-  - sensu/sensu-pagerduty-handler:2.1.0
+    - sensu/sensu-pagerduty-handler:2.1.0
   secrets:
-  - name: PAGERDUTY_TOKEN
-    secret: pagerduty_integration_key
+    - name: PAGERDUTY_TOKEN
+      secret: pagerduty_integration_key
   timeout: 0
   type: pipe
 ---

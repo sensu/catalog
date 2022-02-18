@@ -1,44 +1,4 @@
 ---
-# Description
-#   The Sensu Slack Handler is a Sensu Event Handler that sends alerts to 
-#   Slack. 
-#
-# Instructions
-#   1. Add "slack" to the "alert" handler set.
-#
-#      To create the "alert" handler set, please run:
-#
-#      $ sensuctl handler create alert --type set --handlers slack
-#
-#      If you already have a handler set called "alert", please run:
-#
-#      $ sensuctl edit handler alert
-#
-#      NOTE: the sensuctl edit command will open your default editor; please
-#      modify the "handlers" attribute by adding "slack".
-#
-#   2. Configure the following secrets using your preferred Sensu Go Secrets
-#      provider:
-#
-#      - slack_webhook_url
-#      - slack_channel
-#
-#      NOTE: example secret resources using the "env" provider are included in
-#      this template; to add your secrets to the Sensu Backend, please modify
-#      /etc/default/sensu-backend or /etc/sysconfig/sensu-backend and restart
-#      the sensu-backend service.
-#
-#   3. More configuration options are available for this plugin; please see the
-#      plugin documentation for more details.
-#
-# Documentation
-#   - https://github.com/sensu/sensu-slack-handler
-#   - https://docs.sensu.io/sensu-go/latest/reference/secrets/
-#
-# Contributors
-#   The following individuals have contributed to this configuration template:
-#   - @calebhailey
----
 type: Pipeline
 api_version: core/v2
 metadata:
@@ -47,12 +7,12 @@ spec:
   workflows:
   - name: slack
     filters:
-    - api_version: core/v2
-      type: EventFilter
-      name: is_incident
-    - api_version: core/v2
-      type: EventFilter
-      name: not_silenced
+      - api_version: core/v2
+        type: EventFilter
+        name: is_incident
+      - api_version: core/v2
+        type: EventFilter
+        name: not_silenced
     handler:
       api_version: core/v2
       type: Handler
@@ -70,15 +30,15 @@ spec:
     --username SensuGo
     --description-template "{{ .Check.Output }}\n\n[namespace: {{.Entity.Namespace}}]"
   filters:
-  - is_incident
-  - not_silenced
+    - is_incident
+    - not_silenced
   runtime_assets:
-  - sensu/sensu-slack-handler:1.4.0
+    - sensu/sensu-slack-handler:1.4.0
   secrets:
-  - name: SLACK_WEBHOOK_URL
-    secret: slack_webhook_url
-  - name: SLACK_CHANNEL
-    secret: slack_channel
+    - name: SLACK_WEBHOOK_URL
+      secret: slack_webhook_url
+    - name: SLACK_CHANNEL
+      secret: slack_channel
   timeout: 0
 ---
 type: Secret

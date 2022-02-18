@@ -6,38 +6,29 @@ metadata:
   name: host-monitoring
 spec:
   class: supported
-  provider: agent/check
-  short_description: Host monitoring
+  provider: monitoring
+  display_name: Host monitoring
+  short_description: Cross-platform host monitoring for Windows, Linux, and macOS
   supported_platforms:
-  - darwin
-  - linux
-  - windows
-  # support_urls:
-  # - url: https://sensu.io/contact
-  #   icon: SupportIcon
-  # - url: https://discourse.sensu.io/c/integrations/
-  #   icon: ForumIcon
+    - darwin
+    - linux
+    - windows
   tags:
-  - system
-  - host
-  - os
-  - windows
-  - linux
-  - macos
-  - cpu
-  - memory
-  - io
-  - load
-  - uptime
-  - swap
+    - system
+    - host
+    - os
+    - windows
+    - linux
+    - macos
+    - cpu
+    - memory
+    - io
+    - load
+    - uptime
+    - swap
   contributors:
-  - "@sensu"
-  - "@calebhailey"
-  - "@nixwiz"
-  - "@jspaleta"
-  - "@thoward"
-  # related_integrations:
-  # - system/network-interface-monitoring
-  # - system/disk-monitoring
-  # - system/filesystem-monitoring
-  # - system/process-monitoring
+    - "@sensu"
+    - "@calebhailey"
+    - "@nixwiz"
+    - "@jspaleta"
+    - "@thoward"

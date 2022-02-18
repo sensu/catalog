@@ -5,18 +5,18 @@ metadata:
   name: mattermost
 spec:
   workflows:
-  - name: mattermost
-    filters:
-    - api_version: core/v2
-      type: EventFilter
-      name: is_incident
-    - api_version: core/v2
-      type: EventFilter
-      name: not_silenced
-    handler:
-      api_version: core/v2
-      type: Handler
-      name: mattermost
+    - name: mattermost
+      filters:
+        - api_version: core/v2
+          type: EventFilter
+          name: is_incident
+        - api_version: core/v2
+          type: EventFilter
+          name: not_silenced
+      handler:
+        api_version: core/v2
+        type: Handler
+        name: mattermost
 ---
 type: Handler
 api_version: core/v2
@@ -30,17 +30,14 @@ spec:
     --username SensuGo
     --webhook-url ${MATTERMOST_WEBHOOK_URL}
     --description-template "{{ .Check.Output }}\n\n[namespace: {{.Entity.Namespace}}]"
-  filters:
-  - is_incident
-  - not_silenced
   runtime_assets:
-  - sensu/sensu-slack-handler:1.4.0
-  secrets:
-  - name: MATTERMOST_WEBHOOK_URL
-    secret: mattermost_webhook_url
-  - name: MATTERMOST_CHANNEL
-    secret: mattermost_channel
+    - sensu/sensu-slack-handler:1.4.0
   timeout: 0
+  secrets:
+    - name: MATTERMOST_WEBHOOK_URL
+      secret: mattermost_webhook_url
+    - name: MATTERMOST_CHANNEL
+      secret: mattermost_channel
 ---
 type: Secret
 api_version: secrets/v1

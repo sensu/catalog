@@ -15,13 +15,7 @@ spec:
     - nginx
   interval: 30
   timeout: 10
-  pipelines:
-    - api_version: core/v2
-      type: Pipeline
-      name: alerts
-    - api_version: core/v2
-      type: Pipeline
-      name: incident-management
+  pipelines: []
 ---
 type: CheckConfig
 api_version: core/v2
@@ -43,10 +37,7 @@ spec:
   output_metric_tags:
     - name: entity
       value: "{{ .name }}"
-  pipelines:
-    - api_version: core/v2
-      type: Pipeline
-      name: metrics
+  pipelines: []
 ---
 type: Asset
 api_version: core/v2

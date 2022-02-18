@@ -6,8 +6,9 @@ metadata:
   name: cassandra-monitoring
 spec:
   class: community
-  provider: agent/monitoring
-  short_description: Cassandra Monitoring
+  provider: monitoring
+  display_name: Cassandra monitoring
+  short_description: Cassandra `nodetool` checks and `tpstats` metrics
   supported_platforms:
     - darwin
     - linux
@@ -17,6 +18,62 @@ spec:
     - database
     - metrics
   contributors:
-    - "@sensu"
     - "@nixwiz"
     - "@thoward"
+  prompts:
+    - type: question
+      name: metrics_pipeline
+      input:
+        type: string
+        title: Metrics Pipeline
+        description: >-
+          How do you want to process metrics collected by this integration?
+        ref: core/v2/pipeline/metadata/name
+        required: false
+    - type: question
+      name: alerts_pipeline
+      input:
+        type: string
+        title: Alert Pipeline
+        description: >-
+          How do you want to be alerted for failures detected by this integration (e.g. Slack or Microsoft Teams)?
+        ref: core/v2/pipeline/metadata/name
+        required: false
+    - type: question
+      name: incidents_pipeline
+      input:
+        type: string
+        title: Incident Pipeline
+        description: >-
+          How do you want to process incidents for failures detected by this integration (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
+        ref: core/v2/pipeline/metadata/name
+        required: false
+  resource_patches:
+    - resource:
+        api_version: core/v2
+        type: CheckConfig
+        name: cassandra-metrics
+      patches:
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[metrics_pipeline]]"
+    - resource:
+        api_version: core/v2
+        type: CheckConfig
+        name: cassandra-healthcheck
+      patches:
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[alerts_pipeline]]"
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[incidents_pipeline]]"

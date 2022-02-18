@@ -6,8 +6,9 @@ metadata:
   name: {{integration_name}}
 spec:
   class: community # community, supported, enterprise, or partner
-  provider: agent/monitoring # should be one of: "agent", "agent/monitoring", or "agent/discovery"
-  short_description: {{integration_short_name}}
+  provider: monitoring
+  display_name: {{integration_short_name}}
+  short_description: ""
   supported_platforms:
     - darwin
     - linux

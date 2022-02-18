@@ -9,7 +9,7 @@ spec:
   runtime_assets: []
   publish: true
   subscriptions:
-  - example
+    - example
   interval: 30
   timeout: 10
   pipelines: []

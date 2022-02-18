@@ -1,0 +1,20 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: ansible
+  name: ansible-tower-remediation
+spec:
+  class: community
+  provider: remediation
+  display_name: Ansible Tower
+  short_description: Triggers Ansible Tower job templates for automated remediation.
+  tags:
+    - ansible
+    - remediation
+    - self healing
+    - automation
+  contributors:
+    - "@sensu"
+    - "@calebhailey"
+    - "@jspaleta"

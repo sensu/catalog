@@ -1,17 +1,18 @@
 ---
 type: Integration
-api_version: v1
+api_version: catalog/v1
 metadata:
   namespace: mattermost
   name: mattermost-alerts
 spec:
   class: supported
-  provider: backend/alerts
-  short_description: Mattermost Alerts
+  provider: alerts
+  display_name: Mattermost
+  short_description: Send alerts via Mattermost
   tags:
-  - mattermost  
-  - alerts
+    - mattermost
+    - alerts
   contributors:
-  - "@sensu"
-  - "@calebhailey"
-  - "@jspaleta"
+    - "@sensu"
+    - "@calebhailey"
+    - "@jspaleta"

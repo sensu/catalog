@@ -1,23 +1,24 @@
 ---
+api_version: catalog/v1
 type: Integration
-api_version: v1
 metadata:
   namespace: pagerduty
   name: pagerduty-incidents
 spec:
   class: supported
-  provider: backend/incidents
-  short_description: Pagerduty Incidents
+  provider: incidents
+  display_name: Pagerduty
+  short_description: Create & resolve incidents in Pagerduty
   tags:
-  - pagerduty
-  - incidents
-  - alerts
+    - pagerduty
+    - incidents
+    - alerts
   contributors:
-  - "@sensu"
-  - "@nixwiz"
-  - "@calebhailey"
-  - "@jspaleta"
-  - "@thoward"
+    - "@sensu"
+    - "@nixwiz"
+    - "@calebhailey"
+    - "@jspaleta"
+    - "@thoward"
 prompts:
   - type: section
     title: Pagerduty Integration Key

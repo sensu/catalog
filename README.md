@@ -158,7 +158,7 @@ spec:
         filter: .metadata.labels.provider == "alerts"
         required: false
     - type: question
-      name: alert_pipeline
+      name: incident_pipeline
       input:
         type: string
         title: Incident Management Pipeline

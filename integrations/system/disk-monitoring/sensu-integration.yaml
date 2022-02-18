@@ -7,33 +7,86 @@ metadata:
 spec:
   class: supported
   provider: agent/check
-  short_description: Disk monitoring
+  display_name: Disk monitoring
+  short_description: Cross-platform disk monitoring for Linux, Windows, and macOS.
   supported_platforms:
-  - darwin
-  - linux
-  - windows
-  # support_urls:
-  # - url: https://sensu.io/contact
-  #   icon: SupportIcon
-  # - url: https://discourse.sensu.io/c/integrations/
-  #   icon: ForumIcon
+    - darwin
+    - linux
+    - windows
   tags:
-  - system
-  - host
-  - os
-  - windows
-  - linux
-  - macos
-  - disk
-  - volumes
+    - system
+    - host
+    - os
+    - windows
+    - linux
+    - macos
+    - disk
+    - volumes
   contributors:
-  - "@sensu"
-  - "@calebhailey"
-  - "@jspaleta"
-  - "@thoward"
-  - "@nikkixdev"
-  # related_integrations:
-  # - system/network-interface-monitoring
-  # - system/host-monitoring
-  # - system/filesystem-monitoring
-  # - system/process-monitoring
+    - "@sensu"
+    - "@calebhailey"
+    - "@jspaleta"
+    - "@thoward"
+    - "@nikkixdev"
+  prompts:
+    - type: section
+      title: Pipeline Configuration
+    - type: markdown
+      body: >-
+        Configure one or more [pipelines] for processing disk monitoring data.
+
+        [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
+    - type: question
+      name: alerts_pipeline
+      input:
+        type: string
+        title: Alert Pipeline
+        description: >-
+          How do you want to be alerted for failures detected by this pipeline (e.g. Slack or Microsoft Teams)?
+        ref: core/v2/pipeline/metadata/name
+        filter: .metadata.labels.provider == "alerts"
+        required: false
+    - type: question
+      name: incidents_pipeline
+      input:
+        type: string
+        title: Incident Management Pipeline
+        description: >-
+          How do you want to process incidents for failures detected by this pipeline (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
+        ref: core/v2/pipeline/metadata/name
+        filter: .metadata.labels.provider == "incidents"
+        required: false
+    - type: question
+      name: metrics_pipeline
+      input:
+        type: string
+        title: Metrics Pipeline
+        description: >-
+          How do you want to process metrics collected by this integration?
+        ref: core/v2/pipeline/metadata/name
+        filter: .metadata.labels.provider == "metrics"
+        required: false
+  resource_patches:
+    resource:
+      api_version: core/v2
+      type: CheckConfig
+      name: example
+    patches:
+      - path: /spec/pipelines/-
+        op: add
+        value:
+          api_version: core/v2
+          type: Pipeline
+          name: "[[alerts_pipeline]]"
+      - path: /spec/pipelines/-
+        op: add
+        value:
+          api_version: core/v2
+          type: Pipeline
+          name: "[[incidents_pipeline]]"
+      - path: /spec/pipelines/-
+        op: add
+        value:
+          api_version: core/v2
+          type: Pipeline
+          name: "[[metrics_pipeline]]"

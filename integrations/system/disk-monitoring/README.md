@@ -2,20 +2,22 @@
 
 <!-- Sensu Integration description; supports markdown -->
 
-The disk monitoring integration integration provides disk usage monitoring for Linux, Windows, and macOS system.
+The disk monitoring integration integration provides disk usage monitoring for Linux, Windows, and macOS systems.
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 
 This integration provides the following resources:
 
-* "disk-usage" [check]
-* "sensu/check-disk-usage:0.6.0" [asset]
+* `disk-usage` [check]
+* `sensu/check-disk-usage:0.6.0` [asset]
 
 ## Dashboards
 
 <!-- List of supported dashboards w/ screenshots (supports png, jpeg, and gif images; relative paths only; e.g. `![](img/dashboard-1.png)` )-->
 
-There are no supported dashboards for this integration.
+This integration is compatible with the [Sumo Logic Host and Process Metrics] dashboard.
+
+![](img/dashboard1.png)
 
 ## Setup
 
@@ -27,8 +29,11 @@ There are no supported dashboards for this integration.
    * `system`
    * `system/disk`
    * `linux`
+   * `linux/disk`
    * `windows`
+   * `windows/disk`
    * `darwin`
+   * `darwin/disk`
 
 1. Optionally set the `disk_usage_warning_threshold` agent [annotation] to override the default value (`80.0`%).
 
@@ -38,45 +43,45 @@ There are no supported dashboards for this integration.
 
 <!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->
 
-This integration does not require any [Plugins].
+- [sensu/check-disk-usage][check-disk-usage-bonsai] ([GitHub][check-disk-usage-github])
 
 ## Metrics & Events
 
 <!-- List of all metrics or events collected by this integration. -->
 
-This integration collects the following [metrics]: 
+This integration collects the following [metrics]:
 
 * `disk_critical`
 
-  Non-zero value indicates mountpoint usage is above critical threshold 
+  Non-zero value indicates mountpoint usage is above critical threshold
 
   Tags: `mountpoint`, `entity`, `namespace`, `os`
 
 * `disk_warning`
 
-  Non-zero value indicates mountpoint usage is above warning threshold. 
+  Non-zero value indicates mountpoint usage is above warning threshold.
 
   Tags: `mountpoint`, `entity`, `namespace`, `os`
 
 * `disk_percent_usage`
 
-  Percentage of mounted volume used. 
+  Percentage of mounted volume used.
 
   Tags: `mountpoint`, `entity`, `namespace`, `os`
 
-* `disk_total_bytes` 
+* `disk_total_bytes`
 
-  Total size in bytes of mounted volumed. 
+  Total size in bytes of mounted volumed.
 
-* `disk_used_bytes` 
+* `disk_used_bytes`
 
   Used size in bytes of mounted volumed.
 
   Tags: `mountpoint`, `entity`, `namespace`, `os`
 
-* `disk_free_bytes` 
+* `disk_free_bytes`
 
-  Free size in bytes of mounted volumed. 
+  Free size in bytes of mounted volumed.
 
   Tags: `mountpoint`, `entity`, `namespace`, `os`
 
@@ -88,11 +93,11 @@ This integration produces the following events which should be processed by an a
 
 * `WARNING`
 
-  Disk usage on one or more mountpoints has exceeded the configured warning threshold (default 80%). 
+  Disk usage on one or more mountpoints has exceeded the configured warning threshold (default 80%).
 
 * `CRITICAL`
 
-  Disk usage on one or more mountpoints has exceeded the configured critical threshold (default 90%). 
+  Disk usage on one or more mountpoints has exceeded the configured critical threshold (default 90%).
 
 ## Reference Documentation
 
@@ -111,3 +116,6 @@ This integration produces the following events which should be processed by an a
 [metrics]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
+[check-disk-usage-bonsai]: https://bonsai.sensu.io/assets/sensu/check-disk-usage
+[check-disk-usage-github]: https://github.com/sensu/check-disk-usage
+[Sumo Logic Host and Process Metrics]: https://www.sumologic.com/application/host-and-process-metrics/

@@ -7,11 +7,12 @@ metadata:
 spec:
   class: supported
   provider: alerts
-  short_description: Slack Alerts
+  display_name: Slack Alerts
+  short_description: Send alerts via Slack
   tags:
-  - slack
-  - alerts
+    - slack
+    - alerts
   contributors:
-  - "@sensu"
-  - "@calebhailey"
-  - "@jspaleta"
+    - "@sensu"
+    - "@calebhailey"
+    - "@jspaleta"

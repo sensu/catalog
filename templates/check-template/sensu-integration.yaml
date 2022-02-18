@@ -7,7 +7,8 @@ metadata:
 spec:
   class: community # community, supported, enterprise, or partner
   provider: monitoring
-  short_description: {{integration_short_name}}
+  display_name: {{integration_short_name}}
+  short_description: ""
   supported_platforms:
     - darwin
     - linux

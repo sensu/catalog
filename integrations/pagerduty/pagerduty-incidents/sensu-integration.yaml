@@ -19,42 +19,42 @@ spec:
     - "@calebhailey"
     - "@jspaleta"
     - "@thoward"
-prompts:
-  - type: section
-    title: Pagerduty Integration Key
-  - type: markdown
-    body: |
-      This integration requires a Pagerduty Integration Key for Pagerduty API Authentication.
+  prompts:
+    - type: section
+      title: Pagerduty Integration Key
+    - type: markdown
+      body: |
+        This integration requires a Pagerduty Integration Key for Pagerduty API Authentication.
 
-      Please visit the Pagerduty knowledge base article ["Generate an Integration Key"] for more information.
+        Please visit the Pagerduty knowledge base article ["Generate an Integration Key"] for more information.
 
-      ["Generate an Integration Key"]: https://support.pagerduty.com/docs/services-and-integrations#generate-a-new-integration-key
-  - type: question
-    name: secret_provider
-    input:
-      type: string
-      title: Secret Provider
-      enum:
-        - env
-        - vault
-      default: env
-  - type: question
-    name: secret_id
-    input:
-      type: string
-      title: Secret ID
-      description: >-
-        Provide the Secret identifier (i.e. environment variable name, or Vault secret key/path)
-      default: PAGERDUTY_INTEGRATION_KEY
-resource_patches:
-  - resource:
-      api_version: secrets/v1
-      type: Secret
-      name: pagerduty_integration_key
-    patches:
-      - path: /spec/provider
-        op: replace
-        value: "[[secret_provider]]"
-      - path: /spec/id
-        op: replace
-        value: "[[secret_id]]"
+        ["Generate an Integration Key"]: https://support.pagerduty.com/docs/services-and-integrations#generate-a-new-integration-key
+    - type: question
+      name: secret_provider
+      input:
+        type: string
+        title: Secret Provider
+        enum:
+          - env
+          - vault
+        default: env
+    - type: question
+      name: secret_id
+      input:
+        type: string
+        title: Secret ID
+        description: >-
+          Provide the Secret identifier (i.e. environment variable name, or Vault secret key/path)
+        default: PAGERDUTY_INTEGRATION_KEY
+  resource_patches:
+    - resource:
+        api_version: secrets/v1
+        type: Secret
+        name: pagerduty_integration_key
+      patches:
+        - path: /spec/provider
+          op: replace
+          value: "[[secret_provider]]"
+        - path: /spec/id
+          op: replace
+          value: "[[secret_id]]"

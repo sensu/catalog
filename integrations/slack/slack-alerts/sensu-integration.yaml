@@ -16,3 +16,79 @@ spec:
     - "@sensu"
     - "@calebhailey"
     - "@jspaleta"
+  prompts:
+    - type: section
+      title: Slack Secrets
+    - type: markdown
+      body: |
+        This integration requires a Slack Webhook URL for Slack API Authentication, and a default alerting channel.
+
+        Please visit [Slack Incoming Webhook] and [Slack Channels] documentation for more information.
+
+        [Slack Incoming Webhook]: #
+        [Slack Channels]: #
+    - type: section
+      title: Slack Webhook URL
+    - type: question
+      name: webhook_url_secret_provider
+      input:
+        type: string
+        title: Webhook URL Secret Provider
+        description: >-
+          Select the Webhook URL secret provider where the secrets is stored
+        enum:
+          - env
+          - vault
+        default: env
+    - type: question
+      name: webhook_url_secret_id
+      input:
+        type: string
+        title: Secret ID
+        description: >-
+          Provide the Webhook URL secret identifier (i.e. environment variable name, or Vault secret key/path)
+        default: SENSU_MATTERMOST_WEBHOOK_URL
+    - type: section
+      title: Slack Channel
+    - type: question
+      name: channel_secret_provider
+      input:
+        type: string
+        title: Channel Secret Provider
+        description: >-
+          Select the Channel secret provider where the secrets is stored
+        enum:
+          - env
+          - vault
+        default: env
+    - type: question
+      name: channel_secret_id
+      input:
+        type: string
+        title: Secret ID
+        description: >-
+          Provide the Channel secret identifier (i.e. environment variable name, or Vault secret key/path)
+        default: SENSU_MATTERMOST_CHANNEL
+  resource_patches:
+    - resource:
+        api_version: secrets/v1
+        type: Secret
+        name: slack_webhook_url
+      patches:
+        - path: /spec/provider
+          op: replace
+          value: "[[webhook_url_secret_provider]]"
+        - path: /spec/id
+          op: replace
+          value: "[[webhook_url_secret_id]]"
+    - resource:
+        api_version: secrets/v1
+        type: Secret
+        name: slack_channel
+      patches:
+        - path: /spec/provider
+          op: replace
+          value: "[[channel_secret_provider]]"
+        - path: /spec/id
+          op: replace
+          value: "[[channel_secret_id]]"

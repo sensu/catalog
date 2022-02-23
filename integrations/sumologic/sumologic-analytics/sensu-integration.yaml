@@ -5,22 +5,23 @@ metadata:
   namespace: sumologic
   name: sumologic-analytics
 spec:
-  class: enterprise # community, supported, enterprise, or partner
-  provider: backend/metrics # backend, backend/alert, backend/incidents, backend/metrics, backend/events, backend/deregistration, backend/remediation, or backend/other
-  short_description: Sumo Logic Analytics
+  class: enterprise
+  provider: metrics
+  display_name: Sumo Logic Analytics
+  short_description: Process Sensu data with Sumo Logic for real-time analytics and turn-key dashboards
   supported_platforms:
-  - darwin
-  - linux
-  - windows
+    - darwin
+    - linux
+    - windows
   tags:
-  - sumologic
-  - analytics
-  - sensu plus
+    - sumologic
+    - analytics
+    - sensu plus
   contributors:
-  - "@sensu"
-  - "@calebhailey"
-  - "@jspaleta"
-  - "@thoward"
+    - "@sensu"
+    - "@calebhailey"
+    - "@jspaleta"
+    - "@thoward"
   prompts: 
     - type: section
       title: Secrets Management

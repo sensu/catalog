@@ -4,9 +4,7 @@
 
 The Sumo Logic integration is a [Sensu Event Pipeline][pipeline] that enables real-time analytics and turn-key dashboards for Sensu Go.
 
-<!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
-
-This integration includes the following resources:
+This integration makes Sensu metrics and events available for searching and analytics in the Sumo Logic continuous intelligence platform. Sensu events are processed via [Sumo Logic Log Management], and Sensu metrics are processed as [Sumo Logic Metrics].
 
 * `sumologic` ([pipeline])
 * `sumologic-metrics` ([sumologic-handler])
@@ -61,6 +59,7 @@ This integration does not produce any events that should be processed by an aler
 
 1. [Sumo Logic API Access Keys][sumologic-access-keys]
 1. This integration uses [Handler Templating][handler-templating] for variable substitution.
+1. This integration uses the built-in [Sumo Logic metrics handler] for processing metrics collected by Sensu.
 
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
@@ -85,3 +84,6 @@ This integration does not produce any events that should be processed by an aler
 [sumologic-access-keys]: https://help.sumologic.com/Manage/Security/Access-Keys
 [sumologic-hosted-collector]: https://help.sumologic.com/03Send-Data/Hosted-Collectors
 [sumologic-logs-and-metrics-source]: https://help.sumologic.com/03Send-Data/Sources/02Sources-for-Hosted-Collectors/HTTP-Source
+[Sumo Logic Log Management]: https://www.sumologic.com/solutions/log-management/
+[Sumo Logic Metrics]: https://help.sumologic.com/Metrics/Introduction-to-Metrics/01Overview-of-Metrics-in-Sumo
+[Sumo Logic metrics handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/sumo-logic-metrics-handlers/ 

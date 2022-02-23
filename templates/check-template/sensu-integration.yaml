@@ -27,36 +27,36 @@ spec:
         [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
     - type: question
       name: alert_pipeline
+      required: false
       input:
         type: string
         title: Alert Pipeline
         description: >-
           How do you want to be alerted for failures detected by this pipeline (e.g. Slack or Microsoft Teams)?
         ref: core/v2/pipeline/metadata/name
-        filter: .metadata.labels.provider == "alerts"
-        required: false
+        refFilter: .metadata.labels.provider == "alerts"
     - type: question
       name: incident_pipeline
+      required: false
       input:
         type: string
         title: Incident Management Pipeline
         description: >-
           How do you want to process incidents for failures detected by this pipeline (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
         ref: core/v2/pipeline/metadata/name
-        filter: .metadata.labels.provider == "incidents"
-        required: false
+        refFilter: .metadata.labels.provider == "incidents"
     - type: question
       name: metrics_pipeline
+      required: false
       input:
         type: string
         title: Metrics Pipeline
         description: >-
           How do you want to process metrics collected by this integration?
         ref: core/v2/pipeline/metadata/name
-        filter: .metadata.labels.provider == "metrics"
-        required: false
+        refFilter: .metadata.labels.provider == "metrics"
   resource_patches:
-    resource: 
+    resource:
       api_version: core/v2
       type: CheckConfig
       name: example

@@ -23,31 +23,31 @@ spec:
   prompts:
     - type: question
       name: metrics_pipeline
+      required: false
       input:
         type: string
         title: Metrics Pipeline
         description: >-
           How do you want to process metrics collected by this integration?
         ref: core/v2/pipeline/metadata/name
-        required: false
     - type: question
       name: alerts_pipeline
+      required: false
       input:
         type: string
         title: Alert Pipeline
         description: >-
           How do you want to be alerted for failures detected by this integration (e.g. Slack or Microsoft Teams)?
         ref: core/v2/pipeline/metadata/name
-        required: false
     - type: question
       name: incidents_pipeline
+      required: false
       input:
         type: string
         title: Incident Pipeline
         description: >-
           How do you want to process incidents for failures detected by this integration (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
         ref: core/v2/pipeline/metadata/name
-        required: false
   resource_patches:
     - resource:
         api_version: core/v2

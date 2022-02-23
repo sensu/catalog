@@ -5,7 +5,7 @@ metadata:
   namespace: sumologic
   name: sumologic-analytics
 spec:
-  class: enterprise
+  class: supported
   provider: metrics
   display_name: Sumo Logic Analytics
   short_description: Process Sensu data with Sumo Logic for real-time analytics and turn-key dashboards
@@ -22,19 +22,19 @@ spec:
     - "@calebhailey"
     - "@jspaleta"
     - "@thoward"
-  prompts: 
+  prompts:
     - type: section
       title: Secrets Management
     - type: markdown
       body: |
         This integration requires a Sumo Logic HTTP Logs & Metrics Source URL for integration with Sumo Logic.
 
-        Please visit the Sumo Logic ["HTTP Logs and Metrics Source"] reference documentation for more information. 
+        Please visit the Sumo Logic ["HTTP Logs and Metrics Source"] reference documentation for more information.
 
         ["HTTP Logs and Metrics Source"]: https://help.sumologic.com/03Send-Data/Sources/02Sources-for-Hosted-Collectors/HTTP-Source
     - type: question
       name: secret_provider
-      input: 
+      input:
         type: string
         title: Secret Provider
         enum:
@@ -46,15 +46,15 @@ spec:
       input:
         type: string
         title: Secret ID
-        description: >- 
+        description: >-
           Provide the Secret identifier (i.e. environment variable name, or Vault secret key/path)
         default: SENSU_SUMOLOGIC_HTTP_SOURCE_URL
   resource_patches:
     - resource:
         api_version: secrets/v1
         type: Secret
-        name: sumologic_http_source_url  
-      patches: 
+        name: sumologic_http_source_url
+      patches:
         - path: spec/provider
           op: replace
           value: "[[secret_provider]]"

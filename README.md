@@ -343,7 +343,10 @@ spec:
 
   * `patches`
 
-    A list of updates to apply to the selected resource, in [JSON Patch] format. Variable substitution is supported via `[[varname]]` references (i.e. double square brackets). All patches must specific a `path`, `op` (operation), and a `value`.
+    A list of updates to apply to the selected resource, in [JSON Patch] format.
+    Variable substitution is supported via `varname` references.
+    Templating is supported via double square bracket references (e.g. `Hello, [[varname]]`).
+    All patches must specific a `path`, `op` (operation), and a `value`.
 
     If an individual operation fails, it will be considered as optional and skipped.
 
@@ -388,10 +391,16 @@ spec:
 
     * `value`
 
-      The value to be applied in the patch. Variable substitution is supported via `[[varname]]` references (i.e. double square brackets). The following variables are available:
+      The value to be applied in the patch.
+      Variable substitution is supported via `varname` references (i.e. double square brackets).
+      Please note the following details about Integration variables:
 
-      * **`auto_suffix`**: a randomly generated 8-digit hexadecimal string value (e.g. `168c41a1`)
-      * **User-provided variables**: supplied via a user `prompt` (see the `name` field of any `type:question` prompt)
+      * Sensu Integration variables hava a name (e.g. `team`, or `interval`) and data type (e.g. `string`, `int`).
+      * Sensu Integration variables can be used as Sensu Integration `resource_patch` values (e.g. `value: interval`).
+      * Sensu Integration variable can be interpolated into a string template via double square brackets (e.g. `Hello, [[ team ]]`).
+      * Available variables:
+        * A built-in variable named **`auto_suffix`**: randomly generated 8-digit hexadecimal string value (e.g. `168c41a1`).
+        * **User-provided variables**: supplied via a user `prompt` (see the `name` field of any `type:question` prompt).
 
 ### Sensu Integration guidelines
 
@@ -417,10 +426,10 @@ Please note the following guidelines for comopsing Sensu Integration:
 1. Check templates resources _should_ be defined in the following order (by
    resource type):
 
-    * CheckConfig
-    * HookConfig(s)
-    * Secret(s)
-    * Asset(s)
+   * CheckConfig
+   * HookConfig(s)
+   * Secret(s)
+   * Asset(s)
 
 1. Check resources _must_ recommend one or more named subscriptions.
    At a minimum this should include the corresponding integrations "namespace" (sub-directory) as the default naming convention.
@@ -429,13 +438,13 @@ Please note the following guidelines for comopsing Sensu Integration:
 
 1. The `command` field _should_ preferably be wrapped using the [YAML `>-` multiline "block scalar" syntax][yaml-multiline] for readability.
 
-    ```yaml
-    spec:
-      command: >-
-        check-disk-usage.rb
-        -w {{ .annotations.disk_usage_warning | default 85 }}
-        -c {{ .annotations.disk_usage_critical | default 95 }}
-    ```
+   ```yaml
+   spec:
+     command: >-
+       check-disk-usage.rb
+       -w {{ .annotations.disk_usage_warning | default 85 }}
+       -c {{ .annotations.disk_usage_critical | default 95 }}
+   ```
 
 1. As shown in the example above, check commands should include tunables using [Sensu tokens][tokens], preferably sourced from Entity **annotations** (not labels) with explicitly configured defaults.
 

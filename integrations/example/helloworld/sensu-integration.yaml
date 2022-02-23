@@ -49,5 +49,5 @@ spec:
           value: "[[integration_interval]]"
         - path: /spec/command
           op: replace
-          template: >-
+          value: >-
             echo "Hello {{ .annotations.helloworld | default '[[ integration_world ]]' }} world!"

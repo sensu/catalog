@@ -112,6 +112,7 @@ spec:
   prompts:
     - type: question
       name: url
+      required: false
       input:
         type: string
         title: Default URL
@@ -119,9 +120,9 @@ spec:
           What is the default `nginx_status` endpoint URL that should be used?
         format: url
         default: http://127.0.0.1:80/nginx_status
-        required: false
     - type: question
       name: interval
+      required: false
       input:
         type: integer
         title: Interval
@@ -129,7 +130,6 @@ spec:
           How often (in seconds) do you want to check the status of NGINX?
         format: duration
         default: 30
-        required: false
     - type: section
       title: Pipeline Configuration
     - type: markdown
@@ -139,6 +139,7 @@ spec:
         [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
     - type: question
       name: metrics_pipeline
+      required: false
       input:
         type: string
         title: Metrics Pipeline
@@ -146,9 +147,9 @@ spec:
           How do you want to process metrics collected by this integration?
         ref: core/v2/pipeline/metadata/name
         filter: .metadata.labels.provider == "metrics"
-        required: false
     - type: question
       name: alert_pipeline
+      required: false
       input:
         type: string
         title: Alert Pipeline
@@ -156,9 +157,9 @@ spec:
           How do you want to be alerted for failures detected by this pipeline (e.g. Slack or Microsoft Teams)?
         ref: core/v2/pipeline/metadata/name
         filter: .metadata.labels.provider == "alerts"
-        required: false
     - type: question
       name: incident_pipeline
+      required: false
       input:
         type: string
         title: Incident Management Pipeline
@@ -166,7 +167,6 @@ spec:
           How do you want to process incidents for failures detected by this pipeline (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
         ref: core/v2/pipeline/metadata/name
         filter: .metadata.labels.provider == "incidents"
-        required: false
   resource_patches:
     - resource:
         type: CheckConfig
@@ -262,6 +262,7 @@ spec:
     prompts:
       - type: question
         name: var1
+        required: false
         input:
           type: int
           title: Check Interval
@@ -269,9 +270,9 @@ spec:
             How often do you want to check the service health?
           format: duration
           default: 30
-          required: false
       - type: question
         name: var2
+        required: true
         input:
           type: string
           title: Alert Pipeline
@@ -279,18 +280,18 @@ spec:
             How do you want to be alerted for failures detected by this pipeline (e.g. Slack or Microsoft Teams)?
           ref: core/v2/pipeline/metadata/name
           filter: .metadata.labels.provider == "alerts"
-          required: true
     ```
 
     The following `input` fields may be configured:
 
     * **`type`** (required): data type; allowed values: `string`, `int`, `bool`.
-    * **`title`** (required): input field title/label, displayed above the input field.
-    * **`description`** (optional): input field description, displayed below the input field.
+    * **`name`** (required): variable name to be used in `resource_patches` templates.
     * **`required`** (required): indicates whether a user-input is required.
-    * **`format`** (optional): input value display format; allowed values: `sh`, `ecmascript-5.1`, `cron`, `duration`, `tel`, `email`, `url`, `hostname`, `ipv4`, `ipv6`, `envvar`, `sha-256`, `sha-512`, `io.sensu.selector`. Some display formats provide helpers to simplify user input.
-    * **`ref`** (optional): Sensu API resource reference in `<api_group>/<api_resource>/<api_field_path>` format. For example, `core/v2/Pipeline/metadata/name` refers to `core/v2` API group `Pipeline` resources, which will be presented to the user in a drop-down selector; once selected, the value of the `metadata/name` field will be captured as the input value.
-    * **`filter`** (optional): Sensu API resource reference filters in [Sensu Query Expression (SQE)] format; e.g. `.labels.provider == "alerts"`. Used to filter the results of a `ref`.
+    * **`input.title`** (required): input field title/label, displayed above the input field.
+    * **`input.description`** (optional): input field description, displayed below the input field.
+    * **`input.format`** (optional): input value display format; allowed values: `sh`, `ecmascript-5.1`, `cron`, `duration`, `tel`, `email`, `url`, `hostname`, `ipv4`, `ipv6`, `envvar`, `sha-256`, `sha-512`, `io.sensu.selector`. Some display formats provide helpers to simplify user input.
+    * **`input.ref`** (optional): Sensu API resource reference in `<api_group>/<api_resource>/<api_field_path>` format. For example, `core/v2/Pipeline/metadata/name` refers to `core/v2` API group `Pipeline` resources, which will be presented to the user in a drop-down selector; once selected, the value of the `metadata/name` field will be captured as the input value.
+    * **`input.filter`** (coming soon): Sensu API resource reference filters in [Sensu Query Expression (SQE)] format; e.g. `.labels.provider == "alerts"`. Used to filter the results of a `ref`.
 
   * `type:section`
 

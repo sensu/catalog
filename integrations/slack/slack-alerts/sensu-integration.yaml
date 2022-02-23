@@ -25,8 +25,8 @@ spec:
 
         Please visit [Slack Incoming Webhook] and [Slack Channels] documentation for more information.
 
-        [Slack Incoming Webhook]: #
-        [Slack Channels]: #
+        [Slack Incoming Webhook]: https://api.slack.com/messaging/webhooks
+        [Slack Channels]: https://slack.com/help/articles/360017938993-What-is-a-channel
     - type: section
       title: Slack Webhook URL
     - type: question

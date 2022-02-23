@@ -93,7 +93,7 @@ metadata:
   name: nginx-healthcheck
 spec:
   class: "supported"
-  provider: "agent/check"
+  provider: "monitoring"
   display_name: "NGINX monitoring"
   short_description: NGINX service health and performance monitoring
   supported_platforms:

@@ -6,7 +6,7 @@ metadata:
   name: disk-monitoring
 spec:
   class: supported
-  provider: agent/check
+  provider: monitoring
   display_name: Disk monitoring
   short_description: Cross-platform disk monitoring for Linux, Windows, and macOS.
   supported_platforms:

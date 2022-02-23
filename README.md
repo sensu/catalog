@@ -385,7 +385,7 @@ spec:
 
     * `op`
 
-      The patch operation to perform. The currently supported operations are [`add`][jsonpatch_add] and `remove`.
+      The patch operation to perform. The currently supported operations are [`add`][jsonpatch_add] and [`replace`][jsonpatch_replace].
 
       _NOTE: [JSON Patch] supports `add`, `remove`, `replace`, `copy`, and `move` operations, so additional operations may be supported in the future._
 

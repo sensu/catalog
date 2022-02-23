@@ -26,10 +26,7 @@ spec:
       value: "{{ .namespace }}"
     - name: os
       value: "{{ .system.os }}"
-  pipelines:
-    - api_version: core/v2
-      type: Pipeline
-      name: metrics
+  pipelines: []
 ---
 type: Asset
 api_version: core/v2

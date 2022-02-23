@@ -67,26 +67,26 @@ spec:
         filter: .metadata.labels.provider == "metrics"
         required: false
   resource_patches:
-    resource:
-      api_version: core/v2
-      type: CheckConfig
-      name: example
-    patches:
-      - path: /spec/pipelines/-
-        op: add
-        value:
-          api_version: core/v2
-          type: Pipeline
-          name: "[[alerts_pipeline]]"
-      - path: /spec/pipelines/-
-        op: add
-        value:
-          api_version: core/v2
-          type: Pipeline
-          name: "[[incidents_pipeline]]"
-      - path: /spec/pipelines/-
-        op: add
-        value:
-          api_version: core/v2
-          type: Pipeline
-          name: "[[metrics_pipeline]]"
+    - resource:
+        api_version: core/v2
+        type: CheckConfig
+        name: example
+      patches:
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[alerts_pipeline]]"
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[incidents_pipeline]]"
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[metrics_pipeline]]"

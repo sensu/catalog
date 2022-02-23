@@ -49,20 +49,20 @@ spec:
         filter: .metadata.labels.provider == "incidents"
         required: false
   resource_patches:
-    resource:
-      api_version: core/v2
-      type: CheckConfig
-      name: kubernetes-liveness
-    patches:
-      - path: /spec/pipelines/-
-        op: add
-        value:
-          api_version: core/v2
-          type: Pipeline
-          name: "[[alert_pipeline]]"
-      - path: /spec/pipelines/-
-        op: add
-        value:
-          api_version: core/v2
-          type: Pipeline
-          name: "[[incident_pipeline]]"
+    - resource:
+        api_version: core/v2
+        type: CheckConfig
+        name: kubernetes-liveness
+      patches:
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[alert_pipeline]]"
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[incident_pipeline]]"

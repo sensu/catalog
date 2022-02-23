@@ -1,0 +1,68 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: kubernetes
+  name: kubernetes-monitoring
+spec:
+  class: supported # community, supported, enterprise, or partner
+  provider: monitoring
+  display_name: Kubernetes monitoring
+  short_description: Kubernetes API liveness health check.
+  supported_platforms:
+    - darwin
+    - linux
+    - windows
+  tags:
+    - kubernetes
+    - kubelet
+    - kube-apiserver
+  contributors:
+    - "@sensu"
+    - "@calebhailey"
+  prompts:
+    - type: section
+      title: Pipeline Configuration
+    - type: markdown
+      body: >-
+        Configure one or more [pipelines] for processing Kubernetes monitoring data.
+
+        [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
+    - type: question
+      name: alert_pipeline
+      input:
+        type: string
+        title: Alert Pipeline
+        description: >-
+          How do you want to be alerted for failures detected by this pipeline (e.g. Slack or Microsoft Teams)?
+        ref: core/v2/pipeline/metadata/name
+        filter: .metadata.labels.provider == "alerts"
+        required: false
+    - type: question
+      name: incident_pipeline
+      input:
+        type: string
+        title: Incident Management Pipeline
+        description: >-
+          How do you want to process incidents for failures detected by this pipeline (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
+        ref: core/v2/pipeline/metadata/name
+        filter: .metadata.labels.provider == "incidents"
+        required: false
+  resource_patches:
+    resource:
+      api_version: core/v2
+      type: CheckConfig
+      name: kubernetes-liveness
+    patches:
+      - path: /spec/pipelines/-
+        op: add
+        value:
+          api_version: core/v2
+          type: Pipeline
+          name: "[[alert_pipeline]]"
+      - path: /spec/pipelines/-
+        op: add
+        value:
+          api_version: core/v2
+          type: Pipeline
+          name: "[[incident_pipeline]]"

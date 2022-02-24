@@ -5,7 +5,7 @@ metadata:
   namespace: kubernetes
   name: kubernetes-monitoring
 spec:
-  class: supported # community, supported, enterprise, or partner
+  class: supported
   provider: monitoring
   display_name: Kubernetes monitoring
   short_description: Kubernetes API liveness health check.

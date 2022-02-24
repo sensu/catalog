@@ -35,9 +35,9 @@ This integration is compatible with the [Sumo Logic Host and Process Metrics] da
    * `darwin`
    * `darwin/disk`
 
-1. Optionally set the `disk_usage_warning_threshold` agent [annotation] to override the default value (`80.0`%).
+1. Optionally set the `disk_usage_warning_threshold` agent [annotation] to override the default `--warning` value (`80.0`%).
 
-1. Optionally set the `disk_usage_critical_threshold` agent [annotation] to override the default value (`90.0`%).
+1. Optionally set the `disk_usage_critical_threshold` agent [annotation] to override the default `--critical` value (`90.0`%).
 
 ## Plugins
 

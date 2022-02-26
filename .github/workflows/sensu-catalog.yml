@@ -35,7 +35,7 @@ jobs:
         uses: ./.github/actions/generate-catalog-api
         id: generate-api
         with:
-          catalog-api-version: ${{ env.catalog_api_version }}
+          release-dir: ${{ env.catalog_api_version }}
 
   publish:
     name: 'Publish Sensu Catalog API'

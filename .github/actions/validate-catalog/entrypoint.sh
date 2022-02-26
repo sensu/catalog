@@ -9,9 +9,5 @@ catalog_api_url="https://github.com/sensu/catalog-api/releases/download/${catalo
 echo "URL: ${catalog_api_url}"
 curl -L "$catalog_api_url" | gunzip -c | tar -x -C /usr/bin
 
-
-echo "Creating tmp directory for generated files"
-mkdir -p ./tmp
-
-echo "Generating Catalog API"
-catalog-api catalog generate --temp-dir "./tmp"
+echo "Validating Catalog"
+catalog-api catalog validate

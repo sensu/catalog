@@ -12,7 +12,8 @@ jobs:
       - uses: actions/checkout@master
         with:
           fetch-depth: 0  # The whole repository must be cloned
-      - uses: ./.github/actions/validate-catalog
+      - name: Run Sensu Catalog validation
+        uses: ./.github/actions/validate-catalog
         with:
           catalog-api-version: ${{ env.catalog_api_version }}
 
@@ -30,7 +31,7 @@ jobs:
         with:
           path: ${{ steps.generate-api.outputs.release-dir }}
           key: generated-catalog-api
-      - name: Generate Sensu Catalog API
+      - name: Run Sensu Catalog API generation
         uses: ./.github/actions/generate-catalog-api
         id: generate-api
         with:
@@ -46,7 +47,8 @@ jobs:
         with:
           path: ${{ steps.generate-api.outputs.release-dir }}
           key: generated-catalog-api
-      - uses: ./.github/actions/publish-catalog-api
+      - name: Run Sensu Catalog API publisher
+        uses: ./.github/actions/publish-catalog-api
         with:
           release-dir: ${{ steps.generate-api.outputs.release-dir }}
         env:

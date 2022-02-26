@@ -19,7 +19,7 @@ jobs:
   generate:
     name: 'Generate Sensu Catalog API'
     runs-on: ubuntu-latest
-    if: contains(['push', 'create'], github.event_name) && contains(github.ref, 'refs/tags/')
+    if: contains(fromJson('["push", "create"]'), github.event_name) && contains(github.ref, 'refs/tags/')
     needs: validate
     steps:
       - uses: actions/checkout@master

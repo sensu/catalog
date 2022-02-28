@@ -4,7 +4,7 @@ on: [push, pull_request]
 env:
   cache_key: ${{ github.workflow }}-${{ github.run_number }}-${{ github.run_attempt }}
   catalog_api_version: 0.1.0-alpha.10
-  catalog_temp_dir: tmp
+  catalog_temp_dir: ./tmp
 
 jobs:
   validate:

@@ -15,3 +15,4 @@ mkdir -p ./tmp
 
 echo "Generating Catalog API"
 catalog-api catalog generate --temp-dir "./tmp"
+chown -R 1001:1001 tmp

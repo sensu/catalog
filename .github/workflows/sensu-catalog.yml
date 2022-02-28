@@ -38,6 +38,7 @@ jobs:
         id: generate-api
         with:
           catalog-api-version: ${{ env.catalog_api_version }}
+      - run: ls -l tmp
 
   publish:
     name: 'Publish Sensu Catalog API'
@@ -52,6 +53,7 @@ jobs:
         with:
           path: tmp
           key: generated-catalog-api
+      - run: ls -l tmp
       - name: Run Sensu Catalog API publisher
         uses: ./.github/actions/publish-catalog-api
         with:

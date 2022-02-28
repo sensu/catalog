@@ -1,7 +1,9 @@
 #!/bin/sh -l
 
-echo "Downloading & installing catalog-api"
 catalog_api_version="$1"
+temp_dir="$2"
+
+echo "Downloading & installing catalog-api"
 catalog_api_os="linux"
 catalog_api_arch="amd64"
 catalog_api_filename="catalog-api_${catalog_api_version}_${catalog_api_os}_${catalog_api_arch}.tar.gz"
@@ -14,5 +16,5 @@ echo "Creating tmp directory for generated files"
 mkdir -p ./tmp
 
 echo "Generating Catalog API"
-catalog-api catalog generate --temp-dir "./tmp"
+catalog-api catalog generate --temp-dir "$temp_dir"
 chown -R 1001:1001 tmp

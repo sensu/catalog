@@ -4,6 +4,7 @@ on: [push, pull_request]
 env:
   cache_key: ${{ github.workflow }}-${{ github.run_number }}-${{ github.run_attempt }}
   catalog_api_version: 0.1.0-alpha.10
+  catalog_temp_dir: tmp
 
 jobs:
   validate:
@@ -32,14 +33,14 @@ jobs:
       - name: Setup Cache
         uses: actions/cache@v2
         with:
-          path: tmp
+          path: ${{ env.catalog_temp_dir }}
           key: ${{ env.cache_key }}
       - name: Run Sensu Catalog API generation
         uses: ./.github/actions/generate-catalog-api
         id: generate-api
         with:
           catalog-api-version: ${{ env.catalog_api_version }}
-      - run: ls -l tmp
+          temp-dir: ${{ env.catalog_temp_dir }}
 
   publish:
     name: 'Publish Sensu Catalog API'
@@ -52,9 +53,8 @@ jobs:
       - name: Restore Cache
         uses: actions/cache@v2
         with:
-          path: tmp
+          path: ${{ env.catalog_temp_dir }}
           key: ${{ env.cache_key }}
-      - run: ls -l tmp
       - name: Run Sensu Catalog API publisher
         uses: ./.github/actions/publish-catalog-api
         with:

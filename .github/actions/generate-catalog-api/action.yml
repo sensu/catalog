@@ -19,6 +19,7 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.catalog-api-version }}
+    - ${{ inputs.temp-dir }}
 branding:
   icon: 'globe'
   color: 'green'

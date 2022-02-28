@@ -7,6 +7,10 @@ inputs:
     description: 'The version of the API tool to use'
     required: true
     default: '0.1.0-alpha.10'
+  temp-dir:
+    description: 'The path to a temp directory to store the generated API files'
+    required: true
+    default: 'tmp'
 outputs:
   release-dir:
     description: 'The path of the generated release directory'
@@ -15,6 +19,7 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.catalog-api-version }}
+    - ${{ inputs.temp-dir }}
 branding:
   icon: 'globe'
   color: 'green'

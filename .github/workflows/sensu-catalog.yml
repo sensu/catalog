@@ -2,6 +2,7 @@
 name: 'Sensu Catalog Workflow'
 on: [push, pull_request]
 env:
+  cache_key: ${{ github.workflow }}-${{ github.run_number }}-${{ github.run_attempt }}
   catalog_api_version: 0.1.0-alpha.10
 
 jobs:
@@ -32,7 +33,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: tmp
-          key: generated-catalog-api
+          key: ${{ env.cache_key }}
       - name: Run Sensu Catalog API generation
         uses: ./.github/actions/generate-catalog-api
         id: generate-api
@@ -52,7 +53,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: tmp
-          key: generated-catalog-api
+          key: ${{ env.cache_key }}
       - run: ls -l tmp
       - name: Run Sensu Catalog API publisher
         uses: ./.github/actions/publish-catalog-api

@@ -52,7 +52,7 @@ jobs:
       - name: Run Sensu Catalog API publisher
         uses: ./.github/actions/publish-catalog-api
         with:
-          release-dir: ${{ steps.generate-api.outputs.release-dir }}
+          release-dir: ${{ needs.generate.outputs.release-dir }}
         env:
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

@@ -22,6 +22,8 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(fromJson('["push", "create"]'), github.event_name) && contains(github.ref, 'refs/tags/')
     needs: validate
+    outputs:
+      release-dir: ${{ steps.generate-api.outputs.release-dir }}
     steps:
       - uses: actions/checkout@master
         with:
@@ -29,7 +31,7 @@ jobs:
       - name: Setup Cache
         uses: actions/cache@v2
         with:
-          path: ${{ steps.generate-api.outputs.release-dir }}
+          path: tmp
           key: generated-catalog-api
       - name: Run Sensu Catalog API generation
         uses: ./.github/actions/generate-catalog-api
@@ -45,7 +47,7 @@ jobs:
       - name: Restore Cache
         uses: actions/cache@v2
         with:
-          path: ${{ steps.generate-api.outputs.release-dir }}
+          path: tmp
           key: generated-catalog-api
       - name: Run Sensu Catalog API publisher
         uses: ./.github/actions/publish-catalog-api

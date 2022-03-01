@@ -5,7 +5,7 @@ export CATALOG_BUILD_DIR=${CATALOG_BUILD_DIR:-"/build"}
 export CATALOG_BUILD_PATH=""
 
 check_deps() {
-  for DEP in catalog-api jq
+  for DEP in catalog-api
   do
     command -v ${DEP} > /dev/null 2>&1
     if [ $? -ne 0 ]; then

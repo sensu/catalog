@@ -146,7 +146,7 @@ spec:
         description: >-
           How do you want to process metrics collected by this integration?
         ref: core/v2/pipeline/metadata/name
-        refFilter: .metadata.labels.provider == "metrics"
+        refFilter: .labels.provider == "metrics"
     - type: question
       name: alert_pipeline
       required: false
@@ -156,7 +156,7 @@ spec:
         description: >-
           How do you want to be alerted for failures detected by this pipeline (e.g. Slack or Microsoft Teams)?
         ref: core/v2/pipeline/metadata/name
-        refFilter: .metadata.labels.provider == "alerts"
+        refFilter: .labels.provider == "alerts"
     - type: question
       name: incident_pipeline
       required: false
@@ -166,7 +166,7 @@ spec:
         description: >-
           How do you want to process incidents for failures detected by this pipeline (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
         ref: core/v2/pipeline/metadata/name
-        refFilter: .metadata.labels.provider == "incidents"
+        refFilter: .labels.provider == "incidents"
   resource_patches:
     - resource:
         type: CheckConfig
@@ -279,7 +279,7 @@ spec:
           description: >-
             How do you want to be alerted for failures detected by this pipeline (e.g. Slack or Microsoft Teams)?
           ref: core/v2/pipeline/metadata/name
-          refFilter: .metadata.labels.provider == "alerts"
+          refFilter: .labels.provider == "alerts"
     ```
 
     The following `input` fields may be configured:

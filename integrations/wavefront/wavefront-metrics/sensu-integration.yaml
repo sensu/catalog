@@ -1,0 +1,51 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: "wavefront"
+  name: "wavefront-metrics"
+spec:
+  class: supported
+  provider: metrics
+  display_name: Wavefront Metrics
+  short_description: "Send collected metric data to Wavefront for storage and visualization."
+  supported_platforms:
+    - linux
+  tags:
+    - wavefront
+    - wavefront-metrics
+  contributors:
+    - "@sensu"
+  prompts:
+    - type: section
+      title: Connection Settings
+    - type: markdown
+      body: |
+        This integration requires one or more Wavefront connection settings.
+    - type: question
+      name: wavefront_host
+      required: true
+      input:
+        type: string
+        title: Wavefront Host
+        description: >-
+          Provide the Wavefront host address.
+    - type: question
+      name: wavefront_port
+      input:
+        type: integer
+        title: Wavefront Port
+        description: >-
+          Provide the Wavefront port.
+        default: 2878
+  resource_patches:
+    - resource:
+        api_version: core/v2
+        type: Handler
+        name: wavefront-metrics
+      patches:
+        - path: /spec/env_vars
+          op: replace
+          value:
+            - "WAVEFRONT_HOST=[[wavefront_host]]"
+            - "WAVEFRONT_PORT=[[wavefront_port]]"

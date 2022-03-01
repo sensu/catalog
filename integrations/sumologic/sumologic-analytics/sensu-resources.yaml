@@ -12,14 +12,12 @@ spec:
     - api_version: core/v2
       type: EventFilter
       name: has_metrics
-    mutator: {}
     handler:
       api_version: pipeline/v1
       type: SumoLogicMetricsHandler
       name: sumologic-metrics
   - name: sumologic-logs
     filters: []
-    mutator: {}
     handler:
       api_version: core/v2
       type: Handler

@@ -55,9 +55,9 @@ spec:
         type: Secret
         name: sumologic_http_source_url
       patches:
-        - path: spec/provider
+        - path: /spec/provider
           op: replace
           value: "[[secret_provider]]"
-        - path: spec/id
+        - path: /spec/id
           op: replace
           value: "[[secret_id]]"

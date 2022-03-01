@@ -23,34 +23,22 @@ spec:
       title: Ansible Tower API Configuration
     - type: markdown
       body: |
-        This integration requires a Ansible Tower API URL and API Token for API Authentication.
+        This integration requires a Ansible Tower API Host and API Token for API Authentication.
 
         Please visit [Ansible Tower API OAuth Guide] for more information.
 
         [Ansible Tower OAuth Guide]: https://docs.ansible.com/ansible-tower/latest/html/administration/oauth2_token_auth.html
     - type: section
-      title: Ansible Tower API URL
+      title: Ansible Tower API Configuration
     - type: question
-      name: api_url_secret_provider
+      name: api_host
+      required: true
       input:
         type: string
-        title: Ansible Tower API URL Secret Provider
+        title: Ansible Tower API Host
         description: >-
-          Select the API URL secret provider where the secrets is stored
-        enum:
-          - env
-          - vault
-        default: env
-    - type: question
-      name: api_url_secret_id
-      input:
-        type: string
-        title: Ansible Tower API URL Secret ID
-        description: >-
-          Provide the API URL secret identifier (i.e. environment variable name, or Vault secret key/path)
-        default: SENSU_ANSIBLE_TOWER_HOST
-    - type: section
-      title: Ansible Tower API Token
+          Provide the API Host (i.e. hostname or IP address)
+        default: "127.0.0.1"
     - type: question
       name: api_token_secret_provider
       input:
@@ -72,16 +60,13 @@ spec:
         default: SENSU_ANSIBLE_TOWER_TOKEN
   resource_patches:
     - resource:
-        api_version: secrets/v1
-        type: Secret
-        name: ansible_tower_host
+        api_version: core/v2
+        type: Handler
+        name: ansible-tower
       patches:
-        - path: /spec/provider
+        - path: /spec/env_vars/0
           op: replace
-          value: "[[api_url_secret_provider]]"
-        - path: /spec/id
-          op: replace
-          value: "[[api_url_secret_id]]"
+          value: ANSIBLE_HOST=127.0.0.1
     - resource:
         api_version: secrets/v1
         type: Secret

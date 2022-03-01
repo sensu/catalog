@@ -47,7 +47,7 @@ spec:
         title: Secret ID
         description: >-
           Provide the Webhook URL secret identifier (i.e. environment variable name, or Vault secret key/path)
-        default: SENSU_MATTERMOST_WEBHOOK_URL
+        default: SENSU_SLACK_WEBHOOK_URL
     - type: section
       title: Slack Channel
     - type: question
@@ -68,7 +68,7 @@ spec:
         title: Secret ID
         description: >-
           Provide the Channel secret identifier (i.e. environment variable name, or Vault secret key/path)
-        default: SENSU_MATTERMOST_CHANNEL
+        default: SENSU_SLACK_CHANNEL
   resource_patches:
     - resource:
         api_version: secrets/v1

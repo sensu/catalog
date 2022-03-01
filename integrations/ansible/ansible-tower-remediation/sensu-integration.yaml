@@ -27,7 +27,7 @@ spec:
 
         Please visit [Ansible Tower API OAuth Guide] for more information.
 
-        [Ansible Tower OAuth Guide]: https://docs.ansible.com/ansible-tower/latest/html/administration/oauth2_token_auth.html
+        [Ansible Tower API OAuth Guide]: https://docs.ansible.com/ansible-tower/latest/html/administration/oauth2_token_auth.html
     - type: section
       title: Ansible Tower API Configuration
     - type: question

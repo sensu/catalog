@@ -8,8 +8,6 @@ metadata:
 spec:
   workflows:
     - name: ansible-tower
-      filters: []
-      mutator: {}
       handler:
         api_version: core/v2
         type: Handler
@@ -18,8 +16,6 @@ spec:
 type: Handler
 api_version: core/v2
 metadata:
-  labels:
-    sensu.io/managed_by: sensuctl
   name: ansible-tower
 spec:
   type: pipe
@@ -27,19 +23,11 @@ spec:
   runtime_assets:
     - sensu/sensu-ansible-handler:2.1.0
   timeout: 10
+  env_vars:
+    - ANSIBLE_HOST=127.0.0.1
   secrets:
-    - name: ANSIBLE_HOST
-      secret: ansible_tower_host
     - name: ANSIBLE_TOKEN
       secret: ansible_tower_token
----
-type: Secret
-api_version: secrets/v1
-metadata:
-  name: ansible_tower_host
-spec:
-  provider: env
-  id: SENSU_ANSIBLE_TOWER_HOST
 ---
 type: Secret
 api_version: secrets/v1

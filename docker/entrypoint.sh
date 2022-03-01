@@ -41,7 +41,7 @@ publish_catalog() {
     exit 2
   fi
   cp -r ${CATALOG_BUILD_PATH}/* /usr/share/nginx/html/
-  chmod 755 /usr/share/nginx/html/*
+  chmod -R 755 /usr/share/nginx/html/*
 }
 
 check_deps && \

@@ -20,5 +20,5 @@ COPY ./docker/nginx.conf /etc/nginx/nginx.conf
 RUN mkdir /build
 
 # docker build -t sensu-catalog:latest .
-# docker run --rm -d --name sensu-catalog -v $PWD:/catalog -p 8888:80 sensu-catalog:latest
+# docker run --rm -d --name sensu-catalog -v $PWD:/catalog -p 7678:80 sensu-catalog:latest
 # docker stop sensu-catalog

@@ -20,7 +20,7 @@ spec:
     - "@jspaleta"
   prompts:
     - type: section
-      title: Mattermost Secrets
+      title: Ansible Tower API Configuration
     - type: markdown
       body: |
         This integration requires a Ansible Tower API URL and API Token for API Authentication.

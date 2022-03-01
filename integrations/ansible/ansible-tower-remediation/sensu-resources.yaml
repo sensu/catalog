@@ -6,8 +6,6 @@ metadata:
 spec:
   workflows:
     - name: ansible-tower
-      filters: []
-      mutator: {}
       handler:
         api_version: core/v2
         type: Handler
@@ -16,8 +14,6 @@ spec:
 type: Handler
 api_version: core/v2
 metadata:
-  labels:
-    sensu.io/managed_by: sensuctl
   name: ansible-tower
 spec:
   type: pipe

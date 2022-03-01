@@ -3,6 +3,8 @@ type: Pipeline
 api_version: core/v2
 metadata:
   name: mattermost
+  labels:
+    provider: alerts
 spec:
   workflows:
     - name: mattermost

@@ -1,0 +1,62 @@
+---
+type: Integration
+api_version: catalog/v1
+metadata:
+  namespace: microsoft-teams
+  name: microsoft-teams-alerts
+spec:
+  class: enterprise
+  provider: alerts
+  display_name: Microsoft Teams Alerts
+  short_description: Send alerts via Microsoft Teams
+  tags:
+    - microsoft-teams
+    - alerts
+  contributors:
+    - "@sensu"
+    - "@calebhailey"
+    - "@jspaleta"
+    - "@nixwiz"
+  prompts:
+    - type: section
+      title: Microsoft Teams Secrets
+    - type: markdown
+      body: |
+        This integration requires a Microsoft Teams Webhook URL for Microsoft Teams API Authentication.
+
+        Please visit [Microsoft Teams Incoming Webhook] documentation for more information.
+
+        [Microsoft Teams Incoming Webhook]: https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook
+    - type: section
+      title: Microsoft Teams Webhook URL
+    - type: question
+      name: webhook_url_secret_provider
+      input:
+        type: string
+        title: Webhook URL Secret Provider
+        description: >-
+          Select the Webhook URL secret provider where the secrets is stored
+        enum:
+          - env
+          - vault
+        default: env
+    - type: question
+      name: webhook_url_secret_id
+      input:
+        type: string
+        title: Secret ID
+        description: >-
+          Provide the Webhook URL secret identifier (i.e. environment variable name, or Vault secret key/path)
+        default: SENSU_MICROSOFT_TEAMS_WEBHOOK_URL
+  resource_patches:
+    - resource:
+        api_version: secrets/v1
+        type: Secret
+        name: microsoft_teams_webhook_url
+      patches:
+        - path: /spec/provider
+          op: replace
+          value: "[[webhook_url_secret_provider]]"
+        - path: /spec/id
+          op: replace
+          value: "[[webhook_url_secret_id]]"

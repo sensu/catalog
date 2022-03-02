@@ -39,6 +39,14 @@ This integration is compatible with the Sumo Logic "Sensu" app, included with [S
   * `system/linux`
   * `system/windows`
 
+1. Optionally set the `system_cpu_used_warning_threshold` agent [annotation] to override the default value (`80.0`%) on a per-host basis.
+
+1. Optionally set the `system_cpu_used_critical_threshold` agent [annotation] to override the default value (`90.0`%) on a per-host basis.
+
+1. Optionally set the `system_mem_used_warning_threshold` agent [annotation] to override the default value (`80.0`%) on a per-host basis.
+
+1. Optionally set the `system_mem_used_critical_threshold` agent [annotation] to override the default value (`90.0`%) on a per-host basis.
+
 ## Plugins
 
 <!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->

@@ -133,7 +133,7 @@ spec:
     - type: section
       title: Pipeline Configuration
     - type: markdown
-      body: >-
+      body: |
         Configure one or more [pipelines] for processing NGINX monitoring data.
 
         [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
@@ -310,7 +310,7 @@ spec:
     ```yaml
     prompts:
       - type: markdown
-        body: >-
+        body: |
           Hello, **inline documentation**. Use markdown blocks to provide users with additional context or instructions.
 
           Markdown content can include code blocks.

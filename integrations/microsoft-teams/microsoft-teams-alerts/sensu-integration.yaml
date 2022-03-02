@@ -40,31 +40,6 @@ spec:
         description: >-
           Provide the Secret identifier (i.e. environment variable name, or Vault secret key/path)
         default: MICROSOFT_TEAMS_WEBHOOK_URL
-    - type: section
-      title: Alert Format
-    - type: markdown
-      body: |
-        The sensu-microsoft-teams-handler provides options to customize the alert appearance.
-
-        Refer to the [sensu-microsoft-teams-handler docs][docs] for more details.
-
-        [docs](https://bonsai.sensu.io/assets/sensu/sensu-microsoft-teams-handler#templates)
-    - type: question
-      name: title_template
-      input:
-        type: string
-        title: Title Template
-        description: >-
-          The Alert Title Template
-        default: "Sensu Event - {{.Entity.Name}}/{{.Check.Name}}"
-    - type: question
-      name: icon_url
-      input:
-        type: string
-        title: Icon URL
-        description: >-
-          URL of the icon displayed with the alert
-        default: https://www.sensu.io/img/sensu-logo.png
   resource_patches:
     - resource:
         api_version: secrets/v1
@@ -77,15 +52,3 @@ spec:
         - path: /spec/id
           op: replace
           value: "[[microsoft_teams_webhook_url_secret]]"
-    - resource:
-        api_version: core/v2
-        type: Handler
-        name: ms-teams-alerts
-      patches:
-        - path: /spec/command
-          op: replace
-          value: >-
-            sensu-microsoft-teams-handler
-            --icon-url [[icon_url]]
-            --title-template "[[title_template]]"
-

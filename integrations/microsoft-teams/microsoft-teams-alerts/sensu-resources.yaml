@@ -64,7 +64,7 @@ spec:
 type: Handler
 api_version: core/v2
 metadata:
-  name: ms-teams-alerts
+  name: ms-teams-alert-handler
 spec:
   command: >-
    sensu-microsoft-teams-handler

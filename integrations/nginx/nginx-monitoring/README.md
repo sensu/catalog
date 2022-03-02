@@ -2,16 +2,14 @@
 
 <!-- Sensu Integration description; supports markdown -->
 
-Monitor NGINX health status using the [NGINX `stub_status` module][nginx_stub_status].
+Collect metrics and monitor NGINX health status using the [NGINX `stub_status` module][nginx_stub_status].
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 
 This integration provides the following resources:
 
-* `nginx-healthcheck` [check]
 * `nginx-metrics` [check]
-* `sensu-plugins/sensu-plugins-nginx:3.1.2` [asset]
-* `sensu/sensu-ruby-runtime:0.0.10` [asset]
+* `sensu/nginx-check:0.1.0` [asset]
 
 ### Dashboards
 
@@ -48,8 +46,7 @@ This integration is compatible with the [Sumo Logic NGINX app][sumologic-nginx-a
 
 <!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->
 
-- [sensu-plugins/sensu-plugins-nginx:3.1.2][sensu-plugins-nginx-bonsai] ([GitHub][sensu-plugins-nginx-github])
-- [sensu/sensu-ruby-runtime:0.0.10][sensu-ruby-runtime-github] ([GitHub][sensu-ruby-runtime-github])
+- [sensu/nginx-check:0.1.0][sensu-nginx-check-bonsai] ([GitHub][sensu-nginx-check-github])
 
 ## Metrics & Events
 
@@ -57,32 +54,32 @@ This integration is compatible with the [Sumo Logic NGINX app][sumologic-nginx-a
 
 This integration collects the following [metrics]:
 
-* `active_connections`
+* `nginx_active`
 
   The current number of active client connections including `Waiting` connections.
 
-* `accepts`
+* `nginx_accepts`
 
   The total number of accepted client connections.
 
-* `handled`
+* `nginx_handled`
 
   The total number of handled connections.
   Generally, the parameter value is the same as accepts unless some resource limits have been reached (for example, the [`worker_connections` limit][worker_connections_limit]).
 
-* `requests`
+* `nginx_requests`
 
   The total number of client requests.
 
-* `reading`
+* `nginx_reading`
 
   The current number of connections where nginx is reading the request header.
 
-* `writing`
+* `nginx_writing`
 
   The current number of connections where nginx is writing the response back to the client.
 
-* `waiting`
+* `nginx_waiting`
 
   The current number of idle client connections waiting for a request.
 
@@ -92,7 +89,11 @@ This integration collects the following [metrics]:
 
 This integration produces the following events that should be processed by an alert or incident management [handler]:
 
-* N/A
+* Produces `WARN` if values for `nginx_active` or `nginx_waiting` are exceed threshold.
+* Default thresholds are:
+    * `nginx_active`: 300
+    * `nginx_waiting`: 30
+* Produces `CRITICAL` if `nginx_status` endpoint is unreachable.
 
 ## Reference Documentation
 
@@ -114,8 +115,6 @@ This integration produces the following events that should be processed by an al
 [sumologic-nginx-app]: https://www.sumologic.com/application/nginx/
 [sensu-plus]: https://sensu.io/features/analytics
 [nginx_stub_status]: https://nginx.org/en/docs/http/ngx_http_stub_status_module.html
-[sensu-plugins-nginx-bonsai]: https://bonsai.sensu.io/assets/sensu-plugins/sensu-plugins-nginx
-[sensu-plugins-nginx-github]: https://github.com/sensu-plugins/sensu-plugins-nginx
-[sensu-ruby-runtime-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-ruby-runtime
-[sensu-ruby-runtime-github]: https://github.com/sensu/sensu-ruby-runtime
+[sensu-nginx-check-bonsai]: https://bonsai.sensu.io/assets/sensu/nginx-check
+[sensu-nginx-check-github]: https://github.com/sensu/nginx-check
 [worker_connections_limit]: https://nginx.org/en/docs/ngx_core_module.html#worker_connections

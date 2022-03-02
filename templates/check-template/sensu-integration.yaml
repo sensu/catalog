@@ -21,7 +21,7 @@ spec:
     - type: section
       title: Pipeline Configuration
     - type: markdown
-      body: >-
+      body: |
         Configure one or more [pipelines] for processing {{integration_short_name}} data.
 
         [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/

@@ -32,15 +32,15 @@ spec:
         - name: cpu
           value: cpu-total
       thresholds:
-        - max: "{{ .annotations.system_cpu_used_warning_threshold | default '80.0' }}"
+        - max: '{{ .annotations.system_cpu_used_warning_threshold | default "7.0" }}'
           status: 1
-        - max: "{{ .annotations.system_cpu_used_critical_threshold | default '90.0' }}"
+        - max: '{{ .annotations.system_cpu_used_critical_threshold | default "90.0" }}'
           status: 2
     - name: system_mem_used
       thresholds:
-        - max: "{{ .annotations.system_mem_used_warning_threshold | default '80.0' }}"
+        - max: '{{ .annotations.system_mem_used_warning_threshold | default "80.0" }}'
           status: 1
-        - max: "{{ .annotations.system_mem_used_critical_threshold | default '80.0' }}"
+        - max: '{{ .annotations.system_mem_used_critical_threshold | default "80.0" }}'
           status: 2
   pipelines: []
 ---

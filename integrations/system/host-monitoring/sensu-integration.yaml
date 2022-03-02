@@ -76,7 +76,7 @@ spec:
       title: Configure Event Processing Pipelines
     - type: markdown
       body: |
-        Configure one or more [pipelines] for processing disk monitoring data.
+        Configure one or more [pipelines] for processing host monitoring data.
 
         [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
     - type: question

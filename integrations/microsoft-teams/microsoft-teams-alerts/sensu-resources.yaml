@@ -96,4 +96,4 @@ spec:
       handler:
         api_version: core/v2
         type: Handler
-        name: ms-teams-alerts
+        name: ms-teams-alert-handler

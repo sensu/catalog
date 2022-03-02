@@ -40,7 +40,7 @@ spec:
       thresholds:
         - max: '{{ .annotations.system_mem_used_warning_threshold | default "80.0" }}'
           status: 1
-        - max: '{{ .annotations.system_mem_used_critical_threshold | default "80.0" }}'
+        - max: '{{ .annotations.system_mem_used_critical_threshold | default "90.0" }}'
           status: 2
   pipelines: []
 ---

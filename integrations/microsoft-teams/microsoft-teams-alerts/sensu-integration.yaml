@@ -5,7 +5,7 @@ metadata:
   namespace: microsoft-teams
   name: microsoft-teams-alerts
 spec:
-  class: enterprise
+  class: supported
   provider: alerts
   display_name: Microsoft Teams Alerts
   short_description: Send alerts via Microsoft Teams

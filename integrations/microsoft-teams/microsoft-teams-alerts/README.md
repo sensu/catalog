@@ -13,6 +13,7 @@ This integration provides the following resources:
 * `microsoft_teams_webhook_url` [secrets]
 * `sensu/sensu-microsoft-teams-handler:0.1.2` [asset]
 
+
 ## Dashboards
 
 <!-- List of supported dashboards w/ screenshots (supports png, jpeg, and gif images; relative paths only; e.g. `![](img/dashboard-1.png)` )-->
@@ -23,12 +24,15 @@ There are no known supported dashboards for this integration.
 
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
+1. Obtain an Sensu Enterprise license
+
+   The Sensu Microsoft Teams Handler is an Enterprise plugin that requires a valid [Sensu license][sensu-license] to run. 
 
 1. Get a Microsoft Teams webhook url
 
    To obtain a [Teams Webhook URL][microsoft-teams-webhook-url], please add an Incoming Webhook for the Teams channel that Sensu will be using to send alert messages. 
 
-1. Configure Secrets Management 
+1. Configure secrets management 
 
    This integration requires the following [Sensu Secrets][secrets]: 
 
@@ -62,6 +66,7 @@ This integration does not produce any events that should be processed by an aler
 1. This integration uses [Handler Templating][handler-templating] for variable substitution
 
 <!-- Links -->
+[sensu-license]: https://docs.sensu.io/sensu-go/latest/commercial/#get-started-with-commercial-features-in-sensu-go
 [asset]: https://docs.sensu.io/sensu-go/latest/plugins/assets/
 [annotation]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#general-configuration-flags
 [plugins]: https://docs.sensu.io/sensu-go/latest/plugins/

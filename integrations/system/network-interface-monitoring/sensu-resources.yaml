@@ -35,7 +35,6 @@ spec:
   pipelines: []
   env_vars: []
 ---
----
 type: Asset
 api_version: core/v2
 metadata:

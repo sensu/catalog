@@ -28,6 +28,8 @@ spec:
   output_metric_tags:
     - name: entity
       value: "{{ .name }}"
+    - name: host.name
+      value: "{{ .name }}"
     - name: namespace
       value: "{{ .namespace }}"
     - name: os

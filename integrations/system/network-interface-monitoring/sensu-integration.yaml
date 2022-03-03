@@ -51,6 +51,10 @@ spec:
     - type: markdown
       body: |
         Configure the event processing pipelines for processing NGINX events and metrics.
+      title: Configure Sensu Pipelines
+    - type: markdown
+      body: |
+        This integration collects host metrics and can issue alerts using metric threaholds. You can configure different Sensu pipelines to use to process metrics and alerts.
     - type: question
       name: metrics_pipeline
       required: false

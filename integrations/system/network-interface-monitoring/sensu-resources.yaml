@@ -6,9 +6,11 @@ metadata:
 spec:
   command: >-
     network-interface-checks
-    --state-file /var/cache/sensu/sensu-agent/network-interface-checks
+    --state-file {{ .annotations.networking_interface_state_file | default "/var/cache/sensu/sensu-agent/network-interface-checks" }}
+    --exclude-interfaces {{ .annotations.networking_interface_exclude | default "" }}
+    --include-interfaces {{ .annotations.networking_interface_include | default "" }}
   runtime_assets:
-    - sensu/network-interface-checks:0.1.0
+    - sensu/network-interface-checks:0.2.0
   publish: true
   subscriptions:
     - system
@@ -26,8 +28,6 @@ spec:
   output_metric_tags:
     - name: host.name
       value: "{{ .name }}"
-    - name: entity
-      value: "{{ .entity }}"
     - name: namespace
       value: "{{ .namespace }}"
     - name: os
@@ -38,7 +38,7 @@ spec:
 type: Asset
 api_version: core/v2
 metadata:
-  name: network-interface-checks/0.2.0
+  name: sensu/network-interface-checks:0.2.0
   labels:
   annotations:
     io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/network-interface-checks

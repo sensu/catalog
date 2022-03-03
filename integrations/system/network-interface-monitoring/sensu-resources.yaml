@@ -26,7 +26,7 @@ spec:
   ttl: 0
   output_metric_format: prometheus_text
   output_metric_tags:
-    - name: host.name
+    - name: entity
       value: "{{ .name }}"
     - name: namespace
       value: "{{ .namespace }}"

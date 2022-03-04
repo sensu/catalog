@@ -20,7 +20,9 @@ spec:
       title: Secrets Management
     - type: markdown
       body: |
-        The TimescaleDB Metrics integration requires a secret DSN for connecting to TimescaleDB.
+        The TimescaleDB Metrics integration requires a [Connection URI] (sometimes referred to as a "Data Source Name", or DSN) for connecting to TimescaleDB.
+        
+        [Connection URI]: https://www.postgresql.org/docs/current/libpq-connect.html#id-1.7.3.8.3.6
     - type: question
       name: secret_provider
       input:

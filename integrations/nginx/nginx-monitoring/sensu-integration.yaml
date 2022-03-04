@@ -47,7 +47,7 @@ spec:
       title: Configure Event Processing Pipelines
     - type: markdown
       body: |
-        Configure the event processing pipelines for processing events and metrics about NGINX.
+        Configure the event processing pipelines for processing NGINX events and metrics.
     - type: question
       name: metrics_pipeline
       required: false

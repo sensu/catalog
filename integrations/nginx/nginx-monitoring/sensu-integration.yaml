@@ -26,7 +26,7 @@ spec:
     - type: markdown
       body: |
         This integration collects metrics from NGINX.
-        Configure the default alerting thresholds for active and waiting connections.
+        Configure the alerting thresholds for active and waiting connections.
     - type: question
       name: nginx_active_warn
       required: false

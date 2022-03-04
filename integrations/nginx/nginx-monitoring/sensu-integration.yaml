@@ -33,7 +33,7 @@ spec:
       input:
         type: integer
         title: Active Connections Warning Threshold
-        description: Default "nginx_active" warning threshold.
+        description: The "nginx_active" warning threshold.
         default: 300
     - type: question
       name: nginx_waiting_warn

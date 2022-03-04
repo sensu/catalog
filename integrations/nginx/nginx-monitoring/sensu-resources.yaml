@@ -32,7 +32,7 @@ spec:
 type: Asset
 api_version: core/v2
 metadata:
-  name: nginx-check:0.1.0
+  name: sensu/nginx-check:0.1.0
   labels: 
   annotations:
     io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/nginx-check

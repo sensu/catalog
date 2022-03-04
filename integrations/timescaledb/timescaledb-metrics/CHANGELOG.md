@@ -7,10 +7,6 @@ to [Semantic Versioning][semver].
 
 ## Unreleased
 
-- *n/a*
-
-## [0.1.0]
-
 - Initial add of `timescaledb-metrics` integration.
 
 

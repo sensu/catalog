@@ -37,13 +37,6 @@ There are no compatible dashboards for this integration.
      tags    JSONB
    );
 
-2. Add the timescaledb-metrics integration and provide it with the TimescaleDB DSN.
-
-   This integration requires the following [Sensu Secrets][secrets]:
-
-   - `timescaledb_dsn`
-
-   _NOTE: this integration creates one or more Sensu Secrets using the "env" provider. The corresponding environment variables need to be set on every sensu-backend in the Sensu deployment. To add the environment variables, please modify `/etc/default/sensu-backend` or `/etc/sysconfig/sensu-backend` and restart the sensu-backend service(s)._
 
 ## Plugins
 

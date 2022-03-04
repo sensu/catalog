@@ -41,7 +41,7 @@ spec:
       input:
         type: integer
         title: Waiting Connection Warning Threshold
-        description: Default "nginx_waiting" warning threshold.
+        description: The "nginx_waiting" warning threshold.
         default: 30
     - type: section
       title: Configure Event Processing Pipelines

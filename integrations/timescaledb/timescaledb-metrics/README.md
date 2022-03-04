@@ -23,7 +23,19 @@ There are no compatible dashboards for this integration.
 
 1. Set up a [TimescaleDB][timescaledb-docs] database with access for your sensu backend.
 
-    See [sensu/sensu-timescaledb-handler][sensu/sensu-timescaledb-handler-github]  docs for sensu-specific schema.
+   See [sensu/sensu-timescaledb-handler][sensu/sensu-timescaledb-handler-github] docs for recommendations.
+    
+   **Example**: 
+    
+   ```sql
+   CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
+   CREATE TABLE metrics (
+     time    TIMESTAMPTZ         NOT NULL,
+     name    TEXT                NOT NULL,
+     value   DOUBLE PRECISION    NULL,
+     source  TEXT                NOT NULL,
+     tags    JSONB
+   );
 
 2. Add the timescaledb-metrics integration and provide it with the TimescaleDB DSN.
 

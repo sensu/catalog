@@ -1,0 +1,117 @@
+---
+type: Pipeline
+api_version: core/v2
+metadata:
+  name: entity-manager
+  labels:
+    provider: discovery
+spec:
+  workflows:
+  - name: subscription-manager
+    filters:
+    - api_version: core/v2
+      type: EventFilter
+      name: has_subscriptions
+    handler:
+      api_version: core/v2
+      type: Handler
+      name: subscription-manager
+  - name: label-manager
+    filters:
+    - api_version: core/v2
+      type: EventFilter
+      name: has_labels
+    handler:
+      api_version: core/v2
+      type: Handler
+      name: label-manager
+  - name: annotation-manager
+    filters:
+    - api_version: core/v2
+      type: EventFilter
+      name: has_annotations
+    handler:
+      api_version: core/v2
+      type: Handler
+      name: annotation-manager
+
+---
+type: Handler
+api_version: core/v2
+metadata:
+  name: subscription-manager
+spec:
+  type: pipe
+  command: >-
+    sensu-entity-manager
+    --api-url https://${SENSU_API_URL}:8080
+    --add-subscriptions
+  runtime_assets:
+  - sensu/sensu-entity-manager:0.3.0
+  timeout: 5
+  secrets:
+  - name: SENSU_API_KEY
+    secret: entity-manager-api-key
+
+---
+type: Handler
+api_version: core/v2
+metadata:
+  name: label-manager
+spec:
+  type: pipe
+  command: >-
+    sensu-entity-manager
+    --api-url https://${SENSU_API_URL}:8080
+    --add-labels
+  runtime_assets:
+  - sensu/sensu-entity-manager:0.3.0
+  timeout: 5
+  secrets:
+  - name: SENSU_API_KEY
+    secret: entity-manager-api-key
+
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: entity-manager-api-key
+spec:
+  provider: env
+  id: SENSU_ENTITY_MANAGER_API_KEY
+
+---
+type: EventFilter
+api_version: core/v2
+metadata:
+  name: has_subscriptions
+spec:
+  action: allow
+  expressions:
+  - event.check.annotations.discovery == subscriptions
+  - event.check.status == 0
+  - event.check.occurrences == 1
+
+---
+type: EventFilter
+api_version: core/v2
+metadata:
+  name: has_labels
+spec:
+  action: allow
+  expressions:
+  - event.check.annotations.discovery == labels
+  - event.check.status == 0
+  - event.check.occurrences == 1
+
+---
+type: EventFilter
+api_version: core/v2
+metadata:
+  name: has_annotations
+spec:
+  action: allow
+  expressions:
+  - event.check.annotations.discovery == annotations
+  - event.check.status == 0
+  - event.check.occurrences == 1

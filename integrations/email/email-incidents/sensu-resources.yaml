@@ -1,0 +1,114 @@
+---
+type: Pipeline
+api_version: core/v2
+metadata:
+  name: email
+  labels:
+    provider: incidents
+spec:
+  workflows:
+  - name: email-incidents
+    filters:
+    - api_version: core/v2
+      type: EventFilter
+      name: is_incident
+    - api_version: core/v2
+      type: EventFilter
+      name: not_silenced
+    mutator: {}
+    handler:
+      api_version: core/v2
+      type: Handler
+      name: email-handler
+---
+type: Handler
+api_version: core/v2
+metadata:
+  name: email-handler
+spec:
+  command: >-
+    sensu-email-handler 
+    -u $SMTP_USER 
+    -p $SMTP_PASSWORD
+    -s $SMTP_SERVER 
+    -P $SMTP_PORT
+    -f $EMAIL_SENDER
+    -t $EMAIL_RECIPIENT
+    --hookout=true
+  env_vars:
+    - "SMTP_SERVER=127.0.0.1"
+    - "SMTP_PORT=587"
+    - "EMAIL_SENDER=sensu-alert@example.com"
+    - "EMAIL_RECIPIENT=oncall@example.com"
+  handlers: null
+  runtime_assets:
+    - sensu/sensu-email-handler:1.2.2
+  secrets:
+    - name: SMTP_USERNAME
+      secret: smtp_user
+    - name: SMTP_PASSWORD
+      secret: smtp_password
+  timeout: 10
+  type: pipe
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: smtp_user
+spec:
+  provider: env
+  id: SMTP_USER
+---
+type: Secret
+api_version: secrets/v1
+metadata:
+  name: smtp_password
+spec:
+  provider: env
+  id: SMTP_PASSWORD
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu/sensu-email-handler:1.2.2
+  labels: 
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-email-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-email-handler
+    io.sensu.bonsai.tier: Supported
+    io.sensu.bonsai.version: 1.2.2
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: sensu-email-handler
+    io.sensu.bonsai.tags: handler
+spec:
+  builds:
+  - url: https://assets.bonsai.sensu.io/034de7872a4c9b59a5c575e80e62f0473365f796/sensu-email-handler_1.2.2_windows_amd64.tar.gz
+    sha512: 5beea2e2f6a6a067a152709791b49cf57dabbcbf9272ebd0d0f280e91086b24218611f86212c041b9084df0e5771ceefb406897e9f7d64f07ef368575ee61645
+    filters:
+    - entity.system.os == 'windows'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/034de7872a4c9b59a5c575e80e62f0473365f796/sensu-email-handler_1.2.2_darwin_amd64.tar.gz
+    sha512: 1a9d57c14fe6ca50623db35f5fef3a1a89334b05a085751e11f0311b6fec5011be0ee7fdeef03943d761049e5601baf0953f04245a750057a441bfee29567ff3
+    filters:
+    - entity.system.os == 'darwin'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/034de7872a4c9b59a5c575e80e62f0473365f796/sensu-email-handler_1.2.2_linux_armv7.tar.gz
+    sha512: 610544db8364983d6d3c720d2c0fed8566c68c97e61b1a8112fd6bfeab0c94da9918b8ed221fdff8a4072225ba71fcce6279a0397b86393b6594c0a43a7525da
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'armv7'
+  - url: https://assets.bonsai.sensu.io/034de7872a4c9b59a5c575e80e62f0473365f796/sensu-email-handler_1.2.2_linux_arm64.tar.gz
+    sha512: a4b3d498f41660cdccf34031777f95619b46c4a9fdfaf072611d5246b91544e92c5c85229d8920a3cb0de05b074bdd00bd6fd3a904773fad49616dfd47cf4f31
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm64'
+  - url: https://assets.bonsai.sensu.io/034de7872a4c9b59a5c575e80e62f0473365f796/sensu-email-handler_1.2.2_linux_386.tar.gz
+    sha512: 8b77b27d34add6254ff50d25499d626f0127aa25940867828e90a96a4a04d696cc285d31a1214550e1409dfa142f33c958a0fd504304ec104c766f9f7bd4c5bc
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == '386'
+  - url: https://assets.bonsai.sensu.io/034de7872a4c9b59a5c575e80e62f0473365f796/sensu-email-handler_1.2.2_linux_amd64.tar.gz
+    sha512: 81ffd8095c1a6b489b6eca2eae76b84f9943c59877c28e1191c0acc89055bf58d53b4fba3356ddac6572d5fe5e6a62ff018f15b7cd3ecbc37263d3fdb5a0660d
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'

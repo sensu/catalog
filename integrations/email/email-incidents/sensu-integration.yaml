@@ -1,0 +1,137 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: email
+  name: email-incidents
+spec:
+  class: supported
+  provider: incidents
+  display_name: Email Incidents
+  short_description: A pipeline to send emails about Sensu incidents.
+  supported_platforms:
+    - darwin
+    - linux
+    - windows
+  tags:
+    - email
+    - alerts
+    - incidents
+  contributors:
+    - "@sensu"
+    - "@cwjohnston"
+    - "@jspaleta"
+    - "@thoward"
+  prompts:
+    - type: section
+      title: Email Settings
+    - type: markdown
+      body: |
+        This integration requires one or more email settings.      
+    - type: question
+      name: email_smtp_server
+      required: true
+      input:
+        type: string
+        title: SMTP Server Address
+        description: >-
+          Provide the SMTP Server Address
+        default: 127.0.0.1
+    - type: question
+      name: email_smtp_port
+      required: true
+      input:
+        type: integer
+        title: SMTP Server Port
+        description: >-
+          Provide the SMTP Server Port number
+        default: 587
+    - type: question
+      name: email_sender_address
+      required: true
+      input:
+        type: string
+        title: Sender Email Address
+        description: >-
+          Provide the sender email address (e.g. who the alerts will be sent "from")
+        default: sensu-alert@example.com
+    - type: question
+      name: email_recipient_address
+      required: true
+      input:
+        type: string
+        title: Recipient Email Address
+        description: >-
+          Provide the recipient email address (e.g. where alerts will be sent "to").
+        default: oncall@example.com
+    - type: section
+      title: Secrets Management
+    - type: markdown
+      body: |
+        This integration requires a username and password for the SMTP server, which
+        should be configured as secrets within Sensu. 
+
+        Please see the ["Sensu Email Handler"] reference documentation for more information.
+
+        ["Sensu Email Handler"]: https://github.com/sensu/sensu-email-handler#environment-variables
+    - type: question
+      name: secret_provider
+      input:
+        type: string
+        title: Secret Provider
+        enum:
+          - env
+          - vault
+        default: env
+    - type: question
+      name: username_secret_id
+      input:
+        type: string
+        title: SMTP Server User Secret ID
+        description: >-
+          Provide the Secret identifier (i.e. environment variable name, or Vault secret key/path) for the SMTP server user.
+        default: SMTP_USER
+    - type: question
+      name: password_secret_id
+      input:
+        type: string
+        title: SMTP Sever Password Secret ID
+        description: >-
+          Provide the Secret identifier (i.e. environment variable name, or Vault secret key/path) for the SMTP server password
+        default: SMTP_PASSWORD
+  resource_patches:
+    - resource:
+        api_version: secrets/v1
+        type: Secret
+        name: smtp_user
+      patches:
+        - path: /spec/provider
+          op: replace
+          value: "[[secret_provider]]"
+        - path: /spec/id
+          op: replace
+          value: "[[username_secret_id]]"
+    - resource:
+        api_version: secrets/v1
+        type: Secret
+        name: smtp_password
+      patches:
+        - path: /spec/provider
+          op: replace
+          value: "[[secret_provider]]"
+        - path: /spec/id
+          op: replace
+          value: "[[password_secret_id]]"
+    - resource:
+        api_version: core/v2
+        type: Handler
+        name: email-handler
+      patches:
+        - path: /spec/env_vars
+          op: replace
+          value:
+            - "SMTP_SERVER=[[email_smtp_server]]"
+            - "SMTP_PORT=[[email_smtp_port]]"
+            - "EMAIL_SENDER=[[email_sender_address]]"
+            - "EMAIL_RECIPIENT=[[email_recipient_address]]"
+

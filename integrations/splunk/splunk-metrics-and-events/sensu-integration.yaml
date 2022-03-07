@@ -36,7 +36,7 @@ spec:
     - type: question
       name: port
       input:
-        type: int
+        type: integer
         title: Port
         default: 7758
   resource_patches:

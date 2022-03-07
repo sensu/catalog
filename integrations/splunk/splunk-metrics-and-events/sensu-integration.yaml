@@ -1,0 +1,54 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: splunk
+  name: splunk-metrics-and-events
+spec:
+  class: supported
+  provider: events
+  display_name: Splunk Events
+  short_description: >-
+    A sensu event handler pipeline that sends events to be indexed
+    in Splunk via a Universal Forwarder
+  supported_platforms:
+    - darwin
+    - linux
+    - windows
+  tags:
+    - splunk
+    - events
+  contributors:
+    - "@sensu"
+    - "@nixwiz"
+  prompts:
+    - type: section
+      title: Splunk Endpoint
+    - type: markdown
+      body: |
+        This integration requires a TCP endpoint to send sensu events to
+    - type: question
+      name: host
+      input:
+        type: string
+        title: Host Name
+        default: localhost
+    - type: question
+      name: port
+      input:
+        type: int
+        title: Port
+        default: 7758
+  resource_patches:
+    - resource:
+        api_version: core/v2
+        type: Handler
+        name: splunk-metrics-and-events
+      patches:
+        - path: /spec/socket/host
+          op: replace
+          value: "[[host]]"
+        - path: /spec/socket/port
+          op: replace
+          value: "[[port]]"
+

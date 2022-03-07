@@ -7,7 +7,7 @@ metadata:
     provider: incidents
 spec:
   workflows:
-    - name: pagerduty
+    - name: splunk-sink
       filters:
       handler:
         api_version: core/v2

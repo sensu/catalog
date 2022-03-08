@@ -6,7 +6,7 @@ inputs:
   catalog-api-version:
     description: 'The version of the API tool to use'
     required: true
-    default: '0.1.0-alpha.10'
+    default: '0.1.0-alpha.11'
   temp-dir:
     description: 'The path to a temp directory to store the generated API files'
     required: true

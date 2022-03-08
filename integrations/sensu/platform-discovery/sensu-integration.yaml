@@ -1,0 +1,59 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: sensu
+  name: platform-discovery
+spec:
+  class: supported
+  provider: discovery
+  display_name: Platform Discovery 
+  short_description: Platform auto-discovery adds agent OS/platform subscription(s).
+  supported_platforms:
+    - darwin
+    - linux
+    - windows
+  tags:
+    - sensu
+    - auto-discovery
+  contributors:
+    - "@sensu"
+  prompts:
+    - type: section
+      title: Secrets Management
+    - type: markdown
+      body: |
+        This integration includes a check for collecting Agent OS/platform metadata, and a pipeline for updating agent subscriptions.
+        The pipeline needs write access to the Sensu Entity API.
+        Please configure a secret for a Sensu API Key w/ the necessary privileges.
+
+        [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
+    - type: question
+      name: secret_provider
+      input:
+        type: string
+        title: Secret Provider
+        enum:
+          - env
+          - vault
+        default: env
+    - type: question
+      name: secret_id
+      input:
+        type: string
+        title: Secret ID
+        description: >-
+          Provide the Secret identifier (i.e. environment variable name, or Vault secret key/path)
+        default: SENSU_ENTITY_MANAGER_API_KEY
+  resource_patches:
+    - resource:
+        api_version: secrets/v1
+        type: Secret
+        name: entity-manager-api-key
+      patches:
+        - path: /spec/provider
+          op: replace
+          value: "[[secret_provider]]"
+        - path: /spec/id
+          op: replace
+          value: "[[secret_id]]"

@@ -1,0 +1,89 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: jira
+  name: jira-servicedesk-incidents
+spec:
+  class: supported
+  provider: incidents
+  display_name: Jira Service Desk
+  short_description: Create & resolve incidents in Jira Service Desk
+  tags:
+    - jira
+    - servicedesk
+    - incidents
+    - alerts
+  contributors:
+    - "@sensu"
+  prompts:
+    - type: section
+      title: Jira Service Management Integration Settings
+    - type: markdown
+      body: |
+        This integration requires a Service Jira Desk Integration Key for Jira Service Desk API Authentication.
+
+        Please visit the Jira Service Desk knowledge base article ["Generate an Integration Key"] for more information.
+
+        ["Generate an Integration Key"]: https://support.pagerduty.com/docs/services-and-integrations#generate-a-new-integration-key
+    - type: question
+      name: secret_provider
+      input:
+        type: string
+        title: Secret Provider
+        enum:
+          - env
+          - vault
+        default: env
+    - type: question
+      name: jira_api_key_secret_id
+      input:
+        type: string
+        title: Jira API Key
+        description: >-
+          Provide the Secret identifier for the Jira API key (i.e. environment variable name, or Vault secret key/path)
+        default: JIRA_API_TOKEN
+    - type: question
+      name: jira_username
+      input:
+        type: string
+        title: Jira Username
+        description: >-
+          Provide the username to access Jira
+        default: jira@exemple.com
+    - type: question
+      name: jira_url
+      input:
+        type: string
+        title: Jira URL
+        description: >-
+          Provide the URL used to access Jira
+        default: https://myjirasite.atlassian.net
+    - type: question
+      name: jira_project_key
+      input:
+        type: string
+        title: Jira Project Key
+        description: >-
+          Provide the Jira project key
+        default: 
+    - type: question
+      name: jira_issue_type
+      input:
+        type: string
+        title: Jira Issue Type
+        description: >-
+          Provide the type of Jira issue to open
+        default: Incident
+  resource_patches:
+    - resource:
+        api_version: secrets/v1
+        type: Secret
+        name: jira_api_key
+      patches:
+        - path: /spec/provider
+          op: replace
+          value: "[[secret_provider]]"
+        - path: /spec/id
+          op: replace
+          value: "[[jira_api_key_secret_id]]"

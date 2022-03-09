@@ -11,6 +11,7 @@ jobs:
     uses: ./.github/workflows/sensu-catalog.yml
     with:
       catalog_snapshot: true
+      catalog_version_file: ${{ github.sha }}.json
     secrets:
       aws_s3_bucket: ${{ secrets.STAGING_AWS_S3_BUCKET }}
       aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}

@@ -2,12 +2,17 @@
 
 echo "Publishing Catalog API"
 
-aws s3 cp "$1" "s3://${AWS_S3_BUCKET}" \
+release_dir="$1"
+version_file="$2"
+
+# all files except version file
+aws s3 cp "$release_dir" "s3://${AWS_S3_BUCKET}" \
     --recursive \
-    --exclude version.json \
+    --exclude "$version_file" \
     --acl 'public-read' \
     --cache-control 'max-age=31104000' # 360 days
 
-aws s3 cp "${1}/version.json" "s3://${AWS_S3_BUCKET}" \
+# version file
+aws s3 cp "${release_dir}/version.json" "s3://${AWS_S3_BUCKET}/${version_file}" \
     --cache-control 'no-cache' \
     --acl 'public-read'

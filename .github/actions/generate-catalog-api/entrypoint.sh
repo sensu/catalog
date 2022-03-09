@@ -2,6 +2,10 @@
 
 catalog_api_version="$1"
 temp_dir="$2"
+snapshot="$3"
+
+echo "snapshot: ${snapshot}"
+exit 1
 
 echo "Downloading & installing catalog-api"
 catalog_api_os="linux"

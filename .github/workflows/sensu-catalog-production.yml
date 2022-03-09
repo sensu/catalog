@@ -7,7 +7,7 @@ on:
       - '*/*/*'
 
 jobs:
-  run:
+  production:
     uses: ./.github/workflows/sensu-catalog.yml
     secrets:
       aws_s3_bucket: ${{ secrets.AWS_S3_BUCKET }}

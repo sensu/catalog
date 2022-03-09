@@ -7,7 +7,7 @@ on:
       - '**'
 
 jobs:
-  run:
+  staging:
     uses: ./.github/workflows/sensu-catalog.yml
     with:
       catalog_snapshot: true

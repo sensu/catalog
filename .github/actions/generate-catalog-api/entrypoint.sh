@@ -4,8 +4,10 @@ catalog_api_version="$1"
 temp_dir="$2"
 snapshot="$3"
 
-echo "snapshot: ${snapshot}"
-exit 1
+args="--temp-dir ${temp_dir}"
+if [ $snapshot = "true" ]; then
+    args="${args} --snapshot"
+fi
 
 echo "Downloading & installing catalog-api"
 catalog_api_os="linux"
@@ -20,5 +22,5 @@ echo "Creating tmp directory for generated files"
 mkdir -p ./tmp
 
 echo "Generating Catalog API"
-catalog-api catalog generate --temp-dir "$temp_dir"
+catalog-api catalog generate $args
 chown -R 1001:1001 tmp

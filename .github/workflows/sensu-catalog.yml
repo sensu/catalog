@@ -1,10 +1,31 @@
 ---
 name: 'Sensu Catalog Workflow'
-on: [push, pull_request]
-env:
-  cache_key: ${{ github.workflow }}-${{ github.run_number }}-${{ github.run_attempt }}
-  catalog_api_version: 0.1.0-alpha.11
-  catalog_temp_dir: ./tmp
+
+on:
+  workflow_call:
+    inputs:
+      cache_key:
+        type: string
+        default: |
+          ${{ github.workflow }}-${{ github.run_number }}-${{ github.run_attempt }}
+      catalog_api_version:
+        type: string
+        default: '0.1.0-alpha.11'
+      catalog_temp_dir:
+        type: string
+        default: './tmp'
+      catalog_snapshot:
+        type: boolean
+        default: false
+    secrets:
+      aws_s3_bucket:
+        required: true
+      aws_access_key_id:
+        required: true
+      aws_secret_access_key:
+        required: true
+      aws_region:
+        required: true
 
 jobs:
   validate:
@@ -17,12 +38,11 @@ jobs:
       - name: Run Sensu Catalog validation
         uses: ./.github/actions/validate-catalog
         with:
-          catalog-api-version: ${{ env.catalog_api_version }}
+          catalog-api-version: ${{ inputs.catalog_api_version }}
 
   generate:
     name: 'Generate Sensu Catalog API'
     runs-on: ubuntu-latest
-    if: contains(fromJson('["push", "create"]'), github.event_name) && contains(github.ref, 'refs/tags/')
     needs: validate
     outputs:
       release-dir: ${{ steps.generate-api.outputs.release-dir }}
@@ -33,14 +53,15 @@ jobs:
       - name: Setup Cache
         uses: actions/cache@v2
         with:
-          path: ${{ env.catalog_temp_dir }}
-          key: ${{ env.cache_key }}
+          path: ${{ inputs.catalog_temp_dir }}
+          key: ${{ inputs.cache_key }}
       - name: Run Sensu Catalog API generation
         uses: ./.github/actions/generate-catalog-api
         id: generate-api
         with:
-          catalog-api-version: ${{ env.catalog_api_version }}
-          temp-dir: ${{ env.catalog_temp_dir }}
+          catalog-api-version: ${{ inputs.catalog_api_version }}
+          snapshot: ${{ inputs.catalog_snapshot }}
+          temp-dir: ${{ inputs.catalog_temp_dir }}
 
   publish:
     name: 'Publish Sensu Catalog API'
@@ -53,8 +74,8 @@ jobs:
       - name: Restore Cache
         uses: actions/cache@v2
         with:
-          path: ${{ env.catalog_temp_dir }}
-          key: ${{ env.cache_key }}
+          path: ${{ inputs.catalog_temp_dir }}
+          key: ${{ inputs.cache_key }}
       - name: Run Sensu Catalog API publisher
         uses: ./.github/actions/publish-catalog-api
         with:

@@ -5,12 +5,16 @@ author: 'sensu'
 inputs:
   catalog-api-version:
     description: 'The version of the API tool to use'
-    required: true
+    type: string
     default: '0.1.0-alpha.11'
+  snapshot:
+    description: 'Enables generation of the API from a snapshot'
+    type: boolean
+    default: false
   temp-dir:
     description: 'The path to a temp directory to store the generated API files'
-    required: true
-    default: 'tmp'
+    type: string
+    default: './tmp'
 outputs:
   release-dir:
     description: 'The path of the generated release directory'
@@ -20,6 +24,7 @@ runs:
   args:
     - ${{ inputs.catalog-api-version }}
     - ${{ inputs.temp-dir }}
+    - ${{ inputs.snapshot }}
 branding:
   icon: 'globe'
   color: 'green'

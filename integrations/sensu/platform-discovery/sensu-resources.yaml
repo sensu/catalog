@@ -49,11 +49,12 @@ spec:
   type: pipe
   command: >-
     sensu-entity-manager
-    --api-url https://${SENSU_API_URL}:8080
     --add-subscriptions
   runtime_assets:
   - sensu/sensu-entity-manager:0.3.0
   timeout: 5
+  env_vars:
+  - SENSU_API_URL=http://127.0.0.1:8080
   secrets:
   - name: SENSU_API_KEY
     secret: entity-manager-api-key
@@ -66,7 +67,7 @@ metadata:
 spec:
   action: allow
   expressions:
-  - event.check.annotations.discovery == subscriptions
+  - event.check.annotations.discovery == "subscriptions"
   - event.check.status == 0
   - event.check.occurrences == 1
 

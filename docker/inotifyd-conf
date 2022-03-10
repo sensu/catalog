@@ -1,0 +1,2 @@
+INOTIFYD_ARGS="/usr/local/bin/inotify-watcher.sh /catalog/integrations:cewDMymnd"
+INOTIFYD_USER=root

@@ -12,10 +12,16 @@ RUN command -v catalog-api
 
 # Build the catalog image
 FROM nginx:${NGINX_VERSION}-alpine AS catalog
+VOLUME [ "/sys/fs/cgroup" ]
+RUN apk add openrc
+RUN mkdir /build /var/log/inotifyd /run/openrc && touch /run/openrc/softlevel
 COPY --from=catalog-api /usr/local/bin/catalog-api /usr/local/bin/
-COPY ./docker/entrypoint.sh /docker-entrypoint.d/0-catalog-entrypoint.sh
+COPY ./docker/catalog-entrypoint.sh /docker-entrypoint.d/01-publish-sensu-catalog.sh
 COPY ./docker/nginx.conf /etc/nginx/nginx.conf
-RUN mkdir /build
+COPY ./docker/inotifyd-init /etc/init.d/inotifyd
+COPY ./docker/inotifyd-conf /etc/conf.d/inotifyd
+COPY ./docker/inotify-watcher.sh /usr/local/bin/inotify-watcher.sh
+COPY ./docker/inotify-entrypoint.sh /docker-entrypoint.d/99-inotify-watcher.sh
 
 # docker build -t sensu-catalog:latest .
 # docker run --rm -d --name sensu-catalog -v $PWD:/catalog -p 7678:80 sensu-catalog:latest

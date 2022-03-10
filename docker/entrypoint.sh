@@ -26,7 +26,7 @@ validate_catalog() {
 
 generate_catalog() {
   cd ${CATALOG_INPUT_DIR}
-  catalog-api catalog generate -temp-dir ${CATALOG_BUILD_DIR} > build.log
+  catalog-api catalog generate --snapshot -temp-dir ${CATALOG_BUILD_DIR} > build.log
   if [ $? -ne 0 ]; then
     echo "Error generating Catalog API..."
     exit 2

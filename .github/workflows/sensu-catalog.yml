@@ -17,6 +17,8 @@ on:
       catalog_snapshot:
         type: boolean
         default: false
+      catalog_version_file:
+        type: string
     secrets:
       aws_s3_bucket:
         required: true
@@ -80,6 +82,7 @@ jobs:
         uses: ./.github/actions/publish-catalog-api
         with:
           release-dir: ${{ needs.generate.outputs.release-dir }}
+          version-file: ${{ inputs.catalog_version_file }}
         env:
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

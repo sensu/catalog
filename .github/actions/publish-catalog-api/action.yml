@@ -6,11 +6,15 @@ inputs:
   release-dir:
     description: 'The path to the generated release directory'
     required: true
+  version-file:
+    description: 'The name of the version file to generate'
+    default: 'version.json'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.release-dir }}
+    - ${{ inputs.version-file }}
 branding:
   icon: 'globe'
   color: 'green'

@@ -55,7 +55,7 @@ This integration does not produce any events that should be processed by an aler
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
-1. This integration uses [Handler Templating][handler-templating] for variable substitution.
+1. This integration requires a [Wavefront proxy](https://docs.wavefront.com/proxies_installing.html).
 
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/

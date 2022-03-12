@@ -28,8 +28,6 @@ spec:
         Please visit [Ansible Tower API OAuth Guide] for more information.
 
         [Ansible Tower API OAuth Guide]: https://docs.ansible.com/ansible-tower/latest/html/administration/oauth2_token_auth.html
-    - type: section
-      title: Ansible Tower API Configuration
     - type: question
       name: api_host
       required: true
@@ -40,24 +38,13 @@ spec:
           Provide the API Host (i.e. hostname or IP address)
         default: "127.0.0.1"
     - type: question
-      name: api_token_secret_provider
+      name: ansible_tower_api_token
+      required: true
       input:
         type: string
-        title: API Token Secret Provider
+        title: Ansible Tower API Token
         description: >-
-          Select the API Token secret provider where the secrets is stored
-        enum:
-          - env
-          - vault
-        default: env
-    - type: question
-      name: api_token_secret_id
-      input:
-        type: string
-        title: Secret ID
-        description: >-
-          Provide the API Token secret identifier (i.e. environment variable name, or Vault secret key/path)
-        default: SENSU_ANSIBLE_TOWER_TOKEN
+          Ansible Tower API Token
   resource_patches:
     - resource:
         api_version: core/v2
@@ -67,14 +54,6 @@ spec:
         - path: /spec/env_vars/0
           op: replace
           value: ANSIBLE_HOST=127.0.0.1
-    - resource:
-        api_version: secrets/v1
-        type: Secret
-        name: ansible_tower_token
-      patches:
-        - path: /spec/provider
-          op: replace
-          value: "[[api_token_secret_provider]]"
-        - path: /spec/id
-          op: replace
-          value: "[[api_token_secret_id]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "ANSIBLE_TOKEN=[[ansible_tower_api_token]]"

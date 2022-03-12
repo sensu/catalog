@@ -23,25 +23,15 @@ spec:
       type: Handler
       name: sumologic-events
 ---
-type: Secret
-api_version: secrets/v1
-metadata:
-  name: sumologic_http_source_url
-spec:
-  provider: env
-  id: SENSU_SUMOLOGIC_HTTP_SOURCE_URL
----
 type: SumoLogicMetricsHandler
 api_version: pipeline/v1
 metadata:
   name: sumologic-metrics
 spec:
-  url: "${SUMOLOGIC_HTTP_SOURCE_URL}"
+  url: "${SUMOLOGIC_URL}"
   max_connections: 10
   timeout: 30s
-  secrets:
-    - name: SUMOLOGIC_HTTP_SOURCE_URL
-      secret: sumologic_http_source_url
+  env_vars: []
 ---
 type: Handler
 api_version: core/v2
@@ -55,11 +45,10 @@ spec:
     --source-host "{{ .Entity.Name }}"
     --source-name "{{ .Check.Name }}"
     --source-category "sensu-event"
+    # NOTE: Requires SUMOLOGIC_URL environment varible or secret
   runtime_assets:
-  - sensu/sensu-sumologic-handler:0.3.0
-  secrets:
-  - name: SUMOLOGIC_URL
-    secret: sumologic_http_source_url
+    - sensu/sensu-sumologic-handler:0.3.0
+  env_vars: []
   timeout: 10
 ---
 type: Asset

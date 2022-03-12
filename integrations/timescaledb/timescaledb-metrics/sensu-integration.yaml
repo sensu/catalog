@@ -17,38 +17,24 @@ spec:
     - "@sensu"
   prompts:
     - type: section
-      title: Secrets Management
+      title: TimescaleDB Database Connection (DSN)
     - type: markdown
       body: |
         The TimescaleDB Metrics integration requires a [Connection URI] (sometimes referred to as a "Data Source Name", or DSN) for connecting to TimescaleDB.
         
         [Connection URI]: https://www.postgresql.org/docs/current/libpq-connect.html#id-1.7.3.8.3.6
     - type: question
-      name: secret_provider
+      name: timescaledb_dsn
+      required: true
       input:
         type: string
-        title: Secret Provider
-        enum:
-          - env
-          - vault
-        default: env
-    - type: question
-      name: timescale_db_dsn_id
-      input:
-        type: string
-        title: TimesacleDB DSN Secret ID
-        description: >-
-          Provide the Secret identifier (i.e. environment variable name, or Vault secret key/path)
-        default: example_secret
+        title: TimescaleDB Database Connection URI (e.g. postgresql://username:password@127.0.0.1:5432/database)
   resource_patches:
     - resource:
-        api_version: secrets/v1
-        type: Secret
-        name: timescaledb_dsn
+        api_version: core/v2
+        type: Handler
+        name: timescaledb
       patches:
-        - path: /spec/provider
-          op: replace
-          value: "[[secret_provider]]"
-        - path: /spec/id
-          op: replace
-          value: "[[timescale_db_dsn_id]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "TIMESCALEDB_DSN=[[timescaledb_dsn]]"

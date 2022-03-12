@@ -31,21 +31,12 @@ spec:
     --status-map "{\"info\":[0],\"warning\": [1],\"critical\": [2],\"error\": [3,127]}"
     --summary-template "[{{.Entity.Namespace}}] {{.Entity.Name}}/{{.Check.Name}}: {{.Check.State}}"
     --details-template "{{.Check.Output}}\n\n{{.Check}}"
+    # NOTE: Requires PAGERDUTY_TOKEN environment variable or secret
   runtime_assets:
     - sensu/sensu-pagerduty-handler:2.1.0
-  secrets:
-    - name: PAGERDUTY_TOKEN
-      secret: pagerduty_integration_key
+  env_vars: []
   timeout: 0
   type: pipe
----
-type: Secret
-api_version: secrets/v1
-metadata:
-  name: pagerduty_integration_key
-spec:
-  provider: env
-  id: PAGERDUTY_INTEGRATION_KEY
 ---
 type: Asset
 api_version: core/v2

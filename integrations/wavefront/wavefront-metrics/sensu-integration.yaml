@@ -21,7 +21,7 @@ spec:
       title: Connection Settings
     - type: markdown
       body: |
-        This integration requires one or more Wavefront connection settings.
+        This integration requires one or more Wavefront proxy connection settings.
     - type: question
       name: wavefront_host
       required: true
@@ -29,14 +29,14 @@ spec:
         type: string
         title: Wavefront Host
         description: >-
-          Provide the Wavefront host address.
+          Provide the Wavefront proxy host address.
     - type: question
       name: wavefront_port
       input:
         type: integer
         title: Wavefront Port
         description: >-
-          Provide the Wavefront port.
+          Provide the Wavefront proxy port.
         default: 2878
   resource_patches:
     - resource:
@@ -47,5 +47,5 @@ spec:
         - path: /spec/env_vars
           op: replace
           value:
-            - "WAVEFRONT_HOST=[[wavefront_host]]"
-            - "WAVEFRONT_PORT=[[wavefront_port]]"
+            - "WAVEFRONT_PROXY_HOST=[[wavefront_host]]"
+            - "WAVEFRONT_PROXY_PORT=[[wavefront_port]]"

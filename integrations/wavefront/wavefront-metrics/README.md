@@ -2,16 +2,15 @@
 
 <!-- Sensu Integration description; supports markdown -->
 
-The {{integration_name}} integration provides {{integration_description}}.
+The Wavefront Metrics integration sends collected metric data to Wavefront for storage and visualization.
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 
 This integration includes the following resources:
 
-* `{{pipeline_name}}` [pipeline]
-* `{{handler_name}}` [handler]
-* `{{secret_name}}` [secret]
-* `{{asset_name}}` [asset]
+* `wavefront-metrics` [pipeline]
+* `wavefront-metrics` [handler]
+* `sensu/sensu-wavefront-handler:0.1.0` [asset]
 
 ## Dashboards
 
@@ -24,29 +23,25 @@ There are no compatible dashboards for this integration.
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
 
-1. Get a {{integration_secret}}
+1. Set up a Wavefront Proxy
 
-   {{integration_secret_instructions}}
+    A Wavefront proxy ingests metrics and forwards them to the Wavefront service in a secure, fast, and reliable manner. After you install a proxy in your environment, it can handle thousands of simultaneous clients. With this integration, Sensu Go will send data to the proxy, which consolidates points into configurable batches and sends the data to the Wavefront service.
 
-1. Configure Secrets Management
+    Please refer to the [Wavefront proxy documentation](https://docs.wavefront.com/proxies_installing.html) for the installation steps.
 
-   This integration requires the following [Sensu Secrets][secrets]:
-
-   - `{{secret_name}}`
-
-   _NOTE: this integration creates one or more Sensu Secrets using the "env" provider. The corresponding environment variables need to be set on every sensu-backend in the Sensu deployment. To add the environment variables, please modify `/etc/default/sensu-backend` or `/etc/sysconfig/sensu-backend` and restart the sensu-backend service(s)._
+    You will need the proxy **host** address and listening **port** when configuring this integration.
 
 ## Plugins
 
 <!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->
 
-- [sensu/{{asset_name}}][{{asset_name}}-bonsai] ([GitHub][{{asset_name}}-github])
+- [sensu/sensu-wavefront-handler:0.1.0][sensu-wavefront-handler-bonsai] ([GitHub][sensu-wavefront-handler-github])
 
 ## Metrics & Events
 
 <!-- List of all metrics or events collected by this integration. -->
 
-This integration does not produce any [metrics].
+This integration does not produce specific [metrics]; it provides an observability [pipeline] for sending metrics, collected by other integrations, to Wavefront.
 
 ## Alerts
 
@@ -79,5 +74,5 @@ This integration does not produce any events that should be processed by an aler
 [handler-templating]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handler-templates/
 [sensu-plus]: https://sensu.io/features/analytics
 [{{dashboard-link}}]: #
-[{{asset_name}}-bonsai]: #
-[{{asset_name}}-github]: #
+[sensu-wavefront-handler-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-wavefront-handler
+[sensu-wavefront-handler-github]: https://github.com/sensu/sensu-wavefront-handler

@@ -65,13 +65,13 @@ metadata:
 spec:
   command: >-
     sensu-wavefront-handler
-    --host $WAVEFRONT_HOST
-    --metrics-port $WAVEFRONT_METRICS_PORT
+    --host $WAVEFRONT_PROXY_HOST
+    --metrics-port $WAVEFRONT_PROXY_PORT
   runtime_assets:
   - sensu/sensu-wavefront-handler:0.1.0
   env_vars:
-    - "WAVEFRONT_HOST=localhost"
-    - "WAVEFRONT_PORT=2878"
+    - "WAVEFRONT_PROXY_HOST=localhost"
+    - "WAVEFRONT_PROXY_PORT=2878"
   type: pipe
   timeout: 10
 ---

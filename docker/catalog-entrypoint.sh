@@ -26,12 +26,12 @@ validate_catalog() {
 
 generate_catalog() {
   cd ${CATALOG_INPUT_DIR}
-  catalog-api catalog generate --snapshot -temp-dir ${CATALOG_BUILD_DIR} > build.log
+  catalog-api catalog generate --snapshot -temp-dir ${CATALOG_BUILD_DIR} > /tmp/build.log
   if [ $? -ne 0 ]; then
     echo "Error generating Catalog API..."
     exit 2
   else
-    export CATALOG_BUILD_PATH=$(cat build.log | grep "::" | cut -d: -f5)
+    export CATALOG_BUILD_PATH=$(cat /tmp/build.log | grep "::" | cut -d: -f5)
   fi
 }
 

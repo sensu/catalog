@@ -36,6 +36,7 @@ There are no compatible dashboards for this integration.
      source  TEXT                NOT NULL,
      tags    JSONB
    );
+   ```
 
 
 ## Plugins

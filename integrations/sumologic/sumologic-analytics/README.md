@@ -9,7 +9,6 @@ This integration makes Sensu metrics and events available for searching and anal
 * `sumologic` ([pipeline])
 * `sumologic-metrics` ([sumologic-handler])
 * `sumologic-events` ([handler])
-* `sumologic_http_source_url` ([secret])
 * `sensu/sensu-sumologic-handler:0.3.0` ([asset])
 
 ## Dashboards
@@ -30,10 +29,6 @@ This integration is compatible the the [Sumo Logic App Catalog][sumologic-app-ca
 1. Create a hosted collector & configure an HTTP Logs & Metrics source
 
    [Create a Sumo Logic Hosted Collector][sumologic-hosted-collector] for Sensu Go, and configure an [HTTP Logs and Metrics Source][sumologic-logs-and-metrics-source].
-
-1. Add the Sumo Logic HTTP Logs & Metrics source URL to your secrets provider
-
-   Create an environment variable or Hashicorp Vault secret for the HTTP Logs & Metrics source URL.
 
 ## Plugins
 
@@ -73,8 +68,6 @@ This integration does not produce any events that should be processed by an aler
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
 [sumologic-handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/sumo-logic-metrics-handlers/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
-[secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
-[secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [handler-templating]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handler-templates/
 [sensu-plus]: https://sensu.io/features/analytics

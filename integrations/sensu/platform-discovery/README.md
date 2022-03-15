@@ -79,7 +79,7 @@ This integration does not produce any metrics.
 This integration does not produce any alerts.
 Discovery events are processed via the `entity-manager` pipeline, which updates entity subscriptions in real-time.
 
-_NOTE: the default filters on the provided pipeline will only process the first discovery event produced by the discovery check; to trigger a subsequent entity update (e.g. if the API Key secret was initially invalid), simply delete the platform-discovery event for a given entity. The next time the check runs, the entity subscription update will be applied again._
+_NOTE: the default filters on the provided pipeline will only process the first discovery event produced by the discovery check; to trigger a subsequent entity update (e.g. if the API Key was initially invalid), simply delete the platform-discovery event for a given entity. The next time the check runs, the entity subscription update will be applied again._
 
 ## Reference Documentation
 
@@ -99,8 +99,6 @@ _NOTE: the default filters on the provided pipeline will only process the first 
 [metrics]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
-[secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
-[secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [sensu-plus]: https://sensu.io/features/analytics
 [sensu-platform-discovery-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-platform-discovery

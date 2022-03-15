@@ -10,7 +10,6 @@ This integration provides the following resources:
 
 * `pagerduty` [pipeline]
 * `pagerduty` [handler]
-* `pagerduty_integration_key` [secret]
 * `sensu/sensu-pagerduty-handler:2.1.0` [asset]
 
 ## Dashboards
@@ -30,10 +29,6 @@ This integration is compatible with the [Pagerduty Incidents] dashboard. The Inc
 1. **Get a Pagerduty Integration Key**
 
    To obtain a [Pagerduty Integration Key][pagerduty-integration-key], please visit your Pagerduty dashboard, browse to "Automation" > "Event Rules", and copy your Pagerduty "Integration Key".
-
-1. **Add the Pagerduty Integration Key to your secrets provider**
-
-   Create an environment variable or Hashicorp Vault secret for the Pagerduty Integration Key.
 
 ## Plugins
 
@@ -61,7 +56,6 @@ This integration does not produce any events that should be processed by an aler
 
 1. Pagerduty knowledge base: ["Generate an Integration Key"][pagerduty-integration-key]
 1. This integration uses [Handler Templating][handler-templating] for variable substitution
-1. This integration uses Sensu's built-in [Secrets Management][secrets-mgmt]
 
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
@@ -75,8 +69,6 @@ This integration does not produce any events that should be processed by an aler
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [handler-templating]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handler-templates/
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
-[secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
-[secrets-mgmt]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets-management/
 [pagerduty-integration-key]: https://support.pagerduty.com/docs/services-and-integrations#generate-a-new-integration-key
 [pagerduty-plugin-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-pagerduty-handler
 [pagerduty-plugin-github]: https://github.com/sensu/sensu-pagerduty-handler

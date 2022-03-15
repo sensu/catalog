@@ -10,8 +10,6 @@ This integration provides the following resources:
 
 * `slack` [pipeline]
 * `slack` [handler]
-* `slack_webhook_url` [secrets]
-* `slack_channel` [secrets]
 * `sensu/sensu-slack-handler` [asset]
 
 ## Dashboards
@@ -28,15 +26,6 @@ There are no known supported dashboards for this integration.
 1. Get a Slack Webhook URL
 
    To obtain a [Slack Webhook URL][slack-webhook-url], please enable Incoming Webhooks for the Slack application Sensu will be using to send alert messages. 
-
-1. Configure Secrets Management 
-
-   This integration requires the following [Sensu Secrets][secrets]: 
-
-   - `slack_webhook_url`
-   - `slack_channel`
-
-   _NOTE: this integration creates one or more Sensu Secrets using the "env" provider. The corresponding environment variables need to be set on every sensu-backend in the Sensu deployment. To add the environment variables, please modify `/etc/default/sensu-backend` or `/etc/sysconfig/sensu-backend` and restart the sensu-backend service(s)._
 
 ## Plugins
 
@@ -68,7 +57,6 @@ This integration does not produce any events that should be processed by an aler
 [annotation]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#general-configuration-flags
 [plugins]: https://docs.sensu.io/sensu-go/latest/plugins/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
-[secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [handler-templating]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handler-templates/
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/

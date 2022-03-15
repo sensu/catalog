@@ -166,8 +166,6 @@ This integration produces the following events which should be processed by an a
 [plugins]: https://docs.sensu.io/sensu-go/latest/plugins/
 [metrics]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
-[secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
-[secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [sensu-plus]: https://sensu.io/features/analytics
 [sumo-host-dashboard-link]: https://www.sumologic.com/application/host-and-process-metrics/

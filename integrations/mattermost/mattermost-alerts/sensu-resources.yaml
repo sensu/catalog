@@ -15,6 +15,9 @@ spec:
         - api_version: core/v2
           type: EventFilter
           name: not_silenced
+        - api_version: core/v2
+          type: EventFilter
+          name: mattermost_alerts
       handler:
         api_version: core/v2
         type: Handler
@@ -31,31 +34,20 @@ spec:
     --channel ${MATTERMOST_CHANNEL}
     --username SensuGo
     --webhook-url ${MATTERMOST_WEBHOOK_URL}
-    --description-template "{{ .Check.Output }}\n\n[namespace: {{.Entity.Namespace}}]"
+    --description-template "{{ .Check.Output }}\n\n[namespace: {{ .Entity.Namespace }}]"
   runtime_assets:
     - sensu/sensu-slack-handler:1.4.0
   timeout: 0
-  secrets:
-    - name: MATTERMOST_WEBHOOK_URL
-      secret: mattermost_webhook_url
-    - name: MATTERMOST_CHANNEL
-      secret: mattermost_channel
+  env_vars: []
 ---
-type: Secret
-api_version: secrets/v1
+type: EventFilter
+api_version: core/v2
 metadata:
-  name: mattermost_webhook_url
+  name: mattermost_alerts
 spec:
-  provider: env
-  id: SENSU_MATTERMOST_WEBHOOK_URL
----
-type: Secret
-api_version: secrets/v1
-metadata:
-  name: mattermost_channel
-spec:
-  provider: env
-  id: SENSU_MATTERMOST_CHANNEL
+  action: allow
+  expressions:
+  - event.check.occurrences == 1 || Math.ceil( seconds_since(event.check.last_ok) / 60 ) % 60 == 0
 ---
 type: Asset
 api_version: core/v2

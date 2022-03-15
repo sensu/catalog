@@ -473,14 +473,6 @@ Please note the following guidelines for comopsing Sensu Integration:
    * Secret(s)
    * Asset(s)
 
-1. Take care to maintain secrets.
-   If a resource makes use of a secret and the command supports using built-in enviornment variables for that secret, avoid exposing it unnecessarily with a command argument.
-   For example, the InfluxDB handler has arguments for providing a username (-u) and password (-p).
-   It also supports specifying those as the environment variables `INFLUXDB_USER` and `INFLUXDB_PASSWORD`, respectively.
-   In this case the command should avoid using the arguments and instead use the environment variables.
-
-1. Secrets should be created using the built-in `env` provider.
-
 1. For alert and incident-management handlers avoid the use of filters that have highly subjective configuration options.
    By default, use the built-in `is_incident` and `not_silenced` filters.
    However, we do encourage you to share your filters, as appropriate in the `shared` directory.

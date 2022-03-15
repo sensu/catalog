@@ -10,8 +10,6 @@ This integration includes the following resources:
 
 * `ansible-tower` ([pipeline])
 * `ansible-tower` ([handler])
-* `ansible_tower_host` ([secret])
-* `ansible_tower_token` ([secret])
 * `sensu/sensu-ansible-handler:2.1.0` ([asset])
 
 ## Dashboards
@@ -32,15 +30,6 @@ This integration is compatible with the [Ansible Tower Jobs dashboard][ansible-t
    [Create an application using the Ansible Tower admin console][ansible-tower-application].
 
    [Create an application OAuth token using the Ansble Tower admin console][ansible-tower-app-token].
-
-1. Configure Secrets Management
-
-   This integration requires the following [Sensu Secrets][secrets]:
-
-   - `ansible_tower_host` (hostname or IP address of the Ansible Tower API)
-   - `ansible_tower_token` (Ansible Tower application OAuth token)
-
-   _NOTE: this integration creates one or more Sensu Secrets using the "env" provider. The corresponding environment variables need to be set on every sensu-backend in the Sensu deployment. To add the environment variables, please modify `/etc/default/sensu-backend` or `/etc/sysconfig/sensu-backend` and restart the sensu-backend service(s)._
 
 1. Add a `io.sensu.ansible.config.actions` ("remediation action") [annotation] to one or more checks.
 
@@ -108,8 +97,6 @@ This integration does not produce any events that should be processed by an aler
 [metrics]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
-[secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
-[secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [handler-templating]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handler-templates/
 [sensu-plus]: https://sensu.io/features/analytics

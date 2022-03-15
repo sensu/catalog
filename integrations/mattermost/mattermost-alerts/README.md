@@ -10,8 +10,6 @@ This integration provides the following resources:
 
 * `mattermost` [pipeline]
 * `slack` [handler]
-* `mattermost_webhook_url` [secrets]
-* `mattermost_channel` [secrets]
 * `sensu/sensu-slack-handler` [asset]
 
 ## Dashboards
@@ -31,15 +29,6 @@ The handler will send event data to a channel to your Mattermost instance.
 1. Get a Mattermost Webhook URL
 
    To obtain a [Mattermost Webhook URL][mattermost-webhook-url], please enable Incoming Webhooks for the Mattermost application Sensu will be using to send alert messages. 
-
-1. Configure Secrets Management 
-
-   This integration requires the following [Sensu Secrets][secrets]: 
-
-   - `mattermost_webhook_url`
-   - `mattermost_channel`
-
-   _NOTE: this integration creates one or more Sensu Secrets using the "env" provider. The corresponding environment variables need to be set on every sensu-backend in the Sensu deployment. To add the environment variables, please modify `/etc/default/sensu-backend` or `/etc/sysconfig/sensu-backend` and restart the sensu-backend service(s)._
 
 ## Plugins
 
@@ -74,7 +63,6 @@ This integration does not produce any events that should be processed by an aler
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [handler-templating]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handler-templates/
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
-[secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [mattermost-webhook-url]: https://docs.mattermost.com/developer/webhooks-incoming.html
 [slack-plugin-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-slack-handler
 [slack-plugin-github]: https://github.com/sensu/sensu-slack-handler

@@ -29,21 +29,11 @@ spec:
     sensu-microsoft-teams-handler
     --icon-url https://www.sensu.io/img/sensu-logo.png
     --title-template "Sensu Event - {{.Entity.Name}}/{{.Check.Name}}"
+    # NOTE: Requires MICROSOFT_TEAMS_WEBHOOK_URL environment variable or secret
   runtime_assets:
-  - sensu/sensu-microsoft-teams-handler:0.1.2
-  secrets:
-  - name: MICROSOFT_TEAMS_WEBHOOK_URL
-    secret: microsoft_teams_webhook_url
+    - sensu/sensu-microsoft-teams-handler:0.1.2
   timeout: 0
   type: pipe
----
-type: Secret
-api_version: secrets/v1
-metadata:
-  name: microsoft_teams_webhook_url
-spec:
-  provider: env
-  id: SENSU_MICROSOFT_TEAMS_WEBHOOK_URL
 ---
 type: Asset
 api_version: core/v2

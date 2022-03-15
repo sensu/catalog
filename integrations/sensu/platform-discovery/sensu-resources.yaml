@@ -10,16 +10,16 @@ metadata:
 spec:
   command: sensu-platform-discovery
   runtime_assets:
-  - sensu/sensu-platform-discovery:0.0.2
+    - sensu/sensu-platform-discovery:0.0.2
   subscriptions:
-  - autodiscovery
+    - autodiscovery
   publish: true
   interval: 60
   timeout: 5
   pipelines:
-  - api_version: core/v2
-    type: Pipeline
-    name: entity-manager
+    - api_version: core/v2
+      type: Pipeline
+      name: entity-manager
 
 ---
 type: Pipeline
@@ -30,15 +30,15 @@ metadata:
     provider: discovery
 spec:
   workflows:
-  - name: subscription-manager
-    filters:
-    - api_version: core/v2
-      type: EventFilter
-      name: has_subscriptions
-    handler:
-      api_version: core/v2
-      type: Handler
-      name: subscription-manager
+    - name: subscription-manager
+      filters:
+        - api_version: core/v2
+          type: EventFilter
+          name: has_subscriptions
+      handler:
+        api_version: core/v2
+        type: Handler
+        name: subscription-manager
 
 ---
 type: Handler
@@ -48,16 +48,14 @@ metadata:
 spec:
   type: pipe
   command: >-
-    sensu-entity-manager
+    sensu-entity-manager 
     --add-subscriptions
+    # NOTE: Requires SENSU_API_KEY environment variable or secret
   runtime_assets:
-  - sensu/sensu-entity-manager:0.3.0
+    - sensu/sensu-entity-manager:0.3.0
   timeout: 5
   env_vars:
-  - SENSU_API_URL=http://127.0.0.1:8080
-  secrets:
-  - name: SENSU_API_KEY
-    secret: entity-manager-api-key
+    - SENSU_API_URL=http://127.0.0.1:8080
 
 ---
 type: EventFilter
@@ -67,18 +65,9 @@ metadata:
 spec:
   action: allow
   expressions:
-  - event.check.annotations.discovery == "subscriptions"
-  - event.check.status == 0
-  - event.check.occurrences == 1
-
----
-type: Secret
-api_version: secrets/v1
-metadata:
-  name: entity-manager-api-key
-spec:
-  provider: env
-  id: SENSU_ENTITY_MANAGER_API_KEY
+    - event.check.annotations.discovery == "subscriptions"
+    - event.check.status == 0
+    - event.check.occurrences == 1
 
 ---
 type: Asset
@@ -95,36 +84,36 @@ metadata:
     io.sensu.bonsai.tags: check, discovery
 spec:
   builds:
-  - url: https://assets.bonsai.sensu.io/4501f0031e91f5a2a4c565ecd92fd594b0ceb3b6/sensu-platform-discovery_0.0.2_linux_armv7.tar.gz
-    sha512: 763633eb186cd5eb37df668a71dabb57aee9300a6c88402c3dfe5ee8acc6769516b9428dbf3ac51cd269bb2cfedead736ed0f16b705abf07e946a33ae0f59fdc
-    filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == 'armv7'
-  - url: https://assets.bonsai.sensu.io/4501f0031e91f5a2a4c565ecd92fd594b0ceb3b6/sensu-platform-discovery_0.0.2_windows_amd64.tar.gz
-    sha512: 5dd9603dd6035470946f2cc6826bb0717a910bd61d2dbb377004bae9b2780bc731b53850963eb5cf5ebc35cfdbcf3f4f8b710c2b4c9329ba5be0535db6f8a206
-    filters:
-    - entity.system.os == 'windows'
-    - entity.system.arch == 'amd64'
-  - url: https://assets.bonsai.sensu.io/4501f0031e91f5a2a4c565ecd92fd594b0ceb3b6/sensu-platform-discovery_0.0.2_darwin_amd64.tar.gz
-    sha512: fa4ae4e9adbab8ca333135a207cd046298d92a7515c84bec48ab3674ce3c0560da9b061b52b103387f93a5889d8a1859c20efd75600587894f39735532fdb331
-    filters:
-    - entity.system.os == 'darwin'
-    - entity.system.arch == 'amd64'
-  - url: https://assets.bonsai.sensu.io/4501f0031e91f5a2a4c565ecd92fd594b0ceb3b6/sensu-platform-discovery_0.0.2_linux_arm64.tar.gz
-    sha512: 156da9ada1670c89dcf07235c52810927d99e89a03feb14c62d713d8ecec2abe41e824d334921ab89198ce1c73cc0491201c58106332472c0e035e5912ef5b0b
-    filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == 'arm64'
-  - url: https://assets.bonsai.sensu.io/4501f0031e91f5a2a4c565ecd92fd594b0ceb3b6/sensu-platform-discovery_0.0.2_linux_386.tar.gz
-    sha512: f5ac7389f090fe3eeaa95efcdf1d5ead3055f6924ae6a2f6574e108a8d6fce3b1d953d6faea16a5241b5100041fa0200766f4b247b494904ad7a80f78d7d53d8
-    filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == '386'
-  - url: https://assets.bonsai.sensu.io/4501f0031e91f5a2a4c565ecd92fd594b0ceb3b6/sensu-platform-discovery_0.0.2_linux_amd64.tar.gz
-    sha512: 8ccca40abd6025555b15f110f2bdbcc89841a752e014990eaf4d90380ae5540ec1aba471f7bfa52a71cb5cb368b5a7fb8cea1d283220843e2f49e66584749baa
-    filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/4501f0031e91f5a2a4c565ecd92fd594b0ceb3b6/sensu-platform-discovery_0.0.2_linux_armv7.tar.gz
+      sha512: 763633eb186cd5eb37df668a71dabb57aee9300a6c88402c3dfe5ee8acc6769516b9428dbf3ac51cd269bb2cfedead736ed0f16b705abf07e946a33ae0f59fdc
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io/4501f0031e91f5a2a4c565ecd92fd594b0ceb3b6/sensu-platform-discovery_0.0.2_windows_amd64.tar.gz
+      sha512: 5dd9603dd6035470946f2cc6826bb0717a910bd61d2dbb377004bae9b2780bc731b53850963eb5cf5ebc35cfdbcf3f4f8b710c2b4c9329ba5be0535db6f8a206
+      filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/4501f0031e91f5a2a4c565ecd92fd594b0ceb3b6/sensu-platform-discovery_0.0.2_darwin_amd64.tar.gz
+      sha512: fa4ae4e9adbab8ca333135a207cd046298d92a7515c84bec48ab3674ce3c0560da9b061b52b103387f93a5889d8a1859c20efd75600587894f39735532fdb331
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/4501f0031e91f5a2a4c565ecd92fd594b0ceb3b6/sensu-platform-discovery_0.0.2_linux_arm64.tar.gz
+      sha512: 156da9ada1670c89dcf07235c52810927d99e89a03feb14c62d713d8ecec2abe41e824d334921ab89198ce1c73cc0491201c58106332472c0e035e5912ef5b0b
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io/4501f0031e91f5a2a4c565ecd92fd594b0ceb3b6/sensu-platform-discovery_0.0.2_linux_386.tar.gz
+      sha512: f5ac7389f090fe3eeaa95efcdf1d5ead3055f6924ae6a2f6574e108a8d6fce3b1d953d6faea16a5241b5100041fa0200766f4b247b494904ad7a80f78d7d53d8
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io/4501f0031e91f5a2a4c565ecd92fd594b0ceb3b6/sensu-platform-discovery_0.0.2_linux_amd64.tar.gz
+      sha512: 8ccca40abd6025555b15f110f2bdbcc89841a752e014990eaf4d90380ae5540ec1aba471f7bfa52a71cb5cb368b5a7fb8cea1d283220843e2f49e66584749baa
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'
 
 ---
 type: Asset
@@ -141,33 +130,33 @@ metadata:
     io.sensu.bonsai.tags: ''
 spec:
   builds:
-  - url: https://assets.bonsai.sensu.io/be05ae5a2d16640e97d2374bffed642190f4fff9/sensu-entity-manager_0.3.0_windows_amd64.tar.gz
-    sha512: d1fd35b6d2d2a6689678bbb019b1112402e07a01359a90196e7f50d1f1c0a1f03718428719c63ccc7cd4cb204a469a4e2a80392ece3b34398ce19780939bcd2c
-    filters:
-    - entity.system.os == 'windows'
-    - entity.system.arch == 'amd64'
-  - url: https://assets.bonsai.sensu.io/be05ae5a2d16640e97d2374bffed642190f4fff9/sensu-entity-manager_0.3.0_darwin_amd64.tar.gz
-    sha512: c34060958fa93286c0efec868211f8a2e43bc8360fb7fd6c6eaf6a8662b64804907dd95ce7ed3e7ececb4346126056245fda99b7dba15473be4e9fc592b8367f
-    filters:
-    - entity.system.os == 'darwin'
-    - entity.system.arch == 'amd64'
-  - url: https://assets.bonsai.sensu.io/be05ae5a2d16640e97d2374bffed642190f4fff9/sensu-entity-manager_0.3.0_linux_armv7.tar.gz
-    sha512: 61ba6a0e5986279363e7b5fad286e82a042f39e211350de5b0a383caff1c335cd739cd0b4aa243aa2d0614b431577fe6b2e584bc471edbc08b43d5e1189611f0
-    filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == 'armv7'
-  - url: https://assets.bonsai.sensu.io/be05ae5a2d16640e97d2374bffed642190f4fff9/sensu-entity-manager_0.3.0_linux_arm64.tar.gz
-    sha512: 0457f23df027d4b844da55d378cd3d563ae0df58dd3e6eb00916292fa5284988a00f98c247a31fe96f49175b99b4f6aa7369c5ab7e57b4f9e474d242499ab3b8
-    filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == 'arm64'
-  - url: https://assets.bonsai.sensu.io/be05ae5a2d16640e97d2374bffed642190f4fff9/sensu-entity-manager_0.3.0_linux_386.tar.gz
-    sha512: 4a75f931dd058405e3cde3e93d1174cd11aa7c422fd517e63f04e1dc6121280f16496b2a62f3e25a6ecdfc168ba4d746cd31b2beef7c1714f4addeb8d263efd0
-    filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == '386'
-  - url: https://assets.bonsai.sensu.io/be05ae5a2d16640e97d2374bffed642190f4fff9/sensu-entity-manager_0.3.0_linux_amd64.tar.gz
-    sha512: 3f0d7967489edae1d181424483884c2d2fd4ec382d53a288e796768a0a88642e1136699ad8089e1cce67071acf5d2270f8137ada40abd308fa48ba3537bd8e3a
-    filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/be05ae5a2d16640e97d2374bffed642190f4fff9/sensu-entity-manager_0.3.0_windows_amd64.tar.gz
+      sha512: d1fd35b6d2d2a6689678bbb019b1112402e07a01359a90196e7f50d1f1c0a1f03718428719c63ccc7cd4cb204a469a4e2a80392ece3b34398ce19780939bcd2c
+      filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/be05ae5a2d16640e97d2374bffed642190f4fff9/sensu-entity-manager_0.3.0_darwin_amd64.tar.gz
+      sha512: c34060958fa93286c0efec868211f8a2e43bc8360fb7fd6c6eaf6a8662b64804907dd95ce7ed3e7ececb4346126056245fda99b7dba15473be4e9fc592b8367f
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/be05ae5a2d16640e97d2374bffed642190f4fff9/sensu-entity-manager_0.3.0_linux_armv7.tar.gz
+      sha512: 61ba6a0e5986279363e7b5fad286e82a042f39e211350de5b0a383caff1c335cd739cd0b4aa243aa2d0614b431577fe6b2e584bc471edbc08b43d5e1189611f0
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io/be05ae5a2d16640e97d2374bffed642190f4fff9/sensu-entity-manager_0.3.0_linux_arm64.tar.gz
+      sha512: 0457f23df027d4b844da55d378cd3d563ae0df58dd3e6eb00916292fa5284988a00f98c247a31fe96f49175b99b4f6aa7369c5ab7e57b4f9e474d242499ab3b8
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io/be05ae5a2d16640e97d2374bffed642190f4fff9/sensu-entity-manager_0.3.0_linux_386.tar.gz
+      sha512: 4a75f931dd058405e3cde3e93d1174cd11aa7c422fd517e63f04e1dc6121280f16496b2a62f3e25a6ecdfc168ba4d746cd31b2beef7c1714f4addeb8d263efd0
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io/be05ae5a2d16640e97d2374bffed642190f4fff9/sensu-entity-manager_0.3.0_linux_amd64.tar.gz
+      sha512: 3f0d7967489edae1d181424483884c2d2fd4ec382d53a288e796768a0a88642e1136699ad8089e1cce67071acf5d2270f8137ada40abd308fa48ba3537bd8e3a
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'

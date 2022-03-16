@@ -395,7 +395,7 @@ spec:
       Variable substitution is supported via `varname` references (i.e. double square brackets).
       Please note the following details about Integration variables:
 
-      * Sensu Integration variables hava a name (e.g. `team`, or `interval`) and data type (e.g. `string`, `int`).
+      * Sensu Integration variables have a name (e.g. `team`, or `interval`) and data type (e.g. `string`, `int`).
       * Sensu Integration variables can be used as Sensu Integration `resource_patch` values (e.g. `value: interval`).
       * Sensu Integration variable can be interpolated into a string template via double square brackets (e.g. `Hello, [[ team ]]`).
       * Available variables:
@@ -404,7 +404,7 @@ spec:
 
 ### Sensu Integration guidelines
 
-Please note the following guidelines for comopsing Sensu Integration:
+Please note the following guidelines for composing Sensu Integration:
 
 1. **YAML format**. All integration metadata (`sensu-integration.yaml`) and resources (`sensu-resources.yaml`) _must_ be in YAML format, for consistency and comment support.
    All YAML files should use the `.yaml` file extension (not `.yml`), because we're picky that way.

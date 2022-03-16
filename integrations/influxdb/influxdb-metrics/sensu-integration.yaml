@@ -16,127 +16,65 @@ spec:
     - "@sensu"
   prompts:
     - type: section
-      title: InfluxDB Secrets
+      title: InfluxDB Metrics configuration
+
     - type: markdown
       body: |
-        This integration requires one or more secrets for influxdb API authentication.
+        This integration requires configuration to connect to an InfluxDB database.
 
-    - type: section
-      title: InfluxDB Database
     - type: question
-      name: influxdb_addr_secret_provider
+      name: influxdb_addr
       input:
         type: string
-        title: InfluxDB Address Secret Provider
-        enum:
-          - env
-          - vault
-        default: env
-    - type: question
-      name: influxdb_addr_secret_id
-      input:
-        type: string
-        title: InfluxDB Address Secret ID
+        required: true
+        title: InfluxDB Address
         description: >-
-          Provide the Secret identifier (i.e. environment variable name, or Vault secret key/path)
-        default: INFLUXDB_ADDR
-    - type: question
-      name: influxdb_db_secret_provider
-      input:
-        type: string
-        title: InfluxDB Database Secret Provider
-        enum:
-          - env
-          - vault
-        default: env
-    - type: question
-      name: influxdb_db_secret_id
-      input:
-        type: string
-        title: InfluxDB Database Secret ID
-        description: >-
-          Provide the Secret identifier (i.e. environment variable name, or Vault secret key/path)
-        default: INFLUXDB_DB
+          Some useful description of what to put in here
+        default: ""
 
-    - type: section
-      title: InfluxDB Credentials
     - type: question
-      name: influxdb_user_secret_provider
+      name: influxdb_db
       input:
         type: string
-        title: InfluxDB User Secret Provider
-        enum:
-          - env
-          - vault
-        default: env
-    - type: question
-      name: influxdb_user_secret_id
-      input:
-        type: string
-        title: InfluxDB User Secret ID
+        required: true
+        title: InfluxDB Database
         description: >-
-          Provide the Secret identifier (i.e. environment variable name, or Vault secret key/path)
-        default: INFLUXDB_USER
+          Some useful description of what to put in here
+        default: ""
+
+    - type: question
+      name: influxdb_user
+      input:
+        type: string
+        required: true
+        title: InfluxDB User
+        description: >-
+          Some useful description of what to put in here
+        default: ""
+
     - type: question
       name: influxdb_password_secret_provider
       input:
         type: string
-        title: InfluxDB Password Secret Provider
-        enum:
-          - env
-          - vault
-        default: env
-    - type: question
-      name: influxdb_password_secret_id
-      input:
-        type: string
-        title: InfluxDB Password Secret ID
+        title: InfluxDB Password
         description: >-
-          Provide the Secret identifier (i.e. environment variable name, or Vault secret key/path)
-        default: INFLUXDB_PASSWORD
+          Some useful description of what to put in here
 
   resource_patches:
     - resource:
-        api_version: secrets/v1
-        type: Secret
-        name: influxdb_addr
+        api_version: core/v2
+        type: Handler
+        name: influxdb
       patches:
-        - path: /spec/provider
-          op: replace
-          value: "[[influxdb_addr_secret_provider]]"
-        - path: /spec/id
-          op: replace
-          value: "[[influxdb_addr_secret_id]]"
-    - resource:
-        api_version: secrets/v1
-        type: Secret
-        name: influxdb_db
-      patches:
-        - path: /spec/provider
-          op: replace
-          value: "[[influxdb_db_secret_provider]]"
-        - path: /spec/id
-          op: replace
-          value: "[[influxdb_db_secret_id]]"
-    - resource:
-        api_version: secrets/v1
-        type: Secret
-        name: influxdb_user
-      patches:
-        - path: /spec/provider
-          op: replace
-          value: "[[influxdb_user_secret_provider]]"
-        - path: /spec/id
-          op: replace
-          value: "[[influxdb_user_secret_id]]"
-    - resource:
-        api_version: secrets/v1
-        type: Secret
-        name: influxdb_password
-      patches:
-        - path: /spec/provider
-          op: replace
-          value: "[[influxdb_password_secret_provider]]"
-        - path: /spec/id
-          op: replace
-          value: "[[influxdb_password_secret_id]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "INFLUXDB_ADDR=[[influxdb_addr]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "INFLUXDB_DB=[[influxdb_db]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "INFLUXDB_USER=[[influxdb_user]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "INFLUXDB_PASSWORD=[[influxdb_password]]"

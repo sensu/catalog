@@ -24,52 +24,12 @@ metadata:
 spec:
   type: pipe
   command: sensu-influxdb-handler -d $INFLUXDB_DB
+  env_vars: []
   timeout: 10
   filters:
   - has_metrics
   runtime_assets:
   - sensu/sensu-influxdb-handler:3.7.0
-  secrets:
-  - name: INFLUXDB_ADDR
-    secret: influxdb_addr
-  - name: INFLUXDB_DB
-    secret: influxdb_db
-  - name: INFLUXDB_USER
-    secret: influxdb_user
-  - name: INFLUXDB_PASSWORD
-    secret: influxdb_password
----
-type: Secret
-api_version: secrets/v1
-metadata:
-  name: influxdb_addr
-spec:
-  provider: env
-  id: INFLUXDB_ADDR
----
-type: Secret
-api_version: secrets/v1
-metadata:
-  name: influxdb_db
-spec:
-  provider: env
-  id: INFLUXDB_DB
----
-type: Secret
-api_version: secrets/v1
-metadata:
-  name: influxdb_user
-spec:
-  provider: env
-  id: INFLUXDB_USER
----
-type: Secret
-api_version: secrets/v1
-metadata:
-  name: influxdb_password
-spec:
-  provider: env
-  id: INFLUXDB_PASSWORD
 ---
 type: Asset
 api_version: core/v2

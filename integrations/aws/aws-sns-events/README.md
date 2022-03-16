@@ -33,7 +33,7 @@ At a minimum, this integration requires the `sns:Publish` action for the SNS Top
 1. This integration uses [Handler Templating][handler-templating] for variable substitution.
 
 1. This integration places AWS access credentials directly into sensu configuration.
-In order to follow our reccomended security practices please reference the [sensu secrets documentation][secrets]. 
+In order to follow our recommended security practices please reference the [sensu secrets documentation][secrets]. 
 
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/

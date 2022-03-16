@@ -1,0 +1,79 @@
+---
+type: Handler
+api_version: core/v2
+metadata:
+  name: pushover-alerts
+spec:
+  command: sensu-go-pushover-handler
+  env_vars: []
+  runtime_assets:
+  - nixwiz/sensu-go-pushover-handler:0.9.0
+  timeout: 0
+  type: pipe
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: nixwiz/sensu-go-pushover-handler:0.9.0
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/nixwiz/sensu-go-pushover-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/nixwiz/sensu-go-pushover-handler
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 0.9.0
+    io.sensu.bonsai.namespace: nixwiz
+    io.sensu.bonsai.name: sensu-go-pushover-handler
+    io.sensu.bonsai.tags: handler
+spec:
+  builds:
+    - url: https://assets.bonsai.sensu.io/c973291ed55607121d63faa2b92c732a1424337e/sensu-go-pushover-handler_0.9.0_windows_amd64.tar.gz
+      sha512: fc62fd2b148778eb877eacc3829edd6d302f0211cea54ef29883fb124f48d00ce32d3cc047d9dd1a5a619a174e5f154dac7652791157588ced4250b1136b7ba4
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/c973291ed55607121d63faa2b92c732a1424337e/sensu-go-pushover-handler_0.9.0_darwin_amd64.tar.gz
+      sha512: 2db3cfba8e314ccace59c629dc532680e1c3d7825c60aceafd5d60df57cb8896b9388ed71b53c271915e8baeaaac52801c667daa575fb8f51f1daeccb320bd9e
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/c973291ed55607121d63faa2b92c732a1424337e/sensu-go-pushover-handler_0.9.0_linux_armv7.tar.gz
+      sha512: 43aa35e277aaa27792a24f8a6c6d7398a4ccbe51ba26944c274b793fb7bed675f3446412f4830c223c4025b2fb3c282a9494fe0706642b85d48820863fb6dc1b
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io/c973291ed55607121d63faa2b92c732a1424337e/sensu-go-pushover-handler_0.9.0_linux_arm64.tar.gz
+      sha512: bd938123d791f4255103025ceb96dd1c6d131d6e6fc2c9048174e49fb26a46967668b37c0b142ead7abc26d644912639f285dd0c977946c554af8db6b4f35598
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io/c973291ed55607121d63faa2b92c732a1424337e/sensu-go-pushover-handler_0.9.0_linux_386.tar.gz
+      sha512: 1b098566fd00976c916f4e892f2fdae17e531644f538a18d61f982cc313dad146c586f5f843c9470e7a01be20c470a19f703e1223a4becabe6dc4e8a22ea2ad2
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io/c973291ed55607121d63faa2b92c732a1424337e/sensu-go-pushover-handler_0.9.0_linux_amd64.tar.gz
+      sha512: a82efffb7fbb60a90a277cc13909f869e42bf2802f0ca0670dd729697ed69c9b3c6ccee6cebb0d9758ef883f22e4f7ea77c31459987e8af96449a8cb070bb0d4
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'
+---
+type: Pipeline
+api_version: core/v2
+metadata:
+  name: pushover-alerts
+  labels:
+    provider: incidents
+spec:
+  workflows:
+    - name: pushover-alerts
+      filters:
+      - api_version: core/v2
+        type: EventFilter
+        name: is_incident
+      - api_version: core/v2
+        type: EventFilter
+        name: not_silenced
+      handler:
+        api_version: core/v2
+        type: Handler
+        name: pushover-alerts

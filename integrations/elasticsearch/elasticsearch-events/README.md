@@ -11,7 +11,7 @@ This integration includes the following resources:
 * `elasticsearch` [pipeline]
 * `elasticsearch-events` [handler]
 * `elasticsearch_username ` [secret]
-* `ELASTICSEARCH_PASSWORD` [secret]
+* `elasticsearch_password ` [secret]
 * `sensu/sensu-elasticsearch-handler:0.3.2` [asset]
 
 ## Dashboards

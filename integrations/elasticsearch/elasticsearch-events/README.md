@@ -10,7 +10,7 @@ This integration includes the following resources:
 
 * `elasticsearch` [pipeline]
 * `elasticsearch-events` [handler]
-* `ELASTICSEARCH_USERNAME` [secret]
+* `elasticsearch_username ` [secret]
 * `ELASTICSEARCH_PASSWORD` [secret]
 * `sensu/sensu-elasticsearch-handler:0.3.2` [asset]
 

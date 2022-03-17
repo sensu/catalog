@@ -66,3 +66,16 @@ spec:
         - path: /spec/env_vars/-
           op: add
           value: "SNS_TOPIC_ARN=[[sns_topic_arn]]"
+  post_install:
+    - type: section
+      title: Secret Management
+    - type: markdown
+      body: |
+        In order to provide the best experience installing integrations
+        from the catalog, we have embedded all credentials directly in the installed Sensu
+        Resources. This means that all sensu users with read access to the cluster will be
+        able to see these resources and embedded credentials in plain text. Resources are also
+        very likely to be stored unencrypted at rest in the Sensu store.
+
+        We recommend that you consider migrating these secrets to a supported
+        [secrets store](https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets-management/).

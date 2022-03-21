@@ -1,0 +1,80 @@
+---
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: haproxy-metrics
+spec:
+  command: >-
+    haproxy-check --urls $URLS
+  runtime_assets:
+    - sensu/haproxy-check:0.1.2
+  publish: true
+  env_vars: []
+  subscriptions:
+    - haproxy
+  interval: 30
+  timeout: 10
+  output_metric_format: prometheus_text
+    # TODO
+    #output_metric_tags:
+    #  - name: entity
+    #    value: "{{ .name }}"
+    #output_metric_thresholds:
+    #  - name: todo
+    #    thresholds:
+    #      - max: "300"
+    #        status: 1
+  pipelines: []
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu/haproxy-check:0.1.2
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/haproxy-check
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/haproxy-check
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 0.1.2
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: haproxy-check
+    io.sensu.bonsai.tags: ''
+spec:
+  builds:
+  - url: https://assets.bonsai.sensu.io/aec832739ad2c21d6338b696e645a9b76cb8e4e5/haproxy-check_0.1.2_windows_amd64.tar.gz
+    sha512: ef9e8ad2c9fb9e26bc381d873317a5a7e73cbb64d4e06014af87d76d22975cebe9fd09c310fa4699390ea547b0a1c7759829f717976e933430f080107ae56e6c
+    filters:
+    - entity.system.os == 'windows'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/aec832739ad2c21d6338b696e645a9b76cb8e4e5/haproxy-check_0.1.2_darwin_amd64.tar.gz
+    sha512: 549f6a8d00aadd74c2706de8a87c7e7f57fb81ac357439c6486cd9cc8115df8cea8c895426836e80bd79a8151a9e6abac109d5b8565fb4707b454fddd6eda51a
+    filters:
+    - entity.system.os == 'darwin'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/aec832739ad2c21d6338b696e645a9b76cb8e4e5/haproxy-check_0.1.2_linux_armv6.tar.gz
+    sha512: ba2a27e4dac926d54b02487e563938294d38cb77d8b2679c168e6b4ec34311827ed0f54681a5f419abf8ea92c649464c1904bbbedc7b48c5815624e682824ce9
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm'
+    - entity.system.arm_version == 6
+  - url: https://assets.bonsai.sensu.io/aec832739ad2c21d6338b696e645a9b76cb8e4e5/haproxy-check_0.1.2_linux_armv7.tar.gz
+    sha512: f9489b85b6bcd9459ce48b624291032342414eb17b96a8c59872a561fc6c8890bfcde31ab520be71e85bbe2504382eafa0c6845bf9f99957e4f8e4a0927d8cb9
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm'
+    - entity.system.arm_version == 7
+  - url: https://assets.bonsai.sensu.io/aec832739ad2c21d6338b696e645a9b76cb8e4e5/haproxy-check_0.1.2_linux_arm64.tar.gz
+    sha512: b10d13a6586995d7ef36d77a79b8283b7282ba291fe9f35402cf2c0ba732c605cd5518111fa8a67beb4e2518bbef9dbe099273304dcf9c76eea487614881f289
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm64'
+  - url: https://assets.bonsai.sensu.io/aec832739ad2c21d6338b696e645a9b76cb8e4e5/haproxy-check_0.1.2_linux_386.tar.gz
+    sha512: 5ca62bc1d5d71ef67b1cc4a69a58c1b48180a6f0935aa60d870838bbd970f5699796655540cfa5db68bd58ac13dc4223230de41c3e45af2d7749514b1979f51a
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == '386'
+  - url: https://assets.bonsai.sensu.io/aec832739ad2c21d6338b696e645a9b76cb8e4e5/haproxy-check_0.1.2_linux_amd64.tar.gz
+    sha512: 0ee579e6ab5d336a6970a926f2de8e9c03e3c0e8dc32ba0902cab08112ee1539bb399cdb25693f912bc951a2e2bf4ea583a943067dfc8e56c6e7345132579206
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'

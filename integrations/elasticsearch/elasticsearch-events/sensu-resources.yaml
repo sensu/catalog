@@ -36,14 +36,6 @@ spec:
   secrets: []
   timeout: 10
 ---
-type: Secret
-api_version: secrets/v1
-metadata:
-  name: elasticsearch_url
-spec:
-  provider: vault
-  id: secret/sensu/elasticsearch#url
----
 type: Asset
 api_version: core/v2
 metadata:

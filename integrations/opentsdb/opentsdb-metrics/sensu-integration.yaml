@@ -34,7 +34,7 @@ spec:
     - type: question
       name: opentsdb_port
       input:
-        type: string
+        type: integer
         title: OpenTSDB Database Port
         description: >-
           Port on which the OpenTSDB database listens

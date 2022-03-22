@@ -38,7 +38,8 @@ This integration does not produce any events that should be processed by an aler
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
 1. This integration uses [Handler Templating][handler-templating] for variable substitution.
-
+2. Splunk Documentation: [Get data from TCP and UDP ports][splunk-network-input]
+3. Splunk Documentation: [input.conf TCP port examples][splunk-tcp-input]
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
 [asset]: https://docs.sensu.io/sensu-go/latest/plugins/assets/

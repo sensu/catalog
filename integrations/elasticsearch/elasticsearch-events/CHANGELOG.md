@@ -9,7 +9,7 @@ to [Semantic Versioning][semver].
 
 - *n/a*
 
-## [0.1.0] - 2022-03-03
+## [20220322.0.0] - 2022-03-22
 
 - Initial add of `elasticsearch-events` integration.
 

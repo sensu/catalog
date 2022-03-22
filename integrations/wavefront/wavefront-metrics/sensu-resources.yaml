@@ -1,0 +1,79 @@
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu/sensu-wavefront-handler:0.2.2
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-wavefront-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-wavefront-handler
+    io.sensu.bonsai.tier: Supported
+    io.sensu.bonsai.version: 0.2.2
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: sensu-wavefront-handler
+    io.sensu.bonsai.tags: ''
+spec:
+  builds:
+  - url: https://assets.bonsai.sensu.io/dce5135af8c0f6cf90e7ae27cd5515ffa1431eb6/sensu-wavefront-handler_0.2.2_darwin_arm64.tar.gz
+    sha512: c2d7976cbb6472bb1150ae62088b15bcc839ddc12852fe51444aecd59bfd952ec3b1c205f6fef5db0263edfe84f633d412fdedbb396658d3aca44d3726fabbb6
+    filters:
+    - entity.system.os == 'darwin'
+    - entity.system.arch == 'arm64'
+  - url: https://assets.bonsai.sensu.io/dce5135af8c0f6cf90e7ae27cd5515ffa1431eb6/sensu-wavefront-handler_0.2.2_darwin_amd64.tar.gz
+    sha512: 490a7b7dc81fc4376dbce2ce782bbedf4e7eb2ff0d52fb571e2ff70f6fd206dc6c1b4783b1612c0f4aa51d12bc898aa1d30863c8bc39c40cd552a4ee03aee895
+    filters:
+    - entity.system.os == 'darwin'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/dce5135af8c0f6cf90e7ae27cd5515ffa1431eb6/sensu-wavefront-handler_0.2.2_linux_armv7.tar.gz
+    sha512: 378279913b9230f8fc1872164fdf471a90df6b748b493ab3cc62f98beefe5ee8322687e91241264116f113f2fce0db3d73e9100b7a7c66683d6b560c8b007bc1
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'armv7'
+  - url: https://assets.bonsai.sensu.io/dce5135af8c0f6cf90e7ae27cd5515ffa1431eb6/sensu-wavefront-handler_0.2.2_linux_arm64.tar.gz
+    sha512: 4bdc379f65ea1ba8409be83259cb4c08a82673aa9db2f1953eb3b507665877fd98e871c91287bd5956f8814c98a9dbf625fff2bca73734e306eee6ba5a2bf372
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm64'
+  - url: https://assets.bonsai.sensu.io/dce5135af8c0f6cf90e7ae27cd5515ffa1431eb6/sensu-wavefront-handler_0.2.2_linux_386.tar.gz
+    sha512: ed796613a7f84aaa3f5706096cffdf6e1fa6aaab931c2dddf29ceef626b4c0ef869bd133e4ad18379af00a96f1fb084192e7d3055749be380b4339deaabc887e
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == '386'
+  - url: https://assets.bonsai.sensu.io/dce5135af8c0f6cf90e7ae27cd5515ffa1431eb6/sensu-wavefront-handler_0.2.2_linux_amd64.tar.gz
+    sha512: 444b0ca2c29d954a94c2035aecd338b9417da6a64b4f2149ea70331a398b38af5bfa8f1974f60478bdc86d2b0e2b8c1398f94b1e58dc0621b02df9af4ef063ac
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'
+---
+type: Handler
+api_version: core/v2
+metadata:
+  name: wavefront-metrics
+spec:
+  command: >-
+    sensu-wavefront-handler
+    --host $WAVEFRONT_PROXY_HOST
+    --metrics-port $WAVEFRONT_PROXY_PORT
+  runtime_assets:
+  - sensu/sensu-wavefront-handler:0.2.2
+  env_vars:
+    - "WAVEFRONT_PROXY_HOST=localhost"
+    - "WAVEFRONT_PROXY_PORT=2878"
+  type: pipe
+  timeout: 10
+---
+type: Pipeline
+api_version: core/v2
+metadata:
+  name: wavefront-metrics
+spec:
+  workflows:
+  - name: wavefront-metrics
+    filters:
+    - api_version: core/v2
+      type: EventFilter
+      name: has_metrics
+    handler:
+      api_version: core/v2
+      type: Handler
+      name: wavefront-metrics

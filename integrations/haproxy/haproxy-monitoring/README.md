@@ -135,6 +135,7 @@ Currently, this integration only produces alerts when metrics collection fails.
 
 ## Reference Documentation
 
+1.  HAProxy management guide: [Statistics and monitoring](https://cbonte.github.io/haproxy-dconv/2.4/management.html#9)
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration. -->
 
 <!-- Links -->

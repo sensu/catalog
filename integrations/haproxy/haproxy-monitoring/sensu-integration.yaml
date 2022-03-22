@@ -19,6 +19,7 @@ spec:
     - haproxy
     - webserver
     - ha
+    - service
   contributors:
     - "@echlebek"
   prompts:

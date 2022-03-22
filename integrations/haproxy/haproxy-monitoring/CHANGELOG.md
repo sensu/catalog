@@ -7,6 +7,9 @@ to [Semantic Versioning][semver].
 
 ## Unreleased
 
+
+## [20220322.0.0] - 2012-03-22
+
 - Initial implementation of `haproxy/haproxy-monitoring` integration.
 
 [changelog]: http://keepachangelog.com/en/1.0.0/

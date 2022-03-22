@@ -31,7 +31,6 @@ spec:
   url: "${SUMOLOGIC_URL}"
   max_connections: 10
   timeout: 30s
-  env_vars: []
 ---
 type: Handler
 api_version: core/v2

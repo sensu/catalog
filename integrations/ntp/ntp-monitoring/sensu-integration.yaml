@@ -1,0 +1,97 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: ntp
+  name: ntp-monitoring
+spec:
+  class: supported
+  provider: monitoring
+  display_name: NTP Monitoring
+  short_description: Monitor NTP service health and availability
+  supported_platforms:
+    - linux
+  tags:
+    - ntp
+    - system
+    - network
+  contributors:
+    - "@sensu"
+    - "@nixwiz"
+  prompts:
+    - type: section
+      title: Configure NTP Monitoring Thresholds
+    - type: markdown
+      body: |
+        This integration monitors an NTP server.
+
+        Configure thresholds for alerting.
+    - type: question
+      name: ntp_offset_warn
+      required: true
+      input:
+        type: number
+        title: Offset Warning Threshold
+        description: |
+          The default warning threshold for NTP offset in ms.
+          Will be overwitten by `check_ntp_warn` annotation on entity. 
+        default: 10
+    - type: question
+      name: ntp_offset_crit
+      required: true
+      input:
+        type: number
+        title: Offset Critical Threshold
+        description: |
+          The default critical threshold for NTP offset in ms.
+          Will be overwitten by `check_ntp_crit` annotation on entity. 
+        default: 100
+    - type: section
+      title: Configure Event Processing Pipelines
+    - type: markdown
+      body: |
+        Configure the event processing pipelines for processing NTP Check events.
+    - type: question
+      name: alerts_pipeline
+      required: false
+      input:
+        type: string
+        title: Alert Pipeline
+        description: >-
+          How do you want to be alerted for failures detected by this integration (e.g. Slack or Microsoft Teams)?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == "alerts"
+    - type: question
+      name: incidents_pipeline
+      required: false
+      input:
+        type: string
+        title: Incident Pipeline
+        description: >-
+          How do you want to process incidents for failures detected by this integration (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == "incidents"
+  resource_patches:
+    - resource:
+        api_version: core/v2
+        type: CheckConfig
+        name: check-ntp
+      patches:
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[alerts_pipeline]]"
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[incidents_pipeline]]"
+        - path: /spec/command
+          op: replace
+          value: >-
+            check-ntp
+            -w {{ .annotations.check_ntp_warn | default [[ntp_offset_warn]] }}
+            -c {{ .annotations.check_ntp_crit | default [[ntp_offset_crit]] }}

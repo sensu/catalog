@@ -1,0 +1,57 @@
+---
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: check-ntp
+spec:
+  command: >-
+    check-ntp
+    -w {{ .annotations.check_ntp_warn | default [[ntp_offset_warn]] }}
+    -c {{ .annotations.check_ntp_crit | default [[ntp_offset_crit]] }}
+  runtime_assets:
+    - nixwiz/check-ntp:0.1.0
+  publish: true
+  subscriptions:
+    - ntp
+  interval: 30
+  timeout: 10
+  ttl: 0
+  stdin: false
+  handlers: []
+  pipelines: []
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: nixwiz/check-ntp:0.1.0
+  labels: 
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/nixwiz/check-ntp
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/nixwiz/check-ntp
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 0.1.0
+    io.sensu.bonsai.namespace: nixwiz
+    io.sensu.bonsai.name: check-ntp
+    io.sensu.bonsai.tags: chrony, linux, ntp
+spec:
+  builds:
+  - url: https://assets.bonsai.sensu.io/954f12482c79e46336e3bfdfc1670a7d09a28488/check-ntp_0.1.0_linux_armv7.tar.gz
+    sha512: 6c9b36e8fd82f4801663bf4bc00f1a71cd7f6bc6120b4776fa1279d7902660a753bdd408286f259885dc9accab32f59f584ceaa145445e55b961d15608a6253a
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'armv7'
+  - url: https://assets.bonsai.sensu.io/954f12482c79e46336e3bfdfc1670a7d09a28488/check-ntp_0.1.0_linux_arm64.tar.gz
+    sha512: 8f880b9746d086e246428f0620e5d18f1bc73af828ffbe00566db1e61fd36e5a1240e3cf77b83a20b2219e8903729fb9708a577a97e69fc4c70ad18ef97a9d8e
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm64'
+  - url: https://assets.bonsai.sensu.io/954f12482c79e46336e3bfdfc1670a7d09a28488/check-ntp_0.1.0_linux_386.tar.gz
+    sha512: 647ee1ae46bbf4fdc4c7f440e9764ae8d701f1825a25ebf6aa0ed293bdd681006290552f3fd0fa2d5e33367cdfee457177896cb8339f665505d65562f7db49e1
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == '386'
+  - url: https://assets.bonsai.sensu.io/954f12482c79e46336e3bfdfc1670a7d09a28488/check-ntp_0.1.0_linux_amd64.tar.gz
+    sha512: 8adc87dba8e6b79e0c614ac925533d6e120ae8a3be3373fa1fd4735a65760b2c521e34be480b4c097e2bff69d99c3762319dfe78206ecd23852534ddafb37209
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'

@@ -9,9 +9,9 @@ to [Semantic Versioning][semver].
 
 - *n/a*
 
-## [0.1.0] - {{current_date}}
+## [0.1.0] - 2022-03-22
 
-- Initial add of `{{integration_name}}` integration.
+- Initial add of wavefront-metrics integration.
 
 
 [changelog]: http://keepachangelog.com/en/1.0.0/

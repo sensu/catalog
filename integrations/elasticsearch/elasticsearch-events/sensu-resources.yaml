@@ -1,0 +1,84 @@
+---
+type: Pipeline
+api_version: core/v2
+metadata:
+  name: elasticsearch
+  labels:
+    provider: events
+spec:
+  workflows:
+    - name: elasticsearch-events
+      filters:
+        - api_version: core/v2
+          type: EventFilter
+          name: not_silenced
+      handler:
+        api_version: core/v2
+        type: Handler
+        name: elasticsearch-events
+---
+# NOTE: requires ELASTICSEARCH_URL, ELASTICSEARCH_INDEX, ELASTICSEARCH_USERNAME, and ELASTICSEARCH_PASSWORD environment variable(s) or secret
+type: Handler
+api_version: core/v2
+metadata:
+  name: elasticsearch-events
+spec:
+  type: pipe
+  command: >-
+    sensu-elasticsearch-handler
+    --index $ELASTICSEARCH_INDEX
+    --index-rotation daily
+    --omit-redundant-fields
+    --url $ELASTICSEARCH_URL
+  runtime_assets:
+    - sensu/sensu-elasticsearch-handler:0.3.2
+  env_vars: []
+  secrets: []
+  timeout: 10
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu/sensu-elasticsearch-handler:0.3.2
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-elasticsearch-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-elasticsearch-handler
+    io.sensu.bonsai.tier: Enterprise
+    io.sensu.bonsai.version: 0.3.2
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: sensu-elasticsearch-handler
+    io.sensu.bonsai.tags: elasticsearch, handler
+    io.sensu.bonsai.message: This asset is for users with a valid Enterprise license
+spec:
+  builds:
+    - url: https://assets.bonsai.sensu.io//sensu-elasticsearch-handler_0.3.2_windows_amd64.tar.gz
+      sha512: 8c4f188a34ba8a04ed3d24c074890a5b64c9722c842f3efb004c612f6d95b83c3e730500592b17407dc0a2e7de4a7e0b61d6d3a7b69ea31c5d82a271cd12cea1
+      filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io//sensu-elasticsearch-handler_0.3.2_darwin_amd64.tar.gz
+      sha512: 8a3314b43d0e4bd114d883acd110b49448337170c971009f4697b54f89e4e8405396ff2948ea5e00eef4339df3795cc6eb5bfdd8a032b6d22ad398833ab5addd
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io//sensu-elasticsearch-handler_0.3.2_linux_armv7.tar.gz
+      sha512: 3be1e9256b40de9b3a36c32eeb2795bd777da4e0978160daaa19079ec8a67eabbf35bd9580d056dc6f5f706c7106aaab60a0815413b9a929eea9cfefdd125037
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io//sensu-elasticsearch-handler_0.3.2_linux_arm64.tar.gz
+      sha512: 723bd5e630a3b86c2e2be1f038ddf2b78d90e3e828f500c404c7bafd41dd9ec0c92a04a642d3708d98ef0a90aab2593cff2e35faa09547515d2136971816a7b8
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io//sensu-elasticsearch-handler_0.3.2_linux_386.tar.gz
+      sha512: bd3ceec0d22b7034f8fee43bcaca2c1f8b8c9c0074d4f76bc1767ef4a55ba614d817c048a6bc04bb16ecfa6758ce1bcfc0f606d6c9575ab62fe7f4c54584db64
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io//sensu-elasticsearch-handler_0.3.2_linux_amd64.tar.gz
+      sha512: fc7ea306302ff2bcce540b5d462eef6a227fdba9cf9e5bdd1a5319bbfe0e8b0a304d49d786976d0b5a63f0ad05e5666dfe97250e9e4a8e9108633ecaefe822d8
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'

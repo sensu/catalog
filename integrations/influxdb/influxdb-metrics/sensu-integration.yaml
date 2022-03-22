@@ -53,7 +53,7 @@ spec:
         default: ""
 
     - type: question
-      name: influxdb_password_secret_provider
+      name: influxdb_password
       input:
         type: string
         title: InfluxDB Password
@@ -77,4 +77,4 @@ spec:
           value: "INFLUXDB_USER=[[influxdb_user]]"
         - path: /spec/env_vars/-
           op: add
-          value: "INFLUXDB_PASSWORD=[[influxdb_password]]"
+          value: "INFLUXDB_PASS=[[influxdb_password]]"

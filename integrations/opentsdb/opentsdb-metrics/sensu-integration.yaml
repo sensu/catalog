@@ -16,37 +16,39 @@ spec:
     - "@sensu"
   prompts:
     - type: section
-      title: Secrets Management
+      title: OpenTSDB Metrics configuration
+
     - type: markdown
       body: |
-        This integration requires one or more secrets for {{integration_namespace}} API authentication.
+        This integration requires configuration to connect to an OpenTSDB database.
+
     - type: question
-      name: secret_provider
+      name: opentsdb_host
       input:
         type: string
-        title: Secret Provider
-        enum:
-          - env
-          - vault
-        default: env
-    - type: question
-      name: secret_id
-      input:
-        type: string
-        title: Secret ID
+        required: true
+        title: OpenTSDB Database Host
         description: >-
-          Provide the Secret identifier (i.e. environment variable name, or Vault secret key/path)
-        default: example_secret
+          Host on which the OpenTSDB database resides
+
+    - type: question
+      name: opentsdb_port
+      input:
+        type: string
+        title: OpenTSDB Database Port
+        description: >-
+          Port on which the OpenTSDB database listens
+        default: 4242
 
   resource_patches:
     - resource:
-        api_version: secrets/v1
-        type: Secret
-        name: example_secret
+        api_version: core/v2
+        type: Handler
+        name: opentsdb
       patches:
-        - path: /spec/provider
-          op: replace
-          value: "[[secret_provider]]"
-        - path: /spec/id
-          op: replace
-          value: "[[secret_id]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "OPENTSDB_HOST=[[opentsdb_host]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "OPENTSDB_PORT=[[opentsdb_port]]"

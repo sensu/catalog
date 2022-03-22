@@ -4,10 +4,9 @@ The `opentsdb-metrics` integration provides a Sensu pipeline for sending metrics
 to the time series database OpenTSDB. This integration includes the following
 resources:
 
-* `{{pipeline_name}}` [pipeline]
-* `{{handler_name}}` [handler]
-* `{{secret_name}}` [secret]
-* `{{asset_name}}` [asset]
+* `opentsdb` [handler]
+* `opentsdb-metrics` [pipeline]
+* `sensu/sensu-opentsdb-handler` [asset]
 
 ## Dashboards
 
@@ -20,23 +19,13 @@ There are no compatible dashboards for this integration.
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
 
-1. Get a {{integration_secret}}
-
-   {{integration_secret_instructions}}
-
-1. Configure Secrets Management
-
-   This integration requires the following [Sensu Secrets][secrets]:
-
-   - `{{secret_name}}`
-
-   _NOTE: this integration creates one or more Sensu Secrets using the "env" provider. The corresponding environment variables need to be set on every sensu-backend in the Sensu deployment. To add the environment variables, please modify `/etc/default/sensu-backend` or `/etc/sysconfig/sensu-backend` and restart the sensu-backend service(s)._
+1. Configure Sensu [checks][check] to use the `opentsdb-metrics` [pipeline]
 
 ## Plugins
 
-<!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->
-
-- [sensu/{{asset_name}}][{{asset_name}}-bonsai] ([GitHub][{{asset_name}}-github])
+This integration uses the `sensu-opentsdb-handler`:
+- [sensu-opentsdb-handler on GitHub](https://github.com/sensu/sensu-opentsdb-handler)
+- [sensu-opentsdb-handler on Bonsai](https://bonsai.sensu.io/assets/sensu/sensu-opentsdb-handler)
 
 ## Metrics & Events
 
@@ -55,8 +44,6 @@ This integration does not produce any events that should be processed by an aler
 ## Reference Documentation
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
-
-1. This integration uses [Handler Templating][handler-templating] for variable substitution.
 
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/

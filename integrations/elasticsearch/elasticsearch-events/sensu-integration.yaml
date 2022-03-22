@@ -35,7 +35,7 @@ spec:
         type: string
         title: Elasticsearch URL
         description: >-
-          Provide the Elasticsearch URL
+          Provide the Elasticsearch URL (e.g. http://elasticsearch:9200); supports HTTP and HTTPS.
     - type: question
       name: elasticsearch_index
       required: true

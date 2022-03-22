@@ -10,8 +10,6 @@ This integration includes the following resources:
 
 * `elasticsearch` [pipeline]
 * `elasticsearch-events` [handler]
-* `elasticsearch_username ` [secret]
-* `elasticsearch_password ` [secret]
 * `sensu/sensu-elasticsearch-handler:0.3.2` [asset]
 
 ## Dashboards
@@ -25,14 +23,16 @@ There are no compatible dashboards for this integration.
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
 
-1. Configure Secrets Management
+1. Per-host Elasticsearch index configuration
 
-   This integration requires the following [Sensu Secrets][secrets]:
+   Configure the `sensu.io/plugins/sensu-elasticsearch-handler/config/index` on a per-entity basis to override the default index as configured by the Handler.
 
-   - `elasticsearch_username`
-   - `elasticsearch_password`
+   Example `agent.yml` excerpt:
 
-   _NOTE: this integration creates one or more Sensu Secrets using the "env" provider by default. When using the "env" provider, the corresponding environment variables need to be set on every sensu-backend in the Sensu deployment. To add the environment variables, please modify `/etc/default/sensu-backend` or `/etc/sysconfig/sensu-backend` and restart the sensu-backend service(s)._
+   ```yaml
+   annotations:
+     sensu.io/plugins/sensu-elasticsearch-handler/config/index: "example_index"
+   ```
 
 ## Plugins
 

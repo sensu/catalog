@@ -30,8 +30,6 @@ At a minimum, this integration requires the `sns:Publish` action for the SNS Top
 
 ## Reference Documentation
 
-1. This integration uses [Handler Templating][handler-templating] for variable substitution.
-
 1. This integration places AWS access credentials directly into sensu configuration.
 In order to follow our recommended security practices please reference the [sensu secrets documentation][secrets]. 
 1. AWS SNS Documentation: [Creating an Amazon SNS topic](https://docs.aws.amazon.com/sns/latest/dg/sns-create-topic.html)
@@ -49,7 +47,6 @@ In order to follow our recommended security practices please reference the [sens
 [secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
-[handler-templating]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handler-templates/
 [sensu-plus]: https://sensu.io/features/analytics
 [sensu-aws-sns-handler-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-aws-sns-handler/versions/0.4.0?tab=definition
 [sensu-aws-sns-handler-github]: https://github.com/sensu/sensu-aws-sns-handler

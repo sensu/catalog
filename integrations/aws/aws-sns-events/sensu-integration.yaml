@@ -23,7 +23,7 @@ spec:
     - type: markdown
       body: |
         This integration requires access to an AWS SNS Topic.
-   - type: question
+    - type: question
       name: aws_access_key_id
       required: true
       input:

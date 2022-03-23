@@ -3,10 +3,10 @@ api_version: catalog/v1
 type: Integration
 metadata:
   namespace: email
-  name: email-incidents
+  name: email-alerts
 spec:
   class: supported
-  provider: incidents
+  provider: alerts
   display_name: Email Alerts
   short_description: A pipeline to send emails about Sensu incidents.
   supported_platforms:
@@ -91,8 +91,8 @@ spec:
         title: SMTP Server User Secret ID
         description: >-
           Select the SMTP username Sensu Secret.
-        # ref: secrets/v1/secret/metadata/name
-        # refFilter: .name matches 'smtp'
+        ref: secrets/v1/secret/metadata/name
+        refFilter: .name matches 'smtp'
     - type: section
       title: SMTP Password
     - type: markdown
@@ -119,13 +119,13 @@ spec:
         title: SMTP Password
         description: >-
           Select the SMTP username Sensu Secret.
-        # ref: secrets/v1/secret/metadata/name
-        # refFilter: .name matches 'smtp'
+        ref: secrets/v1/secret/metadata/name
+        refFilter: .name matches 'smtp'
   resource_patches:
     - resource:
         api_version: core/v2
         type: Handler
-        name: email
+        name: email-alerts
       patches:
         - path: /spec/env_vars/-
           op: add

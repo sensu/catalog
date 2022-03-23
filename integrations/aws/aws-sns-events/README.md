@@ -34,7 +34,7 @@ At a minimum, this integration requires the `sns:Publish` action for the SNS Top
 
 1. This integration places AWS access credentials directly into sensu configuration.
 In order to follow our recommended security practices please reference the [sensu secrets documentation][secrets]. 
-
+1. AWS SNS Documentation: [Creating an Amazon SNS topic](https://docs.aws.amazon.com/sns/latest/dg/sns-create-topic.html)
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
 [asset]: https://docs.sensu.io/sensu-go/latest/plugins/assets/

@@ -23,31 +23,35 @@ spec:
     - type: markdown
       body: |
         This integration requires access to an AWS SNS Topic.
-    - type: question
+   - type: question
       name: aws_access_key_id
+      required: true
       input:
         type: string
-        required: true
         title: AWS Access Key ID
+        description: AWS Access Key ID
     - type: question
       name: aws_secret_access_key
+      required: true
       input:
         type: string
-        required: true
         title: AWS Secret Access Key
+        description: AWS Secret Access Key
     - type: question
       name: aws_region
+      required: true
       input:
         type: string
-        required: true
         title: AWS Region
         default: us-west-2
+        description: AWS Region
     - type: question
       name: sns_topic_arn
+      required: true
       input:
         type: string
-        required: true
         title: AWS SNS Topic ARN
+        description: AWS SNS Topic ARN
   resource_patches:
     - resource:
         api_version: core/v2

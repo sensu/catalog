@@ -1,0 +1,85 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: aws
+  name: aws-sns-events
+spec:
+  class: supported
+  provider: events
+  display_name: AWS SNS Events
+  short_description: Publishes Sensu Events as AWS SNS Messages
+  supported_platforms:
+    - darwin
+    - linux
+    - windows
+  tags:
+    - aws
+  contributors:
+    - "@sensu"
+  prompts:
+    - type: section
+      title: AWS SNS Topic
+    - type: markdown
+      body: |
+        This integration requires access to an AWS SNS Topic.
+    - type: question
+      name: aws_access_key_id
+      required: true
+      input:
+        type: string
+        title: AWS Access Key ID
+        description: AWS Access Key ID
+    - type: question
+      name: aws_secret_access_key
+      required: true
+      input:
+        type: string
+        title: AWS Secret Access Key
+        description: AWS Secret Access Key
+    - type: question
+      name: aws_region
+      required: true
+      input:
+        type: string
+        title: AWS Region
+        default: us-west-2
+        description: AWS Region
+    - type: question
+      name: sns_topic_arn
+      required: true
+      input:
+        type: string
+        title: AWS SNS Topic ARN
+        description: AWS SNS Topic ARN
+  resource_patches:
+    - resource:
+        api_version: core/v2
+        type: Handler
+        name: aws-sns-events
+      patches:
+        - path: /spec/env_vars/-
+          op: add
+          value: "AWS_SECRET_ACCESS_KEY=[[aws_secret_access_key]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "AWS_ACCESS_KEY_ID=[[aws_access_key_id]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "AWS_REGION=[[aws_region]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "SNS_TOPIC_ARN=[[sns_topic_arn]]"
+  post_install:
+    - type: section
+      title: Secret Management
+    - type: markdown
+      body: |
+        In order to provide the best experience installing integrations
+        from the catalog, we have embedded all credentials directly in the installed Sensu
+        Resources. This means that all sensu users with read access to the cluster will be
+        able to see these resources and embedded credentials in plain text. Resources are also
+        very likely to be stored unencrypted at rest in the Sensu store.
+
+        We recommend that you consider migrating these secrets to a supported
+        [secrets store](https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets-management/).

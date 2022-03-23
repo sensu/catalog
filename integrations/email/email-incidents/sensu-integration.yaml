@@ -7,7 +7,7 @@ metadata:
 spec:
   class: supported
   provider: incidents
-  display_name: Email Incidents
+  display_name: Email Alerts
   short_description: A pipeline to send emails about Sensu incidents.
   supported_platforms:
     - darwin

@@ -2,7 +2,7 @@
 
 <!-- Sensu Integration description; supports markdown -->
 
-The Email Incidents integration provides a pipeline for sending emails about incidents from Sensu.
+The Email Alerts integration provides a pipeline for sending emails about incidents from Sensu.
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 

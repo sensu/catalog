@@ -22,14 +22,15 @@ spec:
     - "@cwjohnston"
     - "@jspaleta"
     - "@thoward"
+    - "@calebhailey"
   prompts:
     - type: section
       title: Email Settings
     - type: markdown
       body: |
-        This integration requires one or more email settings.      
+        This integration requires one or more email settings.
     - type: question
-      name: email_smtp_server
+      name: smtp_server
       required: true
       input:
         type: string
@@ -38,7 +39,7 @@ spec:
           Provide the SMTP Server Address
         default: 127.0.0.1
     - type: question
-      name: email_smtp_port
+      name: smtp_port
       required: true
       input:
         type: integer
@@ -47,91 +48,112 @@ spec:
           Provide the SMTP Server Port number
         default: 587
     - type: question
-      name: email_sender_address
+      name: email_sender
       required: true
       input:
         type: string
         title: Sender Email Address
         description: >-
           Provide the sender email address (e.g. who the alerts will be sent "from")
-        default: sensu-alert@example.com
+        default: sensu@yourcompany.com
     - type: question
-      name: email_recipient_address
+      name: email_recipient
       required: true
       input:
         type: string
         title: Recipient Email Address
         description: >-
           Provide the recipient email address (e.g. where alerts will be sent "to").
-        default: oncall@example.com
+        default: oncall@yourcompany.com
     - type: section
-      title: Secrets Management
+      title: SMTP Username
     - type: markdown
       body: |
-        This integration requires a username and password for the SMTP server, which
-        should be configured as secrets within Sensu. 
+        Please provide an SMTP username _OR_ select a [Sensu Secret].
 
-        Please see the ["Sensu Email Handler"] reference documentation for more information.
+        Please see the [Sensu Email Handler] reference documentation for more information.
 
-        ["Sensu Email Handler"]: https://github.com/sensu/sensu-email-handler#environment-variables
+        NOTE: if both an environment variable _and_ secret are set, the secret will be used.
+
+        [Sensu Secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
+        [Sensu Email Handler]: https://github.com/sensu/sensu-email-handler#environment-variables
     - type: question
-      name: secret_provider
+      name: smtp_username
       input:
         type: string
-        title: Secret Provider
-        enum:
-          - env
-          - vault
-        default: env
+        title: SMTP Username
+        description: >-
+          Provide the SMTP username (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
     - type: question
-      name: username_secret_id
+      name: smtp_username_secret
       input:
         type: string
         title: SMTP Server User Secret ID
         description: >-
-          Provide the Secret identifier (i.e. environment variable name, or Vault secret key/path) for the SMTP server user.
-        default: SMTP_USER
+          Select the SMTP username Sensu Secret.
+        # ref: secrets/v1/secret/metadata/name
+        # refFilter: .name matches 'smtp'
+    - type: section
+      title: SMTP Password
+    - type: markdown
+      body: |
+        Please provide an SMTP password _OR_ select a [Sensu Secret].
+
+        Please see the [Sensu Email Handler] reference documentation for more information.
+
+        NOTE: if both an environment variable _and_ secret are set, the secret will be used.
+
+        [Sensu Secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
+        [Sensu Email Handler]: https://github.com/sensu/sensu-email-handler#environment-variables
     - type: question
-      name: password_secret_id
+      name: smtp_password
       input:
         type: string
-        title: SMTP Sever Password Secret ID
+        title: SMTP Password
         description: >-
-          Provide the Secret identifier (i.e. environment variable name, or Vault secret key/path) for the SMTP server password
-        default: SMTP_PASSWORD
+          Provide the SMTP password (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+    - type: question
+      name: smtp_password_secret
+      input:
+        type: string
+        title: SMTP Password
+        description: >-
+          Select the SMTP username Sensu Secret.
+        # ref: secrets/v1/secret/metadata/name
+        # refFilter: .name matches 'smtp'
   resource_patches:
-    - resource:
-        api_version: secrets/v1
-        type: Secret
-        name: smtp_user
-      patches:
-        - path: /spec/provider
-          op: replace
-          value: "[[secret_provider]]"
-        - path: /spec/id
-          op: replace
-          value: "[[username_secret_id]]"
-    - resource:
-        api_version: secrets/v1
-        type: Secret
-        name: smtp_password
-      patches:
-        - path: /spec/provider
-          op: replace
-          value: "[[secret_provider]]"
-        - path: /spec/id
-          op: replace
-          value: "[[password_secret_id]]"
     - resource:
         api_version: core/v2
         type: Handler
-        name: email-handler
+        name: email
       patches:
-        - path: /spec/env_vars
-          op: replace
+        - path: /spec/env_vars/-
+          op: add
+          value: "SMTP_USERNAME=[[smtp_username]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "SMTP_PASSWORD=[[smtp_password]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "SMTP_SERVER=[[smtp_server]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "SMTP_PORT=[[smtp_port]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "EMAIL_SENDER=[[email_sender]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "EMAIL_RECIPIENT=[[email_recipient]]"
+        - path: /spec/secrets/-
+          op: add
           value:
-            - "SMTP_SERVER=[[email_smtp_server]]"
-            - "SMTP_PORT=[[email_smtp_port]]"
-            - "EMAIL_SENDER=[[email_sender_address]]"
-            - "EMAIL_RECIPIENT=[[email_recipient_address]]"
-
+            api_version: secrets/v1
+            type: Secret
+            name: "[[smtp_username_secret]]"
+        - path: /spec/secrets/-
+          op: add
+          value:
+            api_version: secrets/v1
+            type: Secret
+            name: "[[smtp_password_secret]]"

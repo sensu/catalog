@@ -10,8 +10,6 @@ This integration includes the following resources:
 
 * `email` [pipeline]
 * `email-handler` [handler]
-* `smtp_user` [secret]
-* `smtp_password` [secret]
 * `sensu/sensu-email-handler:1.2.2` [asset]
 
 ## Dashboards
@@ -25,14 +23,7 @@ There are no compatible dashboards for this integration.
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
 
-1. Configure Secrets Management
-
-   This integration requires the following [Sensu Secrets][secrets]:
-
-   - `smtp_user`
-   - `smtp_password`
-
-   _NOTE: this integration creates one or more Sensu Secrets using the "env" provider by default. When using the "env" provider, the corresponding environment variables need to be set on every sensu-backend in the Sensu deployment. To add the environment variables, please modify `/etc/default/sensu-backend` or `/etc/sysconfig/sensu-backend` and restart the sensu-backend service(s)._
+This integration doesn't require any additional setup steps. Just click "install" and provide the required configuration parameters.
 
 ## Plugins
 

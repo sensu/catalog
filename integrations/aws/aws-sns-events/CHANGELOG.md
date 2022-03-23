@@ -7,6 +7,8 @@ to [Semantic Versioning][semver].
 
 ## Unreleased
 
+## [ 20220322.0.0 ] - 2022-03-22
+
 - Initial add of `aws-sns-events` integration.
 
 

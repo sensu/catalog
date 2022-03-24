@@ -50,5 +50,5 @@ spec:
           value: "[[host]]"
         - path: /spec/socket/port
           op: replace
-          value: "[[port]]"
+          value: port
 

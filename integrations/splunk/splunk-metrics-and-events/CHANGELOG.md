@@ -7,6 +7,8 @@ to [Semantic Versioning][semver].
 
 ## Unreleased
 
+## 20220324.0.0
+
 - Initial add of splunk-metrics-and-events integration.
 
 

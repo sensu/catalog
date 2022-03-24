@@ -1,0 +1,95 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: aws
+  name: aws-ec2-liveness
+spec:
+  class: supported
+  provider: deregistration
+  display_name: AWS EC2 Liveness
+  short_description: AWS EC2 Liveness Check & Deregistration
+  supported_platforms:
+    - linux
+  tags:
+    - aws
+    - ec2
+    - deregistration
+    - liveness
+  contributors:
+    - "@sensu"
+  prompts:
+    - type: section
+      title: AWS Configuration
+    - type: markdown
+      body: |
+        This integration requires AWS configuration for inspecting the state of
+        EC2 instances.
+    - type: question
+      name: aws_access_key_id
+      required: true
+      input:
+        type: string
+        title: AWS Access Key ID
+    - type: question
+      name: aws_secret_access_key
+      required: true
+      input:
+        type: string
+        title: AWS Secret Access Key
+    - type: question
+      name: aws_region
+      required: true
+      input:
+        type: string
+        title: AWS Region
+    - type: section
+      title: Sensu API Configuration
+    - type: markdown
+      body: |
+        This integration requires a Sensu API key for deregistering entities
+        in Sensu that do not have an allowed EC2 instance state.
+    - type: question
+      name: sensu_api_key
+      required: true
+      input:
+        type: string
+        title: Sensu API Key
+  resource_patches:
+    - resource:
+        api_version: core/v2
+        type: Handler
+        name: aws-ec2
+      patches:
+        - path: /spec/env_vars/-
+          op: add
+          value: "AWS_ACCESS_KEY_ID=[[aws_access_key_id]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "AWS_SECRET_ACCESS_KEY=[[aws_secret_access_key]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "AWS_REGION=[[aws_region]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "SENSU_API_KEY=[[sensu_api_key]]"
+  post_install:
+    - type: section
+      title: Additional steps required
+    - type: markdown
+      body: |
+        **If the `keepalive` handler set does not yet exist**
+
+        Create the `keepalive` handler set and add the `aws-ec2` handler
+        to it:
+        ```sh
+        sensuctl handler create keepalive --type set \
+        --handlers aws-ec2
+        ```
+
+        **If the `keepalive` handler set already exists**
+
+        Edit the `keepalive` handler set and add the `aws-ec2` handler to it:
+        ```sh
+        sensuctl edit handler keepalive
+        ```

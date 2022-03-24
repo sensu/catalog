@@ -1,0 +1,25 @@
+---
+type: Pipeline
+api_version: core/v2
+metadata:
+  name: splunk-events
+  labels:
+    provider: incidents
+spec:
+  workflows:
+    - name: splunk-tcpstream
+      filters: []
+      handler:
+        api_version: pipeline/v1
+        type: TCPStreamHandler
+        name: splunk-events
+---
+type: TCPStreamHandler
+api_version: pipeline/v1
+metadata:
+  name: splunk-events
+spec:
+  address: 127.0.0.1:9998
+  max_connections: 10
+  min_reconnect_delay: 10ms
+  max_reconnect_delay: 10s

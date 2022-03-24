@@ -3,7 +3,7 @@ api_version: catalog/v1
 type: Integration
 metadata:
   namespace: splunk
-  name: splunk-metrics-and-events
+  name: splunk-events
 spec:
   class: supported
   provider: events
@@ -41,14 +41,12 @@ spec:
         default: 7758
   resource_patches:
     - resource:
-        api_version: core/v2
-        type: Handler
-        name: splunk-metrics-and-events
+        api_version: pipeline/v1
+        type: TCPStreamHandler
+        name: splunk-events
       patches:
-        - path: /spec/socket/host
+        - path: /spec/address
           op: replace
-          value: "[[host]]"
-        - path: /spec/socket/port
-          op: replace
-          value: port
+          value: "[[host]]:[[port]]"
+
 

@@ -1,0 +1,46 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: opsgenie
+  name: opsgenie-incidents
+spec:
+  class: supported
+  provider: incidents
+  display_name: Opsgenie
+  short_description: Create & resolve incidents in Opsgenie
+  supported_platforms:
+    - linux
+  tags:
+    - opsgenie
+    - incidents
+    - alerts
+  contributors:
+    - "@sensu"
+  prompts:
+    - type: section
+      title: Opsgenie Configuration
+    - type: question
+      name: opsgenie_api_key
+      required: true
+      input:
+        type: string
+        title: Opsgenie API Key
+    - type: question
+      name: opsgenie_teams
+      required: true
+      input:
+        type: string
+        title: Opsgenie Teams (comma-separated)
+  resource_patches:
+    - resource:
+        api_version: core/v2
+        type: Handler
+        name: opsgenie
+      patches:
+        - path: /spec/env_vars/-
+          op: add
+          value: "OPSGENIE_AUTHTOKEN=[[opsgenie_api_key]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "OPSGENIE_TEAM=[[opsgenie_teams]]"

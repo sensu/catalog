@@ -1,0 +1,124 @@
+---
+type: Pipeline
+api_version: core/v2
+metadata:
+  name: opsgenie
+  labels:
+    provider: incidents
+spec:
+  workflows:
+    - name: opsgenie
+      filters:
+      - api_version: core/v2
+        type: EventFilter
+        name: is_incident
+      - api_version: core/v2
+        type: EventFilter
+        name: not_silenced
+      handler:
+        api_version: core/v2
+        type: Handler
+        name: opsgenie
+---
+# Description
+#   The Sensu OpsGenie Handler is a Sensu Event Handler that alerts to
+#   the OpsGenie incident reponse service.
+#
+# Instructions
+#   1. Add "opsgenie" to the "incident-management" handler set.
+#
+#      To create the "incident-management" handler set, please run:
+#
+#      $ sensuctl handler create incident-management --type set --handlers opsgenie
+#
+#      If you already have a handler set called "incident-management", please run:
+#
+#      $ sensuctl edit handler incident-management
+#
+#      NOTE: the sensuctl edit command will open your default editor; please
+#      modify the "handlers" attribute by adding "opsgenie".
+#
+#   2. Configure the following secrets using your preferred Sensu Go Secrets
+#      provider:
+#
+#      - opsgenie_authtoken
+#
+#      NOTE: example secret resources using the "env" provider are included in
+#      this template; to add your secrets to the Sensu Backend, please modify
+#      /etc/default/sensu-backend or /etc/sysconfig/sensu-backend and restart
+#      the sensu-backend service.
+#
+#   3. More configuration options are available for this plugin; please see the
+#      plugin documentation for more details.
+#
+# Documentation
+#   - https://github.com/nixwiz/sensu-opsgenie-handler#sensu-go-opsgenie-handler
+#   - https://docs.sensu.io/sensu-go/latest/reference/secrets/
+#
+# Contributors
+#   The following individuals have contributed to this configuration template:
+#   - Todd Campbell, @nixwiz
+type: Handler
+api_version: core/v2
+metadata:
+  name: opsgenie
+spec:
+  command: sensu-opsgenie-handler
+  # NOTE: Requires environment variables:
+  # * OPSGENIE_AUTHTOKEN
+  # * OPSGENIE_TEAM
+  env_vars: []
+  filters:
+  - is_incident
+  - not_silenced
+  handlers: null
+  runtime_assets:
+  - nixwiz/sensu-opsgenie-handler:0.9.0
+  timeout: 0
+  type: pipe
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: nixwiz/sensu-opsgenie-handler:0.9.0
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/nixwiz/sensu-opsgenie-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/nixwiz/sensu-opsgenie-handler
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 0.9.0
+    io.sensu.bonsai.namespace: nixwiz
+    io.sensu.bonsai.name: sensu-opsgenie-handler
+    io.sensu.bonsai.tags: handler, opsgenie
+spec:
+  builds:
+    - url: https://assets.bonsai.sensu.io/6f3e9d2cb4e7df9b1326d45735744b4674ace0fd/sensu-opsgenie-handler_0.9.0_windows_amd64.tar.gz
+      sha512: 4a7d8d4e3d0d61cd7413c6216743c108b272bd9c7491805c775a2c292663b6b9bee83f74b077ed4fd9c6f6bd2d94fbf79ce01aa7e30f2d46e7cd71a3ab30c8f7
+      filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/6f3e9d2cb4e7df9b1326d45735744b4674ace0fd/sensu-opsgenie-handler_0.9.0_darwin_amd64.tar.gz
+      sha512: dbbfecdfdfcccd31444e49b772fbc9e68f5ecefc432c34a0ed9d75bca28e93f679303fb77d3e61797113e7447ead6bb9ccc571350472aa7b81246fba732593ea
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/6f3e9d2cb4e7df9b1326d45735744b4674ace0fd/sensu-opsgenie-handler_0.9.0_linux_armv7.tar.gz
+      sha512: e2cd5a48711dc76185f38ba9b1d3e783dafc5ad2466c7eafcb55b534c1fd22338ea107637e6349221c3e4bdc6b0cc25a89d7720bfe14132a94077eebddc023c2
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io/6f3e9d2cb4e7df9b1326d45735744b4674ace0fd/sensu-opsgenie-handler_0.9.0_linux_arm64.tar.gz
+      sha512: 6129aae7936cad4a6596b4d63bc398198bc247d98580675dd301aeb2d3799a3eb8d37d63579a6b52d0531bdb45fd1fff55ca587b9e6d735ad5f86b0a4819edfb
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io/6f3e9d2cb4e7df9b1326d45735744b4674ace0fd/sensu-opsgenie-handler_0.9.0_linux_386.tar.gz
+      sha512: cf369f5f033ce05951ef3c04366d2c02e84485ab83b16d4d1698f758a72a87075d31f0e288d3a637a4141b6aa679f6ac9c4879b00530ed61589048fb54244d15
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io/6f3e9d2cb4e7df9b1326d45735744b4674ace0fd/sensu-opsgenie-handler_0.9.0_linux_amd64.tar.gz
+      sha512: 1f91856476817d4fe561c2491ed18a7651ac7738bd3e9370c3c08462322235d6ade09c8a4a55147e9d5f9b6f43077519d8574dac2316b63449a60997e61a7938
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'

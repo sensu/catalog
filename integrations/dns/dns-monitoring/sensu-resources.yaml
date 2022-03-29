@@ -15,19 +15,7 @@ spec:
   interval: 30
   timeout: 10
   output_metric_format: prometheus_text
-  output_metric_thresholds:
-    - name: dns_resolved
-      null_status: 1
-      thresholds:
-        - min: "0"
-          max: "0"
-          status: 2
-    - name: dns_secure
-      null_status: 1
-      thresholds:
-        - min: "0"
-          max: "0"
-          status: 0
+  output_metric_thresholds: []
   pipelines: []
 ---
 type: Asset

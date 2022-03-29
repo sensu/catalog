@@ -64,32 +64,74 @@ spec:
       body: |
         Configure Check Error Codes and Conditions
     - type: question
-      name: record_not_resolved_exit_code
-      required: true
+      name: metric_thresholds
       input:
-        default: 2
-        type: integer
-        title: DNS Record Not Resolved Exit Status
-        description: >-
-          The check exit status when the record can not be resolved.
-
-          0 = OK
-          1 = Warning
-          2+ = Critical
-    - type: question
-      name: dnssec_not_configured_exit_code
-      required: true
-      input:
-        default: 0
-        type: integer
-        title: DNSSEC Not Configured Exit Status
-        description: >-
-          The check exit status when the Nameserver indicates that DNSSEC was not checked
-          or verified.
-
-          0 = OK
-          1 = Warning
-          2+ = Critical
+        type: array
+        title: Alert Thresholds
+        uniqueItems: true
+        items:
+          type: object
+          oneOf:
+            - properties:
+                label:
+                  type: string
+                  title: Alert Threshold Type
+                  const: dns_record_resolved_threshold
+                  constLocale:
+                    title: Error Status when Record Not Resolved
+                name:
+                  type: string
+                  default: dns_resolved
+                  enum: 
+                    - dns_resolved
+                null_status:
+                  type: integer
+                  default: 1
+                thresholds:
+                  type: array
+                  default:
+                    - status: 2
+                      min: "0"
+                      max: "0"
+                  items:
+                    type: object
+                    properties:
+                      min:
+                        type: string
+                        default: "0"
+                      max:
+                        type: string
+                        default: "0"
+                      status:
+                        type: integer
+            - properties:
+                label:
+                  type: string
+                  title: Alert Threshold Type
+                  const: dnssec_configured_threshold
+                  constLocale:
+                    title: Error Status when DNSSEC not Configured
+                name:
+                  type: string
+                  default: dns_resolved
+                null_status:
+                  type: integer
+                  default: 1
+                thresholds:
+                  type: array
+                  default:
+                    - status: 2
+                      min: "0"
+                      max: "0"
+                  items:
+                    type: object
+                    properties:
+                      min:
+                        type: string
+                      max:
+                        type: string
+                      status:
+                        type: integer
     - type: section
       title: Pipeline Configuration
     - type: markdown
@@ -163,9 +205,6 @@ spec:
             api_version: core/v2
             type: Pipeline
             name: "[[metrics_pipeline]]"
-        - path: /spec/output_metric_thresholds/0/thresholds/0/status
+        - path: /spec/output_metric_thresholds
           op: replace
-          value: record_not_resolved_exit_code
-        - path: /spec/output_metric_thresholds/1/thresholds/0/status
-          op: replace
-          value: dnssec_not_configured_exit_code
+          value: metric_thresholds

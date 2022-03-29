@@ -63,6 +63,10 @@ spec:
     - type: markdown
       body: |
         Configure Check Error Codes and Conditions
+
+        The [dns-check]() plugin is configured by default to only produce metrics.
+        You must configure acceptable bounds for the output of these metrics in order
+        to trigger any incident or alerting pipelines.
     - type: question
       name: metric_thresholds
       input:
@@ -73,17 +77,12 @@ spec:
           type: object
           oneOf:
             - properties:
-                label:
-                  type: string
-                  title: Alert Threshold Type
-                  const: dns_record_resolved_threshold
-                  constLocale:
-                    title: Error Status when Record Not Resolved
                 name:
                   type: string
-                  default: dns_resolved
-                  enum: 
-                    - dns_resolved
+                  title: Alert Condition
+                  const: dns_resolved
+                  constLocale:
+                    title: Record Not Resolved
                 null_status:
                   type: integer
                   default: 1
@@ -105,15 +104,12 @@ spec:
                       status:
                         type: integer
             - properties:
-                label:
-                  type: string
-                  title: Alert Threshold Type
-                  const: dnssec_configured_threshold
-                  constLocale:
-                    title: Error Status when DNSSEC not Configured
                 name:
                   type: string
-                  default: dns_resolved
+                  title: Alert Condition
+                  const: dns_secure
+                  constLocale:
+                    title: DNSSEC not Configured
                 null_status:
                   type: integer
                   default: 1
@@ -130,6 +126,33 @@ spec:
                         type: string
                       max:
                         type: string
+                      status:
+                        type: integer
+            - properties:
+                name:
+                  type: string
+                  title: Alert Condition
+                  const: dns_response_time
+                  constLocale:
+                    title: Query Response Time Exceeds Limit
+                null_status:
+                  type: integer
+                  default: 1
+                thresholds:
+                  type: array
+                  default:
+                    - status: 2
+                      min: "0"
+                      max: "0"
+                  items:
+                    type: object
+                    properties:
+                      min:
+                        type: string
+                        default: "0"
+                      max:
+                        type: string
+                        default: "0"
                       status:
                         type: integer
     - type: section

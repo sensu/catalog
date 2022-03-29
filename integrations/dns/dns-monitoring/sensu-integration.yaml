@@ -72,7 +72,6 @@ spec:
       input:
         type: array
         title: Alert Thresholds
-        uniqueItems: true
         items:
           type: object
           oneOf:
@@ -83,9 +82,6 @@ spec:
                   const: dns_resolved
                   constLocale:
                     title: Record Not Resolved
-                null_status:
-                  type: integer
-                  default: 1
                 thresholds:
                   type: array
                   default:
@@ -110,9 +106,6 @@ spec:
                   const: dns_secure
                   constLocale:
                     title: DNSSEC not Configured
-                null_status:
-                  type: integer
-                  default: 1
                 thresholds:
                   type: array
                   default:
@@ -135,9 +128,6 @@ spec:
                   const: dns_response_time
                   constLocale:
                     title: Query Response Time Exceeds Limit
-                null_status:
-                  type: integer
-                  default: 1
                 thresholds:
                   type: array
                   default:

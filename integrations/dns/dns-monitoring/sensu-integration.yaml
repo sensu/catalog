@@ -75,7 +75,8 @@ spec:
         items:
           type: object
           oneOf:
-            - properties:
+            - type: "object"
+              properties:
                 name:
                   type: string
                   title: Alert Condition
@@ -99,7 +100,8 @@ spec:
                         default: "0"
                       status:
                         type: integer
-            - properties:
+            - type: "object"
+              properties:
                 name:
                   type: string
                   title: Alert Condition
@@ -121,7 +123,8 @@ spec:
                         type: string
                       status:
                         type: integer
-            - properties:
+            - type: "object"
+              properties:
                 name:
                   type: string
                   title: Alert Condition

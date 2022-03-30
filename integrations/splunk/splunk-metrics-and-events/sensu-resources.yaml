@@ -8,7 +8,6 @@ metadata:
 spec:
   workflows:
     - name: splunk-sink
-      filters:
       handler:
         api_version: core/v2
         type: Handler

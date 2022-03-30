@@ -33,7 +33,6 @@ type: Asset
 api_version: core/v2
 metadata:
   name: sensu/nginx-check:0.1.0
-  labels: 
   annotations:
     io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/nginx-check
     io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/nginx-check

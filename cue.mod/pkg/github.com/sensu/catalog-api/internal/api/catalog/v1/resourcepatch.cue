@@ -5,6 +5,5 @@ package catalogv1
 #ResourcePatch: patches: [... #Patch]
 
 #Patch: {...}
-#Patch: path: =~ "\/(spec|metadata)\/.*"
-#Patch: op: "add" | "replace"
-
+#Patch: path: =~"\/(spec|metadata)\/.*"
+#Patch: op:   "add" | "replace"

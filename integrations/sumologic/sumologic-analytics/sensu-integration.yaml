@@ -6,6 +6,7 @@ metadata:
   name: sumologic-analytics
 spec:
   class: supported
+  provider: metrics
   display_name: Sumo Logic Analytics
   short_description: Process Sensu data with Sumo Logic for real-time analytics and turn-key dashboards
   supported_platforms:
@@ -46,7 +47,7 @@ spec:
         type: SumoLogicMetricsHandler
         name: sumologic-metrics
       patches:
-        - path: /spec/env_vars/-
+        - path: /spac/env_vars/-
           op: add
           value: "SUMOLOGIC_URL=[[sumologic_url]]"
     - resource:
@@ -54,6 +55,6 @@ spec:
         type: Handler
         name: sumologic-events
       patches:
-        - path: /spec/env_vars/-
+        - path: spec/env_vars/-
           op: add
           value: "SUMOLOGIC_URL=[[sumologic_url]]"

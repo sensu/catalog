@@ -13,7 +13,7 @@ spec:
       type: EventFilter
       name: has_metrics
     handler:
-      api_version: pipeline/v1
+      apiVersion: pipeline/v1
       type: SumoLogicMetricsHandler
       name: sumologic-metrics
   - name: sumologic-logs

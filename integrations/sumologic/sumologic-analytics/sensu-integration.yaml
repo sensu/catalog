@@ -47,7 +47,7 @@ spec:
         type: SumoLogicMetricsHandler
         name: sumologic-metrics
       patches:
-        - path: /spac/env_vars/-
+        - path: /spec/env_vars/-
           op: add
           value: "SUMOLOGIC_URL=[[sumologic_url]]"
     - resource:
@@ -55,6 +55,6 @@ spec:
         type: Handler
         name: sumologic-events
       patches:
-        - path: spec/env_vars/-
+        - path: /spec/env_vars/-
           op: add
           value: "SUMOLOGIC_URL=[[sumologic_url]]"

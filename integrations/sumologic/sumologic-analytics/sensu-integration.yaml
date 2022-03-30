@@ -41,6 +41,7 @@ spec:
         description: >-
           Sumo Logic HTTP Logs & Metrics Source URL
         format: url
+        enum: wrongtype
   resource_patches:
     - resource:
         api_version: pipeline/v1

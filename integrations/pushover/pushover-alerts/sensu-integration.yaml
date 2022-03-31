@@ -25,19 +25,42 @@ spec:
       title: Pushover Application
     - type: markdown
       body: |
-        This integration requires access to a Pushover Application
+        This integration requires access to a Pushover Application User Key
+
+        Either select an existing sensu secret value to use for the pushover
+        integration user key, or provide the user key directly to be stored
+        in an insecure manner embedded on the sensu check resource.
     - type: question
-      name: pushover_user_key
-      required: true
+      name: pushover_user_key_secret
       input:
         type: string
-        title: Pushover User Key
+        title: Pushover User Key Secret
+        ref: secrets/v1/secret/metadata/name
     - type: question
-      name: pushover_app_api_token
-      required: true
+      name: pushover_user_key_env
       input:
         type: string
-        title: Pushover Application API Token
+        title: Pushover User Key Value
+    - type: section
+      title: Pushover Application
+    - type: markdown
+      body: |
+        This integration requires access to a Pushover Application API Token
+
+        Either select an existing sensu secret value to use for the pushover
+        integration api token, or provide the token to directly to be stored
+        in an insecure manner embedded on the sensu check resource.
+    - type: question
+      name: pushover_app_api_token_secret
+      input:
+        type: string
+        title: Pushover Application API Token Secret
+        ref: secrets/v1/secret/metadata/name
+    - type: question
+      name: pushover_app_api_token_env
+      input:
+        type: string
+        title: Pushover Application API Token Value
   resource_patches:
     - resource:
         api_version: core/v2
@@ -46,20 +69,19 @@ spec:
       patches:
         - path: /spec/env_vars/-
           op: add
-          value: "SENSU_PUSHOVER_USERKEY=[[pushover_user_key]]"
+          value: "SENSU_PUSHOVER_USERKEY=[[pushover_user_key_env]]"
         - path: /spec/env_vars/-
           op: add
-          value: "SENSU_PUSHOVER_TOKEN=[[pushover_app_api_token]]"
-  post_install:
-    - type: section
-      title: Secret Management
-    - type: markdown
-      body: |
-        In order to provide the best experience installing integrations
-        from the catalog, we have embedded all credentials directly in the installed Sensu
-        Resources. This means that all sensu users with read access to the cluster will be
-        able to see these resources and embedded credentials in plain text. Resources are also
-        very likely to be stored unencrypted at rest in the Sensu store.
-
-        We recommend that you consider migrating these secrets to a supported
-        [secrets store](https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets-management/).
+          value: "SENSU_PUSHOVER_TOKEN=[[pushover_app_api_token_env]]"
+        - path: /spec/secrets/-
+          op: add
+          value:
+            api_version: secrets/v1
+            type: Secret
+            name: pushover_user_key_secret
+        - path: /spec/secrets/-
+          op: add
+          value:
+            api_version: secrets/v1
+            type: Secret
+            name: pushover_app_api_token_secret

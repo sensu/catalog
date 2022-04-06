@@ -24,8 +24,9 @@ This integration makes Sensu Event data available for searching and graphing in 
 
    ```
    [tcp://9998]
-   disabled: 0
-   sourcetype: sensu
+   disabled = 0
+   queue = parsingQueue
+   sourcetype = sensu
    ```
 
    Accept connections from a specific host (e.g. `sensu-backend`) on port `9998`:
@@ -33,10 +34,39 @@ This integration makes Sensu Event data available for searching and graphing in 
    ```
    [tcp://sensu-backend:9998]
    disabled: 0
+   queue = parsingQueue
    sourcetype: sensu
    ```
 
-   See the [Splunk `inputs.conf` reference documentation][splunk-tcp-input] for more information.
+   Example `props.conf` file contents:
+
+   ```
+   [default]
+   TRUNCATE = 50000
+
+   [sensu]
+   TRUNCATE = 50000
+   ```
+
+   See the [Splunk `inputs.conf` reference documentation][splunk-tcp-input] and [Splunk `props.conf` reference documentation][splunk-props-conf] for more information.
+
+2. Optionally configure the Splunk Universal Forwarder to forward events to the Splunk indexer.
+
+   Example `outputs.conf` file contents:
+
+   ```
+   [tcpout]
+   defaultGroup=sensu_events
+   maxQueueSize=104857600
+
+   [tcpout:sensu_events]
+   server=splunk:9997
+   maxQueueSize=104857600
+
+   [tcpout-server://splunk:9997]
+   ```
+
+   See the [Splunk `outputs.conf` reference documentation][splunk-outputs-conf] for more information.
 
 ## Plugins
 
@@ -78,3 +108,5 @@ This integration does not produce any events that should be processed by an aler
 [splunk-network-input]: https://docs.splunk.com/Documentation/Splunk/latest/Data/Monitornetworkports
 [splunk-tcp-input]: https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf#TCP:
 [splunk-confdirs]: https://docs.splunk.com/Documentation/Splunk/latest/Admin/Configurationfiledirectories
+[splunk-props-conf]: https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf
+[splunk-outputs-conf]: https://docs.splunk.com/Documentation/Splunk/latest/Admin/Outputsconf

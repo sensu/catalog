@@ -9,8 +9,7 @@ spec:
   provider: events
   display_name: Splunk Events
   short_description: >-
-    A sensu event handler pipeline that sends events to be indexed
-    in Splunk via a Universal Forwarder
+    Process Sensu Events as log data in Splunk
   supported_platforms:
     - darwin
     - linux
@@ -26,19 +25,30 @@ spec:
       title: Splunk Endpoint
     - type: markdown
       body: |
-        This integration requires a TCP endpoint to send sensu events to
+        This integration forwards Sensu Event data to a [Splunk Universal Forwarder] (recommended) or directly to a Splunk indexer.
+
+        NOTE: If Splunk Universal Forwarders are installed directly on the Sensu Backend nodes (or K8s pods), use `localhost` or `127.0.0.1` as the host name.
+
+        [Splunk Universal Forwarder]: https://docs.splunk.com/Documentation/Forwarder/8.2.5/Forwarder/Aboutforwardingandreceiving
     - type: question
       name: host
+      required: true
       input:
         type: string
         title: Host Name
         default: localhost
     - type: question
       name: port
+      required: true
       input:
         type: integer
         title: Port
-        default: 7758
+    - type: question
+      name: connections
+      input:
+        type: integer
+        title: Connections
+        default: 5
   resource_patches:
     - resource:
         api_version: pipeline/v1
@@ -48,5 +58,6 @@ spec:
         - path: /spec/address
           op: replace
           value: "[[host]]:[[port]]"
-
-
+        - path: /spec/max_connections
+          op: replace
+          value: connections

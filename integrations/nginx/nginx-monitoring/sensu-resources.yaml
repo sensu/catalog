@@ -9,7 +9,7 @@ spec:
     --url {{ .annotations.metrics_nginx_url | default "http://localhost:80/nginx_status" }}
   runtime_assets:
     - sensu/nginx-check:0.1.0
-  publish: false
+  publish: true
   subscriptions:
     - nginx
   interval: 30

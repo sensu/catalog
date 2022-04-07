@@ -21,6 +21,26 @@ spec:
     - "@nixwiz"
     - "@thoward"
   prompts:
+    - type: section
+      title: Configure Sensu Subscriptions
+    - type: markdown
+      body: |
+        Configure which Sensu Agent subscriptions this check should be run on.
+    - type: question
+      name: subscriptions
+      input:
+        type: array
+        items:
+          type: string
+          title: Sensu Subscriptions
+          ref: core/v2/entity/subscriptions
+        default:
+          - cassandra
+    - type: section
+      title: Configure Event Processing Pipelines
+    - type: markdown
+      body: |
+        Configure the event processing pipelines for processing NGINX events and metrics.
     - type: question
       name: metrics_pipeline
       required: false
@@ -57,6 +77,9 @@ spec:
         type: CheckConfig
         name: cassandra-metrics
       patches:
+        - path: /spec/subscriptions
+          op: replace
+          value: subscriptions
         - path: /spec/pipelines/-
           op: add
           value:
@@ -68,6 +91,9 @@ spec:
         type: CheckConfig
         name: cassandra-healthcheck
       patches:
+        - path: /spec/subscriptions
+          op: replace
+          value: subscriptions
         - path: /spec/pipelines/-
           op: add
           value:

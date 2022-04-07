@@ -30,6 +30,28 @@ spec:
     - "@nikkixdev"
   prompts:
     - type: section
+      title: Configure Sensu Subscriptions
+    - type: markdown
+      body: |
+        Configure which Sensu Agent subscriptions this check should be run on.
+    - type: question
+      name: subscriptions
+      input:
+        type: array
+        items:
+          type: string
+          title: Sensu Subscriptions
+          ref: core/v2/entity/subscriptions
+        default:
+          - system
+          - system/disk
+          - linux
+          - linux/disk
+          - windows
+          - windows/disk
+          - darwin
+          - darwin/disk
+    - type: section
       title: Pipeline Configuration
     - type: markdown
       body: |
@@ -70,8 +92,11 @@ spec:
     - resource:
         api_version: core/v2
         type: CheckConfig
-        name: example
+        name: disk-usage
       patches:
+        - path: /spec/subscriptions
+          op: replace
+          value: subscriptions
         - path: /spec/pipelines/-
           op: add
           value:

@@ -11,7 +11,7 @@ spec:
   runtime_assets:
     - sensu-plugins/sensu-plugins-cassandra:3.0.2
     - sensu/sensu-ruby-runtime:0.0.10
-  publish: false
+  publish: true
   subscriptions:
     - cassandra
   interval: 30
@@ -33,7 +33,7 @@ spec:
   runtime_assets:
     - sensu-plugins/sensu-plugins-cassandra:3.0.2
     - sensu/sensu-ruby-runtime:0.0.10
-  publish: false
+  publish: true
   subscriptions:
     - cassandra
   interval: 30

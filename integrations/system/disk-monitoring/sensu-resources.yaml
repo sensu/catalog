@@ -14,7 +14,7 @@ spec:
     --warning {{ .annotations.disk_usage_warning_threshold | default "80.0" }}
     --critical {{ .annotations.disk_usage_critical_threshold | default "90.0" }}
   runtime_assets:
-    - sensu/check-disk-usage:0.6.0
+    - sensu/check-disk-usage:0.7.0
   publish: true
   subscriptions:
     - system

@@ -61,3 +61,19 @@ spec:
         - path: /spec/max_connections
           op: replace
           value: connections
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully enabled the "splunk-events" pipeline.
+
+        Checks configured with the `splunk-events` pipeline will send Sensu event and metric data to tcp://[[ host ]]:[[ port ]].
+
+        ```yaml
+        spec:
+          pipelines:
+            - api_version: core/v2
+              type: Pipeline
+              name: splunk-events
+        ```

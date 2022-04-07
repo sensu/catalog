@@ -11,6 +11,8 @@ This integration includes the following resources:
 
 This integration makes Sensu Event data available for searching and graphing in Splunk.
 
+![](img/splunk-search.png)
+
 ## Setup
 
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->

@@ -47,9 +47,9 @@ spec:
         type: SumoLogicMetricsHandler
         name: sumologic-metrics
       patches:
-        - path: /spec/env_vars/-
-          op: add
-          value: "SUMOLOGIC_URL=[[sumologic_url]]"
+        - path: /spec/url
+          op: replace
+          value: "[[sumologic_url]]"
     - resource:
         api_version: core/v2
         type: Handler

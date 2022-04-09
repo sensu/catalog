@@ -1,53 +1,49 @@
 ---
-type: Pipeline
 api_version: core/v2
+type: Pipeline
 metadata:
-  name: jira-servicedesk-pipeline
+  name: jira-servicedesk-incidents
+  labels:
+    provider: incidents
 spec:
   workflows:
     - name: jira-servicedesk-workflow
       filters:
-      - api_version: core/v2
-        type: EventFilter
-        name: is_incident
-      - api_version: core/v2
-        type: EventFilter
-        name: not_silenced
+        - api_version: core/v2
+          type: EventFilter
+          name: is_incident
+        - api_version: core/v2
+          type: EventFilter
+          name: not_silenced
       handler:
         api_version: core/v2
         type: Handler
         name: jira-servicedesk-handler
 ---
-type: Handler
+# NOTE: requires JIRA_URL, JIRA_PROJECT_KEY, JIRA_USERNAME, JIRA_PASSWORD, and JIRA_ISSUE_TYPE environment variable(s) or secrets
 api_version: core/v2
+type: Handler
 metadata:
   name: jira-servicedesk-handler
 spec:
-  command: >-
-    sensu-jira-handler -p $JIRA_API_KEY -k [[jira_project_key]] -U [[jira_url]]
-    -u [[jira_username]] -t '[[jira_issue_type]]'
-  env_vars:
-  - "JIRA_ISSUE_DESCRIPTION={.Entity.Name}}/{{.Check.Name}}: {{.Check.State}}"
-  - "JIRA_ISSUE_RESOLUTION_COMMENT={{.Entity.Name}}/{{.Check.Name}}: {{.Check.State}}"
-  runtime_assets:
-  - sensu/sensu-jira-handler:2.0.0
-  secrets:
-  - name: JIRA_API_KEY
-    secret: jira_api_key
-  timeout: 0
   type: pipe
+  command: >-
+    sensu-jira-handler
+    --jira-url "${JIRA_URL}"
+    --jira-project-key "${JIRA_PROJECT_KEY}"
+    --jira-issue-type "${JIRA_ISSUE_TYPE}"
+    --jira-issue-description "{{ .Check.Output }}"
+    --jira-issue-resolution-comment "{{ .Check.Output }}"
+  runtime_assets:
+    - sensu/sensu-jira-handler:2.0.0
+  timeout: 0
+  env_vars: []
+  secrets: []
 ---
-type: Secret
-api_version: secrets/v1
-metadata:
-  name: jira_api_key
-spec:
-  provider: secret_provider
-  id: secret_id
----
-type: Asset
 api_version: core/v2
+type: Asset
 metadata:
+  name: sensu/sensu-jira-handler:2.0.0
   annotations:
     io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-jira-handler
     io.sensu.bonsai.message: This asset is for users with a valid Enterprise license
@@ -57,38 +53,35 @@ metadata:
     io.sensu.bonsai.tier: Enterprise
     io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-jira-handler
     io.sensu.bonsai.version: 2.0.0
-  created_by: fguimond
-  name: sensu/sensu-jira-handler:2.0.0
-  namespace: default
 spec:
   builds:
-  - filters:
-    - entity.system.os == 'windows'
-    - entity.system.arch == 'amd64'
-    sha512: 5262151fda197fcfea65034d68fa9f875f356ef9f93a617271b5780406fac4f2899470f0e1380a2b9f4b96d6d45161b5cff70483eacda0bfb9366db7f76ede2d
-    url: https://assets.bonsai.sensu.io//sensu-jira-handler_2.0.0_windows_amd64.tar.gz
-  - filters:
-    - entity.system.os == 'darwin'
-    - entity.system.arch == 'amd64'
-    sha512: b272d0d8f63bb4da9c15d20d31eb0a6f3599b1bc7abc350df15d4a5a6b5cd23a30657288309a0b6b57df1d8e303b5b22cab145c68d8690c7e0ffaad0096fffe2
-    url: https://assets.bonsai.sensu.io//sensu-jira-handler_2.0.0_darwin_amd64.tar.gz
-  - filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == 'armv7'
-    sha512: 0d6d9668638381bab9ca3ac0d2257a85853d7fb2045f55d5cc96ac5472383f18f5a34e7c9528c016041bf170cb1a6ef8d74bf540bb7c4b6a62107a00e1090960
-    url: https://assets.bonsai.sensu.io//sensu-jira-handler_2.0.0_linux_armv7.tar.gz
-  - filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == 'arm64'
-    sha512: ec13593e1c6d2c374c75b9125e16a0bf13ba840f871348d7778a7f671b7f9a6b71db54d067defc7c89df9cf8112ab03baf608ee55333bcf9a0d1af2ebd552db2
-    url: https://assets.bonsai.sensu.io//sensu-jira-handler_2.0.0_linux_arm64.tar.gz
-  - filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == '386'
-    sha512: d79100f2e4ab6fd7344b4d1353eb80cadc5b055e5a1d5df7356145a896cd0a218fe97f93628215ead66425216b50a52f5ec852a7832528a57c9546040a8d0908
-    url: https://assets.bonsai.sensu.io//sensu-jira-handler_2.0.0_linux_386.tar.gz
-  - filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == 'amd64'
-    sha512: 7ea641e2fdf9eb291551c07e192d167552c6ba633df52e9dc7f7bfbe3c829a8ebb03e98dc1d9bad7ee1be5dc1cf8c5a81bb1db6026a77470472ee41a7b6ddceb
-    url: https://assets.bonsai.sensu.io//sensu-jira-handler_2.0.0_linux_amd64.tar.gz
+    - filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'
+      sha512: 5262151fda197fcfea65034d68fa9f875f356ef9f93a617271b5780406fac4f2899470f0e1380a2b9f4b96d6d45161b5cff70483eacda0bfb9366db7f76ede2d
+      url: https://assets.bonsai.sensu.io//sensu-jira-handler_2.0.0_windows_amd64.tar.gz
+    - filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+      sha512: b272d0d8f63bb4da9c15d20d31eb0a6f3599b1bc7abc350df15d4a5a6b5cd23a30657288309a0b6b57df1d8e303b5b22cab145c68d8690c7e0ffaad0096fffe2
+      url: https://assets.bonsai.sensu.io//sensu-jira-handler_2.0.0_darwin_amd64.tar.gz
+    - filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+      sha512: 0d6d9668638381bab9ca3ac0d2257a85853d7fb2045f55d5cc96ac5472383f18f5a34e7c9528c016041bf170cb1a6ef8d74bf540bb7c4b6a62107a00e1090960
+      url: https://assets.bonsai.sensu.io//sensu-jira-handler_2.0.0_linux_armv7.tar.gz
+    - filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+      sha512: ec13593e1c6d2c374c75b9125e16a0bf13ba840f871348d7778a7f671b7f9a6b71db54d067defc7c89df9cf8112ab03baf608ee55333bcf9a0d1af2ebd552db2
+      url: https://assets.bonsai.sensu.io//sensu-jira-handler_2.0.0_linux_arm64.tar.gz
+    - filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+      sha512: d79100f2e4ab6fd7344b4d1353eb80cadc5b055e5a1d5df7356145a896cd0a218fe97f93628215ead66425216b50a52f5ec852a7832528a57c9546040a8d0908
+      url: https://assets.bonsai.sensu.io//sensu-jira-handler_2.0.0_linux_386.tar.gz
+    - filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'
+      sha512: 7ea641e2fdf9eb291551c07e192d167552c6ba633df52e9dc7f7bfbe3c829a8ebb03e98dc1d9bad7ee1be5dc1cf8c5a81bb1db6026a77470472ee41a7b6ddceb
+      url: https://assets.bonsai.sensu.io//sensu-jira-handler_2.0.0_linux_amd64.tar.gz

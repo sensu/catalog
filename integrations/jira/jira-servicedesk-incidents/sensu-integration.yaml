@@ -7,8 +7,8 @@ metadata:
 spec:
   class: supported
   provider: incidents
-  display_name: Jira Service Desk
-  short_description: Create & resolve incidents in Jira Service Desk
+  display_name: Jira Service Management
+  short_description: Create & resolve incidents in Jira Service Management
   tags:
     - jira
     - servicedesk
@@ -18,72 +18,101 @@ spec:
     - "@sensu"
   prompts:
     - type: section
-      title: Jira Service Management Integration Settings
+      title: Jira Service Management Configuration
     - type: markdown
       body: |
-        This integration requires a Service Jira Desk Integration Key for Jira Service Desk API Authentication.
+        This integration requires a Jira account and [Jira Service Management] project.
 
-        Please visit the Jira Service Desk knowledge base article ["Generate an Integration Key"] for more information.
+        * [Jira URL] (e.g. "https://mycompany.atlassian.net")
+        * [Jira Project Key] (e.g. "OPS")
+        * [Jira Issue Type] (e.g. `[System] Incident`)
 
-        ["Generate an Integration Key"]: https://support.pagerduty.com/docs/services-and-integrations#generate-a-new-integration-key
+        Please provide these Jira configuration parameters below.
+
+        [Jira Service Management]: https://www.atlassian.com/software/jira/service-management/features/service-desk
+        [Jira URL]: https://confluence.atlassian.com/adminjiraserver/configuring-the-base-url-938847830.html
+        [Jira Project Key]: https://support.atlassian.com/jira-cloud-administration/docs/edit-a-projects-details/
+        [Jira Issue Type]: https://support.atlassian.com/jira-cloud-administration/docs/what-are-issue-types/
     - type: question
-      name: secret_provider
+      name: jira_url
+      required: true
       input:
         type: string
-        title: Secret Provider
-        enum:
-          - env
-          - vault
-        default: env
+        title: Jira URL
+        description: Please provide the Jira site URL (e.g. https://yourcompany.atlassian.net)
     - type: question
-      name: jira_api_key_secret_id
+      name: jira_project_key
+      required: true
       input:
         type: string
-        title: Jira API Key
-        description: >-
-          Provide the Secret identifier for the Jira API key (i.e. environment variable name, or Vault secret key/path)
-        default: JIRA_API_TOKEN
+        title: Jira Project Key
+        description: Please provide the Jira Project Key (e.g. "OPS")
+    - type: question
+      name: jira_issue_type
+      required: true
+      input:
+        type: string
+        title: Jira Issue Type
+        description: Please provide the Jira Issue Type (e.g. "[System] Incident")
+        default: "[System] Incident"
+    - type: section
+      title: Jira Service Management Integration Authentication
+    - type: markdown
+      body: |
+        This integration requires a Jira Service Management API Token for Jira Service Management API Authentication.
+
+        Please visit the Jira Service Management knowledge base article ["Manage API Tokens for your Atlassian Account"] for more information.
+
+        ["Manage API Tokens for your Atlassian Account"]: https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/
     - type: question
       name: jira_username
+      required: true
       input:
         type: string
         title: Jira Username
         description: >-
-          Provide the username to access Jira
-        default: jira@exemple.com
+          Provide the Jira Username to use for Jira API authentication (e.g. sensu@yourcompany.com)
     - type: question
-      name: jira_url
+      name: jira_api_token
       input:
         type: string
-        title: Jira URL
+        title: Jira API Token
         description: >-
-          Provide the URL used to access Jira
-        default: https://myjirasite.atlassian.net
-    - type: question
-      name: jira_project_key
-      input:
-        type: string
-        title: Jira Project Key
-        description: >-
-          Provide the Jira project key
-        default: 
-    - type: question
-      name: jira_issue_type
-      input:
-        type: string
-        title: Jira Issue Type
-        description: >-
-          Provide the type of Jira issue to open
-        default: Incident
+          Provide the Jira API Token to use for Jira API authentication
   resource_patches:
     - resource:
-        api_version: secrets/v1
-        type: Secret
-        name: jira_api_key
+        api_version: core/v2
+        type: Handler
+        name: jira-servicedesk-handler
       patches:
-        - path: /spec/provider
-          op: replace
-          value: "[[secret_provider]]"
-        - path: /spec/id
-          op: replace
-          value: "[[jira_api_key_secret_id]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: JIRA_URL=[[jira_url]]
+        - path: /spec/env_vars/-
+          op: add
+          value: JIRA_PROJECT_KEY=[[jira_project_key]]
+        - path: /spec/env_vars/-
+          op: add
+          value: JIRA_ISSUE_TYPE=[[jira_issue_type]]
+        - path: /spec/env_vars/-
+          op: add
+          value: JIRA_USERNAME=[[jira_username]]
+        - path: /spec/env_vars/-
+          op: add
+          value: JIRA_PASSWORD=[[jira_api_token]]
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully enabled the "jira-servicedesk-incidents" pipeline.
+
+        Checks configured with the `elasticsearch` pipeline will send Sensu event and metric data to your Jira Service Management account.
+
+        ```yaml
+        spec:
+          pipelines:
+            - api_version: core/v2
+              type: Pipeline
+              name: jira-servicedesk-incidents
+        ```

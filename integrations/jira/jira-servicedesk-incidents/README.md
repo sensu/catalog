@@ -9,9 +9,7 @@ The Jira Service Management integration is a Sensu Event Pipeline that generates
 This integration provides the following resources:
 
 * `jira-servicedesk-pipeline` [pipeline]
-* `jira-servicedesk-workflow` [workflow]
 * `jira-servicedesk-handler` [handler]
-* `jira_api_key` [secret]
 * `sensu/sensu-jira-handler:2.0.0` [asset]
 
 ## Dashboards
@@ -20,32 +18,32 @@ This integration provides the following resources:
 
 This integration is compatible with the Jira Service Management dashboard. The Incidents dashboard will display the Sensu Event namespace, entity, and check details (including check status).
 
+![](img/screenshot.png)
+
 ## Setup
 
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
 
-1. **Get a Jira Service Management Integration Key**
+1. **Get a Jira Service Management API Token**
 
    While the on-premise version of Jira uses basic HTTP authentication with only
    a simple username and password the [cloud version requires the use of an API
-   token to authenticate][10]. To create the API token perform the following steps:
+   token to authenticate][about-atlassian-api-tokens].
 
-   1. Navigate to [Atlassian's API Tokens Screen][jira-integration-key]
+   To create the API token perform the following steps:
+
+   1. Navigate to [Atlassian's API Tokens Screen][atlassian-api-tokens]
    1. Click on the `Create API Token` button
    1. In the popup box enter `Sensu Jira Handler` or any label of your liking
    1. Click on the `Create` button
    1. Click on `Copy to clipboard` to copy your token
 
-1. **Add the Jira Service Management Integration Key to your secrets provider**
-
-   Create an environment variable or Hashicorp Vault secret for the Jira Service Management Integration Key.
-
 ## Plugins
 
 <!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->
 
-- [sensu/sensu-jira-handler:2.0.0][jira-plugin-bonsai] ([GitHub][jira-plugin-github])
+- [sensu/sensu-jira-handler:2.0.0][jira-plugin-bonsai]
 
 ## Metrics & Events
 
@@ -65,7 +63,6 @@ This integration does not produce any events that should be processed by an aler
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration. -->
 
-1. Pagerduty knowledge base: ["Generate an Integration Key"][pagerduty-integration-key]
 1. This integration uses [Handler Templating][handler-templating] for variable substitution
 1. This integration uses Sensu's built-in [Secrets Management][secrets-mgmt]
 
@@ -83,9 +80,10 @@ This integration does not produce any events that should be processed by an aler
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
 [secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [secrets-mgmt]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets-management/
-[jira-integration-key]: https://id.atlassian.com/manage/api-tokens
+[about-atlassian-api-tokens]: https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/
+[atlassian-api-tokens]: https://id.atlassian.com/manage/api-tokens
 [jira-plugin-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-jira-handler
-[jira-plugin-github]: https://github.com/sensu/sensu-jira-handler
 [is_incident]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-filter/filters/#built-in-filter-is_incident
 [not_silenced]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-filter/filters/#built-in-filter-not_silenced
 [silencing]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/silencing/
+[silences]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/silencing/

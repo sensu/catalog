@@ -22,11 +22,19 @@ spec:
     - "@calebhailey"
   prompts:
     - type: section
-      title: Configure NGINX Monitoring Thresholds
+      title: Configure NGINX URL & Monitoring Thresholds
     - type: markdown
       body: |
         This integration collects metrics from NGINX.
         Configure the alerting thresholds for active and waiting connections.
+    - type: question
+      name: default_url
+      required: false
+      input:
+        type: string
+        title: Default NGINX status URL
+        description: The default NGINX stub_status URL (e.g. http://127.0.0.1:80/nginx_status).
+        default: http://127.0.0.1:80/nginx_status
     - type: question
       name: nginx_active_warn
       required: false
@@ -43,6 +51,21 @@ spec:
         title: Waiting Connection Warning Threshold
         description: The "nginx_waiting" warning threshold.
         default: 30
+    - type: section
+      title: Configure Sensu Subscriptions
+    - type: markdown
+      body: |
+        Configure which Sensu Agent subscriptions this check should be run on.
+    - type: question
+      name: subscriptions
+      input:
+        type: array
+        items:
+          type: string
+          title: Sensu Subscriptions
+          ref: core/v2/entity/subscriptions
+        default:
+          - nginx
     - type: section
       title: Configure Event Processing Pipelines
     - type: markdown
@@ -84,6 +107,14 @@ spec:
         type: CheckConfig
         name: nginx-metrics
       patches:
+        - path: /spec/command
+          op: replace
+          value: >-
+            nginx-check
+            --url {{ .annotations.metrics_nginx_url | default "[[ default_url ]]" }}
+        - path: /spec/subscriptions
+          op: replace
+          value: subscriptions
         - path: /spec/pipelines/-
           op: add
           value:

@@ -23,3 +23,88 @@ spec:
     - "@jspaleta"
     - "@thoward"
     - "@fguimond"
+  prompts:
+    - type: section
+      title: Configure Sensu Subscriptions
+    - type: markdown
+      body: |
+        Configure which Sensu Agent subscriptions this check should be run on.
+    - type: question
+      name: subscriptions
+      input:
+        type: array
+        items:
+          type: string
+          title: Sensu Subscriptions
+          ref: core/v2/entity/subscriptions
+        default:
+          - system
+          - system/network
+          - darwin
+          - darwin/network
+          - linux
+          - linux/network
+          - windows
+          - windows/network
+    - type: section
+      title: Configure Event Processing Pipelines
+    - type: markdown
+      body: |
+        Configure the event processing pipelines for processing NGINX events and metrics.
+    - type: question
+      name: metrics_pipeline
+      required: false
+      input:
+        type: string
+        title: Metrics Pipeline
+        description: >-
+          How do you want to process metrics collected by this integration?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == 'metrics'
+    - type: question
+      name: alerts_pipeline
+      required: false
+      input:
+        type: string
+        title: Alert Pipeline
+        description: >-
+          How do you want to be alerted for failures detected by this integration (e.g. Slack or Microsoft Teams)?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == 'alerts'
+    - type: question
+      name: incidents_pipeline
+      required: false
+      input:
+        type: string
+        title: Incident Pipeline
+        description: >-
+          How do you want to process incidents for failures detected by this integration (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == 'incidents'
+  resource_patches:
+    - resource:
+        api_version: core/v2
+        type: CheckConfig
+        name: network-interface-health
+      patches:
+        - path: /spec/subscriptions
+          op: replace
+          value: subscriptions
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[metrics_pipeline]]"
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[alerts_pipeline]]"
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[incidents_pipeline]]"

@@ -32,10 +32,7 @@ spec:
       value: "{{ .namespace }}"
     - name: os
       value: "{{ .system.os }}"
-  pipelines:
-    - api_version: core/v2
-      name: sumologic
-      type: Pipeline
+  pipelines: []
 ---
 type: Asset
 api_version: core/v2

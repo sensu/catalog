@@ -1,0 +1,79 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: splunk
+  name: splunk-events
+spec:
+  class: supported
+  provider: events
+  display_name: Splunk Events
+  short_description: >-
+    Process Sensu Events as log data in Splunk
+  supported_platforms:
+    - darwin
+    - linux
+    - windows
+  tags:
+    - splunk
+    - events
+  contributors:
+    - "@sensu"
+    - "@nixwiz"
+  prompts:
+    - type: section
+      title: Splunk Endpoint
+    - type: markdown
+      body: |
+        This integration forwards Sensu Event data to a [Splunk Universal Forwarder] (recommended) or directly to a Splunk indexer.
+
+        NOTE: If Splunk Universal Forwarders are installed directly on the Sensu Backend nodes (or K8s pods), use `localhost` or `127.0.0.1` as the host name.
+
+        [Splunk Universal Forwarder]: https://docs.splunk.com/Documentation/Forwarder/8.2.5/Forwarder/Aboutforwardingandreceiving
+    - type: question
+      name: host
+      required: true
+      input:
+        type: string
+        title: Host Name
+        default: localhost
+    - type: question
+      name: port
+      required: true
+      input:
+        type: integer
+        title: Port
+    - type: question
+      name: connections
+      input:
+        type: integer
+        title: Connections
+        default: 5
+  resource_patches:
+    - resource:
+        api_version: pipeline/v1
+        type: TCPStreamHandler
+        name: splunk-events
+      patches:
+        - path: /spec/address
+          op: replace
+          value: "[[host]]:[[port]]"
+        - path: /spec/max_connections
+          op: replace
+          value: connections
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully enabled the "splunk-events" pipeline.
+
+        Checks configured with the `splunk-events` pipeline will send Sensu event and metric data to tcp://[[ host ]]:[[ port ]].
+
+        ```yaml
+        spec:
+          pipelines:
+            - api_version: core/v2
+              type: Pipeline
+              name: splunk-events
+        ```

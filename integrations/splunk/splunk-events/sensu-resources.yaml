@@ -1,0 +1,42 @@
+---
+api_version: core/v2
+type: Pipeline
+metadata:
+  name: splunk-events
+  labels:
+    provider: incidents
+spec:
+  workflows:
+    - name: splunk-tcpstream
+      filters: []
+      mutator:
+        api_version: core/v2
+        type: Mutator
+        name: events-only
+      handler:
+        api_version: pipeline/v1
+        type: TCPStreamHandler
+        name: splunk-events
+---
+api_version: pipeline/v1
+type: TCPStreamHandler
+metadata:
+  name: splunk-events
+spec:
+  address: 127.0.0.1:9998
+  max_connections: 10
+  min_reconnect_delay: 10ms
+  max_reconnect_delay: 10s
+---
+api_version: core/v2
+type: Mutator
+metadata:
+  name: events-only
+spec:
+  type: javascript
+  eval: |
+    e = JSON.parse(JSON.stringify(event));
+    if (e.hasOwnProperty("metrics")) {
+      delete e.metrics;
+    }
+    return JSON.stringify(e)

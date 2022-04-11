@@ -50,52 +50,90 @@ spec:
       title: Elasticsearch Username
     - type: markdown
       body: |
-        Please provide an Elastisearch username _OR_ configure a [Sensu Secret].
-
-        NOTE: if both an environment variable _and_ secret are set, the secret will be used.
+        Please provide an Elastisearch username _OR_ select a [Sensu Secret].
 
         [Sensu Secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
     - type: question
       name: elasticsearch_username
+      required: true
       input:
-        type: string
-        title: Elasticsearch Username (environment variable)
-        description: >-
-          Provide the Elasticsearch username (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
-    - type: question
-      name: elasticsearch_username_secret
-      input:
-        type: string
-        title: Elasticsearch Username (Sensu Secret)
-        description: >-
-          Select the Elasticsearch username Sensu Secret
-        ref: secrets/v1/secret/metadata/name
-        refFilter: .name matches 'elasticsearch'
+        type: object
+        oneOf:
+          - type: object
+            properties:
+              option:
+                type: string
+                title: Environment Variable or Secrets Management?
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: Elasticsearch Username
+                description: >-
+                  Provide the Elasticsearch username (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+          - type: object
+            properties:
+              option:
+                type: string
+                title: Environment Variable or Secrets Management?
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: Elasticsearch Username (Sensu Secret)
+                description: >-
+                  Select the Elasticsearch username (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
     - type: section
       title: Elasticsearch Password
     - type: markdown
       body: |
-        Please provide an Elastisearch password _OR_ select a [Sensu Secret].
-
-        NOTE: if both an environment variable _and_ secret are set, the secret will be used.
+        Please provide the Elastisearch password _OR_ select a [Sensu Secret].
 
         [Sensu Secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
     - type: question
       name: elasticsearch_password
+      required: true
       input:
-        type: string
-        title: Elasticsearch Password
-        description: >-
-          Provide the Elasticsearch password (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
-    - type: question
-      name: elasticsearch_password_secret
-      input:
-        type: string
-        title: Elasticsearch Password (Sensu Secret)
-        description: >-
-          Select the Elasticsearch password Sensu Secret
-        ref: secrets/v1/secret/metadata/name
-        refFilter: .name matches 'elasticsearch'
+        type: object
+        oneOf:
+          - type: object
+            properties:
+              option:
+                type: string
+                title: Environment Variable or Secrets Management?
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: Elasticsearch Password
+                description: >-
+                  Provide the Elasticsearch password (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+          - type: object
+            properties:
+              option:
+                type: string
+                title: Environment Variable or Secrets Management?
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: Elasticsearch Password (Sensu Secret)
+                description: >-
+                  Select the Elasticsearch password (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
   resource_patches:
     - resource:
         api_version: core/v2
@@ -110,19 +148,19 @@ spec:
           value: "ELASTICSEARCH_INDEX=[[elasticsearch_index]]"
         - path: /spec/env_vars/-
           op: add
-          value: "ELASTICSEARCH_USERNAME=[[elasticsearch_username]]"
+          value: "ELASTICSEARCH_USERNAME=[[elasticsearch_username.env_var]]"
         - path: /spec/env_vars/-
           op: add
-          value: "ELASTICSEARCH_PASSWORD=[[elasticsearch_password]]"
+          value: "ELASTICSEARCH_PASSWORD=[[elasticsearch_password.env_var]]"
         - path: /spec/secrets/-
           op: add
           value:
-            secret: "[[elasticsearch_username_secret]]"
+            secret: "[[elasticsearch_username.secret]]"
             name: ELASTICSEARCH_USERNAME
         - path: /spec/secrets/-
           op: add
           value:
-            secret: "[[elasticsearch_password_secret]]"
+            secret: "[[elasticsearch_password.secret]]"
             name: ELASTICSEARCH_PASSWORD
   post_install:
     - type: section

@@ -64,21 +64,6 @@ spec:
               option:
                 type: string
                 title: Environment Variable or Secrets Management?
-                const: env_var
-                constLocale:
-                  title: Environment Variable
-                  description: >-
-                    Select this option to store sensitive configuration as environment variables
-              env_var:
-                type: string
-                title: Elasticsearch Username
-                description: >-
-                  Provide the Elasticsearch username (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
-          - type: object
-            properties:
-              option:
-                type: string
-                title: Environment Variable or Secrets Management?
                 const: secret
                 constLocale:
                   title: Secret
@@ -90,6 +75,21 @@ spec:
                 description: >-
                   Select the Elasticsearch username (Sensu Secret)
                 ref: secrets/v1/secret/metadata/name
+          - type: object
+            properties:
+              option:
+                type: string
+                title: Environment Variable or Secrets Management?
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: Elasticsearch Username
+                description: >-
+                  Provide the Elasticsearch username (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
     - type: section
       title: Elasticsearch Password
     - type: markdown
@@ -108,21 +108,6 @@ spec:
               option:
                 type: string
                 title: Environment Variable or Secrets Management?
-                const: env_var
-                constLocale:
-                  title: Environment Variable
-                  description: >-
-                    Select this option to store sensitive configuration as environment variables
-              env_var:
-                type: string
-                title: Elasticsearch Password
-                description: >-
-                  Provide the Elasticsearch password (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
-          - type: object
-            properties:
-              option:
-                type: string
-                title: Environment Variable or Secrets Management?
                 const: secret
                 constLocale:
                   title: Secret
@@ -134,6 +119,21 @@ spec:
                 description: >-
                   Select the Elasticsearch password (Sensu Secret)
                 ref: secrets/v1/secret/metadata/name
+          - type: object
+            properties:
+              option:
+                type: string
+                title: Environment Variable or Secrets Management?
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: Elasticsearch Password
+                description: >-
+                  Provide the Elasticsearch password (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
   resource_patches:
     - resource:
         api_version: core/v2

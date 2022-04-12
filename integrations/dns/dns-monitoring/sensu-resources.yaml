@@ -1,0 +1,89 @@
+---
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: dns-monitoring
+spec:
+  command: >-
+    dns-check
+    --server ${DNS_CHECK_SERVERS}
+    --port ${DNS_CHECK_PORT}
+    --domain ${DNS_CHECK_DOMAIN}
+    --class ${DNS_CHECK_RECORD_CLASS}
+    --type ${DNS_CHECK_RECORD_TYPE}
+  runtime_assets:
+    - sensu/dns-check:0.1.0
+  env_vars: []
+  publish: true
+  subscriptions:
+    - dns
+  round_robin: true
+  interval: 60
+  timeout: 10
+  proxy_entity_name: example
+  output_metric_format: prometheus_text
+  output_metric_thresholds:
+    - name: dns_resolved
+      null_status: 1
+      thresholds:
+        - min: "0"
+          max: "0"
+          status: 2
+    - name: dns_secure
+      null_status: 1
+      thresholds:
+        - max: "0"
+          status: 0
+  pipelines: []
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu/dns-check:0.1.0
+  annotations:
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/dns-check
+    io.sensu.bonsai.name: dns-check
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.tags: ""
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/dns-check
+    io.sensu.bonsai.version: 0.1.0
+spec:
+  builds:
+  - filters:
+      - entity.system.os == 'linux'
+      - entity.system.arch == 'arm64'
+    sha512: 982c0e5f5b004d7d57cab26604bd8fc8b5bf94d426ddb9a02f0796d997e5ca47cf2e5d383c1bb3db4af3cfa29cb79844c97557645e523409da3689b5deec5191
+    url: https://assets.bonsai.sensu.io/1f80ee9686a6dbf39802e6d71e68fc3a3af16594/dns-check_0.1.0_linux_arm64.tar.gz
+  - filters:
+      - entity.system.os == 'windows'
+      - entity.system.arch == 'amd64'
+    sha512: 67aa942b158db839f0e0fb6cb9f12ad790e3af30ee06776ec23a5ad1d51a3528865bbe2da44500d483228d6df52cee5e5bf956d7819221af8ee78353e8202928
+    url: https://assets.bonsai.sensu.io/1f80ee9686a6dbf39802e6d71e68fc3a3af16594/dns-check_0.1.0_windows_amd64.tar.gz
+  - filters:
+      - entity.system.os == 'darwin'
+      - entity.system.arch == 'amd64'
+    sha512: e573dc07f261c2fd1161367724d166b307af18511d6654a1cff2f94aa1d4657b323921838efe7505051969079d464a68e6d65bbbe09efc685138565192f88617
+    url: https://assets.bonsai.sensu.io/1f80ee9686a6dbf39802e6d71e68fc3a3af16594/dns-check_0.1.0_darwin_amd64.tar.gz
+  - filters:
+      - entity.system.os == 'linux'
+      - entity.system.arch == 'arm'
+      - entity.system.arm_version == 6
+    sha512: 192fd63fcaf9156d238bafb3d2aa9b2117550e988d9aa15af8c14e456b891173141672c491f689da27486d625442fe600b7e8c7e373404a8834e8362dd435963
+    url: https://assets.bonsai.sensu.io/1f80ee9686a6dbf39802e6d71e68fc3a3af16594/dns-check_0.1.0_linux_armv6.tar.gz
+  - filters:
+      - entity.system.os == 'linux'
+      - entity.system.arch == 'arm'
+      - entity.system.arm_version == 7
+    sha512: 3217066f40c6e0c8d622b8a6b17ba5c8da6d5dae649ee8085371bd834432e19801230ef622c7918ba95d9e468ffbf4fbe888b1c99e6ad61112abb371e6b2cc24
+    url: https://assets.bonsai.sensu.io/1f80ee9686a6dbf39802e6d71e68fc3a3af16594/dns-check_0.1.0_linux_armv7.tar.gz
+  - filters:
+      - entity.system.os == 'linux'
+      - entity.system.arch == '386'
+    sha512: 7a6426b9decb2e57c049ce32ea9bdccdac2088ea74c00cfd6195dedb237ad2377f350434a91430e27fa34938b9699d88933d69b29f24e1a02f96f982c5139613
+    url: https://assets.bonsai.sensu.io/1f80ee9686a6dbf39802e6d71e68fc3a3af16594/dns-check_0.1.0_linux_386.tar.gz
+  - filters:
+      - entity.system.os == 'linux'
+      - entity.system.arch == 'amd64'
+    sha512: 9464a21dc41e821e7cbda7b78d0f9eed373c74f389fdf19cd5f6f7e6e2f504c3480b105d4a7030a2e255c07b62f03fcb1db75762177ec1135d863ec53c40e0fe
+    url: https://assets.bonsai.sensu.io/1f80ee9686a6dbf39802e6d71e68fc3a3af16594/dns-check_0.1.0_linux_amd64.tar.gz

@@ -1,0 +1,210 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: dns
+  name: dns-monitoring
+spec:
+  class: supported
+  provider: monitoring
+  display_name: DNS Monitoring
+  short_description: Monitor DNS service availability
+  supported_platforms:
+    - linux
+  tags:
+    - dns
+  contributors:
+    - "@sensu"
+    - "@c-kruse"
+  prompts:
+    - type: section
+      title: DNS Record Check
+    - type: markdown
+      body: |
+        Configure your DNS Query with the following configuration parameters:
+
+        * Domain (domain name to query)
+        * Record Type (record type to query)
+        * Record Class (record class to query)
+        * Servers (comma-delimited list of name servers to query)
+        * Port (DNS server port to query)
+
+    - type: question
+      name: domain
+      required: true
+      input:
+        default: sensu.io
+        type: string
+        title: Domain
+        description: >-
+          Domain name to query.
+    - type: question
+      name: record_type
+      required: true
+      input:
+        default: A
+        type: string
+        title: Record Type
+        description: >-
+          Record type to query (default is "A").
+    - type: question
+      name: record_class
+      required: true
+      input:
+        default: IN
+        type: string
+        title: Record Class
+        description: >-
+          Record class to query (default is "IN").
+    - type: question
+      name: servers
+      required: true
+      input:
+        default: 1.1.1.1
+        type: string
+        title: Name Servers
+        description: >-
+          Provide a comma-delimited list of default name server(s) to query. NOTE: this may be overriden with agent configuration on a per-host basis.
+    - type: question
+      name: port
+      required: true
+      input:
+        default: 53
+        type: integer
+        title: DNS Server Port
+        description: >-
+          Configure the default DNS server port to query (default is 53). NOTE: this may be overriden with agent configuration on a per-host basis.
+    - type: section
+      title: Check Conditions
+    - type: markdown
+      body: |
+        Configure Sensu check error codes and conditions.
+    - type: question
+      name: record_not_resolved_exit_code
+      required: true
+      input:
+        default: 2
+        type: integer
+        title: DNS Record Not Resolved Event Status
+        description: >-
+          The event status to use when the record can not be resolved (0 = OK, 1 = Warning, 2 = Critical)
+    - type: question
+      name: dnssec_not_configured_exit_code
+      input:
+        default: 0
+        type: integer
+        title: DNSSEC Not Configured Event Status
+        description: >-
+          The event status to use when the Nameserver indicates that DNSSEC was not checked or verified (0 = OK, 1 = Warning, 2 = Critical)
+    - type: section
+      title: Configure Sensu Subscriptions
+    - type: markdown
+      body: |
+        Configure which Sensu Agent subscriptions this check should be run on.
+    - type: question
+      name: subscriptions
+      input:
+        type: array
+        items:
+          type: string
+          title: Sensu Subscriptions
+          ref: core/v2/entity/subscriptions
+        default:
+          - dns
+    - type: section
+      title: Pipeline Configuration
+    - type: markdown
+      body: |
+        Configure one or more [pipelines] for processing DNS monitoring data.
+
+        [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
+    - type: question
+      name: alert_pipeline
+      required: false
+      input:
+        type: string
+        title: Alert Pipeline
+        description: >-
+          How do you want to be alerted for failures detected by this pipeline (e.g. Slack or Microsoft Teams)?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == "alerts"
+    - type: question
+      name: incident_pipeline
+      required: false
+      input:
+        type: string
+        title: Incident Management Pipeline
+        description: >-
+          How do you want to process incidents for failures detected by this pipeline (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == "incidents"
+    - type: question
+      name: metrics_pipeline
+      required: false
+      input:
+        type: string
+        title: Metrics Pipeline
+        description: >-
+          How do you want to process metrics collected by this integration?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == "metrics"
+  resource_patches:
+    - resource:
+        api_version: core/v2
+        type: CheckConfig
+        name: dns-monitoring
+      patches:
+        - path: /metadata/name
+          op: replace
+          value: "[[domain]]-[[record_type]]-dns-monitoring"
+        - path: /spec/proxy_entity_name
+          op: replace
+          value: domain
+        - path: /spec/subscriptions
+          op: replace
+          value: subscriptions
+        - path: /spec/env_vars/-
+          op: add
+          value: "DNS_CHECK_SERVERS=[[servers]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "DNS_CHECK_PORT=[[port]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "DNS_CHECK_DOMAIN=[[domain]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "DNS_CHECK_RECORD_CLASS=[[record_class]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "DNS_CHECK_RECORD_TYPE=[[record_type]]"
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[alert_pipeline]]"
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[incident_pipeline]]"
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[metrics_pipeline]]"
+        - path: /spec/output_metric_thresholds/0/thresholds/0/status
+          op: replace
+          value: record_not_resolved_exit_code
+        - path: /spec/output_metric_thresholds/1/thresholds/0/status
+          op: replace
+          value: dnssec_not_configured_exit_code
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully enabled [[domain]] [[record_type]] DNS record monitoring.

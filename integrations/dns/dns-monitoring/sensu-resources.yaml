@@ -6,14 +6,21 @@ metadata:
 spec:
   command: >-
     dns-check
+    --server ${DNS_CHECK_SERVERS}
+    --port ${DNS_CHECK_PORT}
+    --domain ${DNS_CHECK_DOMAIN}
+    --class ${DNS_CHECK_RECORD_CLASS}
+    --type ${DNS_CHECK_RECORD_TYPE}
   runtime_assets:
     - sensu/dns-check:0.1.0
-  publish: true
   env_vars: []
+  publish: true
   subscriptions:
     - dns
-  interval: 30
+  round_robin: true
+  interval: 60
   timeout: 10
+  proxy_entity_name: example
   output_metric_format: prometheus_text
   output_metric_thresholds:
     - name: dns_resolved

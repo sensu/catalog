@@ -18,28 +18,26 @@ spec:
     - "@c-kruse"
   prompts:
     - type: section
-      title: DNS Check Options
+      title: DNS Record Check
     - type: markdown
       body: |
-        Configure your DNS Query
+        Configure your DNS Query with the following configuration parameters:
+
+        * Domain (domain name to query)
+        * Record Type (record type to query)
+        * Record Class (record class to query)
+        * Servers (comma-delimited list of name servers to query)
+        * Port (DNS server port to query)
+
     - type: question
-      name: servers
-      required: true
-      input:
-        default: 1.1.1.1
-        type: string
-        title: Name Servers
-        description: >-
-          comma delimited list of name servers to query.
-    - type: question
-      name: domains
+      name: domain
       required: true
       input:
         default: sensu.io
         type: string
-        title: Domains
+        title: Domain
         description: >-
-          comma delimited list of domains to query
+          Domain name to query.
     - type: question
       name: record_type
       required: true
@@ -48,7 +46,7 @@ spec:
         type: string
         title: Record Type
         description: >-
-          record type to query
+          Record type to query (default is "A").
     - type: question
       name: record_class
       required: true
@@ -57,44 +55,67 @@ spec:
         type: string
         title: Record Class
         description: >-
-          record class to query
+          Record class to query (default is "IN").
+    - type: question
+      name: servers
+      required: true
+      input:
+        default: 1.1.1.1
+        type: string
+        title: Name Servers
+        description: >-
+          Provide a comma-delimited list of default name server(s) to query. NOTE: this may be overriden with agent configuration on a per-host basis.
+    - type: question
+      name: port
+      required: true
+      input:
+        default: 53
+        type: integer
+        title: DNS Server Port
+        description: >-
+          Configure the default DNS server port to query (default is 53). NOTE: this may be overriden with agent configuration on a per-host basis.
     - type: section
       title: Check Conditions
     - type: markdown
       body: |
-        Configure Check Error Codes and Conditions
+        Configure Sensu check error codes and conditions.
     - type: question
       name: record_not_resolved_exit_code
       required: true
       input:
         default: 2
         type: integer
-        title: DNS Record Not Resolved Exit Status
+        title: DNS Record Not Resolved Event Status
         description: >-
-          The check exit status when the record can not be resolved.
-
-          0 = OK
-          1 = Warning
-          2+ = Critical
+          The event status to use when the record can not be resolved (0 = OK, 1 = Warning, 2 = Critical)
     - type: question
       name: dnssec_not_configured_exit_code
-      required: true
       input:
         default: 0
         type: integer
-        title: DNSSEC Not Configured Exit Status
+        title: DNSSEC Not Configured Event Status
         description: >-
-          The check exit status when the Nameserver indicates that DNSSEC was not checked
-          or verified.
-
-          0 = OK
-          1 = Warning
-          2+ = Critical
+          The event status to use when the Nameserver indicates that DNSSEC was not checked or verified (0 = OK, 1 = Warning, 2 = Critical)
+    - type: section
+      title: Configure Sensu Subscriptions
+    - type: markdown
+      body: |
+        Configure which Sensu Agent subscriptions this check should be run on.
+    - type: question
+      name: subscriptions
+      input:
+        type: array
+        items:
+          type: string
+          title: Sensu Subscriptions
+          ref: core/v2/entity/subscriptions
+        default:
+          - dns
     - type: section
       title: Pipeline Configuration
     - type: markdown
       body: |
-        Configure one or more [pipelines] for processing {{integration_short_name}} data.
+        Configure one or more [pipelines] for processing DNS monitoring data.
 
         [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
     - type: question
@@ -133,18 +154,30 @@ spec:
         type: CheckConfig
         name: dns-monitoring
       patches:
+        - path: /metadata/name
+          op: replace
+          value: "[[domain]]-[[record_type]]-dns-monitoring"
+        - path: /spec/proxy_entity_name
+          op: replace
+          value: domain
+        - path: /spec/subscriptions
+          op: replace
+          value: subscriptions
         - path: /spec/env_vars/-
           op: add
-          value: "SERVER=[[servers]]"
+          value: "DNS_CHECK_SERVERS=[[servers]]"
         - path: /spec/env_vars/-
           op: add
-          value: "DOMAIN=[[domains]]"
+          value: "DNS_CHECK_PORT=[[port]]"
         - path: /spec/env_vars/-
           op: add
-          value: "CLASS=[[record_class]]"
+          value: "DNS_CHECK_DOMAIN=[[domain]]"
         - path: /spec/env_vars/-
           op: add
-          value: "TYPE=[[record_type]]"
+          value: "DNS_CHECK_RECORD_CLASS=[[record_class]]"
+        - path: /spec/env_vars/-
+          op: add
+          value: "DNS_CHECK_RECORD_TYPE=[[record_type]]"
         - path: /spec/pipelines/-
           op: add
           value:
@@ -169,3 +202,9 @@ spec:
         - path: /spec/output_metric_thresholds/1/thresholds/0/status
           op: replace
           value: dnssec_not_configured_exit_code
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully enabled [[domain]] [[record_type]] DNS record monitoring.

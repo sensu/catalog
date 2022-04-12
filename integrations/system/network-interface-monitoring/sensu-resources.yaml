@@ -3,6 +3,7 @@ type: CheckConfig
 api_version: core/v2
 metadata:
   name: network-interface-health
+  annotations: {}
 spec:
   command: >-
     network-interface-checks

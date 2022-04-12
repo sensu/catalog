@@ -51,7 +51,6 @@ spec:
     - type: markdown
       body: |
         Configure the event processing pipelines for processing NGINX events and metrics.
-      title: Configure Sensu Pipelines
       title: Configure Event Processing Pipelines
     - type: markdown
       body: |

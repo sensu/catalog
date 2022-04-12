@@ -24,16 +24,7 @@ This integration is compatible with the [Sumo Logic Host monitoring dashboard][s
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
 
-1. Add one of the following [subscriptions] to [agents] that should run this check.
-
-   * `system`
-   * `system/network`
-   * `darwin`
-   * `darwin/network`
-   * `linux`
-   * `linux/network`
-   * `windows`
-   * `windows/network`
+1. Optionally set the `networking_interface_include` or `networking_interface_exclude` agent [annotation] with a comma separately list of interfaces to inlcude/exclude in the metric output.  Note: Cannot use both annotations at the same time.
 
 ## Plugins
 
@@ -51,97 +42,97 @@ This integration collects the following [metrics]:
 
   Bytes received.
 
-  Tags: `interface` (e.g. "eth0"), `entity`, `namespace`, `os`, `host.name`
+  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
 
 * `bytes_recv_rate`
 
   Bytes sent per second (pre-calculated rate).
 
-  Tags: `interface` (e.g. "eth0"), `entity`, `namespace`, `os`, `host.name`
+  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
 
 * `bytes_sent`
 
   Bytes sent.
 
-  Tags: `interface` (e.g. "eth0"), `entity`, `namespace`, `os`, `host.name`
+  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
 
 * `bytes_sent_rate`
 
   Bytes sent per second (pre-calculated rate).
 
-  Tags: `interface` (e.g. "eth0"), `entity`, `namespace`, `os`, `host.name`
+  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
 
 * `packets_recv`
 
   Packets received.
 
-  Tags: `interface` (e.g. "eth0"), `entity`, `namespace`, `os`, `host.name`
+  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
 
 * `packets_recv_rate`
 
   Packets received per second (pre-calculated rate).
 
-  Tags: `interface` (e.g. "eth0"), `entity`, `namespace`, `os`, `host.name`
+  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
 
 * `packets_sent`
 
   Packets sent.
 
-  Tags: `interface` (e.g. "eth0"), `entity`, `namespace`, `os`, `host.name`
+  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
 
 * `packets_sent_rate`
 
   Packets sent per second (pre-calculated rate).
 
-  Tags: `interface` (e.g. "eth0"), `entity`, `namespace`, `os`, `host.name`
+  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
 
 * `err_in`
 
   Count of errors receiving inbound packets.
 
-  Tags: `interface` (e.g. "eth0"), `entity`, `namespace`, `os`, `host.name`
+  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
 
 * `err_in_rate`
 
   Count of errors receiving inbound packets per second (pre-calculated rate).
 
-  Tags: `interface` (e.g. "eth0"), `entity`, `namespace`, `os`, `host.name`
+  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
 
 * `err_out`
 
   Count of errors sending outbound packets.
 
-  Tags: `interface` (e.g. "eth0"), `entity`, `namespace`, `os`, `host.name`
+  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
 
 * `err_out_rate`
 
   Count of errors sending outbound packets per second (pre-calculated rate).
 
-  Tags: `interface` (e.g. "eth0"), `entity`, `namespace`, `os`, `host.name`
+  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
 
 * `drop_in`
 
   Count of dropped inbound packets.
 
-  Tags: `interface` (e.g. "eth0"), `entity`, `namespace`, `os`, `host.name`
+  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
 
 * `drop_in_rate`
 
   Count of dropped inbound packets per second (pre-calculated rate).
 
-  Tags: `interface` (e.g. "eth0"), `entity`, `namespace`, `os`, `host.name`
+  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
 
 * `drop_out`
 
   Count of dropped outbound packets.
 
-  Tags: `interface` (e.g. "eth0"), `entity`, `namespace`, `os`, `host.name`
+  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
 
 * `drop_out_rate`
 
   Count of dropped outbound packets per second (pre-calculated rate).
 
-  Tags: `interface` (e.g. "eth0"), `entity`, `namespace`, `os`, `host.name`
+  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
 
 ## Alerts
 

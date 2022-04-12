@@ -25,6 +25,64 @@ spec:
     - "@fguimond"
   prompts:
     - type: section
+      title: Configure Network Interface Monitoring
+    - type: markdown
+      body: |
+        By default, this integration will collect metrics from all network interfaces, and alert on dropped packets and errors on `eth0`.
+
+        The following parameters will allow you to customize these defaults across all hosts.
+
+        * Default interface (e.g. "eth0")
+        * Interface filters (interfaces to include or exclude from network monitoring)
+
+        _NOTE: Please review the integration setup for instructions on how to override these defaults **on a per-host basis** using Sensu Agent annotations._
+    - type: question
+      name: default_interface
+      required: true
+      input:
+        type: string
+        title: Default Network Interface
+        description: >-
+          Default network interface to alert on (e.g. "eth0")
+        default: eth0
+    - type: question
+      name: options
+      input:
+        type: object
+        oneOf:
+          - type: object
+            properties:
+              option:
+                type: string
+                title: "[Optional] Inclusive or exclusive filtering?"
+                const: excluded_interfaces
+                constLocale:
+                  title: Exclude Interfaces
+                  description: >-
+                    Select this option to configure a list of interfaces to exclude from network monitoring (e.g. "lo")
+              excluded_interfaces:
+                type: string
+                title: Interfaces to exclude
+                description: >-
+                  Comma-separated list of interfaces to exclude from monitoring (e.g. "lo")
+                default: ""
+          - type: object
+            properties:
+              option:
+                type: string
+                title: "[Optional] Inclusive or exclusive filtering?"
+                const: included_interfaces
+                constLocale:
+                  title: Include Interfaces
+                  description: >-
+                    Select this option to configure a list of interfaces to include in network monitoring (e.g. "eth0")
+              included_interfaces:
+                type: string
+                title: Interfaces to include
+                description: >-
+                  Comma-separated list of interfaces to include in monitoring (e.g. "eth0")
+                default: ""
+    - type: section
       title: Configure Sensu Subscriptions
     - type: markdown
       body: |
@@ -50,7 +108,11 @@ spec:
       title: Configure Event Processing Pipelines
     - type: markdown
       body: |
-        Configure the event processing pipelines for processing NGINX events and metrics.
+        Configure the event processing pipelines for processing events and metrics.
+      title: Configure Event Processing Pipelines
+    - type: markdown
+      body: |
+        This integration collects host metrics and can issue alerts using metric threaholds. You can configure different Sensu pipelines to use to process metrics and alerts.
     - type: question
       name: metrics_pipeline
       required: false
@@ -87,23 +149,47 @@ spec:
         type: CheckConfig
         name: network-interface-health
       patches:
-        - path: /spec/subscriptions
-          op: replace
+        - op: replace
+          path: /spec/subscriptions
           value: subscriptions
-        - path: /spec/pipelines/-
-          op: add
+        - op: replace
+          path: /spec/command
+          value: >-
+            network-interface-checks
+            --state-file {{ .annotations.network_interface_monitoring_state_file | default "/var/cache/sensu/sensu-agent/network-interface-checks" }}
+            --exclude-interfaces {{ .annotations.excluded_network_interfaces | default "[[options.excluded_interfaces]]" }}
+        - op: replace
+          path: /spec/command
+          value: >-
+            network-interface-checks
+            --state-file {{ .annotations.network_interface_monitoring_state_file | default "/var/cache/sensu/sensu-agent/network-interface-checks" }}
+            --include-interfaces {{ .annotations.excluded_network_interfaces | default "[[options.included_interfaces]]" }}
+        - op: replace
+          path: /spec/output_metric_thresholds/0/tags/0/value # drop_in_rate
+          value: '{{ .annotations.default_network_interface | default "[[default_interface]]" }}'
+        - op: replace
+          path: /spec/output_metric_thresholds/1/tags/0/value # drop_out_rate
+          value: '{{ .annotations.default_network_interface | default "[[default_interface]]" }}'
+        - op: replace
+          path: /spec/output_metric_thresholds/2/tags/0/value # err_in_rate
+          value: '{{ .annotations.default_network_interface | default "[[default_interface]]" }}'
+        - op: replace
+          path: /spec/output_metric_thresholds/3/tags/0/value # err_out_rate
+          value: '{{ .annotations.default_network_interface | default "[[default_interface]]" }}'
+        - op: add
+          path: /spec/pipelines/-
           value:
             api_version: core/v2
             type: Pipeline
             name: "[[metrics_pipeline]]"
-        - path: /spec/pipelines/-
-          op: add
+        - op: add
+          path: /spec/pipelines/-
           value:
             api_version: core/v2
             type: Pipeline
             name: "[[alerts_pipeline]]"
-        - path: /spec/pipelines/-
-          op: add
+        - op: add
+          path: /spec/pipelines/-
           value:
             api_version: core/v2
             type: Pipeline

@@ -3,12 +3,15 @@ type: CheckConfig
 api_version: core/v2
 metadata:
   name: network-interface-health
+  annotations: {}
 spec:
   command: >-
     network-interface-checks
-    --state-file /var/cache/sensu/sensu-agent/network-interface-checks
+    --state-file {{ .annotations.network_interface_monitoring_state_file | default "/var/cache/sensu/sensu-agent/network-interface-checks" }}
+    --exclude-interfaces {{ .annotations.excluded_network_interfaces | default "" }}
   runtime_assets:
-    - sensu/network-interface-checks:0.1.0
+    - sensu/network-interface-checks:0.2.0
+  env_vars: []
   publish: true
   subscriptions:
     - system
@@ -24,54 +27,85 @@ spec:
   ttl: 0
   output_metric_format: prometheus_text
   output_metric_tags:
+    - name: entity
+      value: "{{ .name }}"
     - name: host.name
       value: "{{ .name }}"
-    - name: entity
-      value: "{{ .entity }}"
     - name: namespace
       value: "{{ .namespace }}"
     - name: os
       value: "{{ .system.os }}"
+  output_metric_thresholds:
+    - name: drop_in_rate
+      tags:
+        - name: interface
+          value: '{{ .annotations.default_network_interface | default "eth0" }}'
+      thresholds:
+        - max: "0.0"
+          status: 1
+    - name: drop_out_rate
+      tags:
+        - name: interface
+          value: '{{ .annotations.default_network_interface | default "eth0" }}'
+      thresholds:
+        - max: "0.0"
+          status: 1
+    - name: err_in_rate
+      tags:
+        - name: interface
+          value: '{{ .annotations.default_network_interface | default "eth0" }}'
+      thresholds:
+        - max: "0.0"
+          status: 1
+    - name: err_out_rate
+      tags:
+        - name: interface
+          value: '{{ .annotations.default_network_interface | default "eth0" }}'
+      thresholds:
+        - max: "0.0"
+          status: 1
   pipelines: []
 ---
 type: Asset
 api_version: core/v2
 metadata:
-  name: sensu/network-interface-checks:0.1.0
+  name: sensu/network-interface-checks:0.2.0
+  labels:
   annotations:
     io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/network-interface-checks
     io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/network-interface-checks
     io.sensu.bonsai.tier: Community
-    io.sensu.bonsai.version: 0.1.0
+    io.sensu.bonsai.version: 0.2.0
     io.sensu.bonsai.namespace: sensu
     io.sensu.bonsai.name: network-interface-checks
     io.sensu.bonsai.tags: ''
 spec:
   builds:
-    - url: https://assets.bonsai.sensu.io/4613d06a50de07b81c08196c39e99fb9534520fe/network-interface-checks_0.1.0_linux_armv6.tar.gz
-      sha512: 45cc8074171684d55b824f6ee0976335e6137d7122b59c57c636b81e25cb357ea9198310b8986687adcef3ceb1fccf15b0f8bd90dba063b9276c72e3ca390094
+    - url: https://assets.bonsai.sensu.io/062a873434194f74966cec730a462883439ee868/network-interface-checks_0.2.0_linux_armv6.tar.gz
+      sha512: d6ed09a9c7bc5bcca8b2ec8570eaccd52d9a01fbad7493b70f423a85bdf1361651214c64611b1bc4120a47800a28afd1cf9649b6411bf51bf6edcdeef3723e2b
       filters:
         - entity.system.os == 'linux'
         - entity.system.arch == 'arm'
         - entity.system.arm_version == 6
-    - url: https://assets.bonsai.sensu.io/4613d06a50de07b81c08196c39e99fb9534520fe/network-interface-checks_0.1.0_linux_armv7.tar.gz
-      sha512: e229dc07c80d418447a2bff1a24861d567b5128f14aa611b1d790a8a579cb4e7239410c3f79b9ea7e90fa480322b5ece26fe9ba1ba19ce20fd563dc3ac73adbc
+    - url: https://assets.bonsai.sensu.io/062a873434194f74966cec730a462883439ee868/network-interface-checks_0.2.0_linux_armv7.tar.gz
+      sha512: 40d71372761476bfd1789f89cc151e2c935b03fdcdf839e02f1678c8cdf28ca0ec2d6ba357f5e499fc67eefb89c89b5bec845b452780906072c29b87e8038b20
       filters:
         - entity.system.os == 'linux'
         - entity.system.arch == 'arm'
         - entity.system.arm_version == 7
-    - url: https://assets.bonsai.sensu.io/4613d06a50de07b81c08196c39e99fb9534520fe/network-interface-checks_0.1.0_linux_arm64.tar.gz
-      sha512: 257ea28aeebe13e0ccd924481e193627c89b1cebfd4fc14dbf0bf3f5e68b313b20f19578c990be64456b6d30ab58dd15643acc3bdc916cc4ef5c518c9498410b
+    - url: https://assets.bonsai.sensu.io/062a873434194f74966cec730a462883439ee868/network-interface-checks_0.2.0_linux_arm64.tar.gz
+      sha512: cb1da448b46ea5b9cb32b802b568ae9b56d4831550991ec8b6ee8ac404ab81b5e24e24ffc562b1a80b1fff1911b31240567c3b0130d6cbd28daa82a1d91562fc
       filters:
         - entity.system.os == 'linux'
         - entity.system.arch == 'arm64'
-    - url: https://assets.bonsai.sensu.io/4613d06a50de07b81c08196c39e99fb9534520fe/network-interface-checks_0.1.0_linux_386.tar.gz
-      sha512: 3a5026553b43617f8e262600c6c90ab9594c48bf35d7095ad67cc9c9a8da6d827f052f08969a5988e449d4de038f02cd4bae2b21bee1e45eda73171583fec0d6
+    - url: https://assets.bonsai.sensu.io/062a873434194f74966cec730a462883439ee868/network-interface-checks_0.2.0_linux_386.tar.gz
+      sha512: 00f8c11bfb4e8a750b873eddf3c030859902ba3f91c826e5fb5b98d4356b9bf0fc49177d2adbb3bc9fe06d59040733cb56a53fe78b2954bac45a80c3276d9eea
       filters:
         - entity.system.os == 'linux'
         - entity.system.arch == '386'
-    - url: https://assets.bonsai.sensu.io/4613d06a50de07b81c08196c39e99fb9534520fe/network-interface-checks_0.1.0_linux_amd64.tar.gz
-      sha512: 7ee8a2abccd2267a50f5a8e7a4ebff5f3a96c98e6ee9eafdf35affb794c7e2c26670421aee962c353191106a1e29fd70b02b491aa9381f6b16a5544acdb5ea93
+    - url: https://assets.bonsai.sensu.io/062a873434194f74966cec730a462883439ee868/network-interface-checks_0.2.0_linux_amd64.tar.gz
+      sha512: b574a724ab265db9d65b14831912d316897a036ef6edc3d29c456562dc10da582868d433b8f7c508d3078fdb5394ba033033bf861105c96d68f6dd3f0976c1df
       filters:
         - entity.system.os == 'linux'
         - entity.system.arch == 'amd64'
+

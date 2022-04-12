@@ -17,19 +17,23 @@ spec:
       type: Handler
       name: influxdb
 ---
+# Requires INFLUXDB_ADDR, INFLUXDB_DB, INFLUXDB_USER, and INFLUXDB_PASS environment variable(s) or secret(s)
 type: Handler
 api_version: core/v2
 metadata:
   name: influxdb
 spec:
   type: pipe
-  command: sensu-influxdb-handler -d $INFLUXDB_DB
+  command: >-
+    sensu-influxdb-handler
+    --addr ${INFLUXDB_ADDR}
+    --db-name ${INFLUXDB_DB}
   env_vars: []
   timeout: 10
   filters:
-  - has_metrics
+    - has_metrics
   runtime_assets:
-  - sensu/sensu-influxdb-handler:3.7.0
+    - sensu/sensu-influxdb-handler:3.7.0
 ---
 type: Asset
 api_version: core/v2
@@ -45,33 +49,33 @@ metadata:
     io.sensu.bonsai.tier: Supported
 spec:
   builds:
-  - url: https://assets.bonsai.sensu.io/0e75f54fc34c4f6b3439362256983203f1b6c8ca/sensu-influxdb-handler_3.7.0_linux_386.tar.gz
-    sha512: 6719527e1b720ec0ba2b15a7a043e7860135cf31483c3812f14659bde92123c89b8edd85a9cd23abffb5bb31caf6e84b5b45dc5605f87bdee30f59c4b8feada7
-    filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == '386'
-  - url: https://assets.bonsai.sensu.io/0e75f54fc34c4f6b3439362256983203f1b6c8ca/sensu-influxdb-handler_3.7.0_linux_amd64.tar.gz
-    sha512: d05650d778f8e9427eca155455fb20a73a996dc46df240a7b84978385bdeeddfa46a624add5d43bed93f08c1b076e0d7ba350df8c3deb08bc007bc3630777a52
-    filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == 'amd64'
-  - url: https://assets.bonsai.sensu.io/0e75f54fc34c4f6b3439362256983203f1b6c8ca/sensu-influxdb-handler_3.7.0_linux_armv7.tar.gz
-    sha512: 38918c179574df64f9ee3a80b3dd9566ff0bc924d75b81742d11f42a39f4f353a6eec7eee3f6536109413408dadeb24aa54dcbe5a295f0de26af8d3e12b2dca6
-    filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == 'armv7'
-  - url: https://assets.bonsai.sensu.io/0e75f54fc34c4f6b3439362256983203f1b6c8ca/sensu-influxdb-handler_3.7.0_linux_arm64.tar.gz
-    sha512: 944075ff9a8525b7633f5685d5f0785df098fa7a0a07f0b444b25fe76b80155c13a867fc6cea2b3f7996a6509683ed5f5bc962337ef6114edad90ec57dbe91fb
-    filters:
-    - entity.system.os == 'linux'
-    - entity.system.arch == 'arm64'
-  - url: https://assets.bonsai.sensu.io/0e75f54fc34c4f6b3439362256983203f1b6c8ca/sensu-influxdb-handler_3.7.0_windows_amd64.tar.gz
-    sha512: 8228cbcf622cdca512e828de5f474f5d0e86017921116fa6e7463d78c142a981484f5dc6138f48796d89d5866b162ef8835ddc677f697ef5a4322d7d939f681d
-    filters:
-    - entity.system.os == 'windows'
-    - entity.system.arch == 'amd64'
-  - url: https://assets.bonsai.sensu.io/0e75f54fc34c4f6b3439362256983203f1b6c8ca/sensu-influxdb-handler_3.7.0_darwin_amd64.tar.gz
-    sha512: 7c73e1d8d57aab24b12e6a26d4a3bef11dbaecc895e08ef2e9b3df87ac3202ec6a0e34012225f13aca11ea7f5e3bf8ec565507ed9c28a0f74e47ce9defe22a57
-    filters:
-    - entity.system.os == 'darwin'
-    - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/0e75f54fc34c4f6b3439362256983203f1b6c8ca/sensu-influxdb-handler_3.7.0_linux_386.tar.gz
+      sha512: 6719527e1b720ec0ba2b15a7a043e7860135cf31483c3812f14659bde92123c89b8edd85a9cd23abffb5bb31caf6e84b5b45dc5605f87bdee30f59c4b8feada7
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io/0e75f54fc34c4f6b3439362256983203f1b6c8ca/sensu-influxdb-handler_3.7.0_linux_amd64.tar.gz
+      sha512: d05650d778f8e9427eca155455fb20a73a996dc46df240a7b84978385bdeeddfa46a624add5d43bed93f08c1b076e0d7ba350df8c3deb08bc007bc3630777a52
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/0e75f54fc34c4f6b3439362256983203f1b6c8ca/sensu-influxdb-handler_3.7.0_linux_armv7.tar.gz
+      sha512: 38918c179574df64f9ee3a80b3dd9566ff0bc924d75b81742d11f42a39f4f353a6eec7eee3f6536109413408dadeb24aa54dcbe5a295f0de26af8d3e12b2dca6
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'armv7'
+    - url: https://assets.bonsai.sensu.io/0e75f54fc34c4f6b3439362256983203f1b6c8ca/sensu-influxdb-handler_3.7.0_linux_arm64.tar.gz
+      sha512: 944075ff9a8525b7633f5685d5f0785df098fa7a0a07f0b444b25fe76b80155c13a867fc6cea2b3f7996a6509683ed5f5bc962337ef6114edad90ec57dbe91fb
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io/0e75f54fc34c4f6b3439362256983203f1b6c8ca/sensu-influxdb-handler_3.7.0_windows_amd64.tar.gz
+      sha512: 8228cbcf622cdca512e828de5f474f5d0e86017921116fa6e7463d78c142a981484f5dc6138f48796d89d5866b162ef8835ddc677f697ef5a4322d7d939f681d
+      filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/0e75f54fc34c4f6b3439362256983203f1b6c8ca/sensu-influxdb-handler_3.7.0_darwin_amd64.tar.gz
+      sha512: 7c73e1d8d57aab24b12e6a26d4a3bef11dbaecc895e08ef2e9b3df87ac3202ec6a0e34012225f13aca11ea7f5e3bf8ec565507ed9c28a0f74e47ce9defe22a57
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'

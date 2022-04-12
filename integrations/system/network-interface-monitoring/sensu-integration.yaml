@@ -50,7 +50,7 @@ spec:
       title: Configure Event Processing Pipelines
     - type: markdown
       body: |
-        Configure the event processing pipelines for processing NGINX events and metrics.
+        Configure the event processing pipelines for processing events and metrics.
       title: Configure Event Processing Pipelines
     - type: markdown
       body: |

@@ -55,12 +55,12 @@ spec:
               option:
                 type: string
                 title: "[Optional] Inclusive or exclusive filtering?"
-                const: env_var
+                const: excluded_interfaces
                 constLocale:
                   title: Exclude Interfaces
                   description: >-
                     Select this option to configure a list of interfaces to exclude from network monitoring (e.g. "lo")
-              excluded interfaces:
+              excluded_interfaces:
                 type: string
                 title: Interfaces to exclude
                 description: >-
@@ -71,7 +71,7 @@ spec:
               option:
                 type: string
                 title: "[Optional] Inclusive or exclusive filtering?"
-                const: secret
+                const: included_interfaces
                 constLocale:
                   title: Include Interfaces
                   description: >-

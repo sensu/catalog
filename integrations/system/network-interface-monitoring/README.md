@@ -24,18 +24,7 @@ This integration is compatible with the [Sumo Logic Host monitoring dashboard][s
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
 
-1. Add one of the following [subscriptions] to [agents] that should run this check.
-
-   * `system`
-   * `system/network`
-   * `darwin`
-   * `darwin/network`
-   * `linux`
-   * `linux/network`
-   * `windows`
-   * `windows/network`
-
-1. Optionally set the `networking_interface_include` or `networking_interface_exclude` agent [annotation] with a comma separately list of interfaces to inlcude/exclude in the metric output.  Note: Cannot use both annotations at the same time. 
+1. Optionally set the `networking_interface_include` or `networking_interface_exclude` agent [annotation] with a comma separately list of interfaces to inlcude/exclude in the metric output.  Note: Cannot use both annotations at the same time.
 
 ## Plugins
 

@@ -1,0 +1,88 @@
+---
+type: CheckConfig
+api_version: core/v2
+metadata:
+  name: ssl-cert-monitoring
+spec:
+  command: >-
+    cert-checks
+    --cert ${SSL_CERT_CHECK_URL}
+  runtime_assets:
+    - sensu/cert-checks:0.1.0
+  env_vars: []
+  publish: true
+  subscriptions:
+    - ssl
+  round_robin: true
+  interval: 60
+  timeout: 10
+  proxy_entity_name: ""
+  output_metric_format: prometheus_text
+  output_metric_thresholds:
+    - name: cert_days_left
+      null_status: 1
+      thresholds:
+        - min: "7"
+          status: 2
+        - min: "15"
+          status: 1
+    - name: cert_issued_days 
+      null_status: 1
+      thresholds:
+        - max: "398"
+          status: 2
+  pipelines: []
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu/cert-checks:0.1.0
+  labels: 
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/cert-checks
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/cert-checks
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 0.1.0
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: cert-checks
+    io.sensu.bonsai.tags: ''
+spec:
+  builds:
+  - url: https://assets.bonsai.sensu.io/4aaab713d4fca0e5b22cb1cac46b4587bd7f528d/cert-checks_0.1.0_windows_amd64.tar.gz
+    sha512: fcaef28134e67b28f62eca9dbe7aa7ba819b5e44c833853d388a779d5897961f0b0abd34eb2ffdf12f0fff405ac215f3f3016895edcd97b31a024aa2900a367c
+    filters:
+    - entity.system.os == 'windows'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/4aaab713d4fca0e5b22cb1cac46b4587bd7f528d/cert-checks_0.1.0_darwin_amd64.tar.gz
+    sha512: 39ad7f669559a0067374976b1d5367b801ace6e0015e2d66437ba3ae4c382a4122d889003d5b7f132ee314f7196cb495c24f7fa30e37b43534ed1327fb2ca3aa
+    filters:
+    - entity.system.os == 'darwin'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/4aaab713d4fca0e5b22cb1cac46b4587bd7f528d/cert-checks_0.1.0_linux_armv6.tar.gz
+    sha512: 8e6b95aeb1217c6c8d1f10df080f9d1436096847bd4f94327718d9ed0c60fa85ef5812b75853b40e8adb772bd20560831f33fa53ba6dcc8c40d40ce30bb41550
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm'
+    - entity.system.arm_version == 6
+  - url: https://assets.bonsai.sensu.io/4aaab713d4fca0e5b22cb1cac46b4587bd7f528d/cert-checks_0.1.0_linux_armv7.tar.gz
+    sha512: d24b8dab56ceec28f413f5774b40c8587a23d1d8aedc06fd2daacf082834480ced6d9f2a1bf1f098693f0264b93baf29985fa5539b8ac9e51469d307e373115a
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm'
+    - entity.system.arm_version == 7
+  - url: https://assets.bonsai.sensu.io/4aaab713d4fca0e5b22cb1cac46b4587bd7f528d/cert-checks_0.1.0_linux_arm64.tar.gz
+    sha512: 33d62aa92500b5b11987b3549b9a40f7a5ba4103700758fd2bd6b65adeb3501fc6130652eff3594596f47f8272b5789638802e052c18be21929833a72477f6e1
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm64'
+  - url: https://assets.bonsai.sensu.io/4aaab713d4fca0e5b22cb1cac46b4587bd7f528d/cert-checks_0.1.0_linux_386.tar.gz
+    sha512: d0e9913a69699ecf592f2f3e1b7ca6523a0dd15076f52d511328f92b51a7f321805481fc8c1f9617c4d75fba73ab479a239ea7402fc8b06f89778f3b108e148e
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == '386'
+  - url: https://assets.bonsai.sensu.io/4aaab713d4fca0e5b22cb1cac46b4587bd7f528d/cert-checks_0.1.0_linux_amd64.tar.gz
+    sha512: ab7e57e6bc26f1979479ff5c50bad501bc4fbc89fef89a6ae292581ea4a5ad8e23f9c8131b3bce6c68b3b2bb5569e10b98781be055658d61328a0d37cf744ec5
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'
+

@@ -140,7 +140,7 @@ spec:
       patches:
         - op: replace
           path: /metadata/name
-          value: "[[alias]]-endpoint-healthcheck"
+          value: "[[alias]]-[[protocol]]-endpoint-healthcheck"
         - op: replace
           path: /spec/command
           value: >-
@@ -172,7 +172,7 @@ spec:
       patches:
         - op: replace
           path: /metadata/name
-          value: "[[alias]]-endpoint-metrics"
+          value: "[[alias]]-[[protocol]]-endpoint-metrics"
         - op: replace
           path: /spec/command
           value: >-

@@ -2,13 +2,15 @@
 
 <!-- Sensu Integration description; supports markdown -->
 
-The http-endpoint-monitoring integration provides healthchecks for HTTP endpoints, including HTTP response code monitoring.
+The http-endpoint-monitoring integration provides healthchecks and performance monitoring for HTTP endpoints.
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 
 This integration includes the following resources:
 
+* `http-endpoint` [entity] (a proxy entity will be generated for the target domain/host, e.g. "docs.sensu.io")
 * `http-endpoint-monitoring` [check]
+* `http-endpoint-metrics` [check]
 * `sensu/http-checks:0.5.0` [asset]
 
 ## Dashboards
@@ -26,7 +28,36 @@ There are no compatible dashboards for this integration.
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
 
-No additional configuration is required.
+1. **[OPTIONAL] Disable redirect warnings**
+
+   To disable redirect warnings, install this integration, then modify the resulting Sensu Check resource with the `--redirect-ok` flag.
+
+   Example:
+
+   ```yaml
+   spec:
+     command: >-
+       http-check
+       --timeout 10
+       --redirect-ok
+       --url "https://sensu.io:443/"
+   ```
+
+2. **[OPTIONAL] Configure custom request headers**
+
+   To add custom request headers, install this integration, then modify the resulting Sensu Check resource with one or more `--header` flags.
+
+   Example:
+
+   ```yaml
+   spec:
+     command: >-
+       http-check
+       --timeout 10
+       --url "https://sensu.io:443/
+       --header "Content-Type: application/json"
+       --header "X-Example-Header: helloworld"
+   ```
 
 ## Plugins
 
@@ -42,7 +73,11 @@ This integration collects the following [metrics]:
 
 | **Metric name** | **Description** | **Tags** |
 |-----------------|-----------------|----------|
-| `{{metric_name}}` | {{metric_description}} | {{metric_tags}} |
+| `dns_duration` | Time to DNS resolution | `url` |
+| `tls_handshake_duration` | Time to TLS handshake | `url` |
+| `connect_duration` | Time to fetch HTTP contents | `url` |
+| `first_byte_duration` | Time to fetch first byte of HTTP content | `url` |
+| `total_request_duration` | Total time to complete request | `url` |
 
 ## Alerts
 
@@ -50,11 +85,13 @@ This integration collects the following [metrics]:
 
 This integration produces the following events which should be processed by an alert or incident management [pipeline]:
 
-* `WARNING`
+* Request duration warning
 
-  <!-- Description of the alert condition. -->
+  Generates a warning if the `total_request_duration` exceeds the configured threshold (default: 1.0 seconds).
 
-* `CRITICAL`
+* Redirect warnings
+
+  Generates a warning for HTTP 3xx response codes (e.g. `WARNING: HTTP Status 301 for https://sumologic.com:443/  (redirects to https://www.sumologic.com:443/)`)
 
   <!-- Description of the alert condition. -->
 
@@ -65,6 +102,7 @@ This integration produces the following events which should be processed by an a
 1. This integration uses [Sensu Tokens][tokens] for variable substitution.
 
 <!-- Links -->
+[entity]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-entities/entities/
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
 [asset]: https://docs.sensu.io/sensu-go/latest/plugins/assets/
 [subscription]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/

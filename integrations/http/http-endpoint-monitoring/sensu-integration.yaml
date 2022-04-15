@@ -26,18 +26,13 @@ spec:
       body: |
         Configure HTTP Endpoint monitoring with the following parameters:
 
-        * **Alias**: URL endpoint alias (used as Sensu check/event name prefix)
         * **URL**: the target URL to monitor (e.g. `http://localhost:80/health`)
+          * **Protocol**: select http or https request
+          * **Host**: provide a hostname, IP address, or domain name
+          * **Port**: provide the port to check (e.g. `80` for HTTP, `443` for HTTPS)
+          * **Path**: provide the URL path to check (e.g. `/healthz`)
         * **Interval**: how often to monitor the HTTP endpoint (in seconds)
-        * **Subscriptions**: configure where you want the test to originate from (e.g. `us-west-1`)
-    - type: question
-      name: alias
-      required: true
-      input:
-        type: string
-        title: HTTP Endpoint Alias
-        description: >-
-          Provide an HTTP endpoint alias (will be used as the Sensu check/event name prefix).
+        * **Request Duration Warning**: generate a warning if requests take longer than N seconds to complete.
     - type: question
       name: protocol
       required: true
@@ -49,7 +44,7 @@ spec:
         enum:
           - http
           - https
-        default: http
+        default: https
     - type: question
       name: host
       required: true
@@ -58,7 +53,7 @@ spec:
         title: HTTP Endpoint Host
         description: >-
           Provide the HTTP endpoint host (e.g. "api.mycompany.com")
-        default: localhost
+        default: docs.sensu.io
     - type: question
       name: port
       required: true
@@ -67,7 +62,7 @@ spec:
         title: HTTP Endpoint Port
         description: >-
           Provide the HTTP endpoint port (e.g. 443 for HTTPS)
-        default: 80
+        default: 443
     - type: question
       name: path
       required: true
@@ -86,15 +81,39 @@ spec:
           Configure the HTTP endpoint monitoring interval, in seconds (60 = one minute, 300 = five minutes, 600 = 10 minutes, etc)
         default: 30
     - type: question
+      name: duration_warning
+      input:
+        type: integer
+        title: Request Duration Warning
+        description: >-
+          Generate a warning if requests take longer than N seconds to complete.
+        default: 1
+    - type: question
+      name: labels
+      input:
+        type: object
+        title: Labels
+        description: Key/value metadata
+        format: io.sensu.meta.label
+        additionalProperties:
+          type: string
+    - type: section
+      title: Configure Sensu Subscriptions
+    - type: markdown
+      body: |
+        Configure which Sensu Agent subscriptions this check should be run on.
+
+        In the context of HTTP endpoint monitoring tools like Pingdom, this is similar to "origins" (the region the monitoring requests will generate from).
+    - type: question
       name: subscriptions
       input:
         type: array
         items:
           type: string
-          title: Sensu Subscriptions
+          title: Subscriptions (Origins)
           ref: core/v2/entity/subscriptions
         default:
-          - example
+          - http
     - type: section
       title: Pipeline Configuration
     - type: markdown
@@ -135,12 +154,26 @@ spec:
   resource_patches:
     - resource:
         api_version: core/v2
+        type: Entity
+        name: http-endpoint
+      patches:
+        - op: replace
+          path: /metadata/name
+          value: "[[host]]"
+        - op: replace
+          path: /metadata/labels
+          value: labels
+    - resource:
+        api_version: core/v2
         type: CheckConfig
         name: http-endpoint-healthcheck
       patches:
         - op: replace
           path: /metadata/name
-          value: "[[alias]]-[[protocol]]-endpoint-healthcheck"
+          value: "[[host]]-[[protocol]]-endpoint-healthcheck"
+        - op: replace
+          path: /metadata/labels
+          value: labels
         - op: replace
           path: /spec/command
           value: >-
@@ -172,7 +205,10 @@ spec:
       patches:
         - op: replace
           path: /metadata/name
-          value: "[[alias]]-[[protocol]]-endpoint-metrics"
+          value: "[[host]]-[[protocol]]-endpoint-metrics"
+        - op: replace
+          path: /metadata/labels
+          value: labels
         - op: replace
           path: /spec/command
           value: >-
@@ -183,18 +219,16 @@ spec:
           path: /spec/subscriptions
           value: subscriptions
         - op: replace
+          path: /spec/output_metric_thresholds/0/thresholds/0/max
+          value: "[[duration_warning]].0"
+        - op: replace
           path: /spec/proxy_entity_name
           value: "[[host]]"
         - op: add
           path: /spec/output_metric_tags/-
           value:
-            name: "host"
-            value: "[[host]]"
-        - op: add
-          path: /spec/output_metric_tags/-
-          value:
-            name: "path"
-            value: "[[path]]"
+            name: "url"
+            value: "[[protocol]]://[[host]]:[[port]][[path]]"
         - op: add
           path: /spec/pipelines/-
           value:

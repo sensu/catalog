@@ -1,11 +1,18 @@
 ---
 api_version: core/v2
+type: Entity
+metadata:
+  name: http-endpoint
+  labels: {}
+spec:
+  entity_class: proxy
+
+---
+api_version: core/v2
 type: CheckConfig
 metadata:
   name: http-endpoint-healthcheck
-  labels:
-    provider: monitoring
-  annotations: {}
+  labels: {}
 spec:
   command: >-
     http-check
@@ -25,9 +32,7 @@ api_version: core/v2
 type: CheckConfig
 metadata:
   name: http-endpoint-metrics
-  labels:
-    provider: monitoring
-  annotations: {}
+  labels: {}
 spec:
   command: >-
     http-perf
@@ -42,6 +47,12 @@ spec:
   interval: 30
   output_metric_format: nagios_perfdata
   output_metric_tags: []
+  output_metric_thresholds:
+    - name: total_request_duration
+      null_status: 0
+      thresholds:
+        - max: "1.0"
+          status: 1
   pipelines: []
 
 ---

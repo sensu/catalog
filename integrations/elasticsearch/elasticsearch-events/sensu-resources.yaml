@@ -17,7 +17,7 @@ spec:
         type: Handler
         name: elasticsearch-events
 ---
-# NOTE: requires ELASTICSEARCH_URL, ELASTICSEARCH_INDEX, ELASTICSEARCH_USERNAME, and ELASTICSEARCH_PASSWORD environment variable(s) or secret
+# NOTE: requires ELASTICSEARCH_URL, ELASTICSEARCH_INDEX, ELASTICSEARCH_USERNAME, and ELASTICSEARCH_PASSWORD environment variable(s) or secret(s)
 type: Handler
 api_version: core/v2
 metadata:

@@ -1,0 +1,188 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: "influxdb"
+  name: "influxdb-metrics"
+spec:
+  class: supported
+  provider: metrics
+  display_name: InfluxDB Metrics
+  short_description: Send metrics to an InfluxDB database
+  tags:
+    - influxdb
+    - metrics
+  contributors:
+    - "@sensu"
+  prompts:
+    - type: section
+      title: InfluxDB Configuration
+    - type: markdown
+      body: |
+        This integration requires an InfluxDB URL and database name.
+    - type: question
+      name: influxdb_addr
+      required: true
+      input:
+        type: string
+        required: true
+        title: InfluxDB Address
+        description: >-
+          Provide the InfluxDB address (e.g. "http://influxdb.mycompany.com:8086")
+        default: http://influxdb.mycompany.com:8086
+    - type: question
+      name: influxdb_db
+      required: true
+      input:
+        type: string
+        required: true
+        title: InfluxDB Database
+        description: >-
+          Provide the InfluxDB database name (e.g. "sensu")
+        default: "sensu"
+    - type: section
+      title: InfluxDB Username
+    - type: markdown
+      body: |
+        Please provide an InfluxDB username _OR_ select a [Sensu Secret].
+
+        [Sensu Secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
+    - type: question
+      name: influxdb_username
+      required: true
+      input:
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: Environment Variable or Secrets Management?
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: InfluxDB Username (Sensu Secret)
+                description: >-
+                  Select the InfluxDB username (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: Environment Variable or Secrets Management?
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: InfluxDB Username
+                description: >-
+                  Provide the InfluxDB username (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+    - type: section
+      title: InfluxDB Password
+    - type: markdown
+      body: |
+        Please provide an InfluxDB password _OR_ select a [Sensu Secret].
+
+        [Sensu Secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
+    - type: question
+      name: influxdb_password
+      required: true
+      input:
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: Environment Variable or Secrets Management?
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: InfluxDB Password (Sensu Secret)
+                description: >-
+                  Select the InfluxDB password (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: Environment Variable or Secrets Management?
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: InfluxDB Password
+                description: >-
+                  Provide the InfluxDB password (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+
+  resource_patches:
+    - resource:
+        api_version: core/v2
+        type: Handler
+        name: influxdb
+      patches:
+        - op: add
+          path: /spec/env_vars/-
+          value: "INFLUXDB_ADDR=[[influxdb_addr]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: "INFLUXDB_DB=[[influxdb_db]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: "INFLUXDB_USER=[[influxdb_username.env_var]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: "INFLUXDB_PASS=[[influxdb_password.env_var]]"
+        - op: add
+          path: /spec/secrets/-
+          value:
+            name: INFLUXDB_USER
+            secret: "[[influxdb_username.secret]]"
+        - op: add
+          path: /spec/secrets/-
+          value:
+            name: INFLUXDB_PASS
+            secret: "[[influxdb_password.secret]]"
+
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully enabled the InfluxDB metrics pipeline integration.
+
+        Checks configured with the `influxdb-metrics` pipeline will send Sensu metric data to [[influxdb_addr]].
+
+        ```yaml
+        spec:
+          pipelines:
+            - api_version: core/v2
+              type: Pipeline
+              name: influxdb-metrics
+        ```

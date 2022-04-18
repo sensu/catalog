@@ -2,7 +2,7 @@
 api_version: core/v2
 type: CheckConfig
 metadata:
-  name: http-endpoint-healthcheck
+  name: http-service-healthcheck
   labels: {}
 spec:
   command: >-
@@ -14,7 +14,6 @@ spec:
   publish: true
   subscriptions: []
   round_robin: true
-  proxy_entity_name: example
   interval: 30
   pipelines: []
 
@@ -22,7 +21,7 @@ spec:
 api_version: core/v2
 type: CheckConfig
 metadata:
-  name: http-endpoint-metrics
+  name: http-service-metrics
   labels: {}
 spec:
   command: >-
@@ -34,7 +33,6 @@ spec:
   publish: true
   subscriptions: []
   round_robin: true
-  proxy_entity_name: example
   interval: 30
   output_metric_format: nagios_perfdata
   output_metric_tags: []

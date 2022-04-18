@@ -2,13 +2,12 @@
 
 <!-- Sensu Integration description; supports markdown -->
 
-The HTTP endpoint monitoring integration provides healthchecks and performance monitoring for remote HTTP endpoints.
+The HTTP Service monitoring integration provides healthchecks and performance monitoring for local HTTP services (e.g. a service running on a host or pod where an agent is deployed).
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 
 This integration includes the following resources:
 
-* `http-endpoint` [entity] (a proxy entity will be generated for the target domain/host, e.g. "docs.sensu.io")
 * `http-endpoint-monitoring` [check]
 * `http-endpoint-metrics` [check]
 * `sensu/http-checks:0.5.0` [asset]
@@ -40,7 +39,7 @@ There are no compatible dashboards for this integration.
        http-check
        --timeout 10
        --redirect-ok
-       --url "https://sensu.io:443/"
+       --url "http://127.0.0.1:8080/health"
    ```
 
 2. **[OPTIONAL] Configure custom request headers**
@@ -54,7 +53,7 @@ There are no compatible dashboards for this integration.
      command: >-
        http-check
        --timeout 10
-       --url "https://sensu.io:443/
+       --url "http://127.0.0.1:8080/health
        --header "Content-Type: application/json"
        --header "X-Example-Header: helloworld"
    ```

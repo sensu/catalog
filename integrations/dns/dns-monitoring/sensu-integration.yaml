@@ -91,11 +91,15 @@ spec:
     - type: question
       name: dnssec_not_configured_exit_code
       input:
-        default: 0
         type: integer
         title: DNSSEC Not Configured Event Status
         description: >-
           The event status to use when the Nameserver indicates that DNSSEC was not checked or verified (0 = OK, 1 = Warning, 2 = Critical)
+        enum:
+          - 0
+          - 1
+          - 2
+        default: 1
     - type: section
       title: Configure Sensu Subscriptions
     - type: markdown

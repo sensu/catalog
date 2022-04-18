@@ -35,7 +35,8 @@ spec:
         type: string
         title: Elasticsearch URL
         description: >-
-          Provide the Elasticsearch URL (e.g. http://elasticsearch:9200); supports HTTP and HTTPS.
+          Provide the Elasticsearch URL (e.g. http://elasticsearch.mycompany.com:9200); supports HTTP and HTTPS.
+        default: http://elasticsearch.mycompany.com:9200
     - type: question
       name: elasticsearch_index
       required: true
@@ -47,12 +48,14 @@ spec:
           NOTE: this can be configured / overriden on a per-host basis.
         default: sensu_events
     - type: section
-      title: Elasticsearch Username
+      title: Elasticsearch Username & Password
     - type: markdown
       body: |
-        Please provide an Elastisearch username _OR_ select a [Sensu Secret].
+        This integration requires an Elasticsearch username & password for authentication.
 
-        [Sensu Secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
+        Please select [Sensu Secrets] or provide an Elasticsearch username and password.
+
+        [Sensu Secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
     - type: question
       name: elasticsearch_username
       required: true
@@ -66,7 +69,7 @@ spec:
             properties:
               option:
                 type: string
-                title: Environment Variable or Secrets Management?
+                title: Elasticsearch Username
                 const: secret
                 constLocale:
                   title: Secret
@@ -85,7 +88,7 @@ spec:
             properties:
               option:
                 type: string
-                title: Environment Variable or Secrets Management?
+                title: Elasticsearch Username
                 const: env_var
                 constLocale:
                   title: Environment Variable
@@ -96,13 +99,6 @@ spec:
                 title: Elasticsearch Username
                 description: >-
                   Provide the Elasticsearch username (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
-    - type: section
-      title: Elasticsearch Password
-    - type: markdown
-      body: |
-        Please provide the Elastisearch password _OR_ select a [Sensu Secret].
-
-        [Sensu Secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
     - type: question
       name: elasticsearch_password
       required: true
@@ -116,7 +112,7 @@ spec:
             properties:
               option:
                 type: string
-                title: Environment Variable or Secrets Management?
+                title: Elasticsearch Password
                 const: secret
                 constLocale:
                   title: Secret
@@ -135,7 +131,7 @@ spec:
             properties:
               option:
                 type: string
-                title: Environment Variable or Secrets Management?
+                title: Elasticsearch Password
                 const: env_var
                 constLocale:
                   title: Environment Variable

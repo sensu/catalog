@@ -7,8 +7,8 @@ metadata:
 spec:
   class: supported
   provider: monitoring
-  display_name: SSL Certificate Monitoring
-  short_description: Monitor SSL Certificate Validity
+  display_name: SSL Certificate Monitoring (Remote)
+  short_description: Monitor Remote SSL Certificate Validity
   supported_platforms:
     - linux
     - darwin
@@ -30,17 +30,39 @@ spec:
       body: |
         Configure your SSL Certificate Check with the following parameters:
 
-        * Target URL
-
+        * Protocol (HTTPS or TCP)
+        * Host
+        * Port
     - type: question
-      name: ssl_cert_check_url
+      name: protocol
       required: true
       input:
-        default: sensu.io
         type: string
-        title: Target URL
+        title: Protocol
         description: >-
-          The URL of the site that serves a certificate you want to check.
+          What protocol should be used to retrieve the SSL certificate (HTTPS or TCP)
+        enum:
+          - https
+          - tcp
+        default: https
+    - type: question
+      name: host
+      required: true
+      input:
+        type: string
+        title: Host
+        description: >-
+          Provide the HTTP endpoint host (e.g. "api.mycompany.com")
+        default: docs.sensu.io
+    - type: question
+      name: port
+      required: true
+      input:
+        type: integer
+        title: HTTPS Endpoint Port
+        description: >-
+          Provide the HTTP endpoint port (e.g. 443 for HTTPS)
+        default: 443
     - type: section
       title: Check Thresholds
     - type: markdown
@@ -48,8 +70,8 @@ spec:
         Configure Sensu check warning and critical thresholds for:
 
           * Days Left Minimum Thresholds (warning and critical)
-          * Days Since Issued Maximum Threshold 
-     
+          * Days Since Issued Maximum Threshold
+
     - type: question
       name: ssl_cert_check_days_left_critical_threshold
       required: false
@@ -101,7 +123,6 @@ spec:
       name: alert_pipeline
       required: false
       input:
-        default: alerts
         type: string
         title: Alert Pipeline
         description: >-
@@ -112,7 +133,6 @@ spec:
       name: incident_pipeline
       required: false
       input:
-        default: incidents
         type: string
         title: Incident Management Pipeline
         description: >-
@@ -123,7 +143,6 @@ spec:
       name: metrics_pipeline
       required: false
       input:
-        default: metrics
         type: string
         title: Metrics Pipeline
         description: >-
@@ -136,12 +155,20 @@ spec:
         type: CheckConfig
         name: ssl-cert-monitoring
       patches:
+        - path: /metadata/name
+          op: replace
+          value: "[[host]]-ssl-cert-check"
+        - path: /spec/proxy_entity_name
+          op: replace
+          value: "[[host]]"
+        - path: /spec/command
+          op: replace
+          value: >-
+            cert-checks
+            --cert [[protocol]]://[[host]]:[[port]]/
         - path: /spec/subscriptions
           op: replace
           value: subscriptions
-        - path: /spec/env_vars/-
-          op: add
-          value: "SSL_CERT_CHECK_URL=[[ssl_cert_check_url]]"
         - path: /spec/pipelines/-
           op: add
           value:
@@ -162,13 +189,13 @@ spec:
             name: "[[metrics_pipeline]]"
         - path: /spec/output_metric_thresholds/0/thresholds/0/min
           op: replace
-          value: ssl_cert_check_days_left_critical_threshold
+          value: "[[ssl_cert_check_days_left_critical_threshold]]"
         - path: /spec/output_metric_thresholds/0/thresholds/1/min
           op: replace
-          value: ssl_cert_check_days_left_warning_threshold
+          value: "[[ssl_cert_check_days_left_warning_threshold]]"
         - path: /spec/output_metric_thresholds/1/thresholds/0/max
           op: replace
-          value: ssl_cert_check_days_issued_critical_threshold
+          value: "[[ssl_cert_check_days_issued_critical_threshold]]"
   post_install:
     - type: section
       title: Success

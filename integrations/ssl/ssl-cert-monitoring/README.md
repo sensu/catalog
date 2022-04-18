@@ -1,6 +1,6 @@
 ## Overview
 
-Collect metrics on and monitor SSL certificates.
+Collect metrics on and monitor remote SSL certificates, via HTTPS or TCP.
 
 This integration includes the following resources:
 
@@ -13,7 +13,7 @@ There are no compatible dashboards for this integration.
 
 ## Setup
 
-1. Add the `ssl` subscription to agents that should run this check.
+No additional configuration is required for this integration.
 
 ## Plugins
 

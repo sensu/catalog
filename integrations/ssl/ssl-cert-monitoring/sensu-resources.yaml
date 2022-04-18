@@ -13,9 +13,9 @@ spec:
   publish: true
   subscriptions:
     - ssl
-  round_robin: true
   interval: 60
   timeout: 10
+  round_robin: true
   proxy_entity_name: ""
   output_metric_format: prometheus_text
   output_metric_thresholds:
@@ -26,7 +26,7 @@ spec:
           status: 2
         - min: "15"
           status: 1
-    - name: cert_issued_days 
+    - name: cert_issued_days
       null_status: 1
       thresholds:
         - max: "398"
@@ -37,7 +37,7 @@ type: Asset
 api_version: core/v2
 metadata:
   name: sensu/cert-checks:0.1.0
-  labels: 
+  labels:
   annotations:
     io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/cert-checks
     io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/cert-checks

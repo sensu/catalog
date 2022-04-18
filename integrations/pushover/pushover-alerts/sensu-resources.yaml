@@ -1,15 +1,44 @@
 ---
+type: Pipeline
+api_version: core/v2
+metadata:
+  name: pushover-alerts
+  labels:
+    provider: alerts
+spec:
+  workflows:
+    - name: pushover-alerts
+      filters:
+      - api_version: core/v2
+        type: EventFilter
+        name: is_incident
+      - api_version: core/v2
+        type: EventFilter
+        name: not_silenced
+      handler:
+        api_version: core/v2
+        type: Handler
+        name: pushover-alerts
+
+---
 type: Handler
 api_version: core/v2
 metadata:
   name: pushover-alerts
 spec:
-  command: sensu-go-pushover-handler
-  env_vars: []
+  type: pipe
+  command: >-
+    sensu-go-pushover-handler
+    --pushoverAPIURL "https://api.pushover.net/1/messages"
+    --messageSound "pushover"
+    --messageTitle "{{.Entity.Name}}/{{.Check.Name}}"
+    --messageBody "{{ .Check.Output }}"
   runtime_assets:
   - nixwiz/sensu-go-pushover-handler:0.9.0
+  env_vars: []
+  secrets: []
   timeout: 0
-  type: pipe
+
 ---
 type: Asset
 api_version: core/v2
@@ -56,24 +85,3 @@ spec:
       filters:
         - entity.system.os == 'linux'
         - entity.system.arch == 'amd64'
----
-type: Pipeline
-api_version: core/v2
-metadata:
-  name: pushover-alerts
-  labels:
-    provider: incidents
-spec:
-  workflows:
-    - name: pushover-alerts
-      filters:
-      - api_version: core/v2
-        type: EventFilter
-        name: is_incident
-      - api_version: core/v2
-        type: EventFilter
-        name: not_silenced
-      handler:
-        api_version: core/v2
-        type: Handler
-        name: pushover-alerts

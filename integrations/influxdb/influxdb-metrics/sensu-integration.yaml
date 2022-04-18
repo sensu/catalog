@@ -155,7 +155,7 @@ spec:
           value: "INFLUXDB_DB=[[influxdb_db]]"
         - op: add
           path: /spec/env_vars/-
-          value: "INFLUXDB_USER=[[influxdb_user.env_var]]"
+          value: "INFLUXDB_USER=[[influxdb_username.env_var]]"
         - op: add
           path: /spec/env_vars/-
           value: "INFLUXDB_PASS=[[influxdb_password.env_var]]"
@@ -163,19 +163,19 @@ spec:
           path: /spec/secrets/-
           value:
             name: INFLUXDB_USER
-            secret: "[[influxdb_user.secret]]"
+            secret: "[[influxdb_username.secret]]"
         - op: add
           path: /spec/secrets/-
           value:
             name: INFLUXDB_PASS
-            secret: "[[influxdb_pass.secret]]"
+            secret: "[[influxdb_password.secret]]"
 
   post_install:
     - type: section
       title: Success
     - type: markdown
       body: |
-        You have successfully enabled the "influxdb-metrics" pipeline.
+        You have successfully enabled the InfluxDB metrics pipeline integration.
 
         Checks configured with the `influxdb-metrics` pipeline will send Sensu metric data to [[influxdb_addr]].
 

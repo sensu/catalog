@@ -1,8 +1,9 @@
 ## Overview
 
 The `influxdb-metrics` integration provides a Sensu pipeline for sending metrics
-to the time series database InfluxDB. This integration provides the following
-resources:
+to the InfluxDB time series database. This integration is compatible with InfluxDB versions 1.x.
+
+This integration provides the following resources:
 
 * `influxdb` [handler]
 * `influxdb-metrics` [pipeline]
@@ -16,18 +17,21 @@ There are no supported dashboards for this integration.
 
 ## Setup
 
-1. Configure the following secrets using your preferred Sensu Go [Secrets](secret):
-   provider:
-      - influxdb_url (e.g. "http://127.0.0.1:8086")
-      - influxdb_db (e.g. "sensu")
-      - influxdb_user (e.g. "sensu")
-      - influxdb_password (e.g. "replaceme")
-      
-1. Configure Sensu [checks][check] to use the `influxdb-metrics` [pipeline]
+1. To process metrics with InfluxDB, install this integration, then modify one or more Sensu [checks][check] to use the `influxdb-metrics` [pipeline].
+
+   ```yaml
+   spec:
+      ...: ...
+      pipelines:
+        - api_version: core/v2
+           type: Pipeline
+           name: influxdb-metrics
+   ```
 
 # Plugins
 
 This integration uses the `sensu-influxdb-handler`:
+
 - [sensu-influxdb-handler on Github](https://github.com/sensu/sensu-influxdb-handler)
 - [sensu/sensu-influxdb-handler on Bonsai](https://bonsai.sensu.io/assets/sensu/sensu-influxdb-handler)
 

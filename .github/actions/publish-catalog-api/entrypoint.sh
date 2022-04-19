@@ -5,6 +5,9 @@ echo "Publishing Catalog API"
 release_dir="$1"
 version_file="$2"
 
+# print dir tree
+tree "#{release_dir}"
+
 # all files except version file
 aws s3 cp "$release_dir" "s3://${AWS_S3_BUCKET}" \
     --recursive \

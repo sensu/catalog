@@ -1,4 +1,4 @@
-ARG CATALOG_API_VERSION="0.1.0-alpha.11"
+ARG CATALOG_API_VERSION="0.1.0-alpha.13"
 ARG NGINX_VERSION="1.19.2"
 
 # Use multi-stage Dockerfile to fetch desired catalog-api version

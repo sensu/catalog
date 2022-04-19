@@ -10,7 +10,7 @@ on:
           ${{ github.workflow }}-${{ github.run_number }}-${{ github.run_attempt }}
       catalog_api_version:
         type: string
-        default: '0.1.0-alpha.11'
+        default: '0.1.0-alpha.13'
       catalog_temp_dir:
         type: string
         default: './tmp'

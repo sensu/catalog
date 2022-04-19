@@ -6,7 +6,7 @@ inputs:
   catalog-api-version:
     description: 'The version of the API tool to use'
     type: string
-    default: '0.1.0-alpha.11'
+    default: '0.1.0-alpha.14'
   snapshot:
     description: 'Enables generation of the API from a snapshot'
     type: boolean

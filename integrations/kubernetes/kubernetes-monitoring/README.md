@@ -4,29 +4,14 @@
 
 Kubernetes API liveness health check. This integration is designed to work with the default [Kubernetes service account] credentials that are available if run from a Sensu Agent sidecar or Daemonset (i.e. from a Kubernetes Pod).
 
-The `curl` command equivalent (if run from a Kubernetes pod):
-
-```shell
-curl -s && \
---header "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" && \
---cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt && \
-https://kubernetes.default.svc:${KUBERNETES_SERVICE_PORT:-443}/livez?verbose
-```
-
-The `wget` command equivalent (if run from a Kubernetes pod):
-
-```shell
-wget -q -O- && \
---header "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" && \
---ca-certificate /var/run/secrets/kubernetes.io/serviceaccount/ca.crt && \
-https://kubernetes.default.svc:${KUBERNETES_SERVICE_PORT:-443}/livez?verbose
-```
-
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 
 This integration provides the following resources:
 
 * A `kubernetes-liveness` [check].
+* A `kubelet-metrics` [check].
+* A `kubelet-probe-metrics` [check].
+* A `kubelet-cadvisor-metrics` [check].
 * The `sensu/http-checks` [asset].
 
 ## Dashboards
@@ -40,9 +25,17 @@ There are no supported dashboards for this integration.
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
 
-1. Add the `kubernetes/api` [subscription] to [agents] that should run this check.
+1. One or more Sensu Agent(s) with access to the Kubernetes API (i.e. `kube-apiserver`).
 
-   _NOTE: this integration was tested with the following _example_ Kubernetes Daemonset._
+   By default, a `sensu-agent` running in a Kubernetes pod will have access to the Kubernetes API Server via the `kubernetes.default.svc` DNS record.
+
+   [kube-apiserver]: https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/
+
+1. One Sensu Agent per Kubelet host.
+
+   A `sensu-agent` running directly on the Kubelet host _or_ in a [Kubernetes Daemonset] with `hostNetwork: true` and `dnsPolicy: ClusterFirstWithHostNet` will have access to the Kubelet API(s) via `localhost` or `127.0.0.1`.
+
+   Click to expand the "details" below for an example Kubernetes Daemonset manifest:
 
    <details>
 
@@ -114,6 +107,8 @@ There are no supported dashboards for this integration.
 
    </details>
 
+   [Kubernetes Daemonset]: https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/
+
 ## Plugins
 
 <!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->
@@ -124,7 +119,9 @@ There are no supported dashboards for this integration.
 
 <!-- List of all metrics or events collected by this integration. -->
 
-This integration does not produce any [metrics].
+This integration collects [Metrics from Kubernetes System Components, including `kube-apiserver` and `kubelet` metrics][kubernetes-metrics].
+
+[kubernetes-metrics]: https://kubernetes.io/docs/concepts/cluster-administration/system-metrics/
 
 ## Alerts
 
@@ -139,6 +136,24 @@ This integration does not produce any [metrics].
 1. **Kubernetes Health Checks**
 
    See: https://kubernetes.io/docs/reference/using-api/health-checks/
+
+   The `curl` command equivalent of this integration (if run from a Kubernetes pod):
+
+   ```shell
+   curl -s && \
+   --header "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" && \
+   --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt && \
+   https://kubernetes.default.svc:${KUBERNETES_SERVICE_PORT:-443}/livez?verbose
+   ```
+
+   The `wget` command equivalent of this integration (if run from a Kubernetes pod):
+
+   ```shell
+   wget -q -O- && \
+   --header "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" && \
+   --ca-certificate /var/run/secrets/kubernetes.io/serviceaccount/ca.crt && \
+   https://kubernetes.default.svc:${KUBERNETES_SERVICE_PORT:-443}/livez?verbose
+   ```
 
 2. **Kubernetes Service Accounts**
 
@@ -157,6 +172,7 @@ This integration does not produce any [metrics].
 
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
+[asset]: https://docs.sensu.io/sensu-go/latest/plugins/assets/
 [subscription]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/
 [agents]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/
 [annotation]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#general-configuration-flags

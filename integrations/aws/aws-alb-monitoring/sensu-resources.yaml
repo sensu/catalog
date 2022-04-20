@@ -1,0 +1,93 @@
+---
+# Requires AWS_REGION, AWS_ACCESS_KEY_ID, and AWS_SECRET_ACCESS_KEY secret(s) or environment variable(s).
+#
+# NOTE: AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY secret(s) or environment variable(s) are not needed if
+# run from an EC2 instance with an IAM instance profile that has the arn:aws:iam::aws:policy/CloudWatchReadOnlyAccess rule.
+api_version: core/v2
+type: CheckConfig
+metadata:
+  name: aws-alb-metrics
+  labels: {}
+  annotations: {}
+spec:
+  command: >-
+    sensu-cloudwatch-check
+    --region ${AWS_REGION}
+    --preset ALB
+  runtime_assets:
+    - sensu/sensu-cloudwatch-check:0.1.0
+  env_vars: []
+  secrets: []
+  publish: true
+  subscriptions:
+    - aws
+    - aws/alb
+  interval: 60
+  timeout: 10
+  round_robin: true
+  proxy_entity_name: aws-alb
+  output_metric_format: prometheus_text
+  output_metric_tags: []
+  output_metric_thresholds:
+    - name: aws_alb_healthy_host_count_minimum
+      thresholds:
+        - min: '1'
+          status: 1
+    - name: aws_alb_unhealthy_host_count_maximum
+      thresholds:
+        - max: '0'
+          status: 1
+  pipelines: []
+---
+api_version: core/v2
+type: Asset
+metadata:
+  name: sensu/sensu-cloudwatch-check:0.1.0
+  labels: {}
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-cloudwatch-check
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-cloudwatch-check
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 0.1.0
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: sensu-cloudwatch-check
+    io.sensu.bonsai.tags: aws
+spec:
+  builds:
+    - url: https://assets.bonsai.sensu.io/462df76abebd063cbe2b1d03b558a486ca0621f8/sensu-cloudwatch-check_0.1.0_windows_amd64.tar.gz
+      sha512: 03e94eeb7f0be9da0923e0f023dc2a2ceeab2f2334c04eaacf89b62ba34dc6b99bb6fca7281530397a336bbb29c87dea5986b6f2bea4943c89177a298e39d8dc
+      filters:
+        - entity.system.os == 'windows'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/462df76abebd063cbe2b1d03b558a486ca0621f8/sensu-cloudwatch-check_0.1.0_darwin_amd64.tar.gz
+      sha512: 92128f4b4bd2558490ca1a698b63b3141e4f5b36aac178093f93f83da94be84c5d188400a6c01cae045f9e8153d8b60805603e80138c216344b0072ba278fbc5
+      filters:
+        - entity.system.os == 'darwin'
+        - entity.system.arch == 'amd64'
+    - url: https://assets.bonsai.sensu.io/462df76abebd063cbe2b1d03b558a486ca0621f8/sensu-cloudwatch-check_0.1.0_linux_armv6.tar.gz
+      sha512: b02c673bb303213b63350c7ec5ba116c7d1c4c42175388c353b3495b3d6107c0801b56a38b8469b0309ff8cc5c7d92dad06678f52e907cd971ca3b5c30995743
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm'
+        - entity.system.arm_version == 6
+    - url: https://assets.bonsai.sensu.io/462df76abebd063cbe2b1d03b558a486ca0621f8/sensu-cloudwatch-check_0.1.0_linux_armv7.tar.gz
+      sha512: 8b4e2f661096b41babfea0056bd4b48ca21f60e0e36ae27f7916b8162bf95230ec716786bdd814319c2dcde9ed052f6900ff4828cee37fd2aea162769eb7761e
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm'
+        - entity.system.arm_version == 7
+    - url: https://assets.bonsai.sensu.io/462df76abebd063cbe2b1d03b558a486ca0621f8/sensu-cloudwatch-check_0.1.0_linux_arm64.tar.gz
+      sha512: 9f6afc4e3b7333d71c1a71064c5ae8d95462bbe03cb851ebda69f8fd134839feee7d64a9c1480ca56c52eac3b0361234220311c154dac0d5ddb9f58ef968887f
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'arm64'
+    - url: https://assets.bonsai.sensu.io/462df76abebd063cbe2b1d03b558a486ca0621f8/sensu-cloudwatch-check_0.1.0_linux_386.tar.gz
+      sha512: 9b2ea62d8a35723a5cf8a2d7193f43726299e5454d1e33640434098ac8f4e326e7ccd73cb238232e9c512e412c5b693a779d9cacff5f9581d8dee7794049a926
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == '386'
+    - url: https://assets.bonsai.sensu.io/462df76abebd063cbe2b1d03b558a486ca0621f8/sensu-cloudwatch-check_0.1.0_linux_amd64.tar.gz
+      sha512: 753261aea3f9dc3ddf9e593cb20c212e9e37fa4248cdaeacd676b7cf136973061c1ea9d521d3de7ae331d52611892858b850da0af5ae3561b7f8babb40389c57
+      filters:
+        - entity.system.os == 'linux'
+        - entity.system.arch == 'amd64'

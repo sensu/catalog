@@ -11,7 +11,7 @@ Use the related [Prometheus `node_exporter`](https://github.com/prometheus/node_
 This integration includes the following resources:
 
 * `windows-exporter-metrics` [check]
-* `sensu/http-checks:0.5.0` [asset]
+* `sensu/http-checks:0.7.0` [asset]
 
 ## Dashboards
 

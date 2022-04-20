@@ -5,7 +5,7 @@ metadata:
   namespace: nginx
   name: nginx-monitoring
 spec:
-  class: community
+  class: supported
   provider: monitoring
   display_name: NGINX monitoring
   short_description: Monitor NGINX service health and performance
@@ -17,6 +17,7 @@ spec:
     - http
     - nginx
     - webserver
+    - service
   contributors:
     - "@nixwiz"
     - "@calebhailey"

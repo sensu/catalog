@@ -5,7 +5,7 @@ metadata:
   namespace: ansible
   name: ansible-tower-remediation
 spec:
-  class: community
+  class: enterprise
   provider: remediation
   display_name: Ansible Tower
   short_description: Triggers Ansible Tower job templates for automated remediation.

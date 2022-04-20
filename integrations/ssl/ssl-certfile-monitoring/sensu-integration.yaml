@@ -18,7 +18,6 @@ spec:
     - certificate
     - cert
     - service
-    - cloud
   contributors:
     - "@sensu"
     - "@nixwiz"

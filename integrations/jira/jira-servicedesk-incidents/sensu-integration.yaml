@@ -5,7 +5,7 @@ metadata:
   namespace: jira
   name: jira-servicedesk-incidents
 spec:
-  class: supported
+  class: enterprise
   provider: incidents
   display_name: Jira Service Management
   short_description: Create & resolve incidents in Jira Service Management

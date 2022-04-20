@@ -17,6 +17,8 @@ spec:
     - kubernetes
     - kubelet
     - kube-apiserver
+    - cloud
+    - containers
   contributors:
     - "@sensu"
     - "@calebhailey"

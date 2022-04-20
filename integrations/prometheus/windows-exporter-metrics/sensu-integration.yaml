@@ -5,7 +5,7 @@ metadata:
   namespace: prometheus
   name: windows-exporter-metrics
 spec:
-  class: supported
+  class: community
   provider: monitoring
   display_name: Prometheus windows_exporter monitoring
   short_description: Collect metrics from Prometheus windows_exporter

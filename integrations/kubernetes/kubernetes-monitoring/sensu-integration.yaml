@@ -203,3 +203,9 @@ spec:
             api_version: core/v2
             type: Pipeline
             name: "[[metrics_pipeline]]"
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully enabled the Kubernetes monitoring integration!

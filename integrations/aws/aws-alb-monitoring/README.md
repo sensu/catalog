@@ -48,16 +48,81 @@ There are no compatible dashboards for this integration.
 
 <!-- List of all metrics or events collected by this integration. -->
 
-This integration collects the following [metrics]:
+This integration collects dozens of [CloudWatch AWS ALB metrics] (i.e. `AWS/ApplicationELB` metrics).
+Please refer to the [CloudWatch metrics for your Application Load Balancer] reference documentation for descriptions of each metric.
 
-| **Metric name** | **Description** | **Tags** |
-|-----------------|-----------------|----------|
-| `aws_alb_healthy_host_count_maximum` | Maximum healthy hosts per Load Balancer in the last measurement period (default 1 minute) | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
-| `aws_alb_healthy_host_count_minimum` | Minimum healthy hosts per Load Balancer in the last measurement period (default 1 minute) | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
-| `aws_alb_healthy_host_count_average` | Average healthy hosts per Load Balancer in the last measurement period (default 1 minute) | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
-| `aws_alb_unhealthy_host_count_maximum` | Maximum unhealthy hosts per Load Balancer in the last measurement period (default 1 minute) | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
-| `aws_alb_unhealthy_host_count_minimum` | Minimum unhealthy hosts per Load Balancer in the last measurement period (default 1 minute) | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
-| `aws_alb_unhealthy_host_count_average` | Maximum unhealthy hosts per Load Balancer in the last measurement period (default 1 minute) | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+[CloudWatch AWS ALB metrics]: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-cloudwatch-metrics.html
+[CloudWatch metrics for your Application Load Balancer]: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-cloudwatch-metrics.html
+
+| **Metric name** | **Tags** |
+|-----------------|----------|
+| **`aws_alb_active_connection_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_client_tls_negotiation_error_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_target_tls_negotiation_error_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_desync_mitigation_mode_noncompliant_request_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_grpc_request_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_http_fixed_response_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_http_redirect_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_http_redirect_url_limit_exceeded_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_httpcode_elb_3xx_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_httpcode_elb_4xx_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_httpcode_elb_5xx_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_httpcode_elb_500_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_httpcode_elb_502_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_httpcode_elb_503_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_httpcode_elb_504_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_httpcode_target_2xx_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_httpcode_target_3xx_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_httpcode_target_4xx_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_httpcode_target_5xx_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_ipv6_processed_bytes`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_ipv6_request_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_new_connection_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_target_connection_error_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_target_response_time_average`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_target_response_time_p95`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_target_response_time_tm95`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_non_sticky_request_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_processed_bytes`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_rejected_connection_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_request_count_per_target`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_elb_auth_error`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_elb_auth_failure`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_elb_auth_refresh_token_success`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_elb_auth_success`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_elb_auth_user_claims_size_exceeded`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_elb_auth_latency`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_elb_auth_latency_sample_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_elb_auth_latency_maximum`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_elb_auth_latency_minimum`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_elb_auth_latency_average`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_lambda_internal_error`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_lambda_target_processed_bytes`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_lambda_user_error`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_request_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_rule_evaluations`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_consumed_lcus_sum`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_consumed_lcus_sample_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_consumed_lcus_maximum`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_consumed_lcus_minimum`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_consumed_lcus_average`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_healthy_host_count_maximum`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_healthy_host_count_minimum`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_healthy_host_count_average`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_unhealthy_host_count_maximum`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_unhealthy_host_count_minimum`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_unhealthy_host_count_average`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_dropped_invalid_header_requests_sum`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_dropped_invalid_header_requests_sample_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_dropped_invalid_header_requests_maximum`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_dropped_invalid_header_requests_minimum`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_dropped_invalid_header_requests_average`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_forwarded_invalid_header_requests_sum`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_forwarded_invalid_header_requests_sample_count`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_forwarded_invalid_header_requests_maximum`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_forwarded_invalid_header_requests_minimum`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+| **`aws_alb_forwarded_invalid_header_requests_average`** | `LoadBalancer`, `TargetGroup`, `Region`, `AvailabilityZone` |
+
 
 ## Alerts
 

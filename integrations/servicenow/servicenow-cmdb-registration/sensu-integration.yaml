@@ -1,0 +1,256 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: "servicenow"
+  name: "servicenow-cmdb-registration"
+spec:
+  class: enterprise
+  provider: discovery
+  display_name: ServiceNow CMDB Registration
+  short_description: Register discovered Sensu Entities in a ServiceNow CMDB
+  supported_platforms:
+    - darwin
+    - linux
+    - windows
+  tags:
+    - servicenow
+    - discovery
+    - cmdb
+    - assets
+  contributors:
+    - "@sensu"
+    - "@calebhailey"
+  prompts:
+    - type: section
+      title: ServiceNow Instance Configuration
+    - type: markdown
+      body: |
+        This integration requires the following ServiceNow configuration:
+
+        * ServiceNow URL (e.g. `https://mycompany.service-now.com`)
+        * ServiceNow Username
+        * ServiceNow Password
+    - type: question
+      name: servicenow_url
+      required: true
+      input:
+        type: string
+        format: url
+        title: ServiceNow URL
+        description:
+          Provide the base URL of your ServiceNow instance (e.g. "https://mycompany.service-now.com")
+        default: https://mycompany.service-now.com
+    - type: question
+      name: servicenow_username
+      required: true
+      input:
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: ServiceNow Username
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: ServiceNow Username (Sensu Secret)
+                description: >-
+                  Select the ServiceNow username (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: ServiceNow Username
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: ServiceNow Username
+                description: >-
+                  Provide the ServiceNow username (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+    - type: question
+      name: servicenow_password
+      required: true
+      input:
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: ServiceNow Password
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: ServiceNow Password (Sensu Secret)
+                description: >-
+                  Select the ServiceNow password (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: ServiceNow Password
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: ServiceNow Password
+                description: >-
+                  Provide the ServiceNow password (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+    - type: section
+      title: ServiceNow Customizations
+    - type: markdown
+      body: |
+        This integration is configured with default values that should "just work" with unmodified ServiceNow instances.
+
+        If your organization has a customized ServiceNow instance, please provide the following configuration parameters to customize the integration:
+
+        * Default CMDB Table (which table Sensu should use for CMDB integration)
+        * Default CMDB Key (fieldname used to lookup CIs)
+        * Default CMDB Name ([handler template] for naming CIs in the CMDB)
+        * Default CMDB Asset Tag ([handler template] for setting CI asset tags)
+        * CMDB Properties (comma-separated list of additional/custom fields)
+
+        [handler template]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handler-templates/
+    - type: question
+      name: servicenow_cmdb_table
+      required: true
+      input:
+        type: string
+        title: Default CMDB Table
+        description: >-
+          Provide the ServiceNow table to use for managing Configuration Items.
+        default: cmdb_ci
+    - type: question
+      name: servicenow_cmdb_key
+      required: true
+      input:
+        type: string
+        title: CMDB Key
+        description: >-
+          Provide the fieldname Sensu should use to lookup Configuration Items; effectively used as a "primary key".
+        default: name
+    - type: question
+      name: servicenow_cmdb_name
+      required: true
+      input:
+        type: string
+        title: CMDB Name (Template)
+        description: >-
+          Provide a handler template for generating the name of the CMDB Configuration Item to be created or updated.
+        default: "{{ .Entity.Name }}"
+    - type: question
+      name: servicenow_cmdb_asset_tag
+      required: true
+      input:
+        type: string
+        title: CMDB Asset Tag (Template)
+        description: >-
+          Provide a handler template for generating the CMDB Configuration Item asset tag.
+        default: "sensu/{{ .Entity.Namespace }}/{{ .Entity.Name }}"
+    - type: question
+      name: servicenow_cmdb_properties
+      required: true
+      input:
+        type: string
+        title: CMDB Properties
+        description: >-
+          Provide a comma-separated list of custom properties to populate from Entity annotations (e.g. "asset_tag,category").
+        default: asset_tag
+
+  resource_patches:
+    - resource:
+        api_version: core/v2
+        type: Handler
+        name: servicenow-cmdb
+      patches:
+        - op: replace
+          path: /spec/command
+          value: >-
+            sensu-servicenow-handler
+            --cmdb-registration
+            --cmdb-table [[servicenow_cmdb_table]]
+            --cmdb-key [[servicenow_cmdb_key]]
+            --cmdb-name "[[servicenow_cmdb_name]]"
+            --cmdb-asset-tag "[[servicenow_cmdb_asset_tag]]"
+            --cmdb-properties "[[servicenow_cmdb_properties]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: "SERVICENOW_URL=[[servicenow_url]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: "SERVICENOW_USERNAME=[[servicenow_username.env_var]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: "SERVICENOW_PASSWORD=[[servicenow_password.env_var]]"
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[servicenow_username.secret]]"
+            name: SERVICENOW_USERNAME
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[servicenow_password.secret]]"
+            name: SERVICENOW_PASSWORD
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully installed the ServiceNow CMDB Registration integration.
+
+        Checks configured with the `servicenow-cmdb` pipeline will send Sensu event and metric data to [[ servicenow_url ]].
+
+        ```yaml
+        spec:
+          pipelines:
+            - api_version: core/v2
+              type: Pipeline
+              name: servicenow-cmdb
+        ```
+    - type: section
+      title: Using Custom Properties
+    - type: markdown
+      body: |
+        This integration supports overriding various fields (`[[servicenow_cmdb_properties]]`) using custom property annotations.
+
+        To set these properties on a per-host basis, add `servicenow/table/cmdb/<fieldname>` annotations.
+
+        Example `agent.yml` (assuming `--cmdb-properties: asset_tag,store_id`):
+
+        ```yaml
+        annotations:
+          servicenow/table/cmdb/asset_tag: "i-424242"
+          servicenow/table/cmdb/store_id: "1234"
+        ```

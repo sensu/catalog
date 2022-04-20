@@ -56,7 +56,6 @@ This integration is compatible with ServiceNow CMDB dashboards.
 1. **[OPTIONAL] Customize ServiceNow CMDB configuration on a per-host basis**
 
    Sensu Entity annotations may be used to override the default ServiceNow CMDB integration configuration.
-   This can be useful in organizations where
 
    Examples:
 

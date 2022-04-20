@@ -8,7 +8,7 @@ spec:
   class: enterprise
   provider: discovery
   display_name: ServiceNow CMDB Registration
-  short_description: Register discovered Sensu Entities in a ServiceNow CMDB
+  short_description: Create and update Configuration Items in the ServiceNow CMDB
   supported_platforms:
     - darwin
     - linux
@@ -156,7 +156,7 @@ spec:
       required: true
       input:
         type: string
-        title: CMDB Key
+        title: Default CMDB Key
         description: >-
           Provide the fieldname Sensu should use to lookup Configuration Items; effectively used as a "primary key".
         default: name
@@ -165,7 +165,7 @@ spec:
       required: true
       input:
         type: string
-        title: CMDB Name (Template)
+        title: Default CMDB Name (Template)
         description: >-
           Provide a handler template for generating the name of the CMDB Configuration Item to be created or updated.
         default: "{{ .Entity.Name }}"
@@ -174,7 +174,7 @@ spec:
       required: true
       input:
         type: string
-        title: CMDB Asset Tag (Template)
+        title: Default CMDB Asset Tag (Template)
         description: >-
           Provide a handler template for generating the CMDB Configuration Item asset tag.
         default: "sensu/{{ .Entity.Namespace }}/{{ .Entity.Name }}"

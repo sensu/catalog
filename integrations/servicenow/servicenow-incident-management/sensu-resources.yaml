@@ -1,0 +1,100 @@
+---
+type: Pipeline
+api_version: core/v2
+metadata:
+  name: servicenow-incidents
+  labels:
+    provider: incidents
+spec:
+  workflows:
+  - name: servicenow-incidents
+    filters:
+      - api_version: core/v2
+        type: EventFilter
+        name: is_incident
+    handler:
+      api_version: core/v2
+      type: Handler
+      name: servicenow-incidents
+
+---
+# Requires SERVICENOW_URL, SERVICENOW_USERNAME, SERVICENOW_PASSWORD secret(s) or environment variable(s).
+type: Handler
+api_version: core/v2
+metadata:
+  name: servicenow-incidents
+  labels: {}
+  annotations: {}
+spec:
+  type: pipe
+  command: >-
+    sensu-servicenow-handler
+    --incident-management
+    --incident-table incident
+    --incident-key short_description
+    --incident-description "{{ .Check.State }}"
+    --incident-work-notes "{{ .Check.Output }}"
+    --incident-properties category
+  runtime_assets:
+    - sensu/sensu-servicenow-handler:3.0.0
+  env_vars: []
+  secrets: []
+  timeout: 10
+  filters: []
+
+---
+api_version: core/v2
+type: EventFilter
+metadata:
+  name: discovery-only
+spec:
+  action: allow
+  expressions:
+    - event.check.occurrences == 1
+
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu/sensu-servicenow-handler:3.0.0
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-servicenow-handler
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-servicenow-handler
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 3.0.0
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: sensu-servicenow-handler
+    io.sensu.bonsai.tags: ''
+spec:
+  builds:
+  - url: https://assets.bonsai.sensu.io/d01fd3bcf368d5511c9754d345ebc3b0b05f911d/sensu-servicenow-handler_3.0.0_windows_amd64.tar.gz
+    sha512: d68e7e3c5a520da6c8787335410878f11191761cbd24022d9d1f7c7e2449a7d1f80789ee3e05704e997941c935dc723ecc67102a08d8ab88dfbbd504d2d395bc
+    filters:
+    - entity.system.os == 'windows'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/d01fd3bcf368d5511c9754d345ebc3b0b05f911d/sensu-servicenow-handler_3.0.0_darwin_amd64.tar.gz
+    sha512: 6439cfc1d1a2c2235774165b640602a9f6368850e689084fb7140bedcc463f9692f35ab7e1f53476c2245acda2332205d6d8883c0b68b8bb1848be3d4e8634ba
+    filters:
+    - entity.system.os == 'darwin'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/d01fd3bcf368d5511c9754d345ebc3b0b05f911d/sensu-servicenow-handler_3.0.0_linux_armv7.tar.gz
+    sha512: 5ce11d99a55996fbed02ead32b5ae0756329a26836ea2c22d40c1eeceea31a9afae04716c8fc2906ff7619406f0b2f9daf37e5436a140961e6c85839e669c12b
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'armv7'
+  - url: https://assets.bonsai.sensu.io/d01fd3bcf368d5511c9754d345ebc3b0b05f911d/sensu-servicenow-handler_3.0.0_linux_arm64.tar.gz
+    sha512: 23e115dbb6545e9f049e284ad48cc7d39ab5ba78411604949cb9b2093061cd5a3832026e03dcf8659a6671410f8b829c2a41fc0bbea96bcf8a1cd4c80cd44412
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm64'
+  - url: https://assets.bonsai.sensu.io/d01fd3bcf368d5511c9754d345ebc3b0b05f911d/sensu-servicenow-handler_3.0.0_linux_386.tar.gz
+    sha512: 9136b56573e741777591e6248ba7536b4be4d7fd707cadd0094ecb0db98fef0e30dfaeab53422f72cdb21cc5788df28d982930bed70adabded53c5bc88180864
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == '386'
+  - url: https://assets.bonsai.sensu.io/d01fd3bcf368d5511c9754d345ebc3b0b05f911d/sensu-servicenow-handler_3.0.0_linux_amd64.tar.gz
+    sha512: 5f2312292888e271e65139cb7516db7d6dac72fc010b1c97f5f9efce87c1462742228e88178ab3957dc35653cde58d74493d37cd40f576e7eac57685ab23d8e5
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'

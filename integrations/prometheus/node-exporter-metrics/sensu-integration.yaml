@@ -7,8 +7,8 @@ metadata:
 spec:
   class: supported
   provider: monitoring
-  display_name: Prometheus node_exporter Metrics Monitoring
-  short_description: "Prometheus node_exporter Metrics Monitoring"
+  display_name: Prometheus node_exporter monitoring
+  short_description: Collect metrics from Prometheus node_exporter
   supported_platforms:
     - darwin
     - linux

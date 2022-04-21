@@ -77,6 +77,16 @@ spec:
           - type: object
             required:
               - option
+            properties:
+              option:
+                type: string
+                title: AWS Profile
+                const: none
+                constLocale:
+                  title: "—"
+          - type: object
+            required:
+              - option
               - secret
             properties:
               option:
@@ -119,6 +129,16 @@ spec:
           - type: object
             required:
               - option
+            properties:
+              option:
+                type: string
+                title: AWS Access Key ID
+                const: none
+                constLocale:
+                  title: "—"
+          - type: object
+            required:
+              - option
               - secret
             properties:
               option:
@@ -158,6 +178,16 @@ spec:
       input:
         type: object
         oneOf:
+          - type: object
+            required:
+              - option
+            properties:
+              option:
+                type: string
+                title: AWS Secret Access Key
+                const: none
+                constLocale:
+                  title: "—"
           - type: object
             required:
               - option

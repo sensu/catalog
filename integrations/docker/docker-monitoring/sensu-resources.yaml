@@ -8,7 +8,7 @@ spec:
   command: >-
     http-get
     --timeout 10
-    --url http://127.0.0.1:{{ .labels.etcd_metrics_port | default "9323" }}/metrics
+    --url http://127.0.0.1:{{ .labels.docker_metrics_port | default "9323" }}/metrics
   runtime_assets:
     - sensu/http-checks:0.7.0
   publish: true

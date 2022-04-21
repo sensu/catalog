@@ -64,7 +64,7 @@ spec:
         type: integer
         title: HTTP Endpoint Port
         description: >-
-          Provide the HTTP endpoint port (e.g. 9323 is the default for etcd)
+          Provide the HTTP endpoint port (e.g. 9323 is the default for Docker)
         default: 9323
     - type: question
       name: path
@@ -98,7 +98,7 @@ spec:
       body: |
         Configure which Sensu Agent subscriptions this check should be run on.
 
-        E.G. A subscription that maps to the hosts that are running etcd.
+        E.G. A subscription that maps to the hosts that are running Docker.
     - type: question
       name: subscriptions
       input:
@@ -117,7 +117,7 @@ spec:
       title: Pipeline Configuration
     - type: markdown
       body: |
-        Configure one or more [pipelines] for processing etcd metrics.
+        Configure one or more [pipelines] for processing Docker metrics.
 
         [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
     - type: question

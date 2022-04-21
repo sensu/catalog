@@ -201,15 +201,15 @@ spec:
       body: |
         Configure alerting thresholds for:
 
-        * Maximum concurrent executions
+        * Maximum errors
         * Maximum tolerable throttle events 
     - type: question
-      name: aws_lambda_concurrent_executions_maximum
+      name: aws_lambda_errors
       input:
         type: integer
-        title: Maximum concurrent executions warning threshold
+        title: Maximum allowed errors
         description: >-
-          Configure the number of concurrent executions over which to warn.
+          Configure the number of errors over which to warn.
         default: 0
     - type: question
       name: aws_lambda_throttles
@@ -217,7 +217,7 @@ spec:
         type: integer
         title: Maximum allowed throttle events
         description: >-
-          Configure the number of throttle errors over which to warn.
+          Configure the number of throttle events over which to warn.
         default: 1
     - type: section
       title: Configure Sensu Subscriptions

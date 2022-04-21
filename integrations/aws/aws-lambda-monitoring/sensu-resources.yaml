@@ -30,7 +30,7 @@ spec:
   output_metric_format: prometheus_text
   output_metric_tags: []
   output_metric_thresholds:
-    - name: aws_lambda_concurrent_executions_maximum
+    - name: aws_lambda_errors
       thresholds:
         - max: '0'
           status: 1

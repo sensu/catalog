@@ -93,11 +93,11 @@ Please refer to the [Working with Lambda function metrics] reference documentati
 
 This integration produces the following events which should be processed by an alert or incident management [pipeline]:
 
-* ConcurrentExecutionsMaximum
+* Errors
 
   <!-- Description of the alert condition. -->
 
-  A warning is generated when `aws_lambda_concurrent_executions_maximum` is greater than a user-configurable minimum value (default: 0).
+  A warning is generated when `aws_lambda_errors` is greater than a user-configurable minimum value (default: 0).
 
 * Throttles
 

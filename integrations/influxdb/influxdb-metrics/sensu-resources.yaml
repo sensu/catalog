@@ -28,12 +28,11 @@ spec:
     sensu-influxdb-handler
     --addr ${INFLUXDB_ADDR}
     --db-name ${INFLUXDB_DB}
-  env_vars: []
-  timeout: 10
-  filters:
-    - has_metrics
   runtime_assets:
     - sensu/sensu-influxdb-handler:3.7.0
+  env_vars: []
+  secrets: []
+  timeout: 10
 ---
 type: Asset
 api_version: core/v2

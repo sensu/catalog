@@ -2,8 +2,9 @@
 
 <!-- Sensu Integration description; supports markdown -->
 
-The Rabbitmq monitoring integration provides metrics from a rabbitmq cluster running the [`rabbitmq_prometheus` Rabbitmq plugin](https://www.rabbitmq.com/prometheus.html#installation).
+The [RabbitMQ] monitoring integration provides metrics from a RabbitMQ cluster running the [`rabbitmq_prometheus` Rabbitmq plugin](https://www.rabbitmq.com/prometheus.html#installation).
 
+[RabbitMQ]: https://www.rabbitmq.com
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 

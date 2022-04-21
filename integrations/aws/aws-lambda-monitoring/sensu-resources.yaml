@@ -2,7 +2,8 @@
 # Requires AWS_REGION, AWS_ACCESS_KEY_ID, and AWS_SECRET_ACCESS_KEY secret(s) or environment variable(s).
 #
 # NOTE: AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY secret(s) or environment variable(s) are not needed if
-# run from an EC2 instance with an IAM instance profile that has the arn:aws:iam::aws:policy/CloudWatchReadOnlyAccess rule.
+# run from an EC2 instance with an IAM instance profile that has read-only access to the appropriate
+# CloudWatch metrics (e.g. arn:aws:iam::aws:policy/CloudWatchReadOnlyAccess).
 api_version: core/v2
 type: CheckConfig
 metadata:

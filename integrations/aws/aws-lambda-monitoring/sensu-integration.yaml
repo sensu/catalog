@@ -316,7 +316,7 @@ spec:
       patches:
         - op: replace
           path: /metadata/name
-          value: "[[aws_region]]-aws-lambda-metrics"
+          value: "aws-[[aws_region]]-lambda-metrics"
         - op: add
           path: /spec/env_vars/-
           value: "AWS_REGION=[[aws_region]]"
@@ -333,7 +333,7 @@ spec:
           value: "aws/[[aws_region]]"
         - op: replace
           path: /spec/proxy_entity_name
-          value: "[[aws_region]]-aws-lambda"
+          value: "aws.[[aws_region]]"
         - op: replace
           path: /spec/output_metric_thresholds/0/thresholds/0/min
           value: "[[minimum_healthy_host_count]]"

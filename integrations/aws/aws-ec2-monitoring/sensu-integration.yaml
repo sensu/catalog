@@ -131,7 +131,7 @@ spec:
             properties:
               option:
                 type: string
-                title: AWS Profile
+                title: AWS Access Key ID
                 const: none
                 constLocale:
                   title: "—"
@@ -183,7 +183,7 @@ spec:
             properties:
               option:
                 type: string
-                title: AWS Profile
+                title: AWS Secret Access Key
                 const: none
                 constLocale:
                   title: "—"

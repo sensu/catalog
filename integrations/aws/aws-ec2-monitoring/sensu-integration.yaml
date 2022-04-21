@@ -1,0 +1,387 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: aws
+  name: aws-ec2-monitoring
+spec:
+  class: supported
+  provider: monitoring
+  display_name: AWS EC2 Monitoring
+  short_description: AWS EC2 monitoring
+  supported_platforms:
+    - darwin
+    - linux
+    - windows
+  tags:
+    - aws
+    - amazon
+    - ec2
+  contributors:
+    - "@sensu"
+  prompts:
+    - type: section
+      title: AWS Configuration
+    - type: markdown
+      body: |
+        Please provide the following configuration parameters:
+
+        * AWS Region
+        * AWS Authentication (optional)<sup>*</sup>
+          * AWS Profile (optional)
+          * AWS Access Key ID (optional)
+          * AWS Secret Access Key (optional)
+
+        _NOTE: Providing an AWS Profile and/or AWS Access Key ID + AWS Secret Access Key authentication is strongly discouraged for production environments.
+        An alternative form of AWS Authentication such as EC2 IAM Instance Profiles is recommended._
+    - type: question
+      name: aws_region
+      required: true
+      input:
+        type: string
+        title: AWS Region
+        description: >-
+          Select an AWS Region
+        enum:
+          - us-east-1
+          - us-east-2
+          - us-west-1
+          - us-west-2
+          - af-south-1
+          - ap-east-1
+          - ap-southeast-3
+          - ap-south-1
+          - ap-northeast-3
+          - ap-northeast-2
+          - ap-southeast-1
+          - ap-southeast-2
+          - ap-northeast-1
+          - ca-central-1
+          - eu-central-1
+          - eu-west-1
+          - eu-west-2
+          - eu-south-1
+          - eu-west-3
+          - eu-north-1
+          - me-south-1
+          - sa-east-1
+          - us-gov-east-1
+          - us-gov-west-1
+        default: us-east-1
+    - type: question
+      name: aws_profile
+      input:
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+            properties:
+              option:
+                type: string
+                title: AWS Profile
+                const: none
+                constLocale:
+                  title: "—"
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: AWS Profile
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: AWS Profile (Sensu Secret)
+                description: >-
+                  Select the AWS Profile (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: AWS Profile
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: AWS Profile
+                description: >-
+                  Provide the AWS Profile (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+    - type: question
+      name: aws_access_key_id
+      input:
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+            properties:
+              option:
+                type: string
+                title: AWS Profile
+                const: none
+                constLocale:
+                  title: "—"
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: AWS Access Key ID
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: AWS Access Key ID (Sensu Secret)
+                description: >-
+                  Select the AWS Access Key ID (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: AWS Access Key ID
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: AWS Access Key ID
+                description: >-
+                  Provide the AWS Access Key ID (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+    - type: question
+      name: aws_secret_access_key
+      input:
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+            properties:
+              option:
+                type: string
+                title: AWS Profile
+                const: none
+                constLocale:
+                  title: "—"
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: AWS Secret Access Key
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: AWS Secret Access Key (Sensu Secret)
+                description: >-
+                  Select the AWS Secret Access Key (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: AWS Secret Access Key
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: AWS Secret Access Key
+                description: >-
+                  Provide the AWS Secret Access Key (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+    - type: section
+      title: Configure Thresholds
+    - type: markdown
+      body: |
+        Configure alerting thresholds for:
+
+        * EC2 Instance CPU Utilization
+    - type: question
+      name: cpu_utilization_warning
+      input:
+        type: integer
+        title: CPU Utilization Warning
+        description: >-
+          Configure the CPU Utilization Warning threshold (default: 80)
+        default: 80
+    - type: question
+      name: cpu_utilization_critical
+      input:
+        type: integer
+        title: CPU Utilization Critical
+        description: >-
+          Configure the CPU Utilization Critical threshold (default: 90)
+        default: 90
+    - type: section
+      title: Configure Sensu Subscriptions
+    - type: markdown
+      body: |
+        Configure which Sensu Agent subscriptions this check should be run on.
+    - type: question
+      name: subscriptions
+      input:
+        type: array
+        items:
+          type: string
+          title: Sensu Subscriptions
+          ref: core/v2/entity/subscriptions
+        default:
+          - aws
+          - aws/ec2
+    - type: section
+      title: Pipeline Configuration
+    - type: markdown
+      body: |
+        Configure one or more [pipelines] for processing {{integration_short_name}} data.
+
+        [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
+    - type: question
+      name: alert_pipeline
+      required: false
+      input:
+        type: string
+        title: Alert Pipeline
+        description: >-
+          How do you want to be alerted for failures detected by this pipeline (e.g. Slack or Microsoft Teams)?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == "alerts"
+    - type: question
+      name: incident_pipeline
+      required: false
+      input:
+        type: string
+        title: Incident Management Pipeline
+        description: >-
+          How do you want to process incidents for failures detected by this pipeline (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == "incidents"
+    - type: question
+      name: metrics_pipeline
+      required: false
+      input:
+        type: string
+        title: Metrics Pipeline
+        description: >-
+          How do you want to process metrics collected by this integration?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == "metrics"
+  resource_patches:
+    - resource:
+        api_version: core/v2
+        type: CheckConfig
+        name: aws-ec2-metrics
+      patches:
+        - op: replace
+          path: /metadata/name
+          value: "[[aws_region]]-aws-ec2-metrics"
+        - op: replace
+          path: /spec/command
+          value: >-
+            sensu-cloudwatch-check
+            --preset EC2
+            --region {{ or .annotations.aws_region "[[aws_region]]" }}
+            --dimension-filters InstanceId={{ or .annotations.aws_ec2_instance_id .annotations.instance_id .name }}
+            --period-minutes 10
+        - op: add
+          path: /spec/output_metric_tags/-
+          value:
+            name: Region
+            value: "[[aws_region]]"
+        - op: replace
+          path: /spec/subscriptions
+          value: subscriptions
+        - op: add
+          path: /spec/subscriptions/-
+          value: "aws/[[aws_region]]"
+        - op: replace
+          path: /spec/proxy_entity_name
+          value: "[[aws_region]]-aws-ec2"
+        - op: replace
+          path: /spec/output_metric_thresholds/0/thresholds/0/min
+          value: "[[minimum_healthy_host_count]]"
+        - op: replace
+          path: /spec/output_metric_thresholds/1/thresholds/0/max
+          value: "[[maximum_unhealthy_host_count]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: "AWS_PROFILE=[[aws_profile.env_var]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: "AWS_ACCESS_KEY_ID=[[aws_access_key_id.env_var]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: "AWS_SECRET_ACCESS_KEY=[[aws_secret_access_key.env_var]]"
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[aws_profile.secret]]"
+            name: AWS_PROFILE
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[aws_access_key_id.secret]]"
+            name: AWS_ACCESS_KEY_ID
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[aws_secret_access_key.secret]]"
+            name: AWS_SECRET_ACCESS_KEY
+        - op: add
+          path: /spec/pipelines/-
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[alert_pipeline]]"
+        - op: add
+          path: /spec/pipelines/-
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[incident_pipeline]]"
+        - op: add
+          path: /spec/pipelines/-
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[metrics_pipeline]]"
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        The AWS EC2 monitoring integration was successfully installed for the `[[aws_region]]` AWS Region.

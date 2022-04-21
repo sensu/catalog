@@ -107,11 +107,9 @@ spec:
           title: Subscriptions (Origins)
           ref: core/v2/entity/subscriptions
         default:
-          - prometheus
           - docker
-          - linux
-          - darwin
-          - windows
+          - docker-daemon
+          - docker-machine
     - type: section
       title: Pipeline Configuration
     - type: markdown

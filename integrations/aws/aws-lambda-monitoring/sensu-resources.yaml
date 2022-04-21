@@ -1,0 +1,94 @@
+---
+# Requires AWS_REGION, AWS_ACCESS_KEY_ID, and AWS_SECRET_ACCESS_KEY secret(s) or environment variable(s).
+#
+# NOTE: AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY secret(s) or environment variable(s) are not needed if
+# run from an EC2 instance with an IAM instance profile that has the arn:aws:iam::aws:policy/CloudWatchReadOnlyAccess rule.
+api_version: core/v2
+type: CheckConfig
+metadata:
+  name: aws-lambda-metrics
+  labels: {}
+  annotations: {}
+spec:
+  command: >-
+    sensu-cloudwatch-check
+    --region ${AWS_REGION}
+    
+  runtime_assets:
+    - sensu/sensu-cloudwatch-check:0.2.0
+  env_vars: 
+    - CLOUDWATCH_CHECK_CONFIG={"namespace":"AWS/Lambda","period-minutes":1,"measurements":[{"metric":"UnreservedConcurrentExecutions","config":[{"stat":"Average","measurement":"aws_lambda_unreserved_concurrent_executions_average"},{"stat":"Maximum","measurement":"aws_lambda_unreserved_concurrent_executions_maximum"},{"stat":"Minimum","measurement":"aws_lambda_unreserved_concurrent_executions_minimum"}]},{"metric":"ConcurrentExecutions","config":[{"stat":"Average","measurement":"aws_lambda_concurrent_executions_average"},{"stat":"Maximum","measurement":"aws_lambda_concurrent_executions_maximum"},{"stat":"Minimum","measurement":"aws_lambda_concurrent_executions_minimum"}]},{"metric":"ProvisionedConcurrentExecutions","config":[{"stat":"Average","measurement":"aws_lambda_provisioned_concurrent_executions_average"},{"stat":"Maximum","measurement":"aws_lambda_provisioned_concurrent_executions_maximum"},{"stat":"Minimum","measurement":"aws_lambda_provisioned_concurrent_executions_minimum"}]},{"metric":"ProvisionedConcurrencyUtilization","config":[{"stat":"Average","measurement":"aws_lambda_provisioned_concurrency_utilization_average"},{"stat":"Maximum","measurement":"aws_lambda_provisioned_concurrency_utilization_maximum"},{"stat":"Minimum","measurement":"aws_lambda_provisioned_concurrency_utilization_minimum"}]},{"metric":"Invocations","config":[{"stat":"Sum","measurement":"aws_lambda_invocations"}]},{"metric":"Errors","config":[{"stat":"Sum","measurement":"aws_lambda_errors"}]},{"metric":"DeadLetterErrors","config":[{"stat":"Sum","measurement":"aws_lambda_dead_letter_errors"}]},{"metric":"DestinationDeliveryFailures","config":[{"stat":"Sum","measurement":"aws_lambda_destination_delivery_failures"}]},{"metric":"Throttles","config":[{"stat":"Sum","measurement":"aws_lambda_throttles"}]},{"metric":"ProvisionedConcurrencyInvocations","config":[{"stat":"Sum","measurement":"aws_lambda_provisioned_concurrency_invocations"}]},{"metric":"ProvisionedConcurrencySpilloverInvocations","config":[{"stat":"Sum","measurement":"aws_lambda_provisioned_concurrency_spillover_invocations"}]},{"metric":"PostRuntimeExtensionsDuration","config":[{"stat":"Average","measurement":"aws_lambda_post_runtime_extensions_duration_average"},{"stat":"Maximum","measurement":"aws_lambda_post_runtime_extensions_duration_maximum"},{"stat":"Minimum","measurement":"aws_lambda_post_runtime_extensions_duration_minimum"}]},{"metric":"IteratorAge","config":[{"stat":"Average","measurement":"aws_lambda_iterator_age_average"},{"stat":"Maximum","measurement":"aws_lambda_iterator_age_maximum"},{"stat":"Minimum","measurement":"aws_lambda_iterator_age_minimum"}]},{"metric":"OffsetLag","config":[{"stat":"Average","measurement":"aws_lambda_offset_lag_average"},{"stat":"Maximum","measurement":"aws_lambda_offset_lag_maximum"},{"stat":"Minimum","measurement":"aws_lambda_offset_lag_minimum"}]},{"metric":"Duration","config":[{"stat":"Average","measurement":"aws_lambda_duration_average"},{"stat":"Maximum","measurement":"aws_lambda_duration_maximum"},{"stat":"Minimum","measurement":"aws_lambda_duration_minimum"}]}]}
+  secrets: []
+  publish: true
+  subscriptions:
+    - aws
+    - aws/lambda
+  interval: 60
+  timeout: 10
+  round_robin: true
+  proxy_entity_name: aws-lambda
+  output_metric_format: prometheus_text
+  output_metric_tags: []
+  output_metric_thresholds:
+    - name: aws_lambda_concurrent_executions_maximum
+      thresholds:
+        - max: '0'
+          status: 1
+    - name: aws_lambda_throttles
+      thresholds:
+        - min: '0'
+          status: 1
+  pipelines: []
+---
+api_version: core/v2
+type: Asset
+metadata:
+  name: sensu/sensu-cloudwatch-check:0.2.0
+  labels: 
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-cloudwatch-check
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-cloudwatch-check
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 0.2.0
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: sensu-cloudwatch-check
+    io.sensu.bonsai.tags: aws
+spec:
+  builds:
+  - url: https://assets.bonsai.sensu.io/0622fc2e24193f362eaa3a7d9b743e46d3ab652b/sensu-cloudwatch-check_0.2.0_windows_amd64.tar.gz
+    sha512: '058789dfbed6d742a30037c6439d41a17d81da1debb66e94b42b1f433e6eadf2e50b80439c76a76e088871793805045482e6e77039627ef6e1daf764ce2be513'
+    filters:
+    - entity.system.os == 'windows'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/0622fc2e24193f362eaa3a7d9b743e46d3ab652b/sensu-cloudwatch-check_0.2.0_darwin_amd64.tar.gz
+    sha512: a6cd6a23a9d3e0011fd67160ce50f711c7263c398707de85102a7c103f4fcbd42185c9f4668ac83e5fbbfe0e9ad85eeae1be2d49a4276135b260ebab34f91d52
+    filters:
+    - entity.system.os == 'darwin'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/0622fc2e24193f362eaa3a7d9b743e46d3ab652b/sensu-cloudwatch-check_0.2.0_linux_armv6.tar.gz
+    sha512: b3b1e79c0f33bd20b009111f2423b6191d3ead6c9895ecdc4f7f4a22c4ed45f2168823b33d66bff440b9eb92f7c743d60e4deb2bc70c8f551f6217717dacb82f
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm'
+    - entity.system.arm_version == 6
+  - url: https://assets.bonsai.sensu.io/0622fc2e24193f362eaa3a7d9b743e46d3ab652b/sensu-cloudwatch-check_0.2.0_linux_armv7.tar.gz
+    sha512: d72ab34c429cf8090374c34ee6cefe028700f7e89887ebfde59783a98f874bcaeb6812da72921c0ab194bec15ca564fc60a3fe5b405b0e54a1d7c9ba90645605
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm'
+    - entity.system.arm_version == 7
+  - url: https://assets.bonsai.sensu.io/0622fc2e24193f362eaa3a7d9b743e46d3ab652b/sensu-cloudwatch-check_0.2.0_linux_arm64.tar.gz
+    sha512: dcd30122bde3381b97d90636d605a0cea35718b6f8d541fb6e2403298473a7815e3a69dc308c30924c55a39f28c02d1704f6f5d469d317276c14d5aca679c21b
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm64'
+  - url: https://assets.bonsai.sensu.io/0622fc2e24193f362eaa3a7d9b743e46d3ab652b/sensu-cloudwatch-check_0.2.0_linux_386.tar.gz
+    sha512: 86121ae6b377a5c93a7e825f211a298a2be06e1e4d6ae1f64de44520be6b75bb49dbfa0436e7d00935e2a77e803973317d9421e1e809e0a89fbabcac20edeef5
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == '386'
+  - url: https://assets.bonsai.sensu.io/0622fc2e24193f362eaa3a7d9b743e46d3ab652b/sensu-cloudwatch-check_0.2.0_linux_amd64.tar.gz
+    sha512: f6d1211e7c4764bd8abae9ea6e4c26a6f1c3f7b1988814f203ebb1ed81f67b2329966e06e41c41c2023a989f284a05f221aecba25474e0223f926085efdac0ed
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'

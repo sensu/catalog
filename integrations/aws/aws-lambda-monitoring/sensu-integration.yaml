@@ -77,6 +77,18 @@ spec:
           - type: object
             required:
               - option
+            properties:
+              option:
+                type: string
+                title: AWS Profile
+                const: none
+                constLocale:
+                  title: None
+                  description: >-
+                    Select this option to rely on pre-provisioned profile
+          - type: object
+            required:
+              - option
               - secret
             properties:
               option:
@@ -119,6 +131,18 @@ spec:
           - type: object
             required:
               - option
+            properties:
+              option:
+                type: string
+                title: AWS Access Key ID
+                const: none
+                constLocale:
+                  title: None
+                  description: >-
+                    Select this option to rely on pre-provisioned access key
+          - type: object
+            required:
+              - option
               - secret
             properties:
               option:
@@ -158,6 +182,18 @@ spec:
       input:
         type: object
         oneOf:
+          - type: object
+            required:
+              - option
+            properties:
+              option:
+                type: string
+                title: AWS Secret Access Key
+                const: none
+                constLocale:
+                  title: None
+                  description: >-
+                    Select this option to rely on pre-provisioned secret access key
           - type: object
             required:
               - option
@@ -210,7 +246,7 @@ spec:
         title: Maximum allowed errors
         description: >-
           Configure the number of errors over which to warn.
-        default: 0
+        default: 1
     - type: question
       name: aws_lambda_throttles
       input:

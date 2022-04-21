@@ -30,7 +30,7 @@ spec:
     - name: etcd_server_has_leader
       null_status: 1
       thresholds:
-        - min: 1
+        - min: "1"
           status: 2
   pipelines: []
 ---

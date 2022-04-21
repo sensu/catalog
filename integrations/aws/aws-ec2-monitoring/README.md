@@ -35,6 +35,21 @@ Coming soon!
 
    `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` secret(s) or environment variable(s) are not needed if the check(s) from this integration are run on a `sensu-agent` installed on an EC2 instance with an IAM Instance Profile containing the `arn:aws:iam::aws:policy/CloudWatchReadOnlyAccess`.
 
+1. Configure Sensu Entity metadata with EC2 InstanceIDs
+
+   This integration queries CloudWatch APIs to fetch EC2 instance metrics on a per-instance basis.
+   Sensu Agents should be configured to use the EC2 Instance ID as the entity name, or set one of the following annotations:
+
+   * `aws_ec2_instance_id`
+   * `instance_id`
+
+   Example `agent.yml`:
+
+   ```yaml
+   annotations:
+     aws_ec2_instance_id: i-424242
+   ```
+
 [AWS CLI]: https://aws.amazon.com/cli/
 [EC2 IAM Instance Profiles]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html
 

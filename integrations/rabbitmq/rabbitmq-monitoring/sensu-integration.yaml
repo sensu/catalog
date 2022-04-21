@@ -144,6 +144,9 @@ spec:
         - op: replace
           path: /spec/subscriptions
           value: subscriptions
+        - op: replace
+          path: /spec/interval
+          value: interval
         - op: add
           path: /spec/output_metric_tags/-
           value:

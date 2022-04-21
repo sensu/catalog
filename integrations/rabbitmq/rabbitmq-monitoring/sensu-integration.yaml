@@ -64,7 +64,7 @@ spec:
         type: integer
         title: HTTP Endpoint Port
         description: >-
-          Provide the HTTP endpoint port (e.g. 9100 is the default for node_exporter)
+          Provide the HTTP endpoint port (e.g. 15692  is the default for the rabbitmq_promethus plugin)
         default: 15692
     - type: question
       name: path

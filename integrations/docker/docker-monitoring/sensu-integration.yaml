@@ -7,16 +7,15 @@ metadata:
 spec:
   class: community
   provider: monitoring
-  display_name: Docker Metrics
-  short_description: Collect metrics from Docker in Prometheus format
+  display_name: Docker monitoring
+  short_description: Monitor Docker hosts
   supported_platforms:
-    - darwin
     - linux
-    - windows
   tags:
+    - docker
+    - containers
     - metrics
     - prometheus
-    - docker
     - linux
     - darwin
     - windows
@@ -47,7 +46,7 @@ spec:
         enum:
           - http
           - https
-        default: https
+        default: http
     - type: question
       name: host
       required: true
@@ -135,7 +134,7 @@ spec:
     - resource:
         api_version: core/v2
         type: CheckConfig
-        name: docker-metrics
+        name: docker-daemon-metrics
       patches:
         - op: replace
           path: /metadata/labels

@@ -2,7 +2,7 @@
 api_version: core/v2
 type: CheckConfig
 metadata:
-  name: docker-metrics
+  name: docker-daemon-metrics
   labels: {}
 spec:
   command: >-
@@ -13,18 +13,14 @@ spec:
     - sensu/http-checks:0.7.0
   publish: true
   subscriptions:
-  - docker
-  - prometheus
-  - linux
-  - darwin
-  - windows
+    - docker
+    - docker-daemon
+    - docker-machine
   interval: 30
   output_metric_format: prometheus_text
-  output_metric_handlers:
-  - metrics
   output_metric_tags:
-  - name: entity
-    value: "{{ .name }}"
+    - name: entity
+      value: "{{ .name }}"
   output_metric_thresholds:
     - name: engine_daemon_health_checks_failed_total
       thresholds:

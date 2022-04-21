@@ -2,13 +2,15 @@
 
 <!-- Sensu Integration description; supports markdown -->
 
-The Docker monitoring and metrics integration provides metrics from hosts running docker. These are output in Prometheus format.
+The Docker monitoring integration collects Docker metrics via the [Docker /metrics API] and alerts on various Docker daemon conditions.
+
+[Docker /metrics API]: https://docs.docker.com/config/daemon/prometheus/
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 
 This integration includes the following resources:
 
-* `docker-metrics` [check]
+* `docker-daemon-metrics` [check]
 * `sensu/http-checks:0.7.0` [asset]
 
 ## Dashboards
@@ -19,7 +21,7 @@ This integration includes the following resources:
 
 <!-- ![](img/dashboard.png) -->
 
-There are no compatible dashboards for this integration.
+Coming soon!
 
 ## Setup
 

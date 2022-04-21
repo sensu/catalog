@@ -1,0 +1,20 @@
+---
+# Requires XX and YY secret(s) or environment variable(s).
+api_version: core/v2
+type: CheckConfig
+metadata:
+  name: helloworld
+  labels: {}
+  annotations: {}
+spec:
+  command: ""
+  runtime_assets: []
+  env_vars: []
+  secrets: []
+  publish: true
+  subscriptions: []
+  interval: 30
+  timeout: 10
+  output_metric_format: prometheus_text
+  output_metric_tags: []
+  pipelines: []

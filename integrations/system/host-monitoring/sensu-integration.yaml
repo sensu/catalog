@@ -129,6 +129,15 @@ spec:
           How do you want to process incidents for failures detected by this integration (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
         ref: core/v2/pipeline/metadata/name
         refFilter: .labels.provider == "incidents"
+    - type: question
+      name: other_pipeline
+      required: false
+      input:
+        type: string
+        title: Other/Custom Pipeline
+        description: >-
+          Do you want to process events from this integration using any other pipelines?
+        ref: core/v2/pipeline/metadata/name
   resource_patches:
     - resource:
         api_version: core/v2
@@ -156,6 +165,12 @@ spec:
             api_version: core/v2
             type: Pipeline
             name: "[[incidents_pipeline]]"
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[other_pipeline]]"
         - path: /spec/output_metric_thresholds/0/thresholds/0/max
           op: replace
           value: '{{ .labels.system_cpu_used_warning_threshold | default "[[ system_cpu_used_warning ]]" }}'

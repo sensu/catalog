@@ -2,7 +2,7 @@
 
 <!-- Sensu Integration description; supports markdown -->
 
-The ServiceNow CMDB Registration integration provides automated registration of discovery Sensu Entities as ServiceNow CMDB Configuration Items.
+The ServiceNow CMDB Registration integration provides automated registration of discovered Sensu Entities as ServiceNow CMDB Configuration Items.
 
 This integration will create/update ServiceNow CMDB Configuration Items.
 It supports custom CMDB tables and custom CMDB fields, with per-host configuration overrides.

@@ -84,3 +84,19 @@ spec:
           value:
             secret: "[[microsoft_teams_webhook_url.secret]]"
             name: MICROSOFT_TEAMS_WEBHOOK_URL
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully enabled the Microsoft Teams alerts integration.
+
+        Checks configured with the `microsoft-teams` pipeline will generate alerts in Microsoft Teams.
+
+        ```yaml
+        spec:
+          pipelines:
+            - api_version: core/v2
+              type: Pipeline
+              name: microsoft-teams
+        ```

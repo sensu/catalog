@@ -80,3 +80,20 @@ spec:
           value:
             secret: "[[timescaledb_dsn.secret]]"
             name: TIMESCALEDB_DSN
+
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully enabled the TimescaleDB integration.
+
+        Checks configured with the `timescaledb-metrics` pipeline will send metrics to TimescaleDB.
+
+        ```yaml
+        spec:
+          pipelines:
+            - api_version: core/v2
+              type: Pipeline
+              name: timescaledb-metrics
+        ```

@@ -85,11 +85,11 @@ spec:
         type: Handler
         name: mattermost
       patches:
-        - path: /spec/env_vars/-
-          op: add
+        - op: add
+          path: /spec/env_vars/-
           value: "MATTERMOST_CHANNEL=[[mattermost_channel]]"
-        - path: /spec/env_vars/-
-          op: add
+        - op: add
+          path: /spec/env_vars/-
           value: "MATTERMOST_WEBHOOK_URL=[[mattermost_webhook_url.env_var]]"
         - op: add
           path: /spec/secrets/-

@@ -26,6 +26,21 @@ There are no compatible dashboards for this integration.
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
 
+1. **Enable metrics endpoint in Neo4j.**
+
+   To enable Prometheus metrics in Neo4j, modify the `neo4j.conf` file to include the following lines:
+
+   ```
+   # Enable the Prometheus endpoint. Default is 'false'.
+   metrics.prometheus.enabled=true
+   
+   # The IP and port the endpoint will bind to in the format <hostname or IP address>:<port number>.
+   # The default is localhost:2004.
+   metrics.prometheus.endpoint=localhost:2004
+   ```
+
+   For more information read the [Neo4j Metrics documentation](https://neo4j.com/docs/operations-manual/current/monitoring/metrics/expose/#metrics-prometheus).
+
 1. **[OPTIONAL] Disable redirect warnings**
 
    To disable redirect warnings, install this integration, then modify the resulting Sensu Check resource with the `--redirect-ok` flag.
@@ -41,7 +56,7 @@ There are no compatible dashboards for this integration.
        --url "http://127.0.0.1:2004/metrics"
    ```
 
-2. **[OPTIONAL] Configure custom request headers**
+1. **[OPTIONAL] Configure custom request headers**
 
    To add custom request headers, install this integration, then modify the resulting Sensu Check resource with one or more `--header` flags.
 

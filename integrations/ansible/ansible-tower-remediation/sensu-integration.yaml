@@ -97,3 +97,19 @@ spec:
           value:
             secret: "[[ansible_tower_api_token.secret]]"
             name: ANSIBLE_TOKEN
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully enabled the Ansible Tower remediation integration.
+
+        Checks configured with the `ansible-tower` pipeline _and_ remediation actions (i.e. `io.sensu.ansible.config.actions` annotations) will be processed by Ansible Tower on [[ ansible_tower_host ]].
+
+        ```yaml
+        spec:
+          pipelines:
+            - api_version: core/v2
+              type: Pipeline
+              name: ansible-tower
+        ```

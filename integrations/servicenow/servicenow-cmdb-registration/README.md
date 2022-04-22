@@ -71,7 +71,7 @@ This integration is compatible with ServiceNow CMDB dashboards.
 
 2. **[OPTIONAL] Customize ServiceNow CMDB Configuration Item properties**
 
-   This integration supoprt custom ServiceNow CMDBs tables with custom fields.
+   This integration supports custom ServiceNow CMDBs tables with custom fields.
    To enable custom fields set the `--cmdb-properties` flag (e.g. `--cmdb-properties asset_tag,store_id`).
    _NOTE: The integration installation wizard will prompt you for a list of custom fields._
 

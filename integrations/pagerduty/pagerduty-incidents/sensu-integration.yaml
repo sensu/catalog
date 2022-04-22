@@ -33,14 +33,56 @@ spec:
       name: pagerduty_token
       required: true
       input:
-        type: string
-        title: Pagerduty Integration Key
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: Pagerduty Integration Key
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: Pagerduty Integration Key (Sensu Secret)
+                description: >-
+                  Select the Pagerduty Integration Key (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: Pagerduty Integration Key
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: Pagerduty Integration Key
+                description: >-
+                  Provide the Pagerduty Integration Key (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
   resource_patches:
     - resource:
         api_version: core/v2
         type: Handler
         name: pagerduty
       patches:
-        - path: /spec/env_vars/-
-          op: add
-          value: "PAGERDUTY_TOKEN=[[pagerduty_token]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: "PAGERDUTY_TOKEN=[[pagerduty_token.env_var]]"
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[pagerduty_token.secret]]"
+            name: PAGERDUTY_TOKEN

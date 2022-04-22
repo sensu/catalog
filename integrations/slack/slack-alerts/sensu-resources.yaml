@@ -20,6 +20,7 @@ spec:
       type: Handler
       name: slack
 ---
+# NOTE: Requires SLACK_WEBHOOK_URL environment variable or secret
 type: Handler
 api_version: core/v2
 metadata:
@@ -31,14 +32,13 @@ spec:
     --channel ${SLACK_CHANNEL}
     --username SensuGo
     --description-template "{{ .Check.Output }}\n\n[namespace: {{.Entity.Namespace}}]"
-    # NOTE: Requires SLACK_WEBHOOK_URL environment variable or secret
   filters:
     - is_incident
     - not_silenced
   runtime_assets:
     - sensu/sensu-slack-handler:1.4.0
-  env_vars:
-    - SLACK_CHANNEL="#sensu"
+  env_vars: []
+  secrets: []
   timeout: 0
 ---
 type: Asset

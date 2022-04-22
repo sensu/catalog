@@ -24,20 +24,6 @@ spec:
       body: |
         This integration requires access to an AWS SNS Topic.
     - type: question
-      name: aws_access_key_id
-      required: true
-      input:
-        type: string
-        title: AWS Access Key ID
-        description: AWS Access Key ID
-    - type: question
-      name: aws_secret_access_key
-      required: true
-      input:
-        type: string
-        title: AWS Secret Access Key
-        description: AWS Secret Access Key
-    - type: question
       name: aws_region
       required: true
       input:
@@ -52,24 +38,120 @@ spec:
         type: string
         title: AWS SNS Topic ARN
         description: AWS SNS Topic ARN
+    - type: question
+      name: aws_access_key_id
+      required: true
+      input:
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: AWS Access Key ID
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: AWS Access Key ID (Sensu Secret)
+                description: >-
+                  Select the AWS Access Key ID (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: AWS Access Key ID
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: AWS Access Key ID
+                description: >-
+                  Provide the AWS Access Key ID (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+    - type: question
+      name: aws_secret_access_key
+      required: true
+      input:
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: AWS Secret Access Key
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: AWS Secret Access Key (Sensu Secret)
+                description: >-
+                  Select the AWS Secret Access Key (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: AWS Secret Access Key
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: AWS Secret Access Key
+                description: >-
+                  Provide the AWS Secret Access Key (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
   resource_patches:
     - resource:
         api_version: core/v2
         type: Handler
         name: aws-sns-events
       patches:
-        - path: /spec/env_vars/-
-          op: add
-          value: "AWS_SECRET_ACCESS_KEY=[[aws_secret_access_key]]"
-        - path: /spec/env_vars/-
-          op: add
-          value: "AWS_ACCESS_KEY_ID=[[aws_access_key_id]]"
-        - path: /spec/env_vars/-
-          op: add
+        - op: add
+          path: /spec/env_vars/-
           value: "AWS_REGION=[[aws_region]]"
-        - path: /spec/env_vars/-
-          op: add
+        - op: add
+          path: /spec/env_vars/-
           value: "SNS_TOPIC_ARN=[[sns_topic_arn]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: "AWS_ACCESS_KEY_ID=[[aws_access_key_id.env_var]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: "AWS_SECRET_ACCESS_KEY=[[aws_secret_access_key.env_var]]"
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[aws_access_key_id.secret]]"
+            value: AWS_ACCESS_KEY_ID
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[aws_secret_access_key.secret]]"
+            value: AWS_SECRET_ACCESS_KEY
   post_install:
     - type: section
       title: Secret Management

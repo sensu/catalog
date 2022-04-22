@@ -38,7 +38,7 @@ There are no compatible dashboards for this integration.
        http-get
        --timeout 10
        --redirect-ok
-       --url "http://127.0.0.1:9901/stats"
+       --url "http://127.0.0.1:9901/stats/prometheus"
    ```
 
 2. **[OPTIONAL] Configure custom request headers**
@@ -52,7 +52,7 @@ There are no compatible dashboards for this integration.
      command: >-
        http-get
        --timeout 10
-       --url "http://127.0.0.1:9901/stats
+       --url "http://127.0.0.1:9901/stats/prometheus
        --header "Content-Type: text/plain"
        --header "X-Example-Header: helloworld"
    ```

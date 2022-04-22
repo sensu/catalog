@@ -29,7 +29,7 @@ spec:
 
         [Ansible Tower API OAuth Guide]: https://docs.ansible.com/ansible-tower/latest/html/administration/oauth2_token_auth.html
     - type: question
-      name: api_host
+      name: ansible_tower_host
       required: true
       input:
         type: string
@@ -41,19 +41,59 @@ spec:
       name: ansible_tower_api_token
       required: true
       input:
-        type: string
-        title: Ansible Tower API Token
-        description: >-
-          Ansible Tower API Token
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: Ansible Tower API Token
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: Ansible Tower API Token (Sensu Secret)
+                description: >-
+                  Select the Ansible Tower API Token (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: Ansible Tower API Token
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: Ansible Tower API Token
+                description: >-
+                  Provide the Ansible Tower API Token (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
   resource_patches:
     - resource:
         api_version: core/v2
         type: Handler
         name: ansible-tower
       patches:
-        - path: /spec/env_vars/0
-          op: replace
-          value: ANSIBLE_HOST=127.0.0.1
-        - path: /spec/env_vars/-
-          op: add
-          value: "ANSIBLE_TOKEN=[[ansible_tower_api_token]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: ANSIBLE_HOST=[[ansible_tower_host]]
+        - op: add
+          path: /spec/env_vars/-
+          value: "ANSIBLE_TOKEN=[[ansible_tower_api_token.env_var]]"
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[ansible_tower_api_token.secret]]"
+            name: ANSIBLE_TOKEN

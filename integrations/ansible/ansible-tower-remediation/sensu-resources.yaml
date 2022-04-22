@@ -13,6 +13,7 @@ spec:
         type: Handler
         name: ansible-tower
 ---
+# NOTE: Requires ANSIBLE_TOKEN environment variable or secret
 type: Handler
 api_version: core/v2
 metadata:
@@ -20,14 +21,13 @@ metadata:
 spec:
   type: pipe
   command: >-
-    sensu-ansible-handler 
+    sensu-ansible-handler
     --host ${ANSIBLE_HOST}
-    # NOTE: Requires ANSIBLE_TOKEN environment variable or secret
   runtime_assets:
     - sensu/sensu-ansible-handler:2.1.0
   timeout: 10
-  env_vars:
-    - ANSIBLE_HOST=127.0.0.1
+  env_vars: []
+  secrets: []
 ---
 type: Asset
 api_version: core/v2

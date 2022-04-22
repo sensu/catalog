@@ -8,6 +8,8 @@ This integration will create/update ServiceNow CMDB Configuration Items.
 It supports custom CMDB tables and custom CMDB fields, with per-host configuration overrides.
 See the Setup section below for more information.
 
+This integration is compatible with ServiceNow versions "Rome" or older.
+
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 
 This integration includes the following resources:

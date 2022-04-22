@@ -17,6 +17,7 @@ spec:
       type: Handler
       name: timescaledb-metrics
 ---
+# NOTE: Requires TIMESCALEDB_DSN environment variable or secret
 type: Handler
 api_version: core/v2
 metadata:
@@ -27,11 +28,11 @@ spec:
     sensu-timescaledb-handler
     --table "metrics"
     --sslmode "disable"
-    # NOTE: Requires TIMESCALEDB_DSN environment variable or secret
   timeout: 10
   runtime_assets:
   - sensu/sensu-timescaledb-handler:0.5.0
   env_vars: []
+  secrets: []
 ---
 type: Asset
 api_version: core/v2

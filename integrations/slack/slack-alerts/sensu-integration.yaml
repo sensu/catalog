@@ -31,12 +31,48 @@ spec:
       name: slack_webhook_url
       required: true
       input:
-        type: string
-        title: Slack Webhook URL
-        description: >-
-          Slack Webhook URL
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: Slack Webhook URL
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: Slack Webhook URL (Sensu Secret)
+                description: >-
+                  Select the Slack Webhook URL (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: Slack Webhook URL
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: Slack Webhook URL
+                description: >-
+                  Provide the Slack Webhook URL (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
     - type: question
       name: slack_channel
+      required: true
       input:
         type: string
         title: Slack Channel
@@ -49,9 +85,15 @@ spec:
         type: Handler
         name: slack
       patches:
-        - path: /spec/env_vars/0
-          op: replace
+        - op: add
+          path: /spec/env_vars/-
           value: "SLACK_CHANNEL=[[slack_channel]]"
-        - path: /spec/env_vars/-
-          op: add
-          value: "SLACK_WEBHOOK_URL=[[slack_webhook_url]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: "SLACK_WEBHOOK_URL=[[slack_webhook_url.env_var]]"
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[slack_webhook_url.secret]]"
+            name: SLACK_WEBHOOK_URL
+

@@ -41,7 +41,7 @@ This integration is compatible with ServiceNow CMDB dashboards.
      - servicenow-cmdb
    ```
 
-   _NOTE: in clustered deployments, you will need to configure & restart every Sensu backend for `keepalive-handlers` configuration to take effect._
+   _NOTE: in clustered deployments, you will need to configure & restart every Sensu backend for [`keepalive-handlers` configuration][keepalive-handlers] to take effect._
 
    Alternatively, checks configured with the `servicenow-cmdb` [pipeline] may be used to enable CMDB registration.
 
@@ -54,6 +54,8 @@ This integration is compatible with ServiceNow CMDB dashboards.
          type: Pipeline
          name: servicenow-cmdb
    ```
+
+   [keepalive-handlers]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/#keepalive-event-handlers
 
 1. **[OPTIONAL] Customize ServiceNow CMDB configuration on a per-host basis**
 

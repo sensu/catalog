@@ -1,0 +1,254 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: "servicenow"
+  name: "servicenow-incidents"
+spec:
+  class: enterprise
+  provider: discovery
+  display_name: ServiceNow Incident Management
+  short_description: Create, update, and resolve ServiceNow Incidents
+  supported_platforms:
+    - darwin
+    - linux
+    - windows
+  tags:
+    - servicenow
+    - incidents
+  contributors:
+    - "@sensu"
+    - "@calebhailey"
+  prompts:
+    - type: section
+      title: ServiceNow Instance Configuration
+    - type: markdown
+      body: |
+        This integration requires the following ServiceNow configuration:
+
+        * ServiceNow URL (e.g. `https://mycompany.service-now.com`)
+        * ServiceNow Username
+        * ServiceNow Password
+    - type: question
+      name: servicenow_url
+      required: true
+      input:
+        type: string
+        format: url
+        title: ServiceNow URL
+        description:
+          Provide the base URL of your ServiceNow instance (e.g. "https://mycompany.service-now.com")
+        default: https://mycompany.service-now.com
+    - type: question
+      name: servicenow_username
+      required: true
+      input:
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: ServiceNow Username
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: ServiceNow Username (Sensu Secret)
+                description: >-
+                  Select the ServiceNow username (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: ServiceNow Username
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: ServiceNow Username
+                description: >-
+                  Provide the ServiceNow username (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+    - type: question
+      name: servicenow_password
+      required: true
+      input:
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: ServiceNow Password
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: ServiceNow Password (Sensu Secret)
+                description: >-
+                  Select the ServiceNow password (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: ServiceNow Password
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: ServiceNow Password
+                description: >-
+                  Provide the ServiceNow password (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+    - type: section
+      title: ServiceNow Customizations
+    - type: markdown
+      body: |
+        This integration is configured with default values that should "just work" with unmodified ServiceNow instances.
+
+        If your organization has a customized ServiceNow instance, please provide the following configuration parameters to customize the integration.
+
+        * Default Incident Table (which table Sensu should use for incident management)
+        * Default Incident Key (fieldname used to lookup incidents)
+        * Default Incident Description ([handler template] for Incident short descriptions)
+        * Default Incident Work Notes ([handler template] for Incident work notes)
+        * Incident Properties (comma-separated list of additional/custom fields)
+
+        [handler template]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handler-templates/
+    - type: question
+      name: servicenow_incident_table
+      required: true
+      input:
+        type: string
+        title: Default Incident Table
+        description: >-
+          Provide the ServiceNow table to use for managing Configuration Items.
+        default: incident
+    - type: question
+      name: servicenow_incident_key
+      required: true
+      input:
+        type: string
+        title: Default Incident Key (fieldname)
+        description: >-
+          Provide the fieldname Sensu should use to lookup Configuration Items; effectively used as a "primary key".
+        default: short_description
+    - type: question
+      name: servicenow_incident_name
+      required: true
+      input:
+        type: string
+        title: Default Incident Description (template)
+        description: >-
+          Provide a handler template for generating the Incident description suffix.
+        default: "{{ .Entity.State }}"
+    - type: question
+      name: servicenow_incident_work_notes
+      required: true
+      input:
+        type: string
+        title: Default Incident Work Notes (template)
+        description: >-
+          Provide a handler template for generating the Incident work notes.
+        default: "{{ .Check.Output }}"
+    - type: question
+      name: servicenow_incident_properties
+      required: true
+      input:
+        type: string
+        title: Incident Properties
+        description: >-
+          Provide a comma-separated list of custom properties to populate from Entity or Check annotations (e.g. "category,example").
+        default: category
+
+  resource_patches:
+    - resource:
+        api_version: core/v2
+        type: Handler
+        name: servicenow-incidents
+      patches:
+        - op: replace
+          path: /spec/command
+          value: >-
+            sensu-servicenow-handler
+            --incident-management
+            --incident-table [[servicenow_incident_table]]
+            --incident-key [[servicenow_incident_key]]
+            --incident-description "[[servicenow_incident_description]]"
+            --incident-work-notes "[[servicenow_incident_work_notes]]"
+            --incident-properties "[[servicenow_incident_properties]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: "SERVICENOW_URL=[[servicenow_url]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: "SERVICENOW_USERNAME=[[servicenow_username.env_var]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: "SERVICENOW_PASSWORD=[[servicenow_password.env_var]]"
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[servicenow_username.secret]]"
+            name: SERVICENOW_USERNAME
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[servicenow_password.secret]]"
+            name: SERVICENOW_PASSWORD
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully installed the ServiceNow Incident Management integration.
+
+        Checks configured with the `servicenow-incidents` pipeline will send Sensu event and metric data to [[ servicenow_url ]].
+
+        ```yaml
+        spec:
+          pipelines:
+            - api_version: core/v2
+              type: Pipeline
+              name: servicenow-incidents
+        ```
+    - type: section
+      title: Using Custom Properties
+    - type: markdown
+      body: |
+        This integration supports overriding various fields (`[[servicenow_incident_properties]]`) using custom property annotations.
+
+        To set these properties on a per-host basis, add `servicenow/table/incident/<fieldname>` annotations.
+
+        Example `agent.yml` (assuming `--incident-properties: category,store_id`):
+
+        ```yaml
+        annotations:
+          servicenow/table/incident/category: "software"
+          servicenow/table/incident/store_id: "1234"
+        ```

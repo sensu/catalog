@@ -97,3 +97,26 @@ spec:
             secret: "[[slack_webhook_url.secret]]"
             name: SLACK_WEBHOOK_URL
 
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully enabled the Slack alerts integration.
+
+        Checks configured with the `slack` pipeline will generate alerts in the `[[slack_channel]]` channel.
+
+        ```yaml
+        spec:
+          pipelines:
+            - api_version: core/v2
+              type: Pipeline
+              name: slack
+        ```
+
+        To customize the Slack channel on a per-Entity or per-Check basis, add the `sensu.io/plugins/slack/config/channel` annotation.
+
+        ```yaml
+        annotations:
+          sensu.io/plugins/slack/config/channel: "alternate-channel"
+        ```

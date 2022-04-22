@@ -66,9 +66,9 @@ spec:
       title: Success
     - type: markdown
       body: |
-        You have successfully enabled the "splunk-events" pipeline.
+        You have successfully enabled the Splunk events pipeline.
 
-        Checks configured with the `splunk-events` pipeline will send Sensu event and metric data to tcp://[[ host ]]:[[ port ]].
+        Checks configured with the `splunk-events` pipeline will stream Sensu event and metric data to the Splunk indexer at `tcp://[[ host ]]:[[ port ]]`.
 
         ```yaml
         spec:

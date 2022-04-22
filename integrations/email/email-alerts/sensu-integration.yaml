@@ -196,3 +196,20 @@ spec:
           value:
             secret: "[[smtp_password.secret]]"
             name: SMTP_PASSWORD
+
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully enabled the Email alerts integration.
+
+        Checks configured with the `email-alerts` pipeline will generate email alerts from `[[email_sender]]`.
+
+        ```yaml
+        spec:
+          pipelines:
+            - api_version: core/v2
+              type: Pipeline
+              name: email-alerts
+        ```

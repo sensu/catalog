@@ -96,3 +96,19 @@ spec:
           value:
             secret: "[[mattermost_webhook_url.secret]]"
             name: MATTERMOST_WEBHOOK_URL
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully enabled the Mattermost alerts integration.
+
+        Checks configured with the `mattermost` pipeline will generate alerts in the `[[mattermost_channel]]` channel.
+
+        ```yaml
+        spec:
+          pipelines:
+            - api_version: core/v2
+              type: Pipeline
+              name: mattermost
+        ```

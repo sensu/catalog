@@ -86,3 +86,19 @@ spec:
           value:
             secret: "[[pagerduty_token.secret]]"
             name: PAGERDUTY_TOKEN
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully enabled the Pagerduty incident management integration.
+
+        Checks configured with the `pagerduty` pipeline will create, updated, and resolve incidents in Pagerduty.
+
+        ```yaml
+        spec:
+          pipelines:
+            - api_version: core/v2
+              type: Pipeline
+              name: pagerduty
+        ```

@@ -58,3 +58,19 @@ spec:
         - path: /spec/env_vars/-
           op: add
           value: "SUMOLOGIC_URL=[[sumologic_url]]"
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully enabled the Sumo Logic integration.
+
+        Checks configured with the `sumologic` pipeline will send metrics and event data to Sumo Logic.
+
+        ```yaml
+        spec:
+          pipelines:
+            - api_version: core/v2
+              type: Pipeline
+              name: sumologic
+        ```

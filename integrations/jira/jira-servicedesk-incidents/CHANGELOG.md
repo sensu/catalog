@@ -7,8 +7,11 @@ to [Semantic Versioning][semver].
 
 ## Unreleased
 
-- Initial add of jira/jira-servicedesk-incidents integration.
-- Added user prompts for configuring the Jira API Key secret and other information necessary to create Jira Servicedesk incidents.
+- N/A
+
+## [ 20220421.0.0 ] - 2022-04-21
+
+- Initial release!
 
 [changelog]: http://keepachangelog.com/en/1.0.0/
 [semver]: http://semver.org/spec/v2.0.0.html

@@ -7,12 +7,11 @@ to [Semantic Versioning][semver].
 
 ## Unreleased
 
-- *n/a*
+- N/A
 
-## [0.1.0] - {{current_date}}
+## [ 20220421.0.0 ] - 2022-04-21
 
-- Initial add of `rabbitmq-monitoring` integration.
-
+- Initial release!
 
 [changelog]: http://keepachangelog.com/en/1.0.0/
 [semver]: http://semver.org/spec/v2.0.0.html

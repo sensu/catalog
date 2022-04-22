@@ -19,7 +19,7 @@ spec:
       title: InfluxDB Configuration
     - type: markdown
       body: |
-        This integration requires an InfluxDB URL and database name.
+        This integration requires an InfluxDB URL, database name, username, and password.
     - type: question
       name: influxdb_addr
       required: true
@@ -40,13 +40,6 @@ spec:
         description: >-
           Provide the InfluxDB database name (e.g. "sensu")
         default: "sensu"
-    - type: section
-      title: InfluxDB Username
-    - type: markdown
-      body: |
-        Please provide an InfluxDB username _OR_ select a [Sensu Secret].
-
-        [Sensu Secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
     - type: question
       name: influxdb_username
       required: true
@@ -60,7 +53,7 @@ spec:
             properties:
               option:
                 type: string
-                title: Environment Variable or Secrets Management?
+                title: InfluxDB Username
                 const: secret
                 constLocale:
                   title: Secret
@@ -79,7 +72,7 @@ spec:
             properties:
               option:
                 type: string
-                title: Environment Variable or Secrets Management?
+                title: InfluxDB Username
                 const: env_var
                 constLocale:
                   title: Environment Variable
@@ -90,13 +83,6 @@ spec:
                 title: InfluxDB Username
                 description: >-
                   Provide the InfluxDB username (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
-    - type: section
-      title: InfluxDB Password
-    - type: markdown
-      body: |
-        Please provide an InfluxDB password _OR_ select a [Sensu Secret].
-
-        [Sensu Secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
     - type: question
       name: influxdb_password
       required: true
@@ -110,7 +96,7 @@ spec:
             properties:
               option:
                 type: string
-                title: Environment Variable or Secrets Management?
+                title: InfluxDB Password
                 const: secret
                 constLocale:
                   title: Secret
@@ -129,7 +115,7 @@ spec:
             properties:
               option:
                 type: string
-                title: Environment Variable or Secrets Management?
+                title: InfluxDB Password
                 const: env_var
                 constLocale:
                   title: Environment Variable

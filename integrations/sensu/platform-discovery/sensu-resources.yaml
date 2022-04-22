@@ -48,7 +48,7 @@ metadata:
 spec:
   type: pipe
   command: >-
-    sensu-entity-manager 
+    sensu-entity-manager
     --add-subscriptions
     # NOTE: Requires SENSU_API_KEY environment variable or secret
   runtime_assets:
@@ -56,6 +56,7 @@ spec:
   timeout: 5
   env_vars:
     - SENSU_API_URL=http://127.0.0.1:8080
+  secrets: []
 
 ---
 type: EventFilter

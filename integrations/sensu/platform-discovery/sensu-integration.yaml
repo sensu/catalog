@@ -33,16 +33,56 @@ spec:
       name: sensu_api_key
       required: true
       input:
-        type: string
-        title: Sensu API Key
-        description: >-
-          Sensu API Key (requires entity "update" permissions in the corresponding role)
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: Sensu API Key
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: Sensu API Key (Sensu Secret)
+                description: >-
+                  Select the Sensu API Key (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: Sensu API Key
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: Sensu API Key
+                description: >-
+                  Provide the Sensu API Key (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
   resource_patches:
     - resource:
         api_version: core/v2
         type: Handler
         name: subscription-manager
       patches:
-        - path: /spec/env_vars/-
-          op: add
-          value: "SENSU_API_KEY=[[sensu_api_key]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: "SENSU_API_KEY=[[sensu_api_key.env_var]]"
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[sensu_api_key.secret]]"
+            name: SENSU_API_KEY

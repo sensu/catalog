@@ -4,6 +4,8 @@ type: Integration
 metadata:
   namespace: sumologic
   name: sumologic-analytics
+  annotations:
+    io.sensu.catalog.featured: "true"
 spec:
   class: supported
   provider: metrics

@@ -31,10 +31,45 @@ spec:
       name: mattermost_webhook_url
       required: true
       input:
-        type: string
-        title: Mattermost Webhook URL
-        description: >-
-          Mattermost Webhook URL
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: Mattermost Webhook URL
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: Mattermost Webhook URL (Sensu Secret)
+                description: >-
+                  Select the Mattermost Webhook URL (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: Mattermost Webhook URL
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: Mattermost Webhook URL
+                description: >-
+                  Provide the Mattermost Webhook URL (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
     - type: question
       name: mattermost_channel
       required: true
@@ -52,7 +87,12 @@ spec:
       patches:
         - path: /spec/env_vars/-
           op: add
-          value: "MATTERMOST_WEBHOOK_URL=[[mattermost_webhook_url]]"
+          value: "MATTERMOST_CHANNEL=[[mattermost_channel]]"
         - path: /spec/env_vars/-
           op: add
-          value: "MATTERMOST_CHANNEL=[[mattermost_channel]]"
+          value: "MATTERMOST_WEBHOOK_URL=[[mattermost_webhook_url.env_var]]"
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[mattermost_webhook_url.secret]]"
+            name: MATTERMOST_WEBHOOK_URL

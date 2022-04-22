@@ -25,15 +25,13 @@ api_version: core/v2
 metadata:
   name: aws-sns-events
 spec:
+  type: pipe
   command: sensu-aws-sns-handler
-  env_vars: []
-  filters:
-    - is_incident
-    - not_silenced
   runtime_assets:
     - sensu/sensu-aws-sns-handler:0.5.0
   timeout: 0
-  type: pipe
+  env_vars: []
+  secrets: []
 ---
 type: Asset
 api_version: core/v2

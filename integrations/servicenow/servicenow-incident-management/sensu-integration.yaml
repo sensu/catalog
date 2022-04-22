@@ -6,7 +6,7 @@ metadata:
   name: "servicenow-incidents"
 spec:
   class: enterprise
-  provider: discovery
+  provider: incidents
   display_name: ServiceNow Incident Management
   short_description: Create, update, and resolve ServiceNow Incidents
   supported_platforms:

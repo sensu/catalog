@@ -31,16 +31,56 @@ spec:
       name: microsoft_teams_webhook_url
       required: true
       input:
-        type: string
-        title: Microsoft Teams Webhook URL
-        description: >-
-          Microsoft Teams Webhook URL
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: Microsoft Teams Webhook URL
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: Microsoft Teams Webhook URL (Sensu Secret)
+                description: >-
+                  Select the Microsoft Teams Webhook URL (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: Microsoft Teams Webhook URL
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: Microsoft Teams Webhook URL
+                description: >-
+                  Provide the Microsoft Teams Webhook URL (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
   resource_patches:
     - resource:
         api_version: core/v2
         type: Handler
         name: microsoft-teams
       patches:
-        - path: /spec/env_vars/-
-          op: add
-          value: "MICROSOFT_TEAMS_WEBHOOK_URL=[[microsoft_teams_webhook_url]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: "MICROSOFT_TEAMS_WEBHOOK_URL=[[microsoft_teams_webhook_url.env_var]]"
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[microsoft_teams_webhook_url.secret]]"
+            name: MICROSOFT_TEAMS_WEBHOOK_URL

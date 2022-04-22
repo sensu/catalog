@@ -20,6 +20,7 @@ spec:
         type: Handler
         name: pagerduty
 ---
+# NOTE: Requires PAGERDUTY_TOKEN environment variable or secret
 type: Handler
 api_version: core/v2
 metadata:
@@ -31,12 +32,12 @@ spec:
     --status-map "{\"info\":[0],\"warning\": [1],\"critical\": [2],\"error\": [3,127]}"
     --summary-template "[{{.Entity.Namespace}}] {{.Entity.Name}}/{{.Check.Name}}: {{.Check.State}}"
     --details-template "{{.Check.Output}}\n\n{{.Check}}"
-    # NOTE: Requires PAGERDUTY_TOKEN environment variable or secret
   runtime_assets:
     - sensu/sensu-pagerduty-handler:2.1.0
-  env_vars: []
   timeout: 0
   type: pipe
+  env_vars: []
+  secrets: []
 ---
 type: Asset
 api_version: core/v2

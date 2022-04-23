@@ -37,7 +37,7 @@ spec:
           status: 1
     - name: aws_lambda_throttles
       thresholds:
-        - min: '0'
+        - max: '0'
           status: 1
   pipelines: []
 ---

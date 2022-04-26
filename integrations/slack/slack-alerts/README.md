@@ -49,7 +49,7 @@ This integration does not produce any events that should be processed by an aler
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration. -->
 
-1. Slack knowledge base: [Sending messages using Incoming Webhooks"][slack-webhook-url]
+1. Slack knowledge base: [Sending messages using Incoming Webhooks][slack-webhook-url]
 1. This integration uses [Handler Templating][handler-templating] for variable substitution
 
 <!-- Links -->

@@ -1,23 +1,51 @@
-## Overview
+{{% section integration_purpose %}}
+
+## Purpose
 
 <!-- Sensu Integration description; supports markdown -->
 
 The network interface monitoring integration provides metrics collection and alerting for network interface activity.
 
+{{% /section %}}
+
+{{% section integration_resources %}}
+
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
+
+## Integration resources
 
 This integration includes the following resources:
 
 * `network-interface-health` ([check])
 * `sensu/network-interface-check:0.1.0` ([asset])
 
-## Dashboards
+{{% /section %}}
+
+{{% section supported_dashboards %}}
+
+## Supported Sumo Logic dashboards
 
 <!-- List of supported dashboards w/ screenshots (supports png, jpeg, and gif images; relative paths only; e.g. `![](img/dashboard-1.png)` )-->
 
 This integration is compatible with the [Sumo Logic Host monitoring dashboard][sumo-host-dashboard-link] (included w/ [Sensu Plus][sensu-plus]).
 
 ![](img/dashboard.png)
+
+{{% /section %}}
+
+{{% section integration_dependencies %}}
+
+## Dependencies
+
+<!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->
+
+- [sensu/network-interface-checks][network-interface-checks-bonsai] ([GitHub][network-interface-checks-github])
+
+This integration uses [Sensu Tokens][tokens] for variable substitution.
+
+{{% /section %}}
+
+{{% section integration_setup %}}
 
 ## Setup
 
@@ -26,115 +54,40 @@ This integration is compatible with the [Sumo Logic Host monitoring dashboard][s
 
 1. Optionally set the `networking_interface_include` or `networking_interface_exclude` agent [annotation] with a comma separately list of interfaces to inlcude/exclude in the metric output.  Note: Cannot use both annotations at the same time.
 
-## Plugins
+{{% /section %}}
 
-<!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->
+{{% section integration_metrics %}}
 
-- [sensu/network-interface-checks][network-interface-checks-bonsai] ([GitHub][network-interface-checks-github])
+## Metrics
 
-## Metrics & Events
-
-<!-- List of all metrics or events collected by this integration. -->
+<!-- List of all metrics collected by this integration. -->
 
 This integration collects the following [metrics]:
 
-* `bytes_recv`
+Metric name | Description | Tags
+----------- | ----------- | ----
+`bytes_recv` | Bytes received. | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`bytes_recv_rate` | Bytes sent per second (pre-calculated rate). | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`bytes_sent` | Bytes sent. | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`bytes_sent_rate` | Bytes sent per second (pre-calculated rate). | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`drop_in` | Count of dropped inbound packets. | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`drop_in_rate` | Count of dropped inbound packets per second (pre-calculated rate). | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`drop_out` | Count of dropped outbound packets. | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`drop_out_rate` | Count of dropped outbound packets per second (pre-calculated rate). | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`err_in` | Count of errors receiving inbound packets. | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`err_in_rate` | Count of errors receiving inbound packets per second (pre-calculated rate). | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`err_out` | Count of errors sending outbound packets. | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`err_out_rate` | Count of errors sending outbound packets per second (pre-calculated rate). | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`packets_recv` | Packets received. | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`packets_recv_rate` | Packets received per second (pre-calculated rate). | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`packets_sent` | Packets sent. | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`packets_sent_rate` | Packets sent per second (pre-calculated rate). | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
 
-  Bytes received.
+{{% /section %}}
 
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+{{% section integration_events %}}
 
-* `bytes_recv_rate`
-
-  Bytes sent per second (pre-calculated rate).
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `bytes_sent`
-
-  Bytes sent.
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `bytes_sent_rate`
-
-  Bytes sent per second (pre-calculated rate).
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `packets_recv`
-
-  Packets received.
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `packets_recv_rate`
-
-  Packets received per second (pre-calculated rate).
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `packets_sent`
-
-  Packets sent.
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `packets_sent_rate`
-
-  Packets sent per second (pre-calculated rate).
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `err_in`
-
-  Count of errors receiving inbound packets.
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `err_in_rate`
-
-  Count of errors receiving inbound packets per second (pre-calculated rate).
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `err_out`
-
-  Count of errors sending outbound packets.
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `err_out_rate`
-
-  Count of errors sending outbound packets per second (pre-calculated rate).
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `drop_in`
-
-  Count of dropped inbound packets.
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `drop_in_rate`
-
-  Count of dropped inbound packets per second (pre-calculated rate).
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `drop_out`
-
-  Count of dropped outbound packets.
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `drop_out_rate`
-
-  Count of dropped outbound packets per second (pre-calculated rate).
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-## Alerts
+## Events
 
 <!-- List of all alerts generated by this integration. -->
 
@@ -142,11 +95,15 @@ This integration produces the following events which should be processed by an a
 
 * TODO
 
-## Reference Documentation
+{{% /section %}}
+
+{{% section more_information %}}
+
+## More information
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
-1. This integration uses [Sensu Tokens][tokens] for variable substitution.
+{{% /section %}}
 
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/

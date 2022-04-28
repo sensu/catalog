@@ -1,9 +1,17 @@
-## Overview
+{{% section integration_purpose %}}
+
+## Purpose
 
 <!-- Sensu Integration description; supports markdown -->
 
 Cross-platform host monitoring for Linux, Windows, and MacOS systems.
 Collect metrics and alerts on CPU, IO, load, memory, swap, and uptime.
+
+{{% /section %}}
+
+{{% section integration_resources %}}
+
+## Integration resources
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 
@@ -12,7 +20,11 @@ This integration provides the following resources:
 * `system/system-check` [check]
 * `sensu/system-check` [asset]
 
-## Dashboards
+{{% /section %}}
+
+{{% section supported_dashboards %}}
+
+## Supported Sumo Logic dashboards
 
 <!-- List of supported dashboards w/ screenshots (supports png, jpeg, and gif images; relative paths only; e.g. `![](img/dashboard-1.png)` )-->
 
@@ -23,6 +35,22 @@ This integration is compatible with the [Sumo Logic "Host and Process Metrics" a
 This integration is compatible with the Sumo Logic "Sensu" app, included with [Sensu Plus][sensu-plus].
 
 ![](img/sensu-plus.gif)
+
+{{% /section %}}
+
+{{% section integration_dependencies %}}
+
+## Dependencies
+
+<!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->
+
+This integration does not require any [Plugins].
+
+This plugin uses a [Sensu Token][tokens] for metric tag variable substitution (e.g. setting `entity` and `namespace` tags to the corresponding values for the Sensu Agent)
+
+{{% /section %}}
+
+{{% section integration_setup %}}
 
 ## Setup
 
@@ -47,133 +75,66 @@ This integration is compatible with the Sumo Logic "Sensu" app, included with [S
 
 1. Optionally set the `system_mem_used_critical_threshold` agent [annotation] to override the default value (`90.0`%) on a per-host basis.
 
-## Plugins
+{{% /section %}}
 
-<!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->
+{{% section integration_metrics %}}
 
-This integration does not require any [Plugins].
+## Metrics
 
-## Metrics & Events
-
-<!-- List of all metrics or events collected by this integration. -->
+<!-- List of all metrics collected by this integration. -->
 
 This integration collects the following [metrics]:
 
-* `system_cpu_cores` (tags: `entity`, `namespace`, `os`)
+Metric name | Description | Tags
+----------- | ----------- | ----
+`system_cpu_cores` | Total number of CPU cores. | `entity`, `namespace`, `os`
+`system_cpu_idle` | Percent of time all cpus were idle, per core. | `entity`, `namespace`, `os`, `cpu`
+`system_cpu_used` | Percent of time all cpus were used, per core. | `entity`, `namespace`, `os`, `cpu`
+`system_cpu_user` | Percent of time total cpu was used by normal processes in user mode, per core. | `entity`, `namespace`, `os`, `cpu`
+`system_cpu_system` | Percent of time all cpus used by processes executed in kernel mode, per core. | `entity`, `namespace`, `os`, `cpu`
+`system_cpu_nice` | Percent of time all cpus used by niced processes in user mode, per core. | `entity`, `namespace`, `os`, `cpu`
+`system_cpu_iowait` | Percent of time all cpus waiting for I/O to complete, per core. | `entity`, `namespace`, `os`, `cpu`
+`system_cpu_irq` | Percent of time all cpus servicing interrupts, per core. | `entity`, `namespace`, `os`, `cpu`
+`system_cpu_sortirq` | Percent of time all cpus servicing software interrupts, per core. | `entity`, `namespace`, `os`, `cpu`
+`system_cpu_stolen` | Percent of time all cpus serviced virtual hosts operating systems, per core. | `entity`, `namespace`, `os`, `cpu`
+`system_cpu_guest` | Percent of time all cpus serviced guest operating system, per core. | `entity`, `namespace`, `os`, `cpu`
+`system_cpu_guest_nice` | Percent of time all cpus serviced niced guest operating system, per core. | `entity`, `namespace`, `os`, `cpu`
+`system_mem_used` | Percent of memory used. | `entity`, `namespace`, `os`
+`system_mem_used_bytes` | Used memory in bytes. | `entity`, `namespace`, `os`
+`system_mem_total_bytes` | Total memory in bytes. | `entity`, `namespace`, `os`
+`system_swap_used` | Percent of swap used. | `entity`, `namespace`, `os`
+`system_swap_used_bytes` | Used swap in bytes. | `entity`, `namespace`, `os`
+`system_swap_total_bytes` | Total swap in bytes. | `entity`, `namespace`, `os`
+`system_load_load1` | System load averaged over 1 minute, high load value dependant on number of cpus in system. | `entity`, `namespace`, `os`
+`system_load_load5` | System load averaged over 5 minute, high load value dependent on number of cpus in system. | `entity`, `namespace`, `os`
+`system_load_load15` | System load averaged over 15 minute, high load value dependent on number of cpus in system. | `entity`, `namespace`, `os`
+`system_load_load1_per_cpu` | System load averaged over 1 minute normalized by cpu count, values > 1 means system may be overloaded. | `entity`, `namespace`, `os`
+`system_load_load5_per_cpu` | System load averaged over 5 minute normalized by cpu count, values > 1 means system may be overloaded. | `entity`, `namespace`, `os`
+`system_load_load15_per_cpu` | System load averaged over 15 minute normalized by cpu count, values > 1 means system may be overloaded. | `entity`, `namespace`, `os`
+`system_host_uptime` | Host uptime in seconds. | `entity`, `namespace`, `os`
 
-  Total number of CPU cores.
+{{% /section %}}
 
-* `system_cpu_idle` (tags: `entity`, `namespace`, `os`, `cpu`)
+{{% section integration_events %}}
 
-  Percent of time all cpus were idle, per core.
-
-* `system_cpu_used` (tags: `entity`, `namespace`, `os`, `cpu`)
-
-  Percent of time all cpus were used, per core.
-
-* `system_cpu_user` (tags: `entity`, `namespace`, `os`, `cpu`)
-
-  Percent of time total cpu was used by normal processes in user mode, per core.
-
-* `system_cpu_system` (tags: `entity`, `namespace`, `os`, `cpu`)
-
-  Percent of time all cpus used by processes executed in kernel mode, per core.
-
-* `system_cpu_nice` (tags: `entity`, `namespace`, `os`, `cpu`)
-
-  Percent of time all cpus used by niced processes in user mode, per core.
-
-* `system_cpu_iowait` (tags: `entity`, `namespace`, `os`, `cpu`)
-
-  Percent of time all cpus waiting for I/O to complete, per core.
-
-* `system_cpu_irq` (tags: `entity`, `namespace`, `os`, `cpu`)
-
-  Percent of time all cpus servicing interrupts, per core.
-
-* `system_cpu_sortirq` (tags: `entity`, `namespace`, `os`, `cpu`)
-
-  Percent of time all cpus servicing software interrupts, per core.
-
-* `system_cpu_stolen` (tags: `entity`, `namespace`, `os`, `cpu`)
-
-  Percent of time all cpus serviced virtual hosts operating systems, per core.
-
-* `system_cpu_guest` (tags: `entity`, `namespace`, `os`, `cpu`)
-
-  Percent of time all cpus serviced guest operating system, per core.
-
-* `system_cpu_guest_nice` (tags: `entity`, `namespace`, `os`, `cpu`)
-
-  Percent of time all cpus serviced niced guest operating system, per core.
-
-* `system_mem_used` (tags: `entity`, `namespace`, `os`)
-
-  Percent of memory used.
-
-* `system_mem_used_bytes` (tags: `entity`, `namespace`, `os`)
-
-  Used memory in bytes.
-
-* `system_mem_total_bytes` (tags: `entity`, `namespace`, `os`)
-
-  Total memory in bytes.
-
-* `system_swap_used` (tags: `entity`, `namespace`, `os`)
-
-  Percent of swap used.
-
-* `system_swap_used_bytes` (tags: `entity`, `namespace`, `os`)
-
-  Used swap in bytes.
-
-* `system_swap_total_bytes` (tags: `entity`, `namespace`, `os`)
-
-  Total swap in bytes.
-
-* `system_load_load1` (tags: `entity`, `namespace`, `os`)
-
-  System load averaged over 1 minute, high load value dependant on number of cpus in system.
-
-* `system_load_load5` (tags: `entity`, `namespace`, `os`)
-
-  System load averaged over 5 minute, high load value dependent on number of cpus in system.
-
-* `system_load_load15` (tags: `entity`, `namespace`, `os`)
-
-  System load averaged over 15 minute, high load value dependent on number of cpus in system.
-
-* `system_load_load1_per_cpu` (tags: `entity`, `namespace`, `os`)
-
-  System load averaged over 1 minute normalized by cpu count, values > 1 means system may be overloaded.
-
-* `system_load_load5_per_cpu` (tags: `entity`, `namespace`, `os`)
-
-  System load averaged over 5 minute normalized by cpu count, values > 1 means system may be overloaded.
-
-* `system_load_load15_per_cpu` (tags: `entity`, `namespace`, `os`)
-
-  System load averaged over 15 minute normalized by cpu count, values > 1 means system may be overloaded.
-
-* `system_host_uptime` (tags: `entity`, `namespace`, `os`)
-
-  Host uptime in seconds.
-
-## Alerts
+## Events
 
 <!-- List of all alerts generated by this integration. -->
 
-This integration produces the following events that should be processed by an alert or incident management [handler]:
+This integration does not produce events.
 
-* N/A
+{{% /section %}}
 
-## Reference Documentation
+{{% section more_information %}}
+
+## More information
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration. -->
 
-1. This plugin uses a [Sensu Token][tokens] for metric tag variable substitution (e.g. setting `entity` and `namespace` tags to the corresponding values for the Sensu Agent)
-1. [[Docs] Collect Metrics for Host and Processes][sumo-host-metrics]
-1. [[Blog post] Host and process Metrics — monitoring beyond apps][sumo-host-app-blogpost]
+- Sumo Logic documentation: [Collect Metrics for Host and Processes][sumo-host-metrics]
+- Sumo Logic blog post: [Host and process Metrics — monitoring beyond apps][sumo-host-app-blogpost]
+
+{{% /section %}}
 
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/

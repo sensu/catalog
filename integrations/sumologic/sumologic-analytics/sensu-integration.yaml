@@ -43,6 +43,17 @@ spec:
           - type: object
             required:
               - option
+            properties:
+              option:
+                type: string
+                title: Sumo Logic Source URL
+                const: none
+                constLocale:
+                  title: "—"
+
+          - type: object
+            required:
+              - option
               - secret
             properties:
               option:

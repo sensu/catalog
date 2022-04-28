@@ -38,28 +38,73 @@ spec:
       name: sumologic_url
       required: true
       input:
-        type: string
-        title: Sumo Logic Source URL
-        description: >-
-          Sumo Logic HTTP Logs & Metrics Source URL
-        format: url
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: Sumo Logic Source URL
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: Sumo Logic Source URL (Sensu Secret)
+                description: >-
+                  Select the Sumo Logic Source URL (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: Sumo Logic Source URL
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as plain text directly in the Sensu resource definitions.
+              env_var:
+                type: string
+                title: Sumo Logic Source URL
+                description: >-
+                  Provide the Sumo Logic Source URL (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+
   resource_patches:
     - resource:
         api_version: pipeline/v1
         type: SumoLogicMetricsHandler
         name: sumologic-metrics
       patches:
-        - path: /spec/url
-          op: replace
-          value: "[[sumologic_url]]"
+        - op: replace
+          path: /spec/url
+          value: "[[sumologic_url.env_var]]"
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[sumologic_url.secret]]"
+            name: SUMOLOGIC_URL
     - resource:
         api_version: core/v2
         type: Handler
         name: sumologic-events
       patches:
-        - path: /spec/env_vars/-
-          op: add
-          value: "SUMOLOGIC_URL=[[sumologic_url]]"
+        - op: add
+          path: /spec/env_vars/-
+          value: "SUMOLOGIC_URL=[[sumologic_url.env_var]]"
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[sumologic_url.secret]]"
+            name: SUMOLOGIC_URL
   post_install:
     - type: section
       title: Success

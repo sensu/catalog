@@ -23,7 +23,7 @@ This integration provides the following resources:
 
 {{% section supported_dashboards %}}
 
-## Supported Sumo Logic dashboards
+## Supported dashboards
 
 <!-- List of supported dashboards w/ screenshots (supports png, jpeg, and gif images; relative paths only; e.g. `![](img/dashboard-1.png)` )-->
 

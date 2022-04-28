@@ -43,7 +43,6 @@ spec:
     --send-log
     --source-host "{{ .Entity.Name }}"
     --source-name "{{ .Check.Name }}"
-    --source-category "sensu-event"
     # NOTE: Requires SUMOLOGIC_URL environment varible or secret
   runtime_assets:
     - sensu/sensu-sumologic-handler:0.3.0

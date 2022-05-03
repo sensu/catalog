@@ -1,0 +1,115 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: postgresql
+  name: postgresql-health-check
+spec:
+  class: enterprise # community, supported, enterprise, or partner
+  provider: monitoring
+  display_name: "Sensu Enterprise datastore monitoring"
+  short_description: "Healthcheck for the Sensu Enterprise datastore"
+  supported_platforms:
+    - darwin
+    - linux
+    - windows
+  tags:
+    - postgresql
+    - pgsql
+    - postgres
+    - database
+    - sensu
+  contributors:
+    - "@sensu"
+    - "@asachs01"
+  prompts:
+    - type: question
+      name: url
+      required: false
+      input:
+        type: string
+        title: Sensu Backend URL
+        description: >-
+          Please input the full path to your Sensu backend's `/health` endpoint (example: http://127.0.0.1:8080/health)
+        format: url
+        default: http://127.0.0.1:8080/health
+    - type: question
+      name: interval
+      required: false
+      input:
+        type: integer
+        title: Interval
+        description: >-
+          How often (in seconds) do you want to check the Sensu Enterprise datastore's health?
+        default: 30
+    - type: section
+      title: Pipeline Configuration
+    - type: markdown
+      body: |
+        Configure one or more [pipelines] for processing {{integration_short_name}} data.
+
+        [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
+    - type: question
+      name: alert_pipeline
+      required: false
+      input:
+        type: string
+        title: Alert Pipeline
+        description: >-
+          How do you want to be alerted for failures detected by this pipeline (e.g. Slack or Microsoft Teams)?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == "alerts"
+    - type: question
+      name: incident_pipeline
+      required: false
+      input:
+        type: string
+        title: Incident Management Pipeline
+        description: >-
+          How do you want to process incidents for failures detected by this pipeline (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == "incidents"
+    - type: question
+      name: metrics_pipeline
+      required: false
+      input:
+        type: string
+        title: Metrics Pipeline
+        description: >-
+          How do you want to process metrics collected by this integration?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == "metrics"
+  resource_patches:
+    resource:
+      api_version: core/v2
+      type: CheckConfig
+      name: postgresql-health-check
+    patches:
+        - path: /metadata/name
+          op: replace
+          value: postgresql-healthcheck-[[auto_suffix]]
+        - path: /spec/interval
+          op: replace
+          value: interval
+        - path: /spec/command
+          op: replace
+          value: >-
+            http-json --url {{ .annotations.check_postgresql_health_url | default "[[url]]"}} --query ".PostgresHealth.[0].Healthy" --expression "== true"
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: "core/v2"
+            type: "Pipeline"
+            name: "[[metrics_pipeline]]"
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: "core/v2"
+            type: "Pipeline"
+            name: "[[alert_pipeline]]"
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: "core/v2"
+            type: "Pipeline"
+            name: "[[incident_pipeline]]"

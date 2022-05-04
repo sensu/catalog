@@ -105,14 +105,10 @@ spec:
         type: array
         items:
           type: string
-          title: Subscriptions (Origins)
+          title: Subscriptions
           ref: core/v2/entity/subscriptions
         default:
-          - prometheus
           - caddy
-          - linux
-          - darwin
-          - windows
     - type: section
       title: Pipeline Configuration
     - type: markdown

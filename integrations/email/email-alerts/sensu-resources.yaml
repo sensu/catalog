@@ -18,7 +18,7 @@ spec:
       handler:
         api_version: core/v2
         type: Handler
-        name: email
+        name: email-alerts
 
 ---
 # NOTE: requires SMTB_USER, SMTP_PASSWORD, SMTP_SERVER, SMTP_PORT, EMAIL_SENDER, and EMAIL_RECIPIENT environment variable(s) or secret(s)

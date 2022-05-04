@@ -9,7 +9,7 @@ The Email Alerts integration provides a pipeline for sending emails about incide
 This integration includes the following resources:
 
 * `email` [pipeline]
-* `email-handler` [handler]
+* `email-alerts` [handler]
 * `sensu/sensu-email-handler:1.2.2` [asset]
 
 ## Dashboards

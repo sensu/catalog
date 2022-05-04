@@ -32,6 +32,7 @@ spec:
   max_connections: 10
   timeout: 30s
 ---
+# NOTE: Requires SUMOLOGIC_URL environment varible or secret
 type: Handler
 api_version: core/v2
 metadata:
@@ -43,7 +44,6 @@ spec:
     --send-log
     --source-host "{{ .Entity.Name }}"
     --source-name "{{ .Check.Name }}"
-# NOTE: Requires SUMOLOGIC_URL environment varible or secret
   runtime_assets:
     - sensu/sensu-sumologic-handler:0.3.0
   env_vars: []

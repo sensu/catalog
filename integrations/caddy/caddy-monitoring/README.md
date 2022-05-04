@@ -2,7 +2,8 @@
 
 <!-- Sensu Integration description; supports markdown -->
 
-The Caddy metrics integration provides metrics from hosts running the [Caddy Webserver](https://caddyserver.com/). These are output in Prometheus format.
+The Caddy metrics integration provides metrics collection from hosts running the [Caddy Webserver](https://caddyserver.com/).
+These metrics are output in Prometheus format.
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 
@@ -52,8 +53,8 @@ There are no compatible dashboards for this integration.
      command: >-
        http-get
        --timeout 10
-       --url "http://127.0.0.1:2019/metrics
-       --header "Content-Type: text/plain"
+       --url "http://127.0.0.1:2019/metrics"
+       --header "Content-Type: [[text/plain]]"
        --header "X-Example-Header: helloworld"
    ```
 

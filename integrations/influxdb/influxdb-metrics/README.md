@@ -28,11 +28,10 @@ There are no supported dashboards for this integration.
            name: influxdb-metrics
    ```
 ## InfluxDBv2 Compatibility
-This plugin was written for InfluxDB 1.x databases, but it is possible to have it work with InfluxDB 2.0 buckets by configuring an Influx DBRP mapping in your InfluxDB 2.0 server.
-
-Ref: https://docs.influxdata.com/influxdb/v2.0/tools/grafana/?t=InfluxQL#view-and-create-influxdb-dbrp-mappings
+This plugin was written for InfluxDB 1.x databases, but it is possible to have it work with InfluxDB 2.0 buckets by [configuring an Influx DBRP mapping](https://docs.influxdata.com/influxdb/v2.0/tools/grafana/?t=InfluxQL#view-and-create-influxdb-dbrp-mappings) in your InfluxDB 2.0 server.
 
 When using InfluxQL to query InfluxDB, the query must specify a database and a retention policy. InfluxDB DBRP mappings associate database and retention policy combinations with InfluxDB 2.0 buckets. DBRP mappings do not affect the retention period of the target bucket. These mappings allow queries following InfluxDB 1.x conventions to successfully query InfluxDB 2.0 buckets.
+
 # Plugins
 
 This integration uses the `sensu-influxdb-handler`:

@@ -18,6 +18,7 @@ spec:
     - amazon
     - networking
     - serverless
+    - cloud
   contributors:
     - "@sensu"
   prompts:
@@ -238,7 +239,7 @@ spec:
         Configure alerting thresholds for:
 
         * Maximum errors
-        * Maximum tolerable throttle events 
+        * Maximum tolerable throttle events
     - type: question
       name: aws_lambda_errors
       input:
@@ -275,7 +276,7 @@ spec:
       title: Pipeline Configuration
     - type: markdown
       body: |
-        Configure one or more [pipelines] for processing {{integration_short_name}} data.
+        Configure one or more [pipelines] for processing AWS Lambda data.
 
         [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
     - type: question

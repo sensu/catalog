@@ -14,10 +14,10 @@ spec:
   command: >-
     sensu-cloudwatch-check
     --region ${AWS_REGION}
-    
+
   runtime_assets:
     - sensu/sensu-cloudwatch-check:0.2.0
-  env_vars: 
+  env_vars:
     - CLOUDWATCH_CHECK_CONFIG={"namespace":"AWS/Lambda","period-minutes":1,"measurements":[{"metric":"UnreservedConcurrentExecutions","config":[{"stat":"Average","measurement":"aws_lambda_unreserved_concurrent_executions_average"},{"stat":"Maximum","measurement":"aws_lambda_unreserved_concurrent_executions_maximum"},{"stat":"Minimum","measurement":"aws_lambda_unreserved_concurrent_executions_minimum"}]},{"metric":"ConcurrentExecutions","config":[{"stat":"Average","measurement":"aws_lambda_concurrent_executions_average"},{"stat":"Maximum","measurement":"aws_lambda_concurrent_executions_maximum"},{"stat":"Minimum","measurement":"aws_lambda_concurrent_executions_minimum"}]},{"metric":"ProvisionedConcurrentExecutions","config":[{"stat":"Average","measurement":"aws_lambda_provisioned_concurrent_executions_average"},{"stat":"Maximum","measurement":"aws_lambda_provisioned_concurrent_executions_maximum"},{"stat":"Minimum","measurement":"aws_lambda_provisioned_concurrent_executions_minimum"}]},{"metric":"ProvisionedConcurrencyUtilization","config":[{"stat":"Average","measurement":"aws_lambda_provisioned_concurrency_utilization_average"},{"stat":"Maximum","measurement":"aws_lambda_provisioned_concurrency_utilization_maximum"},{"stat":"Minimum","measurement":"aws_lambda_provisioned_concurrency_utilization_minimum"}]},{"metric":"Invocations","config":[{"stat":"Sum","measurement":"aws_lambda_invocations"}]},{"metric":"Errors","config":[{"stat":"Sum","measurement":"aws_lambda_errors"}]},{"metric":"DeadLetterErrors","config":[{"stat":"Sum","measurement":"aws_lambda_dead_letter_errors"}]},{"metric":"DestinationDeliveryFailures","config":[{"stat":"Sum","measurement":"aws_lambda_destination_delivery_failures"}]},{"metric":"Throttles","config":[{"stat":"Sum","measurement":"aws_lambda_throttles"}]},{"metric":"ProvisionedConcurrencyInvocations","config":[{"stat":"Sum","measurement":"aws_lambda_provisioned_concurrency_invocations"}]},{"metric":"ProvisionedConcurrencySpilloverInvocations","config":[{"stat":"Sum","measurement":"aws_lambda_provisioned_concurrency_spillover_invocations"}]},{"metric":"PostRuntimeExtensionsDuration","config":[{"stat":"Average","measurement":"aws_lambda_post_runtime_extensions_duration_average"},{"stat":"Maximum","measurement":"aws_lambda_post_runtime_extensions_duration_maximum"},{"stat":"Minimum","measurement":"aws_lambda_post_runtime_extensions_duration_minimum"}]},{"metric":"IteratorAge","config":[{"stat":"Average","measurement":"aws_lambda_iterator_age_average"},{"stat":"Maximum","measurement":"aws_lambda_iterator_age_maximum"},{"stat":"Minimum","measurement":"aws_lambda_iterator_age_minimum"}]},{"metric":"OffsetLag","config":[{"stat":"Average","measurement":"aws_lambda_offset_lag_average"},{"stat":"Maximum","measurement":"aws_lambda_offset_lag_maximum"},{"stat":"Minimum","measurement":"aws_lambda_offset_lag_minimum"}]},{"metric":"Duration","config":[{"stat":"Average","measurement":"aws_lambda_duration_average"},{"stat":"Maximum","measurement":"aws_lambda_duration_maximum"},{"stat":"Minimum","measurement":"aws_lambda_duration_minimum"}]}]}
   secrets: []
   publish: true
@@ -39,13 +39,17 @@ spec:
       thresholds:
         - max: '0'
           status: 1
+    - name: aws_lambda_dead_letter_errors
+      thresholds:
+        - max: '0'
+          status: 1
   pipelines: []
 ---
 api_version: core/v2
 type: Asset
 metadata:
   name: sensu/sensu-cloudwatch-check:0.2.0
-  labels: 
+  labels:
   annotations:
     io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-cloudwatch-check
     io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-cloudwatch-check

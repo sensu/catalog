@@ -240,6 +240,7 @@ spec:
 
         * Maximum errors
         * Maximum tolerable throttle events
+        * Maximum tolerable DeadLetterErrors
     - type: question
       name: aws_lambda_errors
       input:
@@ -255,7 +256,15 @@ spec:
         title: Maximum allowed throttle events
         description: >-
           Configure the number of throttle events over which to warn.
-        default: 1
+        default: 0
+    - type: question
+      name: aws_lambda_dead_letter_errors
+      input:
+        type: integer
+        title: Maximum allowed DeadLetterErrors
+        description: >-
+          Configure the DeadLetterErrors warning threshold.
+        default: 0
     - type: section
       title: Configure Sensu Subscriptions
     - type: markdown
@@ -341,6 +350,9 @@ spec:
         - op: replace
           path: /spec/output_metric_thresholds/1/thresholds/0/max
           value: "[[aws_lambda_throttles]]"
+        - op: replace
+          path: /spec/output_metric_thresholds/2/thresholds/0/max
+          value: "[[aws_lambda_dead_letter_errors]]"
         - op: add
           path: /spec/env_vars/-
           value: "AWS_PROFILE=[[aws_profile.env_var]]"

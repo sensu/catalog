@@ -49,9 +49,10 @@ There are no compatible dashboards for this integration.
 <!-- List of all metrics or events collected by this integration. -->
 
 This integration collects dozens of [CloudWatch AWS Lambda metrics] (i.e. `AWS/Lambda` metrics).
-Please refer to the [Working with Lambda function metrics] reference documentation for descriptions of each metric.
+Please refer to the [Working with Lambda function metrics] reference documentation for descriptions of each metric, and [Important (Lambda) metrics for Cloudwatch] for recommended alerting thresholds.
 
 [Working with Lambda function metrics ]: https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics.html
+[Important (Lambda) metrics for Cloudwatch]: https://docs.aws.amazon.com/lambda/latest/operatorguide/important-metrics.html
 
 | **Metric name** | **Tags** |
 |-----------------|----------|
@@ -110,6 +111,7 @@ This integration produces the following events which should be processed by an a
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
 1. This integration uses [Sensu Tokens][tokens] for variable substitution.
+1. [Important (Lambda) metrics for Cloudwatch](https://docs.aws.amazon.com/lambda/latest/operatorguide/important-metrics.html)
 
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/

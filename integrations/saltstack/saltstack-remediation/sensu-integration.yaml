@@ -1,0 +1,161 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: saltstack
+  name: saltstack-remediation
+spec:
+  class: enterprise
+  provider: remediation
+  display_name: SaltStack
+  short_description: Triggers SaltStack function(s) for automated remediation.
+  tags:
+    - saltstack
+    - remediation
+    - self healing
+    - automation
+  contributors:
+    - "@sensu"
+    - "@nixwiz"
+  prompts:
+    - type: section
+      title: SaltStack API Configuration
+    - type: markdown
+      body: |
+        This integration requires a SaltStack API Host as well as an API Username and Password for API Authentication.
+    - type: question
+      name: saltstack_api_url
+      required: true
+      input:
+        type: string
+        title: SaltStack API URL
+        description: >-
+          Provide the URL Host (i.e. http(s)://hostname or IP address)
+        default: "http://127.0.0.1"
+    - type: question
+      name: saltstack_api_username
+      required: true
+      input:
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: SaltStack API Username
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: SaltStack API Username (Sensu Secret)
+                description: >-
+                  Select the SaltStack API Username (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: SaltStack API Username
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: SaltStack API Username
+                description: >-
+                  Provide the SaltStack API Username (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+    - type: question
+      name: saltstack_api_password
+      required: true
+      input:
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: SaltStack API Password
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: SaltStack API Password (Sensu Secret)
+                description: >-
+                  Select the SaltStack API Password (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: SaltStack API Password
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: SaltStack API Password
+                description: >-
+                  Provide the SaltStack API Password (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+  resource_patches:
+    - resource:
+        api_version: core/v2
+        type: Handler
+        name: saltstack
+      patches:
+        - op: add
+          path: /spec/env_vars/-
+          value: SALTSTACK_API_URL=[[saltstack_api_url]]
+        - op: add
+          path: /spec/env_vars/-
+          value: "SALTSTACK_USERNAME=[[saltstack_api_username.env_var]]"
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[saltstack_api_username.secret]]"
+            name: SALTSTACK_USERNAME
+        - op: add
+          path: /spec/env_vars/-
+          value: "SALTSTACK_PASSWORD=[[saltstack_api_password.env_var]]"
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[saltstack_api_password.secret]]"
+            name: SALTSTACK_PASSWORD
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully enabled the SaltStack remediation integration.
+
+        Checks configured with the `saltstack` pipeline _and_ remediation actions (i.e. `sensu.io/plugins/sensu-saltstack-handler/config/actions` annotations) will be processed by SaltStack on [[ saltstack_host]].
+
+        ```yaml
+        spec:
+          pipelines:
+            - api_version: core/v2
+              type: Pipeline
+              name: saltstack
+        ```

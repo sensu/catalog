@@ -5,7 +5,7 @@ metadata:
   namespace: postgresql
   name: postgresql-health-check
 spec:
-  class: enterprise # community, supported, enterprise, or partner
+  class: supported # community, supported, enterprise, or partner
   provider: monitoring
   display_name: "PostgreSQL health check"
   short_description: "Health check for the Sensu Enterprise datastore"
@@ -80,36 +80,36 @@ spec:
         ref: core/v2/pipeline/metadata/name
         refFilter: .labels.provider == "metrics"
   resource_patches:
-    resource:
-      api_version: core/v2
-      type: CheckConfig
-      name: postgresql-health-check
-    patches:
-        - path: /metadata/name
-          op: replace
-          value: postgresql-healthcheck-[[auto_suffix]]
-        - path: /spec/interval
-          op: replace
-          value: interval
-        - path: /spec/command
-          op: replace
-          value: >-
-            http-json --url {{ .annotations.check_postgresql_health_url | default "[[url]]"}} --query ".PostgresHealth.[0].Healthy" --expression "== true"
-        - path: /spec/pipelines/-
-          op: add
-          value:
-            api_version: "core/v2"
-            type: "Pipeline"
-            name: "[[metrics_pipeline]]"
-        - path: /spec/pipelines/-
-          op: add
-          value:
-            api_version: "core/v2"
-            type: "Pipeline"
-            name: "[[alert_pipeline]]"
-        - path: /spec/pipelines/-
-          op: add
-          value:
-            api_version: "core/v2"
-            type: "Pipeline"
-            name: "[[incident_pipeline]]"
+    - resource:
+        api_version: core/v2
+        type: CheckConfig
+        name: postgresql-health-check
+      patches:
+          - path: /metadata/name
+            op: replace
+            value: postgresql-healthcheck-[[auto_suffix]]
+          - path: /spec/interval
+            op: replace
+            value: interval
+          - path: /spec/command
+            op: replace
+            value: >-
+              http-json --url {{ .annotations.check_postgresql_health_url | default "[[url]]"}} --query ".PostgresHealth.[0].Healthy" --expression "== true"
+          - path: /spec/pipelines/-
+            op: add
+            value:
+              api_version: "core/v2"
+              type: "Pipeline"
+              name: "[[metrics_pipeline]]"
+          - path: /spec/pipelines/-
+            op: add
+            value:
+              api_version: "core/v2"
+              type: "Pipeline"
+              name: "[[alert_pipeline]]"
+          - path: /spec/pipelines/-
+            op: add
+            value:
+              api_version: "core/v2"
+              type: "Pipeline"
+              name: "[[incident_pipeline]]"

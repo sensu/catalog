@@ -27,7 +27,7 @@ metadata:
     io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/http-checks
     io.sensu.bonsai.version: 0.7.0
   created_by: admin
-  name: sensu/http-checks
+  name: sensu/http-checks:0.7.0
   namespace: default
 spec:
   builds:

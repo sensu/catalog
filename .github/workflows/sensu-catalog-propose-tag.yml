@@ -20,16 +20,23 @@ jobs:
         shell: bash 
         if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true 
         run: |
-          if [  -z ${GITHUB_SHA} ]; then
-            echo -e "GITHUB_SHA empty, taking no additional action" >&2
+          commit=${commit:=${GITHUB_SHA}}
+          echo "repo: ${GITHUB_REPOSITORY}"
+          echo "sha: ${GITHUB_SHA}"
+          echo "commit: ${commit}"
+          if [  -z ${commit} ]; then
+            echo -e "commit empty, taking no additional action" >&2
             exit 0
           fi
-          echo ${GITHUB_REPOSITORY}
-          echo ${GITHUB_TOKEN}
-          commit_epoch=$(git show -s --format=%ct ${GITHUB_SHA})
+          commit_epoch=$(git show -s --format=%ct ${commit})
           d=`date --utc -d @$commit_epoch +%Y%m%d`
-          integrations=$(git log -m -1 --name-only $1  | grep "integrations/" | xargs -n 1 dirname  | sed -e 's/^integrations\///' |sort -u)
-
+          results=`git diff --name-only ${commit}^ ${commit} | { grep "integrations/"  || test $? = 1; }`
+          if [ ${#results} -eq 0 ]; then
+            echo "No integration files changed in commit ${commit}, taking no additional action" 
+            exit 0
+          fi
+          integrations=$(echo "${results}" | xargs -n 1 dirname  | sed -e 's/^integrations\///' |sort -u)
+          echo -e "Detected Changed Integrations:\n$integrations\n"
           for integration in $integrations
           do
             trimmed=$(echo ${integration} | sed 's:/*$::')
@@ -47,7 +54,7 @@ jobs:
               fi
               ((minor=i+1))
             done
-            echo $version
+            echo "Suggested Version: $version"
             if [  -z ${GITHUB_TOKEN} ]; then
               echo -e "GITHUB_TOKEN empty, skipping issue creation" >&2
             else
@@ -56,7 +63,7 @@ jobs:
                 -H "Authorization: token ${GITHUB_TOKEN}" \
                 -H "Accept: application/vnd.github.v3+json" \
                 https://api.github.com/repos/${GITHUB_REPOSITORY}/issues \
-                -d "{\"title\":\"Proposed Release Tag ${version}\",\"body\":\"Automatic tag proposal based on files changed in PR merge.\n  Commit: ${GITHUB_SHA}\n  REF: ${GITHUB_REF}\n  Integration: ${trimmed}\",\"labels\":[\"need-tag\"]}"
+                -d "{\"title\":\"Proposed Release Tag ${version}\",\"body\":\"Automatic tag proposal based on files changed in PR merge.\n  Commit: ${commit}\n  REF: ${GITHUB_REF}\n  Integration: ${trimmed}\",\"labels\":[\"need-tag\"]}"
             fi
           done
 

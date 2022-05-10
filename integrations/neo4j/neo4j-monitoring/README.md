@@ -2,7 +2,7 @@
 
 <!-- Sensu Integration description; supports markdown -->
 
-The Neo4j monitoring and metrics integration provides metrics from hosts running Neo4j. These are output in Prometheus format.
+The Neo4j monitoring and metrics integration provides metrics from hosts running Neo4j Enterprise releases. These are output in Prometheus format.
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 

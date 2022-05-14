@@ -43,6 +43,8 @@ There are no compatible dashboards for this integration.
          ]
    ```
 
+  See the [asset README][asset-readme-annotations] for further information on configuring the remediation action.
+
 ## Plugins
 
 <!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->
@@ -84,3 +86,4 @@ This integration does not produce any events that should be processed by an aler
 [sensu-saltstack-handler-github]: https://github.com/sensu/sensu-saltstack-handler
 [saltstack-functions]: https://docs.saltproject.io/en/getstarted/config/functions.html
 [saltstack-configuration]: https://docs.vmware.com/en/VMware-vRealize-Automation-SaltStack-Config/index.html
+[asset-readme-annotations]: https://bonsai.sensu.io/assets/sensu/sensu-saltstack-handler/versions/0.4.0#annotations

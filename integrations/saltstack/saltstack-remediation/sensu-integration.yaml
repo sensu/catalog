@@ -41,6 +41,18 @@ spec:
           - type: object
             required:
               - option
+            properties:
+              option:
+                type: string
+                title: SaltStack API Username
+                const: none
+                constLocale:
+                  title: None
+                  description: >-
+                    Select this option to rely on pre-provisioned api username
+          - type: object
+            required:
+              - option
               - secret
             properties:
               option:

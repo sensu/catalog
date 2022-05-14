@@ -84,6 +84,18 @@ spec:
           - type: object
             required:
               - option
+            properties:
+              option:
+                type: string
+                title: SaltStack API Password
+                const: none
+                constLocale:
+                  title: None
+                  description: >-
+                    Select this option to rely on pre-provisioned api password
+          - type: object
+            required:
+              - option
               - secret
             properties:
               option:

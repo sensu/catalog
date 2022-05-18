@@ -23,6 +23,11 @@ spec:
     - "@sensu"
     - "@asachs01"
   prompts:
+    - type: section
+      title: Configure Sensu Backend Postgres Health Monitoring
+    - type: markdown
+      body: |
+        Configure Sensu Backend Postgres health check
     - type: question
       name: url
       required: false

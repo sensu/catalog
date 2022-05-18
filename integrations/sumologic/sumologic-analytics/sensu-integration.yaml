@@ -6,6 +6,7 @@ metadata:
   name: sumologic-analytics
   annotations:
     io.sensu.catalog.featured: "true"
+    io.sensu.sensu-plus.invoke: "true"
 spec:
   class: supported
   provider: metrics

@@ -113,3 +113,7 @@ spec:
               api_version: "core/v2"
               type: "Pipeline"
               name: "[[incident_pipeline]]"
+       - path: /spec/subscriptions
+         op: replace
+         value: subscriptions
+      

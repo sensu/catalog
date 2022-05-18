@@ -2,23 +2,23 @@
 api_version: catalog/v1
 type: Integration
 metadata:
-  namespace: postgresql
-  name: postgresql-health-check
+  namespace: sensu
+  name: sensu-backend-monitoring
 spec:
   class: supported # community, supported, enterprise, or partner
   provider: monitoring
-  display_name: "PostgreSQL health check"
-  short_description: "Health check for the Sensu Enterprise datastore"
+  display_name: "Sensu Backend Monitoring"
+  short_description: "Health checks for Sensu Backends"
   supported_platforms:
     - darwin
     - linux
     - windows
   tags:
+    - sensu
+    - postgres
     - postgresql
     - pgsql
-    - postgres
     - database
-    - sensu
   contributors:
     - "@sensu"
     - "@asachs01"
@@ -27,7 +27,7 @@ spec:
       title: Configure Sensu Backend Postgres Health Monitoring
     - type: markdown
       body: |
-        Configure Sensu Backend Postgres health check
+        Configure Sensu Backend Health API monitoring
     - type: question
       name: url
       required: false
@@ -103,7 +103,7 @@ spec:
     - resource:
         api_version: core/v2
         type: CheckConfig
-        name: postgresql-health-check
+        name: sensu-backend-postgresql-health
       patches:
         - op: replace
           path: /spec/interval
@@ -111,7 +111,10 @@ spec:
         - op: replace
           path: /spec/command
           value: >-
-            http-json --url {{ .annotations.check_postgresql_health_url | default "[[url]]"}} --query ".PostgresHealth.[0].Healthy" --expression "== true"
+            http-json
+            --url {{ .annotations.check_postgresql_health_url | default "[[url]]"}}
+            --query ".PostgresHealth.[0].Healthy"
+            --expression "== true"
         - op: add
           path: /spec/pipelines/-
           value:

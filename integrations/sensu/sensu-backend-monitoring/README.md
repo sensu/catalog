@@ -8,7 +8,7 @@ Th Sensu Enterprise datastore monitoring integration provides a health check for
 
 This integration includes the following resources:
 
-* `postgresql-health-check` [check]
+* `sensu-backend-postgresql-health` [check]
 * `sensu/http-checks:0.7.0` [asset]
 
 ## Dashboards

@@ -6,6 +6,16 @@ The Sensu backend monitoring integration provides a health checks for ensuring t
 Sensu backend services include Postgres, Etcd (coming soon), cluster alarms, and more.
 The Sensu backend monitoring integration leverages the [Sensu Health API].
 
+This integration is designed for use in federated Sensu environments where Sensu backend health monitoring is performed by a peer Sensu deployment.
+
+> **What's monitoring your monitoring?**
+>
+> It's a riddle as old as time.
+> The popular conscensus is that the answer cannot be "your monitoring".
+> Redundancies are your friend.
+> Having said that, this integration _can_ be used in standalone Sensu pre-production environments but should not be relied upon in standalone production environments.
+> YMMV. 😊
+
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 
 This integration includes the following resources:

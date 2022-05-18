@@ -112,7 +112,7 @@ spec:
           path: /spec/command
           value: >-
             http-json
-            --url {{ .annotations.check_postgresql_health_url | default "[[url]]"}}
+            --url {{ .annotations.sensu_backend_health_url | default "[[url]]"}}
             --query ".PostgresHealth.[0].Healthy"
             --expression "== true"
         - op: add

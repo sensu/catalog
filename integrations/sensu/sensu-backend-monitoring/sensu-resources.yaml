@@ -6,7 +6,7 @@ metadata:
 spec:
   command: >-
     http-json
-    --url {{ .annotations.check_postgresql_health_url | default "http://127.0.0.1:8080/health"}}
+    --url {{ .annotations.sensu_backend_health_url | default "http://127.0.0.1:8080/health"}}
     --query ".PostgresHealth.[0].Healthy"
     --expression "== true"
   runtime_assets:

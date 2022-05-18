@@ -2,7 +2,9 @@
 
 <!-- Sensu Integration description; supports markdown -->
 
-Th Sensu Enterprise datastore monitoring integration provides a health check for ensuring that the PosgreSQL instance for Sensu Enterprise is healthy.
+The Sensu backend monitoring integration provides a health checks for ensuring that Sensu backend services are healthy.
+Sensu backend services include Postgres, Etcd (coming soon), cluster alarms, and more.
+The Sensu backend monitoring integration leverages the [Sensu Health API].
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 
@@ -26,10 +28,17 @@ There are no compatible dashboards for this integration.
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
 
-1. Add the `postgresql` subscription to agents that should run this check.
+1. Optionally configure the `sensu_backend_health_url` annotation to override the default URL.
 
-   **NOTE:** set the optional `check_postgresql_health_url` agent annotation to override the default URL (`http://127.0.0.1:8080/health`).
+   A default Sensu backend URL will be configured via the integration prompts, but individual agents can override this URL by setting the `sensu_backend_health_url` entity annotation.
 
+   Example `agent.yml`:
+
+   ```yaml
+   ---
+   annotations:
+     sensu_backend_health_url: https://sensu.mycompany.com:8080/health
+   ```
 
 ## Plugins
 
@@ -51,6 +60,7 @@ This integration produces the following events which should be processed by an a
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
 1. This integration uses [Sensu Tokens][tokens] for variable substitution.
+1. This integration uses the [Sensu Health API] for data collection.
 
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
@@ -70,3 +80,4 @@ This integration produces the following events which should be processed by an a
 [{{dashboard-link}}]: #
 [http-checks-bonsai]: https://bonsai.sensu.io/assets/sensu/http-checks
 [http-checks-github]: https://github.com/sensu/http-checks
+[Sensu Health API]: https://docs.sensu.io/sensu-go/latest/api/other/health/

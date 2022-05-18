@@ -5,7 +5,7 @@ metadata:
   name: postgresql-health-check
 spec:
   command: >-
-    http-json --url {{ .annotations.check_postgresql_health_url | default "[[url]]"}} --query ".PostgresHealth.[0].Healthy" --expression "== true"
+    http-json --url {{ .annotations.check_postgresql_health_url | default "http://127.0.0.1:8080/health"}} --query ".PostgresHealth.[0].Healthy" --expression "== true"
   runtime_assets:
   - sensu/http-checks:0.7.0
   publish: true

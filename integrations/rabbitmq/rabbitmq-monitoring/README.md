@@ -28,22 +28,7 @@ There are no compatible dashboards for this integration.
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
 
-1. **[OPTIONAL] Disable redirect warnings**
-
-   To disable redirect warnings, install this integration, then modify the resulting Sensu Check resource with the `--redirect-ok` flag.
-
-   Example:
-
-   ```yaml
-   spec:
-     command: >-
-       http-get
-       --timeout 10
-       --redirect-ok
-       --url "http://127.0.0.1:15692/"
-   ```
-
-2. **[OPTIONAL] Configure custom request headers**
+1. **[OPTIONAL] Configure custom request headers**
 
    To add custom request headers, install this integration, then modify the resulting Sensu Check resource with one or more `--header` flags.
 

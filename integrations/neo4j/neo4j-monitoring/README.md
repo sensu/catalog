@@ -41,21 +41,6 @@ There are no compatible dashboards for this integration.
 
    For more information read the [Neo4j Metrics documentation](https://neo4j.com/docs/operations-manual/current/monitoring/metrics/expose/#metrics-prometheus).
 
-1. **[OPTIONAL] Disable redirect warnings**
-
-   To disable redirect warnings, install this integration, then modify the resulting Sensu Check resource with the `--redirect-ok` flag.
-
-   Example:
-
-   ```yaml
-   spec:
-     command: >-
-       http-get
-       --timeout 10
-       --redirect-ok
-       --url "http://127.0.0.1:2004/metrics"
-   ```
-
 1. **[OPTIONAL] Configure custom request headers**
 
    To add custom request headers, install this integration, then modify the resulting Sensu Check resource with one or more `--header` flags.

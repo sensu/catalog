@@ -2,14 +2,15 @@
 
 <!-- Sensu Integration description; supports markdown -->
 
-The {{integration_name}} integration provides {{integration_description}}.
+The [AWS RDS] integration collects RDS metrics from [AWS CloudWatch], and alerts on various Lamda conditions.
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 
 This integration includes the following resources:
 
-* "{{check_name}}" [check]
-* "{{asset_name}}" [asset]
+* [AWS RDS]: https://aws.amazon.com/rds/
+* [AWS CloudWatch]: https://aws.amazon.com/cloudwatch/
+
 
 ## Dashboards
 
@@ -25,20 +26,27 @@ There are no compatible dashboards for this integration.
 
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
+1. This integration requires access to AWS CloudWatch APIs.
 
-1. Add one of the following [subscriptions] to [agents] that should run this check.
+   All forms of AWS authentication supported by the [AWS CLI] are supported, including [EC2 IAM Instance Profiles]. This integration requires read-only access to AWS CloudWatch (e.g. `arn:aws:iam::aws:policy/CloudWatchReadOnlyAccess`).
 
-   * `{{subscription}}`
+   `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` secret(s) or environment variable(s) are not needed if the check(s) from this integration are run on a `sensu-agent` installed on an EC2 instance with an IAM Instance Profile containing the `arn:aws:iam::aws:policy/CloudWatchReadOnlyAccess`.
 
-1. Optionally set the `{{token_name}}` agent [annotation] to override the default value (`{{token_default}}`).
+[AWS CLI]: https://aws.amazon.com/cli/
+[EC2 IAM Instance Profiles]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html
 
 ## Plugins
 
 <!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->
-
-- [sensu/{{asset_name}}][{{asset_name}}-bonsai] ([GitHub][{{asset_name}}-github])
+- [sensu/sensu-cloudwatch-check][sensu-cloudwatch-check-bonsai] ([GitHub][sensu-cloudwatch-check-github])
 
 ## Metrics & Events
+
+This integration collects several [Amazon CloudWatch metrics for Amazon RDS] (i.e. `AWS/RDS` metrics).
+Please refer to the [Amazon CloudWatch metrics for Amazon RDS] reference documentation for descriptions of each metric.
+
+[Overview of monitoring metrics in Amazon RDS] https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MonitoringOverview.html
+[Amazon CloudWatch metrics for Amazon RDS]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-metrics.html
 
 <!-- List of all metrics or events collected by this integration. -->
 
@@ -46,7 +54,15 @@ This integration collects the following [metrics]:
 
 | **Metric name** | **Description** | **Tags** |
 |-----------------|-----------------|----------|
-| `{{metric_name}}` | {{metric_description}} | {{metric_tags}} |
+| `aws_rds_cpu_utilization_average` | The average percentage of CPU utilization during the time period. | DBInstanceIdentifier, DatabaseClass, EngineName, SourceRegion |
+| `aws_rds_cpu_utilization_maximum` | The minimum percentage of CPU utilization during the time period. | DBInstanceIdentifier, DatabaseClass, EngineName, SourceRegion |
+| `aws_rds_cpu_utilization_minimum` | The minimum percentage of CPU utilization during the time period. | DBInstanceIdentifier, DatabaseClass, EngineName, SourceRegion |
+| `aws_rds_freeable_memory_average` | The average bytes of available random access memory during the time period. | DBInstanceIdentifier, DatabaseClass, EngineName, SourceRegion |
+| `aws_rds_freeable_memory_maximum` | The minimum bytes of available random access memory during the time period. | DBInstanceIdentifier, DatabaseClass, EngineName, SourceRegion |
+| `aws_rds_freeable_memory_minimum` | The minimum bytes of available random access memory during the time period. | DBInstanceIdentifier, DatabaseClass, EngineName, SourceRegion |
+| `aws_rds_free_strorage_space_average` | The average bytes of available storage space during the time period. | DBInstanceIdentifier, DatabaseClass, EngineName, SourceRegion |
+| `aws_rds_free_strorage_space_maximum` | The minimum bytes of available storage space during the time period. | DBInstanceIdentifier, DatabaseClass, EngineName, SourceRegion |
+| `aws_rds_free_strorage_space_minimum` | The minimum bytes of available storage space during the time period. | DBInstanceIdentifier, DatabaseClass, EngineName, SourceRegion |
 
 ## Alerts
 
@@ -54,13 +70,12 @@ This integration collects the following [metrics]:
 
 This integration produces the following events which should be processed by an alert or incident management [pipeline]:
 
-* `WARNING`
+* `cpu_utilization WARNING`
 
-  <!-- Description of the alert condition. -->
+Produces a warning when CPU utilization is over a warning threshold (default: 80%)
+* `cpu_utilization CRITICAL`
+Produces a warning when CPU utilization is over a critical threshold (default: 90%)
 
-* `CRITICAL`
-
-  <!-- Description of the alert condition. -->
 
 ## Reference Documentation
 

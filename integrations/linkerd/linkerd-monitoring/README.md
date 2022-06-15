@@ -2,7 +2,9 @@
 
 <!-- Sensu Integration description; supports markdown -->
 
-The linkerd monitoring and metrics integration provides metrics from hosts running linkerd. These are output in Prometheus format.
+The linkerd monitoring and metrics integration provides metrics from hosts running a  linkerd proxy. These are output in Prometheus format.
+
+Ref: https://linkerd.io/2.10/tasks/exporting-metrics/#proxy
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 

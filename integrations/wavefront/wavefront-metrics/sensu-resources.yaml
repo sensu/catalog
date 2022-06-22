@@ -1,4 +1,39 @@
 ---
+type: Pipeline
+api_version: core/v2
+metadata:
+  name: wavefront-metrics
+spec:
+  workflows:
+  - name: wavefront-metrics
+    filters:
+    - api_version: core/v2
+      type: EventFilter
+      name: has_metrics
+    handler:
+      api_version: core/v2
+      type: Handler
+      name: wavefront-metrics
+
+---
+type: Handler
+api_version: core/v2
+metadata:
+  name: wavefront-metrics
+spec:
+  command: >-
+    sensu-wavefront-handler
+    --host $WAVEFRONT_PROXY_HOST
+    --metrics-port $WAVEFRONT_PROXY_PORT
+  runtime_assets:
+  - sensu/sensu-wavefront-handler:0.2.2
+  env_vars:
+    - "WAVEFRONT_PROXY_HOST=localhost"
+    - "WAVEFRONT_PROXY_PORT=2878"
+  type: pipe
+  timeout: 10
+
+---
 type: Asset
 api_version: core/v2
 metadata:
@@ -44,36 +79,3 @@ spec:
     filters:
     - entity.system.os == 'linux'
     - entity.system.arch == 'amd64'
----
-type: Handler
-api_version: core/v2
-metadata:
-  name: wavefront-metrics
-spec:
-  command: >-
-    sensu-wavefront-handler
-    --host $WAVEFRONT_PROXY_HOST
-    --metrics-port $WAVEFRONT_PROXY_PORT
-  runtime_assets:
-  - sensu/sensu-wavefront-handler:0.2.2
-  env_vars:
-    - "WAVEFRONT_PROXY_HOST=localhost"
-    - "WAVEFRONT_PROXY_PORT=2878"
-  type: pipe
-  timeout: 10
----
-type: Pipeline
-api_version: core/v2
-metadata:
-  name: wavefront-metrics
-spec:
-  workflows:
-  - name: wavefront-metrics
-    filters:
-    - api_version: core/v2
-      type: EventFilter
-      name: has_metrics
-    handler:
-      api_version: core/v2
-      type: Handler
-      name: wavefront-metrics

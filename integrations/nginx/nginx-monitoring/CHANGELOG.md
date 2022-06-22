@@ -7,13 +7,11 @@ to [Semantic Versioning][semver].
 
 ## Unreleased
 
-## 20220323.0.0
-- Remove redundant patch resource section
+- N/A
 
-## 20220308.0.0
+## [ 20220421.0.0 ] - 2022-04-21
 
-## 20220217.0.0
-- Initial implementation of `nginx/nginx-monitoring` integration.
+- Initial release!
 
 [changelog]: http://keepachangelog.com/en/1.0.0/
 [semver]: http://semver.org/spec/v2.0.0.html

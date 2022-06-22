@@ -39,6 +39,7 @@ spec:
     - sensu/sensu-slack-handler:1.4.0
   timeout: 0
   env_vars: []
+  secrets: []
 ---
 type: EventFilter
 api_version: core/v2

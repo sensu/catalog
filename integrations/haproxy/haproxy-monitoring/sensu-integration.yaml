@@ -5,7 +5,7 @@ metadata:
   namespace: haproxy
   name: haproxy-monitoring
 spec:
-  class: community
+  class: supported
   provider: monitoring
   display_name: HAProxy monitoring
   short_description: Monitor HAProxy service health and performance

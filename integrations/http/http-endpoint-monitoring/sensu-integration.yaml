@@ -15,6 +15,7 @@ spec:
     - windows
   tags:
     - http
+    - service
   contributors:
     - "@sensu"
     - "@calebhailey"

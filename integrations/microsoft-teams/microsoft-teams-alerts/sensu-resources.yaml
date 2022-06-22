@@ -20,20 +20,22 @@ spec:
       type: Handler
       name: microsoft-teams
 ---
+# NOTE: Requires MICROSOFT_TEAMS_WEBHOOK_URL environment variable or secret
 type: Handler
 api_version: core/v2
 metadata:
   name: microsoft-teams
 spec:
+  type: pipe
   command: >-
     sensu-microsoft-teams-handler
     --icon-url https://www.sensu.io/img/sensu-logo.png
     --title-template "Sensu Event - {{.Entity.Name}}/{{.Check.Name}}"
-    # NOTE: Requires MICROSOFT_TEAMS_WEBHOOK_URL environment variable or secret
   runtime_assets:
     - sensu/sensu-microsoft-teams-handler:0.1.2
   timeout: 0
-  type: pipe
+  env_vars: []
+  secrets: []
 ---
 type: Asset
 api_version: core/v2

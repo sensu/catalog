@@ -49,3 +49,19 @@ spec:
           value:
             - "WAVEFRONT_PROXY_HOST=[[wavefront_host]]"
             - "WAVEFRONT_PROXY_PORT=[[wavefront_port]]"
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully enabled the Wavefront integration.
+
+        Checks configured with the `wavefront-metrics` pipeline will send metrics to Wavefront at `[[wavefront_host]]:[[wavefront_port]]`.
+
+        ```yaml
+        spec:
+          pipelines:
+            - api_version: core/v2
+              type: Pipeline
+              name: wavefront-metrics
+        ```

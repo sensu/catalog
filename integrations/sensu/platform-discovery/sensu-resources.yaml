@@ -41,6 +41,7 @@ spec:
         name: subscription-manager
 
 ---
+# NOTE: Requires SENSU_API_KEY environment variable or secret
 type: Handler
 api_version: core/v2
 metadata:
@@ -48,14 +49,14 @@ metadata:
 spec:
   type: pipe
   command: >-
-    sensu-entity-manager 
+    sensu-entity-manager
     --add-subscriptions
-    # NOTE: Requires SENSU_API_KEY environment variable or secret
   runtime_assets:
     - sensu/sensu-entity-manager:0.3.0
   timeout: 5
   env_vars:
     - SENSU_API_URL=http://127.0.0.1:8080
+  secrets: []
 
 ---
 type: EventFilter

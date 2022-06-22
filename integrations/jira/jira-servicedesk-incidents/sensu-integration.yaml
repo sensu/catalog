@@ -5,7 +5,7 @@ metadata:
   namespace: jira
   name: jira-servicedesk-incidents
 spec:
-  class: supported
+  class: enterprise
   provider: incidents
   display_name: Jira Service Management
   short_description: Create & resolve incidents in Jira Service Management
@@ -23,8 +23,8 @@ spec:
       body: |
         This integration requires a Jira account and [Jira Service Management] project.
 
-        * [Jira URL] (e.g. "https://mycompany.atlassian.net")
-        * [Jira Project Key] (e.g. "OPS")
+        * [Jira URL] (e.g. `https://mycompany.atlassian.net`)
+        * [Jira Project Key] (e.g. `OPS`)
         * [Jira Issue Type] (e.g. `[System] Incident`)
 
         Please provide these Jira configuration parameters below.
@@ -68,38 +68,119 @@ spec:
       name: jira_username
       required: true
       input:
-        type: string
-        title: Jira Username
-        description: >-
-          Provide the Jira Username to use for Jira API authentication (e.g. sensu@yourcompany.com)
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: Jira Username
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: Jira Username (Sensu Secret)
+                description: >-
+                  Select the Jira Username (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: Jira Username
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: Jira Username
+                description: >-
+                  Provide the Jira Username (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
     - type: question
       name: jira_api_token
+      required: true
       input:
-        type: string
-        title: Jira API Token
-        description: >-
-          Provide the Jira API Token to use for Jira API authentication
+        type: object
+        oneOf:
+          - type: object
+            required:
+              - option
+              - secret
+            properties:
+              option:
+                type: string
+                title: Jira API Token
+                const: secret
+                constLocale:
+                  title: Secret
+                  description: >-
+                    Select this option to use Sensu Secrets Management
+              secret:
+                type: string
+                title: Jira API Token (Sensu Secret)
+                description: >-
+                  Select the Jira API Token (Sensu Secret)
+                ref: secrets/v1/secret/metadata/name
+          - type: object
+            required:
+              - option
+              - env_var
+            properties:
+              option:
+                type: string
+                title: Jira API Token
+                const: env_var
+                constLocale:
+                  title: Environment Variable
+                  description: >-
+                    Select this option to store sensitive configuration as environment variables
+              env_var:
+                type: string
+                title: Jira API Token
+                description: >-
+                  Provide the Jira API Token (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
   resource_patches:
     - resource:
         api_version: core/v2
         type: Handler
         name: jira-servicedesk-handler
       patches:
-        - path: /spec/env_vars/-
-          op: add
+        - op: add
+          path: /spec/env_vars/-
           value: JIRA_URL=[[jira_url]]
-        - path: /spec/env_vars/-
-          op: add
+        - op: add
+          path: /spec/env_vars/-
           value: JIRA_PROJECT_KEY=[[jira_project_key]]
-        - path: /spec/env_vars/-
-          op: add
+        - op: add
+          path: /spec/env_vars/-
           value: JIRA_ISSUE_TYPE=[[jira_issue_type]]
-        - path: /spec/env_vars/-
-          op: add
-          value: JIRA_USERNAME=[[jira_username]]
-        - path: /spec/env_vars/-
-          op: add
-          value: JIRA_PASSWORD=[[jira_api_token]]
+        - op: add
+          path: /spec/env_vars/-
+          value: JIRA_USERNAME=[[jira_username.env_var]]
+        - op: add
+          path: /spec/env_vars/-
+          value: JIRA_PASSWORD=[[jira_api_token.env_var]]
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[jira_username.secret]]"
+            name: JIRA_USERNAME
+        - op: add
+          path: /spec/secrets/-
+          value:
+            secret: "[[jira_api_token.secret]]"
+            name: JIRA_PASSWORD
   post_install:
     - type: section
       title: Success

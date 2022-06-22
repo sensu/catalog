@@ -1,0 +1,160 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: docker
+  name: docker-monitoring
+spec:
+  class: community
+  provider: monitoring
+  display_name: Docker monitoring
+  short_description: Monitor Docker hosts
+  supported_platforms:
+    - linux
+  tags:
+    - docker
+    - containers
+    - metrics
+    - prometheus
+    - linux
+    - darwin
+    - windows
+  contributors:
+    - "@sensu"
+    - "@thoward"
+  prompts:
+    - type: section
+      title: Docker Metrics HTTP Endpoint Configuration
+    - type: markdown
+      body: |
+        Configure docker metrics HTTP endpoint with the following parameters:
+
+        * **URL**: the target URL to collect metrics from (e.g. `https://localhost:9323/metrics`)
+          * **Protocol**: select http or https request
+          * **Host**: provide a hostname, IP address, or domain name
+          * **Port**: provide the port to check (e.g. `9323` for HTTP, `443` for HTTPS)
+          * **Path**: provide the URL path to check (e.g. `/metrics`)
+        * **Interval**: how often to monitor the metrics endpoint (in seconds)
+    - type: question
+      name: protocol
+      required: true
+      input:
+        type: string
+        title: HTTP Endpoint Protocol
+        description: >-
+          Provide the HTTP endpoint protocol (i.e. "http" or "https").
+        enum:
+          - http
+          - https
+        default: http
+    - type: question
+      name: host
+      required: true
+      input:
+        type: string
+        title: HTTP Endpoint Host
+        description: >-
+          Provide the HTTP endpoint host (e.g. "127.0.0.1")
+        default: 127.0.0.1
+    - type: question
+      name: port
+      required: true
+      input:
+        type: integer
+        title: HTTP Endpoint Port
+        description: >-
+          Provide the HTTP endpoint port (e.g. 9323 is the default for Docker)
+        default: 9323
+    - type: question
+      name: path
+      required: true
+      input:
+        type: string
+        title: HTTP Endpoint Path
+        description: >-
+          Provide the HTTP endpoint path (e.g. "/metrics"; NOTE: this configuration MUST begin with a "/")
+        default: "/metrics"
+    - type: question
+      name: interval
+      input:
+        type: integer
+        title: Interval
+        description: >-
+          Configure the metrics endpoint monitoring interval, in seconds (60 = one minute, 300 = five minutes, 600 = 10 minutes, etc)
+        default: 30
+    - type: question
+      name: labels
+      input:
+        type: object
+        title: Labels
+        description: Key/value metadata
+        format: io.sensu.meta.label
+        additionalProperties:
+          type: string
+    - type: section
+      title: Configure Sensu Subscriptions
+    - type: markdown
+      body: |
+        Configure which Sensu Agent subscriptions this check should be run on.
+
+        E.G. A subscription that maps to the hosts that are running Docker.
+    - type: question
+      name: subscriptions
+      input:
+        type: array
+        items:
+          type: string
+          title: Subscriptions (Origins)
+          ref: core/v2/entity/subscriptions
+        default:
+          - docker
+          - docker-daemon
+          - docker-machine
+    - type: section
+      title: Pipeline Configuration
+    - type: markdown
+      body: |
+        Configure one or more [pipelines] for processing Docker metrics.
+
+        [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
+    - type: question
+      name: metrics_pipeline
+      required: false
+      input:
+        type: string
+        title: Metrics Pipeline
+        description: >-
+          How do you want to process metrics collected by this integration?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == "metrics"
+        default: metrics
+  resource_patches:
+    - resource:
+        api_version: core/v2
+        type: CheckConfig
+        name: docker-daemon-metrics
+      patches:
+        - op: replace
+          path: /metadata/labels
+          value: labels
+        - op: replace
+          path: /spec/command
+          value: >-
+            http-get
+            --timeout 10
+            --url "[[protocol]]://[[host]]:[[port]][[path]]"
+        - op: replace
+          path: /spec/subscriptions
+          value: subscriptions
+        - op: add
+          path: /spec/output_metric_tags/-
+          value:
+            name: "url"
+            value: "[[protocol]]://[[host]]:[[port]][[path]]"
+        - op: add
+          path: /spec/pipelines/-
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[metrics_pipeline]]"
+

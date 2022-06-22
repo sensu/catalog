@@ -156,14 +156,14 @@ spec:
           path: /spec/command
           value: >-
             network-interface-checks
-            --state-file {{ .annotations.network_interface_monitoring_state_file | default "/var/cache/sensu/sensu-agent/network-interface-checks" }}
-            --exclude-interfaces {{ .annotations.excluded_network_interfaces | default "[[options.excluded_interfaces]]" }}
+            --state-file '{{ or .annotations.network_interface_monitoring_state_file "/var/cache/sensu/sensu-agent/network-interface-checks" }}'
+            --exclude-interfaces '{{ or .annotations.excluded_network_interfaces "[[options.excluded_interfaces]]" }}'
         - op: replace
           path: /spec/command
           value: >-
             network-interface-checks
-            --state-file {{ .annotations.network_interface_monitoring_state_file | default "/var/cache/sensu/sensu-agent/network-interface-checks" }}
-            --include-interfaces {{ .annotations.excluded_network_interfaces | default "[[options.included_interfaces]]" }}
+            --state-file '{{ or .annotations.network_interface_monitoring_state_file "/var/cache/sensu/sensu-agent/network-interface-checks" }}'
+            --include-interfaces '{{ or .annotations.excluded_network_interfaces "[[options.included_interfaces]]" }}'
         - op: replace
           path: /spec/output_metric_thresholds/0/tags/0/value # drop_in_rate
           value: '{{ .annotations.default_network_interface | default "[[default_interface]]" }}'

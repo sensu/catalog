@@ -11,7 +11,8 @@ to [Semantic Versioning][semver].
 
 ## [0.1.0] - {{current_date}}
 
-- Initial add of `{{integration_name}}` integration.
+- Initial add of `aws-rds-monitoring` integration.
+
 
 
 [changelog]: http://keepachangelog.com/en/1.0.0/

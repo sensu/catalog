@@ -47,7 +47,7 @@ spec:
 type: Asset
 api_version: core/v2
 metadata:
-  name: system-check
+  name: sensu/system-check:0.1.2
   labels: 
   annotations:
     io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/system-check

@@ -101,3 +101,6 @@ Produces a warning when CPU utilization is over a critical threshold (default: 9
 [{{dashboard-link}}]: #
 [sensu-cloudwatch-check-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-cloudwatch-check
 [sensu-cloudwatch-check-github]: https://github.com/sensu/sensu-cloudwatch-check
+[AWS RDS]: https://aws.amazon.com/rds/
+[AWS CloudWatch]: https://aws.amazon.com/cloudwatch/
+

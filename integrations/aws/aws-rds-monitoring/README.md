@@ -45,7 +45,7 @@ There are no compatible dashboards for this integration.
 This integration collects several [Amazon CloudWatch metrics for Amazon RDS] (i.e. `AWS/RDS` metrics).
 Please refer to the [Amazon CloudWatch metrics for Amazon RDS] reference documentation for descriptions of each metric.
 
-[Overview of monitoring metrics in Amazon RDS] https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MonitoringOverview.html
+[Overview of monitoring metrics in Amazon RDS]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MonitoringOverview.html
 [Amazon CloudWatch metrics for Amazon RDS]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-metrics.html
 
 <!-- List of all metrics or events collected by this integration. -->

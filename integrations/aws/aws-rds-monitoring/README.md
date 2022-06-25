@@ -8,8 +8,8 @@ The [AWS RDS] integration collects RDS metrics from [AWS CloudWatch], and alerts
 
 This integration includes the following resources:
 
-* [AWS RDS]: https://aws.amazon.com/rds/
-* [AWS CloudWatch]: https://aws.amazon.com/cloudwatch/
+* `aws-rds-metrics` [check]
+* `sensu/sensu-cloudwatch-check:0.3.0` [asset] 
 
 
 ## Dashboards

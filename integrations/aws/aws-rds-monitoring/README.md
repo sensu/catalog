@@ -99,5 +99,5 @@ Produces a warning when CPU utilization is over a critical threshold (default: 9
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [sensu-plus]: https://sensu.io/features/analytics
 [{{dashboard-link}}]: #
-[{{asset_name}}-bonsai]: #
-[{{asset_name}}-github]: #
+[sensu-cloudwatch-check-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-cloudwatch-check
+[sensu-cloudwatch-check-github]: https://github.com/sensu/sensu-cloudwatch-check

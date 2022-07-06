@@ -56,26 +56,26 @@ spec:
         ref: core/v2/pipeline/metadata/name
         refFilter: .labels.provider == "metrics"
   resource_patches:
-    resource:
-      api_version: core/v2
-      type: CheckConfig
-      name: example
-    patches:
-      - path: /spec/pipelines/-
-        op: add
-        value:
-          api_version: core/v2
-          type: Pipeline
-          name: "[[alert_pipeline]]"
-      - path: /spec/pipelines/-
-        op: add
-        value:
-          api_version: core/v2
-          type: Pipeline
-          name: "[[incident_pipeline]]"
-      - path: /spec/pipelines/-
-        op: add
-        value:
-          api_version: core/v2
-          type: Pipeline
-          name: "[[metrics_pipeline]]"
+    - resource:
+        api_version: core/v2
+        type: CheckConfig
+        name: example
+      patches:
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[alert_pipeline]]"
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[incident_pipeline]]"
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[metrics_pipeline]]"

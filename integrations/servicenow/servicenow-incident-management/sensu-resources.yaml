@@ -36,7 +36,7 @@ spec:
     --incident-work-notes "{{ .Check.Output }}"
     --incident-properties category
   runtime_assets:
-    - sensu/sensu-servicenow-handler:3.0.0
+    - sensu/sensu-servicenow-handler:3.0.2
   env_vars: []
   secrets: []
   timeout: 10

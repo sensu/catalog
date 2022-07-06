@@ -1,13 +1,14 @@
 ## Overview
 
 The `influxdb-metrics` integration provides a Sensu pipeline for sending metrics
-to the InfluxDB time series database. This integration is compatible with InfluxDB versions 1.x.
+to the InfluxDB time series database. This integration is compatible with InfluxDB versions 2.x 
+with backwards compatibility for InfluxDB v1.8+.
 
 This integration provides the following resources:
 
 * `influxdb` [handler]
 * `influxdb-metrics` [pipeline]
-* `sensu/sensu-influx-handler` [asset]
+* `sensu/sensu-influxdb-handler:4.0.0` [asset]
 
 ## Dashboards
 
@@ -27,10 +28,16 @@ There are no supported dashboards for this integration.
            type: Pipeline
            name: influxdb-metrics
    ```
-## InfluxDBv2 Compatibility
-This plugin was written for InfluxDB 1.x databases, but it is possible to have it work with InfluxDB 2.0 buckets by [configuring an Influx DBRP mapping](https://docs.influxdata.com/influxdb/v2.0/tools/grafana/?t=InfluxQL#view-and-create-influxdb-dbrp-mappings) in your InfluxDB 2.0 server.
+## InfluxDBv1.8+ Compatibility
 
-When using InfluxQL to query InfluxDB, the query must specify a database and a retention policy. InfluxDB DBRP mappings associate database and retention policy combinations with InfluxDB 2.0 buckets. DBRP mappings do not affect the retention period of the target bucket. These mappings allow queries following InfluxDB 1.x conventions to successfully query InfluxDB 2.0 buckets.
+
+This plugin was written for InfluxDB 2.x, but it is possible to have it work with InfluxDB v1.8+ databases by using [v1.8 forward compatibility support](https://github.com/influxdata/influxdb-client-go#influxdb-18-api-compatibility).
+
+InfluxDB v1.8+ compatibility summary:
+ 1. Use the form `username:password` for an **authentication token**. Example: `my-user:my-password`. Use an empty string (`""`) if the server doesn't require authentication.
+ 1. The organization parameter is not used. Use an empty string (`""`) where necessary.
+ 1. Use the form `database/retention-policy` where a **bucket** is required. Skip retention policy if the default retention policy should be used. Examples: `sensu/autogen`, `sensu`.  
+
 
 # Plugins
 

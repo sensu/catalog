@@ -1,0 +1,75 @@
+---
+api_version: core/v2
+type: CheckConfig
+metadata:
+  name: caddy-metrics
+  labels: {}
+spec:
+  command: >-
+    http-get
+    --timeout 10
+    --url http://127.0.0.1:{{ .labels.caddy_metrics_port | default "2019" }}/metrics
+  runtime_assets:
+    - sensu/http-checks:0.7.0
+  publish: true
+  subscriptions:
+  - prometheus
+  - caddy
+  - linux
+  - darwin
+  - windows
+  interval: 30
+  output_metric_format: prometheus_text
+  output_metric_handlers:
+  - metrics
+  output_metric_tags:
+  - name: entity
+    value: "{{ .name }}"
+  pipelines: []
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu/http-checks:0.7.0
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/http-checks
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/http-checks
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 0.7.0
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: http-checks
+    io.sensu.bonsai.tags: ''
+spec:
+  builds:
+  - url: https://assets.bonsai.sensu.io/a2a0f9a79b05bfb4e8fb44018a138166979ad234/http-checks_0.7.0_darwin_amd64.tar.gz
+    sha512: '08148806cf0b38fd3e3b49c9e1a805b04c75e2ec7372ee23c3e1444ac00ae9a8cadc9f978a73e20cc4259f2117389b6d0966f45b6c5aa32aadf1d2e7b1ca0ae3'
+    filters:
+    - entity.system.os == 'darwin'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/a2a0f9a79b05bfb4e8fb44018a138166979ad234/http-checks_0.7.0_windows_amd64.tar.gz
+    sha512: f139c3b31e2e79d36f264650fcb948f49637ab9954f4a87f0eaad9ceb9b2269c1c5b55cd1cecbee200c37ab2d9ac1163fb83d4827c2ad9db9cf98f3fba90ce9f
+    filters:
+    - entity.system.os == 'windows'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/a2a0f9a79b05bfb4e8fb44018a138166979ad234/http-checks_0.7.0_linux_armv7.tar.gz
+    sha512: 2c8917a26d6d3283c8df5d2247992400b3c7a56f377d794bb339777f6ee86adb1aa50ddd058e1f5ab718e8de2e580117da07661ba1e64a92e0a387f3d1d1a20d
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'armv7'
+  - url: https://assets.bonsai.sensu.io/a2a0f9a79b05bfb4e8fb44018a138166979ad234/http-checks_0.7.0_linux_arm64.tar.gz
+    sha512: 180113fe2ae86598067432358ac3722becf6d599ec5a30a8c06dc7da6d7443029ce3a49eee1f9e1ea0000d1496ddcda3e098278a7389f25920b9dbf14fe8d42c
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm64'
+  - url: https://assets.bonsai.sensu.io/a2a0f9a79b05bfb4e8fb44018a138166979ad234/http-checks_0.7.0_linux_386.tar.gz
+    sha512: 5cd3b4f24c706189e8b3754a417b9e97aa0c3604fc9f86fd909fff25797ae6327592add306a9b3074aa71b3fd92aa9612111bebcf3e11bb89de5f6ff49b39eb8
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == '386'
+  - url: https://assets.bonsai.sensu.io/a2a0f9a79b05bfb4e8fb44018a138166979ad234/http-checks_0.7.0_linux_amd64.tar.gz
+    sha512: 3ca02e3a856a222a9a0c477dba5efcf0d47947a761282ac4662708fb1c0b941be7f070e199309510be67c7b219ce53359faf2e0365b5606c378d939c7c3649d4
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'
+

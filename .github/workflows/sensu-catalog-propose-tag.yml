@@ -1,0 +1,69 @@
+---
+name: 'Sensu Catalog Propose Tag'
+
+on:
+  pull_request:
+    branches:
+      - 'main'
+
+jobs:
+  propose-tag:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Fetch Tags
+        run: git fetch --tags
+      - name: Propose tag after PR merge    
+        shell: bash 
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true 
+        run: |
+          commit=${commit:=${GITHUB_SHA}}
+          echo "repo: ${GITHUB_REPOSITORY}"
+          echo "sha: ${GITHUB_SHA}"
+          echo "commit: ${commit}"
+          if [  -z ${commit} ]; then
+            echo -e "commit empty, taking no additional action" >&2
+            exit 0
+          fi
+          commit_epoch=$(git show -s --format=%ct ${commit})
+          d=`date --utc -d @$commit_epoch +%Y%m%d`
+          results=`git diff --name-only ${commit}^ ${commit} | { grep "integrations/"  || test $? = 1; }`
+          if [ ${#results} -eq 0 ]; then
+            echo "No integration files changed in commit ${commit}, taking no additional action" 
+            exit 0
+          fi
+          integrations=$(echo "${results}" | xargs -n 1 dirname  | sed -e 's/^integrations\///' |sort -u)
+          echo -e "Detected Changed Integrations:\n$integrations\n"
+          for integration in $integrations
+          do
+            trimmed=$(echo ${integration} | sed 's:/*$::')
+            base_version=${trimmed}/${d}
+            major=0
+            minor=0
+            invalid=1
+            while [ "$minor" -le 10 -a "$invalid" -eq 1 ]
+            do
+              version=$base_version.$major.$minor
+              if [ $(git tag -l "$version") ]; then
+                invalid=1
+              else
+                invalid=0
+              fi
+              ((minor=i+1))
+            done
+            echo "Suggested Version: $version"
+            if [  -z ${GITHUB_TOKEN} ]; then
+              echo -e "GITHUB_TOKEN empty, skipping issue creation" >&2
+            else
+              curl \
+                -X POST \
+                -H "Authorization: token ${GITHUB_TOKEN}" \
+                -H "Accept: application/vnd.github.v3+json" \
+                https://api.github.com/repos/${GITHUB_REPOSITORY}/issues \
+                -d "{\"title\":\"Proposed Release Tag ${version}\",\"body\":\"Automatic tag proposal based on files changed in PR merge.\n  Commit: ${commit}\n  REF: ${GITHUB_REF}\n  Integration: ${trimmed}\",\"labels\":[\"need-tag\"]}"
+            fi
+          done
+

@@ -175,7 +175,7 @@ spec:
       patches:
         - path: /metadata/name
           op: replace
-          value: nginx-healthcheck-[[auto_suffix]]
+          value: nginx-healthcheck-[[unique_id]]
         - path: /spec/interval
           op: replace
           value: interval
@@ -399,7 +399,7 @@ spec:
       * Sensu Integration variables can be used as Sensu Integration `resource_patch` values (e.g. `value: interval`).
       * Sensu Integration variable can be interpolated into a string template via double square brackets (e.g. `Hello, [[ team ]]`).
       * Available variables:
-        * A built-in variable named **`auto_suffix`**: randomly generated 8-digit hexadecimal string value (e.g. `168c41a1`).
+        * A built-in variable named **`unique_id`**: randomly generated 8-digit hexadecimal string value (e.g. `168c41a1`).
         * **User-provided variables**: supplied via a user `prompt` (see the `name` field of any `type:question` prompt).
 
 ### Sensu Integration guidelines

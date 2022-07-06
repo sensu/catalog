@@ -39,21 +39,6 @@ Coming soon!
 
    For more details on setting this up read the ["Configure Docker" section of the article "Collect Docker Metrics with Prometheus"](https://docs.docker.com/config/daemon/prometheus/#configure-docker). Note that you do not need to run Prometheus to use this endpoint, so only that one paragraph is relevant from that article.
 
-1. **[OPTIONAL] Disable redirect warnings**
-
-   To disable redirect warnings, install this integration, then modify the resulting Sensu Check resource with the `--redirect-ok` flag.
-
-   Example:
-
-   ```yaml
-   spec:
-     command: >-
-       http-get
-       --timeout 10
-       --redirect-ok
-       --url "http://127.0.0.1:9323/metrics"
-   ```
-
 1. **[OPTIONAL] Configure custom request headers**
 
    To add custom request headers, install this integration, then modify the resulting Sensu Check resource with one or more `--header` flags.

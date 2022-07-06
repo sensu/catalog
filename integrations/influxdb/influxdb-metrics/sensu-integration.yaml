@@ -19,7 +19,7 @@ spec:
       title: InfluxDB Configuration
     - type: markdown
       body: |
-        This integration requires an InfluxDB URL, database name, username, and password.
+        This integration requires an InfluxDBv2 URL, org, bucket, and token.  InfluxDb v1.8+ users can encode database name into bucket and username:password as token according to backwards compatibility rules (ref: https://docs.influxdata.com/influxdb/cloud/reference/api/influxdb-1x/).
     - type: question
       name: influxdb_addr
       required: true
@@ -31,17 +31,17 @@ spec:
           Provide the InfluxDB address (e.g. "http://influxdb.mycompany.com:8086")
         default: http://influxdb.mycompany.com:8086
     - type: question
-      name: influxdb_db
+      name: influxdb_org
       required: true
       input:
         type: string
         required: true
-        title: InfluxDB Database
+        title: InfluxDB Org
         description: >-
-          Provide the InfluxDB database name (e.g. "sensu")
+          Provide the InfluxDB org name (e.g. "sensu")
         default: "sensu"
     - type: question
-      name: influxdb_username
+      name: influxdb_bucket
       required: true
       input:
         type: object
@@ -53,7 +53,7 @@ spec:
             properties:
               option:
                 type: string
-                title: InfluxDB Username
+                title: InfluxDB Bucket
                 const: secret
                 constLocale:
                   title: Secret
@@ -61,9 +61,9 @@ spec:
                     Select this option to use Sensu Secrets Management
               secret:
                 type: string
-                title: InfluxDB Username (Sensu Secret)
+                title: InfluxDB Bucket (Sensu Secret)
                 description: >-
-                  Select the InfluxDB username (Sensu Secret)
+                  Select the InfluxDB bucket (Sensu Secret)
                 ref: secrets/v1/secret/metadata/name
           - type: object
             required:
@@ -72,7 +72,7 @@ spec:
             properties:
               option:
                 type: string
-                title: InfluxDB Username
+                title: InfluxDB Bucket
                 const: env_var
                 constLocale:
                   title: Environment Variable
@@ -80,11 +80,11 @@ spec:
                     Select this option to store sensitive configuration as environment variables
               env_var:
                 type: string
-                title: InfluxDB Username
+                title: InfluxDB Bucket
                 description: >-
-                  Provide the InfluxDB username (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+                  Provide the InfluxDB bucket (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
     - type: question
-      name: influxdb_password
+      name: influxdb_token
       required: true
       input:
         type: object
@@ -96,7 +96,7 @@ spec:
             properties:
               option:
                 type: string
-                title: InfluxDB Password
+                title: InfluxDB Token
                 const: secret
                 constLocale:
                   title: Secret
@@ -104,9 +104,9 @@ spec:
                     Select this option to use Sensu Secrets Management
               secret:
                 type: string
-                title: InfluxDB Password (Sensu Secret)
+                title: InfluxDB Token (Sensu Secret)
                 description: >-
-                  Select the InfluxDB password (Sensu Secret)
+                  Select the InfluxDB token (Sensu Secret)
                 ref: secrets/v1/secret/metadata/name
           - type: object
             required:
@@ -115,7 +115,7 @@ spec:
             properties:
               option:
                 type: string
-                title: InfluxDB Password
+                title: InfluxDB Token
                 const: env_var
                 constLocale:
                   title: Environment Variable
@@ -123,9 +123,9 @@ spec:
                     Select this option to store sensitive configuration as environment variables
               env_var:
                 type: string
-                title: InfluxDB Password
+                title: InfluxDB Token
                 description: >-
-                  Provide the InfluxDB password (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+                  Provide the InfluxDB token (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
 
   resource_patches:
     - resource:
@@ -138,23 +138,23 @@ spec:
           value: "INFLUXDB_ADDR=[[influxdb_addr]]"
         - op: add
           path: /spec/env_vars/-
-          value: "INFLUXDB_DB=[[influxdb_db]]"
+          value: "INFLUXDB_ORG=[[influxdb_org]]"
         - op: add
           path: /spec/env_vars/-
-          value: "INFLUXDB_USER=[[influxdb_username.env_var]]"
+          value: "INFLUXDB_BUCKET=[[influxdb_bucket.env_var]]"
         - op: add
           path: /spec/env_vars/-
-          value: "INFLUXDB_PASS=[[influxdb_password.env_var]]"
+          value: "INFLUXDB_TOKEN=[[influxdb_token.env_var]]"
         - op: add
           path: /spec/secrets/-
           value:
-            name: INFLUXDB_USER
-            secret: "[[influxdb_username.secret]]"
+            name: INFLUXDB_TOKEN
+            secret: "[[influxdb_token.secret]]"
         - op: add
           path: /spec/secrets/-
           value:
-            name: INFLUXDB_PASS
-            secret: "[[influxdb_password.secret]]"
+            name: INFLUXDB_BUCKET
+            secret: "[[influxdb_bucket.secret]]"
 
   post_install:
     - type: section

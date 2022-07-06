@@ -23,8 +23,8 @@ spec:
       body: |
         This integration requires a Jira account and [Jira Service Management] project.
 
-        * [Jira URL] (e.g. "https://mycompany.atlassian.net")
-        * [Jira Project Key] (e.g. "OPS")
+        * [Jira URL] (e.g. `https://mycompany.atlassian.net`)
+        * [Jira Project Key] (e.g. `OPS`)
         * [Jira Issue Type] (e.g. `[System] Incident`)
 
         Please provide these Jira configuration parameters below.

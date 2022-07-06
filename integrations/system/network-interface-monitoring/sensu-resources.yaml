@@ -7,8 +7,8 @@ metadata:
 spec:
   command: >-
     network-interface-checks
-    --state-file {{ .annotations.network_interface_monitoring_state_file | default "/var/cache/sensu/sensu-agent/network-interface-checks" }}
-    --exclude-interfaces {{ .annotations.excluded_network_interfaces | default "" }}
+    --state-file '{{ or .annotations.network_interface_monitoring_state_file "/var/cache/sensu/sensu-agent/network-interface-checks" }}'
+    --exclude-interfaces '{{ or .annotations.excluded_network_interfaces "" }}'
   runtime_assets:
     - sensu/network-interface-checks:0.2.0
   env_vars: []

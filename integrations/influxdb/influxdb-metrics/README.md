@@ -1,13 +1,14 @@
 ## Overview
 
 The `influxdb-metrics` integration provides a Sensu pipeline for sending metrics
-to the InfluxDB time series database. This integration is compatible with InfluxDB versions 1.x.
+to the InfluxDB time series database. This integration is compatible with InfluxDB versions 2.x 
+with backwards compatibility for InfluxDB v1.8+.
 
 This integration provides the following resources:
 
 * `influxdb` [handler]
 * `influxdb-metrics` [pipeline]
-* `sensu/sensu-influx-handler` [asset]
+* `sensu/sensu-influxdb-handler:4.0.0` [asset]
 
 ## Dashboards
 
@@ -27,6 +28,16 @@ There are no supported dashboards for this integration.
            type: Pipeline
            name: influxdb-metrics
    ```
+## InfluxDBv1.8+ Compatibility
+
+
+This plugin was written for InfluxDB 2.x, but it is possible to have it work with InfluxDB v1.8+ databases by using [v1.8 forward compatibility support](https://github.com/influxdata/influxdb-client-go#influxdb-18-api-compatibility).
+
+InfluxDB v1.8+ compatibility summary:
+ 1. Use the form `username:password` for an **authentication token**. Example: `my-user:my-password`. Use an empty string (`""`) if the server doesn't require authentication.
+ 1. The organization parameter is not used. Use an empty string (`""`) where necessary.
+ 1. Use the form `database/retention-policy` where a **bucket** is required. Skip retention policy if the default retention policy should be used. Examples: `sensu/autogen`, `sensu`.  
+
 
 # Plugins
 

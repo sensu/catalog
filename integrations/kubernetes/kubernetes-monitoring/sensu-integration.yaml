@@ -194,7 +194,7 @@ spec:
         - op: replace
           path: /spec/command
           value: >-
-            wget -q -O-
+            http-get --url
             [[kubelet_api_url]]/metrics/cadvisor
         - op: replace
           path: /spec/subscriptions

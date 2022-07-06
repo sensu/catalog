@@ -6,7 +6,7 @@ metadata:
 spec:
   command: system-check --interval 3
   runtime_assets:
-    - sensu/system-check:0.1.1
+    - sensu/system-check:0.1.2
   publish: true
   interval: 30
   timeout: 5
@@ -47,51 +47,53 @@ spec:
 type: Asset
 api_version: core/v2
 metadata:
-  name: sensu/system-check:0.1.1
+  name: sensu/system-check:0.1.2
+  labels: 
   annotations:
     io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/system-check
     io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/system-check
     io.sensu.bonsai.tier: Supported
-    io.sensu.bonsai.version: 0.1.1
-    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.version: 0.1.2
     io.sensu.bonsai.name: system-check
-    io.sensu.bonsai.tags: ''
+    io.sensu.bonsai.tags: centos, darwin, debian, linux, macos, red hat, redhat, rhel,
+      rocky, ubuntu, vmware, windows
 spec:
   builds:
-    - url: https://assets.bonsai.sensu.io/4f448e96d1576c6de33fe595ce6136583e250355/system-check_0.1.1_windows_amd64.tar.gz
-      sha512: 9100c5100a356b3f6ce5fe8acb981e799446dfdb475d21f3eb7fb0fe3159ebbdad0c8fe44076e58d3325a1c49c4b1359985162aa29e238004798ca084466b8c4
-      filters:
-        - entity.system.os == 'windows'
-        - entity.system.arch == 'amd64'
-    - url: https://assets.bonsai.sensu.io/4f448e96d1576c6de33fe595ce6136583e250355/system-check_0.1.1_darwin_amd64.tar.gz
-      sha512: 3c38df1719177ff3fad473b5c534cb359ed96d077a073ecbb9dc09caa617c5b01c5577b5242a43ca52a361474e42d7a0a27be6d71ebb6f8c4b72f15de8b8208d
-      filters:
-        - entity.system.os == 'darwin'
-        - entity.system.arch == 'amd64'
-    - url: https://assets.bonsai.sensu.io/4f448e96d1576c6de33fe595ce6136583e250355/system-check_0.1.1_linux_armv6.tar.gz
-      sha512: e28d1ec393be8445148b55a5d5a93169637a044c570e52ad996b88f2d1a1146e4fa75839ff40f95a5ec13b3dff08fefb336a7b8baebae4bba90811c668326454
-      filters:
-        - entity.system.os == 'linux'
-        - entity.system.arch == 'arm'
-        - entity.system.arm_version == 6
-    - url: https://assets.bonsai.sensu.io/4f448e96d1576c6de33fe595ce6136583e250355/system-check_0.1.1_linux_armv7.tar.gz
-      sha512: e2459814334083ac2b938c39adebe57c157221cb466c08bb5deb8d0997e9bc20b5cbde029ab4cb90248728c0604e56b4d5a3a63275925f7ff8672026f621b4b1
-      filters:
-        - entity.system.os == 'linux'
-        - entity.system.arch == 'arm'
-        - entity.system.arm_version == 7
-    - url: https://assets.bonsai.sensu.io/4f448e96d1576c6de33fe595ce6136583e250355/system-check_0.1.1_linux_arm64.tar.gz
-      sha512: a2dab799ef2553c471944d78b3402152a0f8da0cc60fbf9b37fe8ecd5c629a8d62a272fbc64ba86ed1457c9e1aeedb67643655e7250d4ce8a176275b166213fa
-      filters:
-        - entity.system.os == 'linux'
-        - entity.system.arch == 'arm64'
-    - url: https://assets.bonsai.sensu.io/4f448e96d1576c6de33fe595ce6136583e250355/system-check_0.1.1_linux_386.tar.gz
-      sha512: a1919b0bf14d91271f11bc1cf9154fd8b835cef1e284017a48979026dec67120ae2489ba02baad584f1d874867cee9105baab015fc510e01d78caf83a02185e8
-      filters:
-        - entity.system.os == 'linux'
-        - entity.system.arch == '386'
-    - url: https://assets.bonsai.sensu.io/4f448e96d1576c6de33fe595ce6136583e250355/system-check_0.1.1_linux_amd64.tar.gz
-      sha512: c6cde48ae2aff035f8ae1cf2a91560c32e7c606cb29827f378c2b79802b9384925709edc5065e9a14b7a7db8c902822e194fcf5deb31e865687a26c4777d1c0c
-      filters:
-        - entity.system.os == 'linux'
-        - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/8af6cb5445e816a68d29950f3a6404785f2b55bf/system-check_0.1.2_windows_amd64.tar.gz
+    sha512: bebea299f71df7f77b3962aadf7095a8fdefdb6ac29c0e45b23b42cdb76e7132f5afb137a378d418c8b259b293dab6b02f1cf820aab12e4d98667e454dbb22b1
+    filters:
+    - entity.system.os == 'windows'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/8af6cb5445e816a68d29950f3a6404785f2b55bf/system-check_0.1.2_darwin_amd64.tar.gz
+    sha512: ac001d0036aac0761697b5fffbe61647231ee9faac0b2a0b3fccc391a96b840c35f045630a03e1b43f3292a9496b389437038d1440d46b8f1beb54ca3b7191c8
+    filters:
+    - entity.system.os == 'darwin'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/8af6cb5445e816a68d29950f3a6404785f2b55bf/system-check_0.1.2_linux_armv6.tar.gz
+    sha512: ea1553aa092aea11691719543f4e3f82ee7db61cbf26f92fffaa301334c66951c67d83a9520bb925c7ff29d1d50b323e5c0d0b389e6264e6ebf3764347e4f5c5
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm'
+    - entity.system.arm_version == 6
+  - url: https://assets.bonsai.sensu.io/8af6cb5445e816a68d29950f3a6404785f2b55bf/system-check_0.1.2_linux_armv7.tar.gz
+    sha512: 1be5bef2ce42ad816866ad92ceed2e54f33eaa411ad5d93f6bfe873035f573ed5c9ffd2eef85ece1c6549c0e0ab1bf6bab877c727ba7d8efbc4995f90e2fad8b
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm'
+    - entity.system.arm_version == 7
+  - url: https://assets.bonsai.sensu.io/8af6cb5445e816a68d29950f3a6404785f2b55bf/system-check_0.1.2_linux_arm64.tar.gz
+    sha512: 0deda2a70489788cc0b2ffb1ab3c08105183927ba69fb7d6e792b1d845ebcb6a20a35d2c12328816eadfe31dee76f007a80f83492c463e7db7558a175e7f778f
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm64'
+  - url: https://assets.bonsai.sensu.io/8af6cb5445e816a68d29950f3a6404785f2b55bf/system-check_0.1.2_linux_386.tar.gz
+    sha512: c0564dc6af1142d5ef861719d05aa9be00ca1f58a9c08317a77c457b5938bd45521ccb11ef264c80fcfeead913601eed0c84d7fd84a8d225d4ce817e8fb32725
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == '386'
+  - url: https://assets.bonsai.sensu.io/8af6cb5445e816a68d29950f3a6404785f2b55bf/system-check_0.1.2_linux_amd64.tar.gz
+    sha512: 764dd84e5fa6ed36fa8897f0996205f23993e0fa90b6cd1b1cc3a4223681bb784a6eef2d29cc1cf7224da73d60d6fda16f37427c31699f091b1aadb0c937ebcf
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'
+

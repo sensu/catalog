@@ -8,7 +8,7 @@ This integration provides the following resources:
 
 * `influxdb` [handler]
 * `influxdb-metrics` [pipeline]
-* `sensu/sensu-influx-handler` [asset]
+* `sensu/sensu-influxdb-handler:4.0.0` [asset]
 
 ## Dashboards
 
@@ -31,7 +31,7 @@ There are no supported dashboards for this integration.
 ## InfluxDBv1.8+ Compatibility
 
 
-This plugin was written for InfluxDB 2.x, but it is possible to have it work with InfluxDB v1.8+ databases by using [v1.8 forwad compatibility support](https://github.com/influxdata/influxdb-client-go#influxdb-18-api-compatibility).
+This plugin was written for InfluxDB 2.x, but it is possible to have it work with InfluxDB v1.8+ databases by using [v1.8 forward compatibility support](https://github.com/influxdata/influxdb-client-go#influxdb-18-api-compatibility).
 
 InfluxDB v1.8+ compatibility summary:
  1. Use the form `username:password` for an **authentication token**. Example: `my-user:my-password`. Use an empty string (`""`) if the server doesn't require authentication.

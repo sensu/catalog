@@ -31,9 +31,10 @@ There are no compatible dashboards for this integration.
 
 1. This integration requires access to GCP Monitoring API.
 
-   All forms of GCP [authentication supported] by the [GCP Monitoring API] are supported, including [service account credentials]. This integration requires read-only access to the [GCP Monitoring API].
+   All forms of GCP [authentication supported] by the [GCP Monitoring API] are supported for this integration, including [service account credentials]. This integration requires read-only access to the [GCP Monitoring API].
 
-   `GCP_MONITORING_CHECK_CREDS_JSON` secret or environment variable are unneeded if the check(s) from this integration are run on a `sensu-agent` installed on an GCP compute instance using a service account with an IAM Profile with necessary permissions to read the monitoring API.
+   Note: Explicit authentication settings are unneeded in this integration if the check(s) are run on a `sensu-agent` installed on an GCP compute instance using a service account with an IAM Profile with necessary API read permissions.
+   `sensu-agents` run on GCP compute instances will have their environments pre-populated with service account credentials if available.
 
 [service account credentials]: https://cloud.google.com/docs/authentication/production
 [authentication supported]: https://cloud.google.com/monitoring/api/enable-api#authorizing-api-v3

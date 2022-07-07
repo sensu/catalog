@@ -1,0 +1,95 @@
+---
+# Requires AWS_REGION, AWS_ACCESS_KEY_ID, and AWS_SECRET_ACCESS_KEY secret(s) or environment variable(s).
+#
+# NOTE: AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY secret(s) or environment variable(s) are not needed if
+# run from an EC2 instance with an IAM instance profile that has read-only access to the appropriate
+# CloudWatch metrics (e.g. arn:aws:iam::aws:policy/CloudWatchReadOnlyAccess).
+api_version: core/v2
+type: CheckConfig
+metadata:
+  name: aws-elasticache-metrics
+  labels: {}
+  annotations: {}
+spec:
+  command: >-
+    sensu-cloudwatch-check
+    --region ${AWS_REGION}
+    
+  runtime_assets:
+    - sensu/sensu-cloudwatch-check:0.3.0
+  env_vars: 
+    - CLOUDWATCH_CHECK_CONFIG={"namespace":"AWS/ElastiCache","period-minutes":1,"measurements":[{"metric":"CurrVolatileItems","config":[{"stat":"Sum","measurement":"aws_elasticache_curr_volatile_items"}]},{"metric":"ActiveDefragHits","config":[{"stat":"Average","measurement":"aws_elasticache_active_defrag_hits_average"},{"stat":"Maximum","measurement":"aws_elasticache_active_defrag_hits_maximum"},{"stat":"Minimum","measurement":"aws_elasticache_active_defrag_hits_minimum"}]},{"metric":"DatabaseMemoryUsagePercentage","config":[{"stat":"Average","measurement":"aws_elasticache_database_memory_usage_percentage_average"},{"stat":"Maximum","measurement":"aws_elasticache_database_memory_usage_percentage_maximum"},{"stat":"Minimum","measurement":"aws_elasticache_database_memory_usage_percentage_minimum"}]},{"metric":"NewConnections","config":[{"stat":"Sum","measurement":"aws_elasticache_new_connections"}]},{"metric":"FreeableMemory","config":[{"stat":"Average","measurement":"aws_elasticache_freeable_memory_average"},{"stat":"Maximum","measurement":"aws_elasticache_freeable_memory_maximum"},{"stat":"Minimum","measurement":"aws_elasticache_freeable_memory_minimum"}]},{"metric":"NetworkBytesIn","config":[{"stat":"Sum","measurement":"aws_elasticache_network_bytes_in"}]},{"metric":"IsMaster","config":[{"stat":"Maximum","measurement":"aws_elasticache_is_master"}]},{"metric":"CPUUtilization","config":[{"stat":"Average","measurement":"aws_elasticache_cpu_utilization_average"},{"stat":"Maximum","measurement":"aws_elasticache_cpu_utilization_maximum"},{"stat":"Minimum","measurement":"aws_elasticache_cpu_utilization_minimum"}]},{"metric":"EngineCPUUtilization","config":[{"stat":"Average","measurement":"aws_elasticache_engine_cpu_utilization_average"},{"stat":"Maximum","measurement":"aws_elasticache_engine_cpu_utilization_maximum"},{"stat":"Minimum","measurement":"aws_elasticache_engine_cpu_utilization_minimum"}]},{"metric":"ReplicationLag","config":[{"stat":"Average","measurement":"aws_elasticache_replication_lag_average"},{"stat":"Maximum","measurement":"aws_elasticache_replication_lag_maximum"},{"stat":"Minimum","measurement":"aws_elasticache_replication_lag_minimum"}]},{"metric":"BytesUsedForCache","config":[{"stat":"Average","measurement":"aws_elasticache_bytes_used_for_cache_average"},{"stat":"Maximum","measurement":"aws_elasticache_bytes_used_for_cache_maximum"},{"stat":"Minimum","measurement":"aws_elasticache_bytes_used_for_cache_minimum"}]},{"metric":"KeyBasedCmds","config":[{"stat":"Sum","measurement":"aws_elasticache_key_based_cmds"}]},{"metric":"CacheHits","config":[{"stat":"Sum","measurement":"aws_elasticache_cache_hits"}]},{"metric":"Reclaimed","config":[{"stat":"Sum","measurement":"aws_elasticache_reclaimed"}]},{"metric":"NetworkPacketsIn","config":[{"stat":"Sum","measurement":"aws_elasticache_network_packets_in"}]},{"metric":"MasterLinkHealthStatus","config":[{"stat":"Maximum","measurement":"aws_elasticache_master_link_health_status"}]},{"metric":"Evictions","config":[{"stat":"Sum","measurement":"aws_elasticache_evictions"}]},{"metric":"SetTypeCmds","config":[{"stat":"Sum","measurement":"aws_elasticache_set_type_cmds"}]},{"metric":"SaveInProgress","config":[{"stat":"Maximum","measurement":"aws_elasticache_save_in_progress"}]},{"metric":"NetworkBytesOut","config":[{"stat":"Sum","measurement":"aws_elasticache_network_bytes_out"}]},{"metric":"CacheMisses","config":[{"stat":"Sum","measurement":"aws_elasticache_cache_misses"}]},{"metric":"ReplicationBytes","config":[{"stat":"Average","measurement":"aws_elasticache_replication_bytes_average"},{"stat":"Maximum","measurement":"aws_elasticache_replication_bytes_maximum"},{"stat":"Minimum","measurement":"aws_elasticache_replication_bytes_minimum"}]},{"metric":"CurrItems","config":[{"stat":"Sum","measurement":"aws_elasticache_curr_items"}]},{"metric":"DatabaseMemoryUsageCountedForEvictPercentage","config":[{"stat":"Average","measurement":"aws_elasticache_database_memory_usage_counted_for_evict_percentage_average"},{"stat":"Maximum","measurement":"aws_elasticache_database_memory_usage_counted_for_evict_percentage_maximum"},{"stat":"Minimum","measurement":"aws_elasticache_database_memory_usage_counted_for_evict_percentage_minimum"}]},{"metric":"SwapUsage","config":[{"stat":"Average","measurement":"aws_elasticache_swap_usage_average"},{"stat":"Maximum","measurement":"aws_elasticache_swap_usage_maximum"},{"stat":"Minimum","measurement":"aws_elasticache_swap_usage_minimum"}]},{"metric":"NetworkPacketsOut","config":[{"stat":"Sum","measurement":"aws_elasticache_network_packets_out"}]},{"metric":"MemoryFragmentationRatio","config":[{"stat":"Average","measurement":"aws_elasticache_memory_fragmentation_ratio_average"},{"stat":"Maximum","measurement":"aws_elasticache_memory_fragmentation_ratio_maximum"},{"stat":"Minimum","measurement":"aws_elasticache_memory_fragmentation_ratio_minimum"}]},{"metric":"CurrConnections","config":[{"stat":"Sum","measurement":"aws_elasticache_curr_connections"}]}]}  
+  secrets: []
+  publish: true
+  subscriptions:
+    - aws
+    - aws/elasticache
+  interval: 60
+  timeout: 10
+  round_robin: true
+  proxy_entity_name: aws-elasticache
+  output_metric_format: prometheus_text
+  output_metric_tags: []
+  output_metric_thresholds:
+    - name: aws_elasticache_cpu_utilization_maximum
+      thresholds:
+        - max: '90'
+          status: 1
+  pipelines: []
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu/sensu-cloudwatch-check:0.3.0
+  labels: 
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/sensu-cloudwatch-check
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/sensu-cloudwatch-check
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 0.3.0
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: sensu-cloudwatch-check
+    io.sensu.bonsai.tags: aws
+spec:
+  builds:
+  - url: https://assets.bonsai.sensu.io/563862dfe4c714224a4f205f283cb0b6ad73cfd3/sensu-cloudwatch-check_0.3.0_windows_amd64.tar.gz
+    sha512: 82d8e19e808b2b82b7b7af5d905384ad5c456b06be16bbdeffac2b29a30b4fc64de932641c628833ae067839667753c10cb7ef598caef24e609b8e564d33e86d
+    filters:
+    - entity.system.os == 'windows'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/563862dfe4c714224a4f205f283cb0b6ad73cfd3/sensu-cloudwatch-check_0.3.0_darwin_amd64.tar.gz
+    sha512: 1c51d074e9c88b84b65f310b474d16e00306a3eebe328256136ca752dd6899c3c48b3426dc9a6c6d6032d87ce7fbb48eee796d7f9d4e09655c0a900202540540
+    filters:
+    - entity.system.os == 'darwin'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/563862dfe4c714224a4f205f283cb0b6ad73cfd3/sensu-cloudwatch-check_0.3.0_linux_armv6.tar.gz
+    sha512: 83a11e6d6a45efa589bc7dab9dfab5e2324b472d7c4678564c6ff354f4fe82875a7ac20d53448acf738e1d1dec6e6d0cfbf2bb53dfee74e5fecd1916513e2b31
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm'
+    - entity.system.arm_version == 6
+  - url: https://assets.bonsai.sensu.io/563862dfe4c714224a4f205f283cb0b6ad73cfd3/sensu-cloudwatch-check_0.3.0_linux_armv7.tar.gz
+    sha512: bf0a8df80b4ccb9fd7252b1e3380940e481edf10a65eb7e3642c2ce3aea3b1d613ed26a3ef5a3525aad0561235496f9b442dcb112b448c8c8056bb4f1c1bd1b5
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm'
+    - entity.system.arm_version == 7
+  - url: https://assets.bonsai.sensu.io/563862dfe4c714224a4f205f283cb0b6ad73cfd3/sensu-cloudwatch-check_0.3.0_linux_arm64.tar.gz
+    sha512: 52fa93cae5d12d159036426eda40d6b0014de85630e5dc39a1bed00e72dcda677b90abd7d13a2c6e3887913cb228cd3074b0e5dd3bfc8d91dc5721a37360b641
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm64'
+  - url: https://assets.bonsai.sensu.io/563862dfe4c714224a4f205f283cb0b6ad73cfd3/sensu-cloudwatch-check_0.3.0_linux_386.tar.gz
+    sha512: 47aa3159ff6006fa989ee033a7a9089332901c2b679f3bfa02a18aa03f5dd92fdbb3e892329a70f2908225eefeb123a0bd1d5c29534e2cfea90b06193c11e976
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == '386'
+  - url: https://assets.bonsai.sensu.io/563862dfe4c714224a4f205f283cb0b6ad73cfd3/sensu-cloudwatch-check_0.3.0_linux_amd64.tar.gz
+    sha512: 2d322a7bd3bd63a71f0352699638d7be6a8531acf526590ade1971d9e21f29663781f6128ad1b1eac5fdcb978c69dfd8830656445d5b64f72823034e26d103ae
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'
+
+
+
+

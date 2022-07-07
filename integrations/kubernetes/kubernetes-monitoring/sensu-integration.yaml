@@ -24,6 +24,66 @@ spec:
     - "@calebhailey"
   prompts:
     - type: section
+      title: Kubernetes API Server Monitoring Configuration
+    - type: markdown
+      body: |
+        Please provide the following configuration parameters:
+
+        * Kubernetes API Server URL
+        * Kubernetes API Server Subscriptions
+
+    - type: question
+      name: kube_apiserver_url
+      required: true
+      input:
+        type: string
+        title: Kubernetes API Server URL
+        description: >-
+          Provide the kube-apiserver URL. By default services run from pods in the K8s cluster should be able reach the API server via "https://kubernetes.default.svc:443".
+        default: https://kubernetes.default.svc:443
+    - type: question
+      name: kube_apiserver_subscriptions
+      input:
+        type: array
+        items:
+          type: string
+          title: Sensu Subscriptions
+          ref: core/v2/entity/subscriptions
+        default:
+          - kubernetes
+          - kubernetes/apiserver
+          - kubernetes/daemonset
+          - kube-apiserver
+    - type: section
+      title: Kubelet Monitoring Configuration
+    - type: markdown
+      body: |
+        Please provide the following configuration parameters:
+
+        * Kubelet API URL
+        * Kubelet Subscriptions
+    - type: question
+      name: kubelet_api_url
+      required: true
+      input:
+        type: string
+        title: Kubelet API URL
+        description:
+          Provide the Kubelet API URL. For sensu-agents running on the Kubelet host, or via Kubernetes daemonsets, the URL should be for a port on the localhost.
+        default: http://127.0.0.1:10255
+    - type: question
+      name: kubelet_api_subscriptions
+      input:
+        type: array
+        items:
+          type: string
+          title: Sensu Subscriptions
+          ref: core/v2/entity/subscriptions
+        default:
+          - kubelet
+          - kubernetes/kubelet
+          - kubernetes/daemonset
+    - type: section
       title: Pipeline Configuration
     - type: markdown
       body: |
@@ -31,23 +91,33 @@ spec:
 
         [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
     - type: question
-      name: alert_pipeline
+      name: metrics_pipeline
+      required: false
+      input:
+        type: string
+        title: Metrics Pipeline
+        description: >-
+          How do you want to process metrics collected by this integration (e.g. via Sumo Logic)?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == "metrics"
+    - type: question
+      name: alerts_pipeline
       required: false
       input:
         type: string
         title: Alert Pipeline
         description: >-
-          How do you want to be alerted for failures detected by this pipeline (e.g. Slack or Microsoft Teams)?
+          How do you want to be alerted for failures detected by this pipeline (e.g. via Slack or Microsoft Teams)?
         ref: core/v2/pipeline/metadata/name
         refFilter: .labels.provider == "alerts"
     - type: question
-      name: incident_pipeline
+      name: incidents_pipeline
       required: false
       input:
         type: string
         title: Incident Management Pipeline
         description: >-
-          How do you want to process incidents for failures detected by this pipeline (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
+          How do you want to process incidents for failures detected by this pipeline (e.g. via Atlassian JIRA/ServiceDesk, or Pagerduty)?
         ref: core/v2/pipeline/metadata/name
         refFilter: .labels.provider == "incidents"
   resource_patches:
@@ -56,15 +126,88 @@ spec:
         type: CheckConfig
         name: kubernetes-liveness
       patches:
-        - path: /spec/pipelines/-
-          op: add
+        - op: replace
+          path: /spec/command
+          value: >-
+            http-check
+            --header "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
+            --trusted-ca-file /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+            --url "[[kube_apiserver_url]]/livez?verbose"
+        - op: replace
+          path: /spec/subscriptions
+          value: kube_apiserver_subscriptions
+        - op: add
+          path: /spec/pipelines/-
           value:
             api_version: core/v2
             type: Pipeline
-            name: "[[alert_pipeline]]"
-        - path: /spec/pipelines/-
-          op: add
+            name: "[[alerts_pipeline]]"
+        - op: add
+          path: /spec/pipelines/-
           value:
             api_version: core/v2
             type: Pipeline
-            name: "[[incident_pipeline]]"
+            name: "[[incidents_pipeline]]"
+    - resource:
+        api_version: core/v2
+        type: CheckConfig
+        name: kubelet-metrics
+      patches:
+        - op: replace
+          path: /spec/command
+          value: >-
+            http-get --url
+            [[kubelet_api_url]]/metrics
+        - op: replace
+          path: /spec/subscriptions
+          value: kubelet_api_subscriptions
+        - op: add
+          path: /spec/pipelines/-
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[metrics_pipeline]]"
+    - resource:
+        api_version: core/v2
+        type: CheckConfig
+        name: kubelet-probe-metrics
+      patches:
+        - op: replace
+          path: /spec/command
+          value: >-
+            http-get --url
+            [[kubelet_api_url]]/metrics/probes
+        - op: replace
+          path: /spec/subscriptions
+          value: kubelet_api_subscriptions
+        - op: add
+          path: /spec/pipelines/-
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[metrics_pipeline]]"
+    - resource:
+        api_version: core/v2
+        type: CheckConfig
+        name: kubelet-cadvisor-metrics
+      patches:
+        - op: replace
+          path: /spec/command
+          value: >-
+            http-get --url
+            [[kubelet_api_url]]/metrics/cadvisor
+        - op: replace
+          path: /spec/subscriptions
+          value: kubelet_api_subscriptions
+        - op: add
+          path: /spec/pipelines/-
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[metrics_pipeline]]"
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You have successfully enabled the Kubernetes monitoring integration!

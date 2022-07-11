@@ -1,0 +1,90 @@
+---
+# Requires GCP_MONITORING_CHECK_PROJECT_ID, GCP_MONITORING_CHECK_CREDS_JSON secret(s) or environment variable(s).
+#
+api_version: core/v2
+type: CheckConfig
+metadata:
+  name: gcp-storage-metrics
+  labels: {}
+  annotations: {}
+spec:
+  command: >-
+    gcp-monitoring-check
+    --project-id ${GCP_MONITORING_CHECK_PROJECT_ID}
+  runtime_assets:
+    - sensu/gcp-monitoring-check:0.2.0
+  env_vars:
+    - GCP_MONITORING_CHECK_CONFIG={"measurements":[{"metric":"storage.googleapis.com/api/request_count","config":[{"aligner":"ALIGN_NONE","reducer":"REDUCE_NONE","measurement":"gcp_storage_api_request_rate"}]},{"metric":"storage.googleapis.com/network/received_bytes_count","config":[{"aligner":"ALIGN_RATE","reducer":"REDUCE_NONE","measurement":"gcp_storage_network_received_bytes_rate"}]},{"metric":"storage.googleapis.com/network/sent_bytes_count","config":[{"aligner":"ALIGN_RATE","reducer":"REDUCE_NONE","measurement":"gcp_storage_network_sent_bytes_rate"}]},{"metric":"storage.googleapis.com/authz/acl_operations_count","config":[{"aligner":"ALIGN_RATE","reducer":"REDUCE_NONE","measurement":"gcp_storage_authz_acl_operations_rate"}]}]}
+  secrets: []
+  publish: true
+  subscriptions:
+    - gcp
+    - gcp/storage
+  interval: 60
+  timeout: 10
+  round_robin: true
+  proxy_entity_name: gcp-storage
+  output_metric_format: prometheus_text
+  output_metric_tags: []
+  output_metric_thresholds:
+    - name: gcp_storage_network_sent_bytes_rate
+      tags:
+        - name: response_code
+          value: INVALID_ARGUMENT
+      thresholds:
+        - max: '0'
+          status: 1
+  pipelines: []
+---
+api_version: core/v2
+type: Asset
+metadata:
+  name: sensu/gcp-monitoring-check:0.2.0
+  labels:
+  annotations:
+    io.sensu.bonsai.url: https://bonsai.sensu.io/assets/sensu/gcp-monitoring-check
+    io.sensu.bonsai.api_url: https://bonsai.sensu.io/api/v1/assets/sensu/gcp-monitoring-check
+    io.sensu.bonsai.tier: Community
+    io.sensu.bonsai.version: 0.2.0
+    io.sensu.bonsai.namespace: sensu
+    io.sensu.bonsai.name: gcp-monitoring-check
+    io.sensu.bonsai.tags: ''
+spec:
+  builds:
+  - url: https://assets.bonsai.sensu.io/e101a9e9c887ca9e24ee2145c1a8c6f835c38ab8/gcp-monitoring-check_0.2.0_windows_amd64.tar.gz
+    sha512: 8ec366cf6ce5e8894c6793bf62f4279332de3af4dcd264cdcee71d2baa617aa0f3c254e1589267d3227a932e88adf28f90592a95bb49b193db31ddcd3260e50b
+    filters:
+    - entity.system.os == 'windows'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/e101a9e9c887ca9e24ee2145c1a8c6f835c38ab8/gcp-monitoring-check_0.2.0_darwin_amd64.tar.gz
+    sha512: 4671b49184628b1ba740c805a977ca300838e7e8baa58bcdc7d823e74c5ed52b227b26f8cbe5dc311a6ae678071f9689c467b08fdfcc1a5725bad6b7444e0200
+    filters:
+    - entity.system.os == 'darwin'
+    - entity.system.arch == 'amd64'
+  - url: https://assets.bonsai.sensu.io/e101a9e9c887ca9e24ee2145c1a8c6f835c38ab8/gcp-monitoring-check_0.2.0_linux_armv6.tar.gz
+    sha512: a260682d17ddf07e513a00aa4bc53a0faae35f0e091d32a2e430f26e90b0ac746c607b67648460823f9ae1801a9e8f8a7fcd11a7fec9c0f3c76e45851f095bf8
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm'
+    - entity.system.arm_version == 6
+  - url: https://assets.bonsai.sensu.io/e101a9e9c887ca9e24ee2145c1a8c6f835c38ab8/gcp-monitoring-check_0.2.0_linux_armv7.tar.gz
+    sha512: 0ee6eeafd1951746ad08ea5f2cdd2b276895834d4e83a841546e98fc8da6ac293d5af192ed4dd330d5744cf4b3a76475bbd7c2d8f9ef249e1edf1d3f442a6373
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm'
+    - entity.system.arm_version == 7
+  - url: https://assets.bonsai.sensu.io/e101a9e9c887ca9e24ee2145c1a8c6f835c38ab8/gcp-monitoring-check_0.2.0_linux_arm64.tar.gz
+    sha512: b6974afa40ff4e5e16da65d7251552f38abb518acc079a63b72dccb028b6d21d736f7ddbb69a833459ebff83e38e50711d80ee127e46c48365dab3840b177346
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'arm64'
+  - url: https://assets.bonsai.sensu.io/e101a9e9c887ca9e24ee2145c1a8c6f835c38ab8/gcp-monitoring-check_0.2.0_linux_386.tar.gz
+    sha512: a3ac721a1c4074d47c15087eea15573b6b84644aad78fa3ad0489f65f6878343824b8a831117d434431b0bda0bb29a1d48e39d336dec603efa3bd8fee3e6dada
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == '386'
+  - url: https://assets.bonsai.sensu.io/e101a9e9c887ca9e24ee2145c1a8c6f835c38ab8/gcp-monitoring-check_0.2.0_linux_amd64.tar.gz
+    sha512: 067b795efd7e0ba7373597ee3f6cd08b6c5560174f24250e5258d3a9d08c68d162c0edeae8297529ccdc2fae581205e415a86826eff4cf9eeb5e895f2bdc60a4
+    filters:
+    - entity.system.os == 'linux'
+    - entity.system.arch == 'amd64'

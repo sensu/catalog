@@ -8,6 +8,7 @@ to [Semantic Versioning][semver].
 ## Unreleased
 
 - Revise text labels and prompts in configuration modal
+- Remove "none" option for providing credentials for consistency among integrations
 - Add summary for success screen in integration yaml file
 - Add several setup steps and options in README
 - Update README link references to match headings on the linked pages

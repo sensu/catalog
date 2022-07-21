@@ -105,3 +105,13 @@ spec:
         Success: You enabled the Ansible Tower integration.
 
         Ansible Tower will process events from checks that include the the `io.sensu.ansible.config.actions` remediation action annotation _and_ `ansible-tower` pipeline on [[ ansible_tower_host ]].
+        
+        Add the `ansible-tower` pipeline reference to one or more checks:
+        
+         ```yaml
+        spec:
+          pipelines:
+            - api_version: core/v2
+              type: Pipeline
+              name: ansible-tower
+        ```

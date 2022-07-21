@@ -143,4 +143,4 @@ The Ansible Tower Remediation integration does not produce [metrics].
 [ansible-tower-app-token]: https://docs.ansible.com/ansible-tower/latest/html/userguide/applications_auth.html#add-tokens
 [ansible-tower-api-reference]: https://docs.ansible.com/ansible-tower/latest/html/towerapi/api_ref.html
 [ansible-tower-auth-guide]: https://docs.ansible.com/ansible-tower/latest/html/administration/oauth2_token_auth.html
-[secret]: 
+[secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/

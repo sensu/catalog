@@ -102,7 +102,7 @@ spec:
       title: Success
     - type: markdown
       body: |
-        Success: You enabled the Ansible Tower integration.
+        You enabled the Ansible Tower integration.
 
         Ansible Tower will process events from checks that include the the `io.sensu.ansible.config.actions` remediation action annotation _and_ `ansible-tower` pipeline on [[ ansible_tower_host ]].
         

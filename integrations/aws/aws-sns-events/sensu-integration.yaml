@@ -187,7 +187,7 @@ spec:
       title: Success
     - type: markdown
       body: |
-        Success: You enabled the AWS SNS Events integration.
+       You enabled the AWS SNS Events integration.
 
         Sensu will forward events from checks that reference the `aws-sns-events` pipeline to the `[[sns_topic_arn]]` Amazon SNS topic ARN.
 

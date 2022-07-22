@@ -46,17 +46,17 @@ The Caddy Metrics integration supports custom request headers.
 To use custom request headers, install this integration.
 Then, update the `caddy-metrics` check to add one or more `--header` flags in the check's `command` attribute.
 
-   **Example**:
+**Example**:
 
-   ```yaml
-   spec:
-     command: >-
-       http-get
-       --timeout 10
-       --url "http://127.0.0.1:2019/metrics"
-       --header "Content-Type: [[text/plain]]"
-       --header "X-Example-Header: helloworld"
-   ```
+```yaml
+spec:
+  command: >-
+    http-get
+    --timeout 10
+    --url "http://127.0.0.1:2019/metrics"
+    --header "Content-Type: [[text/plain]]"
+    --header "X-Example-Header: helloworld"
+```
 
 ### Token substitution
 

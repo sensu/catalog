@@ -377,6 +377,6 @@ spec:
       title: Success
     - type: markdown
       body: |
-        Success: You enabled the AWS EC2 Monitoring integration for the `[[aws_region]]` AWS region.
+        You enabled the AWS EC2 Monitoring integration for the `[[aws_region]]` AWS region.
 
         The `aws-[[aws_region]]-ec2-metrics` check will run for all Sensu agents with these subscriptions: [[subscriptions]].

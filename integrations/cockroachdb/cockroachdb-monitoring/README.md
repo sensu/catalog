@@ -92,7 +92,7 @@ The CockroachDB Metrics integration collects many [metrics]. For a complete list
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
 [CockroachDB documentation][CockroachDB]
-[Monitoring and Alerting] (Caddy documentation)
+[Monitoring and Alerting] (CockroachDB documentation)
 [CockroachDB Metrics example output] (GitHub Gist)
 
 

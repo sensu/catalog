@@ -115,4 +115,4 @@ spec:
       body: |
         You enabled the Cassandra Monitoring integration.
 
-        The `cassandra-healthcheck` and `cassandra-metrics` will run for all Sensu agents with these subscriptions: [[subscriptions]].
+        The `cassandra-healthcheck` and `cassandra-metrics` checks will run for all Sensu agents with these subscriptions: [[subscriptions]].

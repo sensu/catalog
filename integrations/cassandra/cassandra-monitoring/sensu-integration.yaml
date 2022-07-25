@@ -54,16 +54,6 @@ spec:
         ref: core/v2/pipeline/metadata/name
         refFilter: .labels.provider == 'alerts'
     - type: question
-      name: metrics_pipeline
-      required: false
-      input:
-        type: string
-        title: Metrics pipeline name
-        description: >-
-          Which pipeline do you want to use to process the metrics this integration collects?
-        ref: core/v2/pipeline/metadata/name
-        refFilter: .labels.provider == 'metrics'
-    - type: question
       name: incidents_pipeline
       required: false
       input:
@@ -73,6 +63,16 @@ spec:
           Which pipeline do you want to use to process incidents due to failures this integration detects?
         ref: core/v2/pipeline/metadata/name
         refFilter: .labels.provider == 'incidents'
+    - type: question
+      name: metrics_pipeline
+      required: false
+      input:
+        type: string
+        title: Metrics pipeline name
+        description: >-
+          Which pipeline do you want to use to process the metrics this integration collects?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == 'metrics'
   resource_patches:
     - resource:
         api_version: core/v2

@@ -2,7 +2,7 @@
 
 <!-- Sensu Integration description; supports markdown -->
 
-The Email Alerts integration provides a pipeline for sending emails about incidents from Sensu.
+The Email Alerts integration provides a pipeline for sending Sensu events to email addresses.
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 
@@ -16,26 +16,42 @@ This integration includes the following resources:
 
 <!-- List of compatible dashboards w/ screenshots (supports png, jpeg, and gif images; relative paths only; e.g. `![](img/dashboard-1.png)` )-->
 
-There are no compatible dashboards for this integration.
+The Email Alerts integration does not have compatible dashboards.
 
 ## Setup
 
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
 
-This integration doesn't require any additional setup steps. Just click "install" and provide the required configuration parameters.
+1. Get the SMTP server address (hostname) and port name for the email provider.
+
+1. Get SMTP authentication credentials.
+
+   The Email Alerts integration requires the SMTP username and password.
+
+   **Optional**: If you want to use Sensu [secrets] to represent the SMTP username nad password, you will need the secret names when you install this integration.
+
+1. Get the email addresses for the sender and recipients.
+
+1. Add the `email` pipeline to one or more [checks].
+   
+   **Example**:
+
+   ```yaml
+   spec:
+     pipelines:
+       - api_version: core/v2
+         type: Pipeline
+         name: email
+   ```
 
 ## Plugins
 
 <!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->
 
+The Email Alerts integration uses the following Sensu [plugins]:
+
 - [sensu/sensu-email-handler][sensu-email-handler-bonsai] ([GitHub][sensu-email-handler-github])
-
-## Metrics & Events
-
-<!-- List of all metrics or events collected by this integration. -->
-
-This integration does not produce any [metrics].
 
 ## Alerts
 
@@ -43,13 +59,19 @@ This integration does not produce any [metrics].
 
 This integration provides an alert processing pipeline for use with other monitoring integrations. By default this integration will process all events passing the [built-in `is_incident` filter][is_incident] (i.e. failing events and resolution events only). Event processing via this integration may be suppressed using [Sensu Silencing][silences] (see the [built-in `not_silenced` filter][not_silenced] for more details).
 
+## Metrics
+
+<!-- List of all metrics or events collected by this integration. -->
+
+The Email Alerts integration does not produce [metrics].
+
 ## Reference Documentation
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
-1. [Sensu Email Handler Plugin Docs][sensu-email-handler-github]
-2. [Sensu Secrets Docs][secrets]
-3. [Sensu Silencing Docs][silences]
+[Send email alerts with a pipeline] (Sensu documentation)
+[Sensu Email Handler][sensu-email-handler-bonsai] (Sensu documentation)
+
 
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
@@ -73,3 +95,4 @@ This integration provides an alert processing pipeline for use with other monito
 [{{dashboard-link}}]: #
 [sensu-email-handler-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-email-handler
 [sensu-email-handler-github]: https://github.com/sensu/sensu-email-handler
+[Send email alerts with a pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/send-email-alerts/

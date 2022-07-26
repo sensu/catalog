@@ -8,7 +8,7 @@ spec:
   class: supported
   provider: events
   display_name: Elasticsearch Events
-  short_description: A pipeline to send Sensu events and metrics to Elasticsearch
+  short_description: Send Sensu events to Elasticsearch
   supported_platforms:
     - darwin
     - linux
@@ -24,10 +24,12 @@ spec:
     - "@thoward"
   prompts:
     - type: section
-      title: Elasticsearch Settings
+      title: Elasticsearch URL and Index
     - type: markdown
       body: |
-        This integration requires an Elasticsearch URL, index, username, and password.
+        Specify the Elasticsearch URL and index that should store the Sensu events this integration sends.
+
+        This integration supports both HTTP and HTTP URLs.
     - type: question
       name: elasticsearch_url
       required: true
@@ -35,27 +37,22 @@ spec:
         type: string
         title: Elasticsearch URL
         description: >-
-          Provide the Elasticsearch URL (e.g. http://elasticsearch.mycompany.com:9200); supports HTTP and HTTPS.
+          Enter the Elasticsearch URL (e.g. http://elasticsearch.mycompany.com:9200)
         default: http://elasticsearch.mycompany.com:9200
     - type: question
       name: elasticsearch_index
       required: true
       input:
         type: string
-        title: Default Elasticsearch Index
+        title: Default Elasticsearch index
         description: >-
-          The name of the default index within Elasticsearch where Sensu data will be stored.
-          NOTE: this can be configured / overriden on a per-host basis.
+          Enter the name of the default Elasticsearch index where Sensu events will be stored
         default: sensu_events
     - type: section
-      title: Elasticsearch Username & Password
+      title: Elasticsearch Username and Password
     - type: markdown
       body: |
-        This integration requires an Elasticsearch username & password for authentication.
-
-        Please select [Sensu Secrets] or provide an Elasticsearch username and password.
-
-        [Sensu Secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
+        The Elasticsearch Events integration requires the Elasticsearch username and password for authentication.
     - type: question
       name: elasticsearch_username
       required: true
@@ -69,17 +66,17 @@ spec:
             properties:
               option:
                 type: string
-                title: Elasticsearch Username
+                title: Elasticsearch username
                 const: secret
                 constLocale:
                   title: Secret
                   description: >-
-                    Select this option to use Sensu Secrets Management
+                    Use a Sensu secret to provide the Elasticsearch username
               secret:
                 type: string
-                title: Elasticsearch Username (Sensu Secret)
+                title: Secret name
                 description: >-
-                  Select the Elasticsearch username (Sensu Secret)
+                  Enter the secret name for the Elasticsearch username
                 ref: secrets/v1/secret/metadata/name
           - type: object
             required:
@@ -88,17 +85,17 @@ spec:
             properties:
               option:
                 type: string
-                title: Elasticsearch Username
+                title: Elasticsearch username
                 const: env_var
                 constLocale:
-                  title: Environment Variable
+                  title: Environment variable
                   description: >-
-                    Select this option to store sensitive configuration as environment variables
+                    Save the Elasticsearch username as a backend environment variable
               env_var:
                 type: string
-                title: Elasticsearch Username
+                title: Elasticsearch username
                 description: >-
-                  Provide the Elasticsearch username (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+                  Enter the Elasticsearch username (username will be stored in the Sensu API as unencrypted plaintext)
     - type: question
       name: elasticsearch_password
       required: true
@@ -112,17 +109,17 @@ spec:
             properties:
               option:
                 type: string
-                title: Elasticsearch Password
+                title: Elasticsearch password
                 const: secret
                 constLocale:
                   title: Secret
                   description: >-
-                    Select this option to use Sensu Secrets Management
+                    Use a Sensu secret to provide the Elasticsearch password
               secret:
                 type: string
-                title: Elasticsearch Password (Sensu Secret)
+                title: Secret name
                 description: >-
-                  Select the Elasticsearch password (Sensu Secret)
+                  Enter the secret name for the Elasticsearch password
                 ref: secrets/v1/secret/metadata/name
           - type: object
             required:
@@ -131,17 +128,17 @@ spec:
             properties:
               option:
                 type: string
-                title: Elasticsearch Password
+                title: Elasticsearch password
                 const: env_var
                 constLocale:
-                  title: Environment Variable
+                  title: Environment variable
                   description: >-
-                    Select this option to store sensitive configuration as environment variables
+                    Save the Elasticsearch password as a backend environment variable
               env_var:
                 type: string
-                title: Elasticsearch Password
+                title: Elasticsearch password
                 description: >-
-                  Provide the Elasticsearch password (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+                  Enter the Elasticsearch password (password will be stored in the Sensu API as unencrypted plaintext)
   resource_patches:
     - resource:
         api_version: core/v2
@@ -175,9 +172,11 @@ spec:
       title: Success
     - type: markdown
       body: |
-        You have successfully enabled the "elasticsearch" pipeline.
+        You enabled the Elasticsearch Events integration.
 
-        Checks configured with the `elasticsearch` pipeline will send Sensu event and metric data to [[ elasticsearch_url ]].
+        Sensu will forward events from checks that reference the `elasticsearch` pipeline to the Elasticsearch index `[[elasticsearch_index]]`.
+
+        Add the `elasticsearch` pipeline reference to one or more checks:
 
         ```yaml
         spec:

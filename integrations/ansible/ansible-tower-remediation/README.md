@@ -37,7 +37,20 @@ The Ansible Tower Remediation integration is compatible with the [Jobs view][ans
 
 1. Add the remediation action [annotation] `io.sensu.ansible.config.actions` to one or more [checks].
 
-   **Example**:
+   The following request attributes are available for the `io.sensu.ansible.config.actions` remediation action annotation:
+
+   Attribute        | Description
+   ---------------- | -----------
+   `inventory_id`   | Ansible Tower inventory ID
+   `inventory_name` | Ansible Tower inventory name (use if inventory_id is not specified)
+   `limit`          | Ansible Tower inventory limit
+   `occurrences`    | Array of Sensu event `occurrences` values to match to trigger the Ansible Tower job
+   `severities`     | Array of Sensu event `status` values to match to trigger the Ansible Tower job
+   `template_id`    | Ansible Tower job template ID
+   `template_name`  | Ansible Tower job template name (use if template_id is not specified)
+
+   <br>
+   <details><summary><strong>Example: Remediation action annotation</strong></summary>
 
    ```yaml
    metadata:
@@ -63,9 +76,12 @@ The Ansible Tower Remediation integration is compatible with the [Jobs view][ans
          ]
    ```
 
+   </details>
+   <br>
+
 1. Add the `ansible-tower` [pipeline] reference to the same [checks].
 
-   **Example**:
+   <details><summary><strong>Example: Check pipeline configuration</strong></summary>
 
    ```yaml
    spec:
@@ -75,23 +91,8 @@ The Ansible Tower Remediation integration is compatible with the [Jobs view][ans
          name: ansible-tower
    ```
 
-### Remediation action annotation
-
-The following request attributes are available for the `io.sensu.ansible.config.actions` remediation action annotation:
-
-Attribute      | Description
--------------- | -----------
-inventory_id   | Ansible Tower inventory ID
-inventory_name | Ansible Tower inventory name (use if inventory_id is not specified)
-limit          | Ansible Tower inventory limit
-occurrences    | Array of Sensu event `occurrences` values to match to trigger the Ansible Tower job
-severities     | Array of Sensu event `status` values to match to trigger the Ansible Tower job
-template_id    | Ansible Tower job template ID
-template_name  | Ansible Tower job template name (use if template_id is not specified)
-
-### Handler templating
-
-The Ansible Tower Remediation integration supports [handler templating][handler-templating] for variable substitution with data from Sensu events.
+   </details>
+   <br>
 
 ## Plugins
 
@@ -117,9 +118,10 @@ The Ansible Tower Remediation integration does not produce [metrics].
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
-[Tower API Reference Guide][ansible-tower-api-reference] (Ansible Tower documentation)
-[Job Templates][ansible-tower-job-templates] (Ansible Tower documentation)
-[Token-Based Authentication][ansible-tower-auth-guide] (Ansible Tower documentation)
+* [Handler templating][handler-templating] — The Ansible Tower Remediation integration supports handler templating for variable substitution with data from Sensu events.
+* [Tower API Reference Guide][ansible-tower-api-reference] (Ansible Tower documentation)
+* [Job Templates][ansible-tower-job-templates] (Ansible Tower documentation)
+* [Token-Based Authentication][ansible-tower-auth-guide] (Ansible Tower documentation)
 
 
 <!-- Links -->

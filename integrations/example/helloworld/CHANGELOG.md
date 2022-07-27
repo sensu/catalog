@@ -7,7 +7,12 @@ to [Semantic Versioning][semver].
 
 ## Unreleased
 
-- N/A
+- Revise text labels and prompts in configuration modal
+- Add formatting to restore prompts for interval and world and add prompt for subscriptions in integration yaml file
+- Add summary for success screen in integration yaml file
+- Add explanation about integration function in README
+- Add several setup steps and options in README
+- Add reference documentation list and links in README
 
 ## [ 20220421.0.0 ] - 2022-04-21
 

@@ -139,3 +139,4 @@ The Envoy Metrics integration collects many [metrics]. For a complete list of me
 [http-checks-github]: https://github.com/sensu/http-checks
 [Envoy Metrics example output]: https://gist.github.com/thoward/02617f95accdfd7694acc671709c61d0
 [Statistics]: https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/stats
+[Envoy]: https://www.envoyproxy.io/docs/envoy/latest/intro/what_is_envoy

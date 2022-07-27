@@ -167,8 +167,20 @@ spec:
           value:
             name: "url"
             value: "[[protocol]]://[[host]]:[[port]][[path]]"
-        - op: add
-          path: /spec/pipelines/-
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[alert_pipeline]]"
+        - path: /spec/pipelines/-
+          op: add
+          value:
+            api_version: core/v2
+            type: Pipeline
+            name: "[[incident_pipeline]]"
+        - path: /spec/pipelines/-
+          op: add
           value:
             api_version: core/v2
             type: Pipeline

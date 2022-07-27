@@ -109,7 +109,7 @@ spec:
       title: Pipeline Configuration
     - type: markdown
       body: |
-        Name the [pipelines] you want to use to process DNS Monitoring integration data.
+        Name the [pipelines] you want to use to process Envoy Metrics integration data.
 
         [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
     - type: question

@@ -64,16 +64,16 @@ The Ansible Tower Remediation integration is compatible with the [Jobs view][ans
    ```
 
 1. Add the `ansible-tower` [pipeline] reference to the same [checks].
-   
+
    **Example**:
 
-  ```yaml
-  spec:
-    pipelines:
-      - api_version: core/v2
-        type: Pipeline
-        name: ansible-tower
-  ```
+   ```yaml
+   spec:
+     pipelines:
+       - api_version: core/v2
+         type: Pipeline
+         name: ansible-tower
+   ```
 
 ### Remediation action annotation
 

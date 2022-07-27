@@ -70,7 +70,7 @@ spec:
         type: string
         title: Target URL path
         description: >-
-          Enter the path for the Docker target URL (`/stats/prometheus`)
+          Enter the path for the Envoy target URL (`/stats/prometheus`)
         default: "/stats/prometheus"
     - type: question
       name: interval

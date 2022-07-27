@@ -2,7 +2,7 @@
 
 <!-- Sensu Integration description; supports markdown -->
 
-The AWS ElastiCache Monitoring integration collects [Amazon ElastiCache] metrics from [AWS CloudWatch], and alerts on various theshold conditions.
+The AWS ElastiCache Monitoring integration collects [Amazon ElastiCache] metrics from [AWS CloudWatch], and alerts on various threshold conditions.
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 

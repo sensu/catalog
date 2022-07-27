@@ -61,7 +61,7 @@ spec:
         type: integer
         title: Target URL port
         description: >-
-          Enter the port for the Docker target URL (Envoy default is `9901`)
+          Enter the port for the Envoy target URL (Envoy default is `9901`)
         default: 9901
     - type: question
       name: path

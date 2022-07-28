@@ -33,28 +33,34 @@ The Elasticsearch Events integration does not have compatible dashboards.
 
 1. Add the `elasticsearch` [pipeline] to one or more [checks].
    
-   **Example**:
+   <details><summary><strong>Example: Check pipeline configuration</strong></summary>
 
-  ```yaml
-  spec:
-    pipelines:
-      - api_version: core/v2
-        type: Pipeline
-        name: elasticsearch
-  ```
+   ```yaml
+   spec:
+     pipelines:
+       - api_version: core/v2
+         type: Pipeline
+         name: elasticsearch
+   ```
 
-### Override default parameters
+   </details>
+   <br>
 
-The Elasticsearch Events integration sends Sensu events to a default Elasticsearch index (`sensu_events`). If you want to use a different index name, you can change it when you install this integration.
+1. **Optional** Specify a custom Elasticsearch index.
 
-To override the default parameter and specify a custom Elasticsearch index on a per-host basis, add the `sensu.io/plugins/sensu-elasticsearch-handler/config/index` [annotation] to the Sensu [agent] configuration file.
+   The Elasticsearch Events integration sends Sensu events to a default Elasticsearch index (`sensu_events`). If you want to use a different index name, you can change it when you install this integration.
 
-**Example**:
+   To override the default parameter and specify a custom Elasticsearch index on a per-host basis, add the `sensu.io/plugins/sensu-elasticsearch-handler/config/index` [annotation] to the Sensu [agent] configuration file (`agent.yml`).
 
-```yaml
-annotations:
-  sensu.io/plugins/sensu-elasticsearch-handler/config/index: "{CUSTOM_INDEX}"
-```
+   <details><summary><strong>Example: Custom Elasticsearch index configuration</strong></summary>
+
+   ```yaml
+   annotations:
+     sensu.io/plugins/sensu-elasticsearch-handler/config/index: "{CUSTOM_INDEX}"
+   ```
+
+   </details>
+   <br>
 
 ## Plugins
 

@@ -27,44 +27,43 @@ The Cassandra Monitoring integration does not have compatible dashboards.
 
    You can configure separate pipelines for alerts, metrics, and incident management.
 
-### Override default parameters
+1. **Optional** Specify a custom hostname and port.
 
-The Cassandra Monitoring integration uses default parameters for Cassandra hostname (`localhost`) and port (`7199`).
+   The Cassandra Monitoring integration uses default parameters for Cassandra hostname (`localhost`) and port (`7199`).
 
-To override the default parameters and specify custom parameters, add the `cassandra_hostname` and `cassandra_port` [annotations] to the Sensu [agent] configuration file.
+   To override the default parameters and specify custom parameters, add the `cassandra_hostname` and `cassandra_port` [annotations] to the Sensu [agent] configuration file (`agent.yml`.
 
-**Example**:
+   <details><summary><strong>Example: Custom hostname and port configuration</strong></summary>
 
-```yaml
-annotations:
-  cassandra_hostname: "CUSTOM_HOSTNAME"
-  cassandra_port: 9999
-```
+   ```yaml
+   annotations:
+     cassandra_hostname: "CUSTOM_HOSTNAME"
+     cassandra_port: 9999
+   ```
 
-### Add the cfstats and filter options
+   </details>
+   <br>
 
-The Cassandra Monitoring integration can collect detailed metrics on keyspaces and column families with [cfstats].
+1. **Optional** Add the cfstats and filter options to the `cassandra-metrics` check command.
 
-To add the cfstats option, install this integration.
-Then, update the `cassandra-metrics` check to add the `--cfstats` flag in the check's `command` attribute.
+   The Cassandra Monitoring integration can collect detailed metrics on keyspaces and column families with [cfstats].
 
-To output only metrics for column-families that match a specific regular expression, add the `--filter` flag with a regular expression argument in the check's `command` attribute.
+   To add the cfstats option, install this integration. Then, update the `cassandra-metrics` check to add the `--cfstats` flag in the check's `command` attribute.
 
-**Example**:
+   To output only metrics for column-families that match a specific regular expression, add the `--filter` flag with a regular expression argument in the check's `command` attribute.
 
-```yaml
-spec:
-  command: >-
-    metrics-cassandra-graphite.rb -h {{ .annotations.cassandra_hostname | default "localhost" }} -P {{ .annotations.cassandra_port | default 7199 }}
-    --cfstats
-    --filter <REGULAR_EXPRESSION>
-```
+   <details><summary><strong>Example: Check command with cfstats and filter options</strong></summary>
 
-Read the [sensu/sensu-plugins-cassandra plugin documentation] for more information about configuration options.
+   ```yaml
+   spec:
+     command: >-
+     metrics-cassandra-graphite.rb -h {{ .annotations.cassandra_hostname | default "localhost" }} -P {{ .annotations.cassandra_port | default 7199 }}
+     --cfstats
+     --filter <REGULAR_EXPRESSION>
+   ```
 
-### Token substitution
-
-The Cassandra Monitoring integration supports Sensu [tokens] for variable substitution with data from Sensu entities.
+   </details>
+   <br>
 
 ## Plugins
 
@@ -176,11 +175,13 @@ The Cassandra Monitoring integration collects many [metrics] in [Graphite format
 
 ## Reference Documentation
 
-[Apache Cassandra documentation]
-[Nodetool][nodetool] (Apache Cassandra documentation)
-[`nodetool info` command] (Apache Cassandra documentation)
-[`nodetool tpstats` command] (Apache Cassandra documentation)
-[`nodetool cfstats` command] (DataStax documentation)
+* [Token substitution] (Sensu documentation): the Cassandra Monitoring integration supports Sensu tokens for variable substitution with data from Sensu entities
+* [sensu/sensu-plugins-cassandra][sensu/sensu-plugins-cassandra plugin documentation] (GitHub-hosted file): read for more information about check configuration options
+* [Apache Cassandra documentation]
+* [Nodetool][nodetool] (Apache Cassandra documentation)
+* [`nodetool info` command] (Apache Cassandra documentation)
+* [`nodetool tpstats` command] (Apache Cassandra documentation)
+* [`nodetool cfstats` command] (DataStax documentation)
 
 
 <!-- Links -->
@@ -194,9 +195,8 @@ The Cassandra Monitoring integration collects many [metrics] in [Graphite format
 [metrics]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
-[tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
+[Token substitution]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [sensu-plus]: https://sensu.io/features/analytics
-<!-- [{{dashboard-link}}]: # -->
 [sensu-plugins-cassandra-bonsai]: https://bonsai.sensu.io/assets/sensu-plugins/sensu-plugins-cassandra
 [sensu-plugins-cassandra-github]: https://github.com/sensu-plugins/sensu-plugins-cassandra
 [sensu-ruby-runtime-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-ruby-runtime

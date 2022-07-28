@@ -46,29 +46,34 @@ The AWS EC2 Monitoring integration does not have compatible dashboards.
 
 1. Configure Sensu agent metadata with EC2 instance IDs
 
-   Configure Sensu agents to use the EC2 instance ID as the entity name **OR** add one of the following annotations to the agent configuration:
+   Configure Sensu agents to use the EC2 instance ID as the entity name **OR** add one of the following annotations to the agent configuration in `agent.yml`:
 
    * `aws_ec2_instance_id`
    * `instance_id`
 
    The AWS EC2 Monitoring integration queries CloudWatch APIs to fetch EC2 instance metrics on a per-instance basis.
 
-   **Example** (add in `agent.yml`):
+   <br>
+   <details><summary><strong>Example: Agent instance ID annotation</strong></summary>
 
    ```yaml
    annotations:
      aws_ec2_instance_id: i-424242
    ```
 
+   ```yaml
+   annotations:
+     instance_id: i-424242
+   ```
+
+   </details>
+   <br>
+
 1. Decide which Sensu agents should execute the `aws-{AWS_REGION}-ec2-metrics` check. You will need the agent subscription names when you install this integration.
 
 1. If you want to use a Sensu [pipeline] to process AWS ALB Monitoring integration data, you will need the pipeline names when you install this integration.
 
    You can configure separate pipelines for alerts, incident management, and metrics.
-
-### Token substitution
-
-The AWS EC2 Monitoring integration supports Sensu [tokens] for variable substitution with data from Sensu entities.
 
 ## Plugins
 
@@ -128,8 +133,9 @@ Metric name | Tags
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
-[Amazon CloudWatch API Reference][AWS CloudWatch APIs] (AWS documentation)
-[List the available CloudWatch metrics for your instances][list of available CloudWatch metrics] (AWS documentation)
+* [Token substitution] (Sensu documentation): the AWS EC2 Monitoring integration supports Sensu tokens for variable substitution with data from Sensu entities
+* [Amazon CloudWatch API Reference][AWS CloudWatch APIs] (AWS documentation)
+* [List the available CloudWatch metrics for your instances][list of available CloudWatch metrics] (AWS documentation)
 
 
 <!-- Links -->
@@ -145,7 +151,7 @@ Metric name | Tags
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
 [secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
-[tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
+[Token substitution]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [sensu-plus]: https://sensu.io/features/analytics
 [{{dashboard-link}}]: #
 [sensu-cloudwatch-check-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-cloudwatch-check

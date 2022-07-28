@@ -47,10 +47,6 @@ The AWS RDS Monitoring integration does not have compatible dashboards.
 
    You can configure separate pipelines for alerts, incident management, and metrics.
 
-### Token substitution
-
-The AWS RDS Monitoring integration supports Sensu [tokens] for variable substitution with data from Sensu entities.
-
 ## Plugins
 
 <!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->
@@ -92,9 +88,10 @@ Metric name | Tags
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
-[Amazon RDS][Amazon Relational Database Service] (AWS documentation)
-[Amazon CloudWatch API Reference][AWS CloudWatch APIs] (AWS documentation)
-[Overview of monitoring metrics in Amazon RDS] (AWS documentation)
+* [Token substitution] (Sensu documentation): the AWS RDS Monitoring integration supports Sensu tokens for variable substitution with data from Sensu entities
+* [Amazon RDS][Amazon Relational Database Service] (AWS documentation)
+* [Amazon CloudWatch API Reference][AWS CloudWatch APIs] (AWS documentation)
+* [Overview of monitoring metrics in Amazon RDS] (AWS documentation)
 
 
 <!-- Links -->
@@ -110,7 +107,7 @@ Metric name | Tags
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
 [secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
-[tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
+[Token substitution]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [sensu-plus]: https://sensu.io/features/analytics
 [{{dashboard-link}}]: #
 [sensu-cloudwatch-check-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-cloudwatch-check

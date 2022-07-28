@@ -37,9 +37,9 @@ The Caddy Metrics integration does not have compatible dashboards.
 
    **Optional**: Create subscription names that map to the hosts that are running Caddy.
 
-1. If you want to use a Sensu [pipeline] to process Caddy Metrics integration data, you will need the pipeline names when you install this integration.
+1. If you want to use a Sensu [pipeline] to process Caddy Metrics integration data, you will need the pipeline name when you install this integration.
 
-1. Configure custom request headers.
+1. **Optional** Configure custom request headers.
 
    To use custom request headers, install the Caddy Metrics integration. Then, update the `caddy-metrics` check to add one or more `--header` flags in the check's `command` attribute.
 

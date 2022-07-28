@@ -118,7 +118,7 @@ The Ansible Tower Remediation integration does not produce [metrics].
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
-* [Handler templating][handler-templating] — The Ansible Tower Remediation integration supports handler templating for variable substitution with data from Sensu events.
+* [Handler templating][handler-templating] (Sensu documentation): the Ansible Tower Remediation integration supports handler templating for variable substitution with data from Sensu events
 * [Tower API Reference Guide][ansible-tower-api-reference] (Ansible Tower documentation)
 * [Job Templates][ansible-tower-job-templates] (Ansible Tower documentation)
 * [Token-Based Authentication][ansible-tower-auth-guide] (Ansible Tower documentation)

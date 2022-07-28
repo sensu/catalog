@@ -37,28 +37,26 @@ The Etcd Metrics integration does not have compatible dashboards.
 
 1. If you want to use a Sensu [pipeline] to process Etcd Metrics integration data, you will need the pipeline names when you install this integration.
 
-### Custom request headers
+   You can configure separate pipelines for alerts, incident management, and metrics.
 
-The Etcd Metrics integration supports custom request headers.
+1. **Optional** Configure custom request headers.
 
-To use custom request headers, install this integration.
-Then, update the `etcd-metrics` check to add one or more `--header` flags in the check's `command` attribute.
+   To use custom request headers, install this integration. Then, update the `etcd-metrics` check to add one or more `--header` flags in the check's `command` attribute.
 
-**Example**:
+   <details><summary><strong>Example: Custom request header configuration</strong></summary>
 
-```yaml
-spec:
-  command: >-
-    http-get
-    --timeout 10
-    --url "http://127.0.0.1:2379/metrics"
-    --header "Content-Type: text/plain"
-    --header "X-Example-Header: helloworld"
-```
+   ```yaml
+   spec:
+     command: >-
+       http-get
+       --timeout 10
+       --url "http://127.0.0.1:2379/metrics"
+       --header "Content-Type: text/plain"
+       --header "X-Example-Header: helloworld"
+   ```
 
-### Token substitution
-
-The Etcd Metrics integration supports Sensu [tokens] for variable substitution with data from Sensu entities.
+   </details>
+   <br>
 
 ## Plugins
 
@@ -86,7 +84,8 @@ The Etcd Metrics integration collects many [metrics]. For a complete list of met
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
-[Metrics][Metrics page] (etcd documentation)
+* [Token substitution] (Sensu documentation): the Etcd Metrics integration supports Sensu tokens for variable substitution with data from Sensu entities
+* [Metrics][Metrics page] (etcd documentation)
 
 
 <!-- Links -->

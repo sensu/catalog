@@ -100,7 +100,7 @@ Metric name | Tags
 [subscription]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/
 [subscriptions]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/
 [agents]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/
-[annotation]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#general-configuration-flags
+[annotation]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#agent-annotations
 [plugins]: https://docs.sensu.io/sensu-go/latest/plugins/
 [metrics]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
@@ -109,7 +109,6 @@ Metric name | Tags
 [secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [Token substitution]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [sensu-plus]: https://sensu.io/features/analytics
-[{{dashboard-link}}]: #
 [sensu-cloudwatch-check-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-cloudwatch-check
 [sensu-cloudwatch-check-github]: https://github.com/sensu/sensu-cloudwatch-check
 [Amazon Relational Database Service]: https://aws.amazon.com/rds/

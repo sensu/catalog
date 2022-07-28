@@ -39,28 +39,26 @@ The CockroachDB Metrics integration does not have compatible dashboards.
 
 1. If you want to use a Sensu [pipeline] to process CockroachDB Metrics integration data, you will need the pipeline names when you install this integration.
 
-### Custom request headers
+   You can configure separate pipelines for alerts, incident management, and metrics.
 
-The CockroachDB Metrics integration supports custom request headers.
+1. **Optional** Configure custom request headers.
 
-To use custom request headers, install this integration.
-Then, update the `cockroachdb-metrics` check to add one or more `--header` flags in the check's `command` attribute.
+   To use custom request headers, install this integration. Then, update the `cockroachdb-metrics` check to add one or more `--header` flags in the check's `command` attribute.
 
-**Example**:
+   <details><summary><strong>Example: Custom request header configuration</strong></summary>
 
-```yaml
-spec:
-  command: >-
-    http-get
-    --timeout 10
-    --url "http://127.0.0.1:8080/_status/vars"
-    --header "Content-Type: text/plain"
-    --header "X-Example-Header: helloworld"
-```
+   ```yaml
+   spec:
+     command: >-
+       http-get
+       --timeout 10
+       --url "http://127.0.0.1:8080/_status/vars"
+       --header "Content-Type: text/plain"
+       --header "X-Example-Header: helloworld"
+   ```
 
-### Token substitution
-
-The CockroachDB Metrics integration supports Sensu [tokens] for variable substitution with data from Sensu entities.
+   </details>
+   <br>
 
 ## Plugins
 
@@ -91,9 +89,10 @@ The CockroachDB Metrics integration collects many [metrics]. For a complete list
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
-[CockroachDB documentation][CockroachDB]
-[Monitoring and Alerting] (CockroachDB documentation)
-[CockroachDB Metrics example output] (GitHub Gist)
+* [Token substitution] (Sensu documentation): the CockroachDB Metrics integration supports Sensu tokens for variable substitution with data from Sensu entities
+* [CockroachDB documentation][CockroachDB]
+* [Monitoring and Alerting] (CockroachDB documentation)
+* [CockroachDB Metrics example output] (GitHub Gist)
 
 
 <!-- Links -->
@@ -110,7 +109,7 @@ The CockroachDB Metrics integration collects many [metrics]. For a complete list
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
 [secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
-[tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
+[Token substitution]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [sensu-plus]: https://sensu.io/features/analytics
 [http-checks-bonsai]: https://bonsai.sensu.io/assets/sensu/http-checks
 [http-checks-github]: https://github.com/sensu/http-checks

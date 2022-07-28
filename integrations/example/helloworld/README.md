@@ -23,20 +23,21 @@ The Hello World integration does not have compatible dashboards.
 
 1. Decide which Sensu agents should execute the `helloworld` check. You will need the agent [subscription] names when you install this integration.
 
-### Override default parameters
+1. **Optional** Specify a custom world to greet.
 
-To override the default parameter and specify a custom world to greet on a per-host basis, add the `helloworld` [annotation] to the Sensu [agent] configuration file.
+   The Hello World integration uses a default parameter for the world to greet in the check (`Sensu Integration`).
 
-**Example**:
+   To override the default parameter and specify a custom world to greet, add the `helloworld` [annotation] to the Sensu [agent] configuration file (`agent.yml`).
 
-```yaml
-annotations:
-  helloworld: "{WORLD_NAME}"
-```
+   <details><summary><strong>Example: Custom world configuration</strong></summary>
 
-### Token substitution
+   ```yaml
+   annotations:
+     helloworld: "{CUSTOM_WORLD_NAME}"
+   ```
 
-The Hello World integration supports Sensu [tokens] for variable substitution with data from Sensu entities.
+   </details>
+   <br>
 
 ## Plugins
 
@@ -60,7 +61,8 @@ The Hello World integration does not produce any [metrics].
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration. -->
 
-[Sensu Integration Catalog] (GitHub repository)
+* [Token substitution] (Sensu documentation): the Hello World integration supports Sensu tokens for variable substitution with data from Sensu entities
+* [Sensu Integration Catalog] (GitHub repository)
 
 
 <!-- Links -->
@@ -68,10 +70,10 @@ The Hello World integration does not produce any [metrics].
 [asset]: https://docs.sensu.io/sensu-go/latest/plugins/assets/
 [subscription]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/
 [agents]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/
-[annotation]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#general-configuration-flags
+[annotation]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#agent-annotations
 [plugins]: https://docs.sensu.io/sensu-go/latest/plugins/
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
 [metrics]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
-[tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
+[Token substitution]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [Sensu Integration Catalog]: https://github.com/sensu/catalog

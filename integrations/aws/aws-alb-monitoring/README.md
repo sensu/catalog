@@ -50,10 +50,6 @@ The AWS ALB Monitoring integration does not have compatible dashboards.
 
    You can configure separate pipelines for alerts, incident management, and metrics.
 
-### Token substitution
-
-The AWS ALB Monitoring integration supports Sensu [tokens] for variable substitution with data from Sensu entities.
-
 ## Plugins
 
 <!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->
@@ -155,9 +151,10 @@ Metric name | Tags
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
-[Application Load Balancer][AWS application load balancer] (AWS documentation)
-[Amazon CloudWatch API Reference][AWS CloudWatch APIs] (AWS documentation)
-[CloudWatch metrics for your Application Load Balancer] (AWS documentation)
+* [Token substitution] (Sensu documentation): the AWS ALB Monitoring integration supports Sensu tokens for variable substitution with data from Sensu entities
+* [Application Load Balancer][AWS application load balancer] (AWS documentation)
+* [Amazon CloudWatch API Reference][AWS CloudWatch APIs] (AWS documentation)
+* [CloudWatch metrics for your Application Load Balancer] (AWS documentation)
 
 
 <!-- Links -->
@@ -172,7 +169,7 @@ Metric name | Tags
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
 [secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
-[tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
+[Token substitution]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [sensu-plus]: https://sensu.io/features/analytics
 [{{dashboard-link}}]: #
 [sensu-cloudwatch-check-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-cloudwatch-check

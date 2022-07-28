@@ -27,9 +27,7 @@ The AWS SNS Events integration does not have compatible dashboards.
 
    Read [Identity and access management in Amazon SNS] for more information.
 
-1. Get the Amazon resource name (ARN) for the Amazon SNS topic.
-
-   You will need the ARN when you install this integration.
+1. Get the Amazon resource name (ARN) for the Amazon SNS topic. You will need the ARN when you install this integration.
 
 1. Get AWS authentication credentials.
    
@@ -39,7 +37,7 @@ The AWS SNS Events integration does not have compatible dashboards.
 
 1. Add the `aws-sns-events` pipeline to one or more [checks].
    
-   **Example**:
+   <details><summary><strong>Example: Check pipeline configuration</strong></summary>
 
    ```yaml
    spec:
@@ -48,6 +46,9 @@ The AWS SNS Events integration does not have compatible dashboards.
          type: Pipeline
          name: aws-sns-events
    ```
+
+   </details>
+   <br>
 
 ## Plugins
 
@@ -73,8 +74,8 @@ The AWS SNS Events integration does not produce [metrics].
 
 ## Reference Documentation
 
-[Amazon Simple Notification Service Documentation] (AWS documentation)
-[Identity and access management in Amazon SNS] (AWS documentation)
+* [Amazon Simple Notification Service Documentation] (AWS documentation)
+* [Identity and access management in Amazon SNS] (AWS documentation)
 
 
 <!-- Links -->

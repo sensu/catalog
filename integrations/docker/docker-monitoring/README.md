@@ -35,8 +35,6 @@ The Docker Monitoring integration does not have compatible dashboards.
    "experimental": true
    ```
 
-   For more information, read [Configure Docker] in the Docker documentation.
-
    **NOTE**: You do not need to run Prometheus to use Docker's `/metrics` endpoint.
 
 1. Get the Docker `/metrics` endpoint target URL. You will need these target URL elements to install this integration:
@@ -50,28 +48,26 @@ The Docker Monitoring integration does not have compatible dashboards.
 
 1. If you want to use a Sensu [pipeline] to process Docker Monitoring integration data, you will need the pipeline names when you install this integration.
 
-### Custom request headers
+   You can configure separate pipelines for alerts, incident management, and metrics.
 
-The Docker Monitoring integration supports custom request headers.
+1. **Optional** Configure custom request headers.
 
-To use custom request headers, install this integration.
-Then, update the `docker-daemon-metrics` check to add one or more `--header` flags in the check's `command` attribute.
+   To use custom request headers, install this integration. Then, update the `docker-daemon-metrics` check to add one or more `--header` flags in the check's `command` attribute.
 
-**Example**:
+   <details><summary><strong>Example: Custom request header configuration</strong></summary>
 
-```yaml
-spec:
-  command: >-
-    http-get
-    --timeout 10
-    --url "http://127.0.0.1:9323/metrics"
-    --header "Content-Type: [[text/plain]]"
-    --header "X-Example-Header: helloworld"
-```
+   ```yaml
+   spec:
+     command: >-
+       http-get
+       --timeout 10
+       --url "http://127.0.0.1:9323/metrics"
+       --header "Content-Type: [[text/plain]]"
+       --header "X-Example-Header: helloworld"
+   ```
 
-### Token substitution
-
-The Docker Monitoring integration supports Sensu [tokens] for variable substitution with data from Sensu entities.
+   </details>
+   <br>
 
 ## Plugins
 
@@ -109,7 +105,9 @@ The Docker Monitoring integration collects many [metrics]. For a complete list o
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
-[Collect Docker metrics with Prometheus] (Docker documentation)
+* [Token substitution] (Sensu documentation): the Docker Monitoring integration supports Sensu tokens for variable substitution with data from Sensu entities
+* [Configure Docker] (Docker documentation)
+* [Collect Docker metrics with Prometheus] (Docker documentation)
 
 
 <!-- Links -->
@@ -126,7 +124,7 @@ The Docker Monitoring integration collects many [metrics]. For a complete list o
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
 [secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
-[tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
+[Token substitution]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [sensu-plus]: https://sensu.io/features/analytics
 [http-checks-bonsai]: https://bonsai.sensu.io/assets/sensu/http-checks
 [http-checks-github]: https://github.com/sensu/http-checks

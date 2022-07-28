@@ -31,7 +31,7 @@ The Cassandra Monitoring integration does not have compatible dashboards.
 
    The Cassandra Monitoring integration uses default parameters for Cassandra hostname (`localhost`) and port (`7199`).
 
-   To override the default parameters and specify custom parameters, add the `cassandra_hostname` and `cassandra_port` [annotations] to the Sensu [agent] configuration file (`agent.yml`.
+   To override the default parameters and specify custom parameters, add the `cassandra_hostname` and `cassandra_port` [annotations] to the Sensu [agent] configuration file (`agent.yml`).
 
    <details><summary><strong>Example: Custom hostname and port configuration</strong></summary>
 

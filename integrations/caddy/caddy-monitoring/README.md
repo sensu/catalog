@@ -39,28 +39,24 @@ The Caddy Metrics integration does not have compatible dashboards.
 
 1. If you want to use a Sensu [pipeline] to process Caddy Metrics integration data, you will need the pipeline names when you install this integration.
 
-### Custom request headers
+1. Configure custom request headers.
 
-The Caddy Metrics integration supports custom request headers.
+   To use custom request headers, install the Caddy Metrics integration. Then, update the `caddy-metrics` check to add one or more `--header` flags in the check's `command` attribute.
 
-To use custom request headers, install this integration.
-Then, update the `caddy-metrics` check to add one or more `--header` flags in the check's `command` attribute.
+   <details><summary><strong>Example: Custom request header configuration</strong></summary>
 
-**Example**:
+   ```yaml
+   spec:
+     command: >-
+       http-get
+       --timeout 10
+       --url "http://127.0.0.1:2019/metrics"
+       --header "Content-Type: [[text/plain]]"
+       --header "X-Example-Header: helloworld"
+   ```
 
-```yaml
-spec:
-  command: >-
-    http-get
-    --timeout 10
-    --url "http://127.0.0.1:2019/metrics"
-    --header "Content-Type: [[text/plain]]"
-    --header "X-Example-Header: helloworld"
-```
-
-### Token substitution
-
-The Caddy Metrics integration supports Sensu [tokens] for variable substitution with data from Sensu entities.
+   </details>
+   <br>
 
 ## Plugins
 
@@ -86,9 +82,10 @@ The Caddy Metrics integration collects many [metrics]. For a complete list of me
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
-[Caddy documentation]
-[Monitoring Caddy with Prometheus metrics] (Caddy documentation)
-[Caddy Metrics example output] (GitHub Gist)
+* [Token substitution] (Sensu documentation): the Caddy Metrics integration supports Sensu tokens for variable substitution with data from Sensu entities
+* [Caddy documentation]
+* [Monitoring Caddy with Prometheus metrics] (Caddy documentation)
+* [Caddy Metrics example output] (GitHub Gist)
 
 
 <!-- Links -->
@@ -105,7 +102,7 @@ The Caddy Metrics integration collects many [metrics]. For a complete list of me
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
 [secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
-[tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
+[Token substitution]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [sensu-plus]: https://sensu.io/features/analytics
 [http-checks-bonsai]: https://bonsai.sensu.io/assets/sensu/http-checks
 [http-checks-github]: https://github.com/sensu/http-checks

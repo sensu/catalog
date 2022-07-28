@@ -37,46 +37,42 @@ The Envoy Metrics integration does not have compatible dashboards.
 
 1. If you want to use a Sensu [pipeline] to process Envoy Metrics integration data, you will need the pipeline names when you install this integration.
 
-### Disable redirect warnings
+1. **Optional** Disable redirect warnings.
 
-The Envoy Metrics integration supports disabling redirect warnings.
+   To disable redirect warnings, install this integration. Then, update the `envoy-metrics` check to add the `--redirect-ok` flag in the check's `command` attribute.
 
-To disable redirect warnings, install this integration.
-Then, update the `envoy-metrics` check to add the `--redirect-ok` flag in the check's `command` attribute.
+   <details><summary><strong>Example: Check command with disabled redirect warnings</strong></summary>
 
-**Example**:
+   ```yaml
+   spec:
+     command: >-
+       http-get
+       --timeout 10
+       --redirect-ok
+       --url "http://127.0.0.1:9901/stats/prometheus"
+   ```
 
-```yaml
-spec:
- command: >-
-   http-get
-   --timeout 10
-   --redirect-ok
-   --url "http://127.0.0.1:9901/stats/prometheus"
-```
+   </details>
+   <br>
 
-### Custom request headers
+1. **Optional** Configure custom request headers.
 
-The Envoy Metrics integration supports custom request headers.
+   To use custom request headers, install this integration. Then, update the `envoy-metrics` check to add one or more `--header` flags in the check's `command` attribute.
 
-To use custom request headers, install this integration.
-Then, update the `envoy-metrics` check to add one or more `--header` flags in the check's `command` attribute.
+   <details><summary><strong>Example: Custom request header configuration</strong></summary>
 
-**Example**:
+   ```yaml
+   spec:
+     command: >-
+       http-get
+       --timeout 10
+       --url "http://127.0.0.1:9901/stats/prometheus"
+       --header "Content-Type: text/plain"
+       --header "X-Example-Header: helloworld"
+   ```
 
-```yaml
-spec:
-  command: >-
-    http-get
-    --timeout 10
-    --url "http://127.0.0.1:9901/stats/prometheus"
-    --header "Content-Type: text/plain"
-    --header "X-Example-Header: helloworld"
-```
-
-### Token substitution
-
-The Envoy Metrics integration supports Sensu [tokens] for variable substitution with data from Sensu entities.
+   </details>
+   <br>
 
 ## Plugins
 
@@ -115,8 +111,9 @@ The Envoy Metrics integration collects many [metrics]. For a complete list of me
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
-[Statistics] (Envoy documentation)
-[Envoy Metrics example output] (GitHub Gist)
+* [Token substitution] (Sensu documentation): the Envoy Metrics integration supports Sensu tokens for variable substitution with data from Sensu entities
+* [Statistics] (Envoy documentation)
+* [Envoy Metrics example output] (GitHub Gist)
 
 
 <!-- Links -->
@@ -133,7 +130,7 @@ The Envoy Metrics integration collects many [metrics]. For a complete list of me
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
 [secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
-[tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
+[Token substitution]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [sensu-plus]: https://sensu.io/features/analytics
 [http-checks-bonsai]: https://bonsai.sensu.io/assets/sensu/http-checks
 [http-checks-github]: https://github.com/sensu/http-checks

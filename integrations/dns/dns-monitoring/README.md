@@ -38,24 +38,29 @@ The DNS Monitoring integration does not have compatible dashboards.
 
 1. If you want to use a Sensu [pipeline] to process DNS Monitoring integration data, you will need the pipeline names when you install this integration.
 
-### Override default parameters
+   You can configure separate pipelines for alerts, incident management, and metrics.
 
-The DNS Monitoring integration uses default parameters for DNS name server (`1.1.1.1`), port (`53`), and whether to force TCP (`false`).
+1. **Optional** Specify a custom DNS name server and port and force TCP.
 
-To override the default parameters and specify custom parameters on a per-host basis, add these [annotations] to the Sensu [agent] configuration file:
+   The DNS Monitoring integration uses default parameters for DNS name server (`1.1.1.1`), port (`53`), and whether to force TCP (`false`).
+
+   To override the default parameters and specify custom parameters on a per-host basis, add these [annotations] to the Sensu [agent] configuration file (`agent.yml`):
 
    - `sensu.io/plugins/dns-check/config/server`: name servers to query
    - `sensu.io/plugins/dns-check/config/port`: port number to query
    - `sensu.io/plugins/dns-check/config/tcp`: whether to force TCP
 
-**Example**:
+   <details><summary><strong>Example: Custom hostname, port, and TCP configuration</strong></summary>
 
-```yaml
-annotations:
-  sensu.io/plugins/dns-check/config/server: "1.1.1.1,1.0.0.1"
-  sensu.io/plugins/dns-check/config/port: 25565
-  sensu.io/plugins/dns-check/config/tcp: true
-```
+   ```yaml
+   annotations:
+     sensu.io/plugins/dns-check/config/server: "1.1.1.1,1.0.0.1"
+     sensu.io/plugins/dns-check/config/port: 25565
+     sensu.io/plugins/dns-check/config/tcp: true
+   ```
+
+   </details>
+   <br>
 
 ## Plugins
 

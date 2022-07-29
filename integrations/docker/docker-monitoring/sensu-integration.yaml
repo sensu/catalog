@@ -158,6 +158,9 @@ spec:
             --timeout 10
             --url "[[protocol]]://[[host]]:[[port]][[path]]"
         - op: replace
+          path: /spec/interval
+          value: interval
+        - op: replace
           path: /spec/subscriptions
           value: subscriptions
         - op: add

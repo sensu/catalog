@@ -9,6 +9,7 @@ to [Semantic Versioning][semver].
 
 - Revise text labels and prompts in configuration modal
 - Add summary for success screen in integration yaml file
+- Add interval patch in integration yaml
 - Add several setup steps and options in README
 - Add separate Alerts section in README
 - Update README link references to match headings on the linked pages

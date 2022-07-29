@@ -9,6 +9,7 @@ to [Semantic Versioning][semver].
 
 - Remove linux, darwin, windows tags in integration yaml
 - Add fields for alert and incident pipelines in integration yaml
+- Add patch for interval in integration yaml
 - Add summary for success screen in integration yaml file
 - Revise text labels and prompts in configuration modal
 - Add several setup steps and options in README

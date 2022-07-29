@@ -133,26 +133,26 @@ spec:
                 title: SMTP password
                 description: >-
                   Enter the SMTP password (password will be stored in the Sensu API as unencrypted plaintext)
-    - type: section
-      title: Sender and Recipient Email Addresses
-    - type: question
-      name: email_sender
-      required: true
-      input:
-        type: string
-        title: Sender email address
-        description: >-
-          Enter the sender's email address (the address the Sensu events will be sent from)
-        default: sensu@yourcompany.com
-    - type: question
-      name: email_recipient
-      required: true
-      input:
-        type: string
-        title: Recipient email address
-        description: >-
-          Enter the recipient's email address (the address Sensu will be sent to)
-        default: oncall@yourcompany.com
+                  - type: section
+                    title: Sender and Recipient Email Addresses
+                  - type: question
+                    name: email_sender
+                    required: true
+                    input:
+                      type: string
+                      title: Sender email address
+                      description: >-
+                        Enter the sender's email address (the address the Sensu events will be sent from)
+                      default: sensu@yourcompany.com
+                  - type: question
+                    name: email_recipient
+                    required: true
+                    input:
+                      type: string
+                      title: Recipient email address
+                      description: >-
+                        Enter the recipient's email address (the address Sensu will be sent to)
+                      default: oncall@yourcompany.com
   resource_patches:
     - resource:
         api_version: core/v2

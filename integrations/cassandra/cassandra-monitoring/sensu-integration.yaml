@@ -58,7 +58,7 @@ spec:
       required: false
       input:
         type: string
-        title: Incident pipeline name
+        title: Incident management pipeline name
         description: >-
           Which pipeline do you want to use to process incidents due to failures this integration detects?
         ref: core/v2/pipeline/metadata/name

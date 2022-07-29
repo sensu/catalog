@@ -62,7 +62,7 @@ The Docker Monitoring integration does not have compatible dashboards.
        http-get
        --timeout 10
        --url "http://127.0.0.1:9323/metrics"
-       --header "Content-Type: [[text/plain]]"
+       --header "Content-Type: text/plain"
        --header "X-Example-Header: helloworld"
    ```
 

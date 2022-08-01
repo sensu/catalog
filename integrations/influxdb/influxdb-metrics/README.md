@@ -81,7 +81,8 @@ The InfluxDB Metrics integration does not produce any [metrics].
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration. -->
 
-* [Token substitution] (Sensu documentation): the HTTP Endpoint Monitoring (Remote) integration supports Sensu tokens for variable substitution with data from Sensu entities
+[InfluxDB Cloud] (InfluxDB documentation)
+[InfluxDB 1.x compatibility API] (InfluxDB documentation)
 
 
 <!-- Links -->
@@ -93,7 +94,7 @@ The InfluxDB Metrics integration does not produce any [metrics].
 [plugins]: https://docs.sensu.io/sensu-go/latest/plugins/
 [metrics]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
-[Token substitution]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
+[tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [secret]: https://docs.sensu.io/sensu-go/latest/reference/secrets/
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
 [API token]: https://docs.influxdata.com/influxdb/cloud/security/tokens/
@@ -103,3 +104,4 @@ The InfluxDB Metrics integration does not produce any [metrics].
 [sensu-influxdb-handler]: https://github.com/sensu/sensu-influxdb-handler
 [sensu-influxdb-handler-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-influxdb-handler
 [sensu-elasticsearch-influxdb-github]: https://github.com/sensu/sensu-influxdb-handler
+[InfluxDB Cloud]: https://docs.influxdata.com/influxdb/cloud/

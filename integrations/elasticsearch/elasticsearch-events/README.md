@@ -29,7 +29,7 @@ The Elasticsearch Events integration does not have compatible dashboards.
 
    The Elasticsearch Events integration requires the Elasticsearch username and password.
 
-   **Optional**: If you want to use Sensu [secrets] to represent the Elasticsearch username nad password, you will need the secret names when you install this integration.
+   **Optional**: If you want to use Sensu [secrets] to represent the Elasticsearch username and password, you will need the secret names when you install this integration.
 
 1. Add the `elasticsearch` [pipeline] to one or more [checks].
    

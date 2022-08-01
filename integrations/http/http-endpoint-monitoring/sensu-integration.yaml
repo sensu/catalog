@@ -8,7 +8,7 @@ spec:
   class: supported
   provider: monitoring
   display_name: HTTP Endpoint Monitoring (Remote)
-  short_description: Collects metrics and monitors health for remote HTTP endpoints
+  short_description: Collect metrics and monitor health for remote HTTP endpoints
   supported_platforms:
     - darwin
     - linux

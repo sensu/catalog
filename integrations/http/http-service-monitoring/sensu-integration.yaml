@@ -98,20 +98,11 @@ spec:
         description: >-
           Enter the maximum request duration to allow before sending a WARNING event (default is `1`)
         default: 1
-    - type: question
-      name: labels
-      input:
-        type: object
-        title: Check labels
-        description: Add metadata labels for the checks
-        format: io.sensu.meta.label
-        additionalProperties:
-          type: string
     - type: section
-      title: Sensu Subscriptions
+      title: Sensu Subscriptions and Check Labels
     - type: markdown
       body: |
-        Specify the subscriptions for Sensu agents that should execute the `[[app]]-[[protocol]]-service-healthcheck` and `[[app]]-[[protocol]]-service-metrics` checks
+        Specify the subscriptions for Sensu agents that should execute the `[[app]]-[[protocol]]-service-healthcheck` and `[[app]]-[[protocol]]-service-metrics` checks and the metadata labels to add to the check definition.
     - type: question
       name: subscriptions
       input:
@@ -122,6 +113,15 @@ spec:
           ref: core/v2/entity/subscriptions
         default:
           - http
+    - type: question
+      name: labels
+      input:
+        type: object
+        title: Check labels
+        description: Add metadata labels for the checks
+        format: io.sensu.meta.label
+        additionalProperties:
+          type: string
     - type: section
       title: Pipeline Configuration
     - type: markdown

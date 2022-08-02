@@ -79,20 +79,11 @@ spec:
         description: >-
           Specify the metrics collection interval, in seconds (60 = 1 minute, 300 = 5 minutes, 600 = 10 minutes)
         default: 30
-    - type: question
-      name: labels
-      input:
-        type: object
-        title: Check labels
-        description: Add metadata labels for the `etcd-metrics` check
-        format: io.sensu.meta.label
-        additionalProperties:
-          type: string
     - type: section
-      title: Sensu Subscriptions
+      title: Sensu Subscriptions and Check Labels
     - type: markdown
       body: |
-        Specify the subscriptions for Sensu agents that should execute the `etcd-metrics` check
+        Specify the subscriptions for Sensu agents that should execute the `etcd-metrics` check and the metadata labels to add to the check definition.
     - type: question
       name: subscriptions
       input:
@@ -104,6 +95,15 @@ spec:
         default:
           - prometheus
           - etcd
+    - type: question
+      name: labels
+      input:
+        type: object
+        title: Check labels
+        description: Add metadata labels for the `etcd-metrics` check
+        format: io.sensu.meta.label
+        additionalProperties:
+          type: string
     - type: section
       title: Pipeline Configuration
     - type: markdown

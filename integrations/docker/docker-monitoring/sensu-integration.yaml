@@ -80,7 +80,7 @@ spec:
           Specify the metrics collection interval, in seconds (60 = 1 minute, 300 = 5 minutes, 600 = 10 minutes)
         default: 30
     - type: section
-      title: Sensu Subscriptions
+      title: Sensu Subscriptions and Check Labels
     - type: markdown
       body: |
         Specify the subscriptions for Sensu agents that should execute the `docker-daemon-metrics` check and the metadata labels to add to the check definition.

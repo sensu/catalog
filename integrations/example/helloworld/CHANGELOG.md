@@ -7,7 +7,7 @@ to [Semantic Versioning][semver].
 
 ## Unreleased
 
-- N/A
+- Testing GitHub Action for automating release workflow.
 
 ## [ 20220421.0.0 ] - 2022-04-21
 

@@ -198,3 +198,4 @@ The Kubernetes Monitoring integration collects various metrics from Kubernetes s
 [Kubernetes API health endpoints]: https://kubernetes.io/docs/reference/using-api/health-checks/
 [Directly accessing the REST API]: https://kubernetes.io/docs/tasks/run-application/access-api-from-pod/#directly-accessing-the-rest-api
 [Environment variables]: https://kubernetes.io/docs/concepts/services-networking/service/#environment-variables
+[pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/

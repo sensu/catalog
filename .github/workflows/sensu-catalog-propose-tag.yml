@@ -37,13 +37,11 @@ jobs:
           commit_epoch=$(git show -s --format=%ct ${commit})
           d=`date --utc -d @$commit_epoch +%Y%m%d`
 
-          ## Use git show to grab the diff associated with the merge
-          ## -p explicitly enable diff output
-          ## -m explicitly enable merged commit diff output
+          ## Use git diff-tree to grab the diff between the parent of the merge commit and the merge commit
           ## --name-only to output only the changed filenames
-          ## --format=format:""  to disable the commit mesg information and just show the changed files
-          ## to get the list of files changed as part of the PR merge
-          results=`git show -m -p --name-only --format=format:"" ${commit} | { grep "integrations/"  || test $? = 1; }`
+          ## -r recursive into the directory structure
+          ## ${commit}^ reads as parent of ${commit} in git speak
+          results=`git diff-tree --name-only -r ${commit}^ ${commit}| { grep "integrations/"  || test $? = 1; }`
           if [ ${#results} -eq 0 ]; then
             echo "No integration files changed in commit ${commit}, taking no additional action" 
             exit 0

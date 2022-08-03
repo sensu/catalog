@@ -34,13 +34,40 @@ jobs:
           fi
           commit_epoch=$(git show -s --format=%ct ${commit})
           d=`date --utc -d @$commit_epoch +%Y%m%d`
-          results=`git diff --name-only ${commit}^ ${commit} | { grep "integrations/"  || test $? = 1; }`
+
+          ## Parse the PR Merge commit mesg for shasums to use in diff to discover what has changed
+          merge_line=$(git show ${commit} | grep -m 1 "Merge:")
+          if [ -z "$merge_line" ]
+          then
+            echo "Problem reading 'Merge:' msg from git show ${commit}"
+            exit 1
+          fi
+          sha1=$(echo ${merge_line}|  awk '{print $2}')
+          sha2=$(echo ${merge_line}|  awk '{print $3}')
+          if [ -z "$sha1" ]
+          then
+            echo "Problem reading sha1 from 'Merge:' msg from git show ${commit}"
+            exit 1
+          fi
+          if [ -z "$sha2" ]
+          then
+            echo "Problem reading sha1 from 'Merge:' msg from git show ${commit}"
+            exit 1
+          fi
+
+          ## Use git diff --name-only  with the shawsums provided in the merge message
+          ## to get the list of files changed as part of the PR merge
+          results=`git diff --name-only ${sha1} ${sah2} | { grep "integrations/"  || test $? = 1; }`
           if [ ${#results} -eq 0 ]; then
             echo "No integration files changed in commit ${commit}, taking no additional action" 
             exit 0
           fi
+          ## Only consider files changed under integrations/ directory
           integrations=$(echo "${results}" | xargs -n 1 dirname  | sed -e 's/^integrations\///' |sort -u)
           echo -e "Detected Changed Integrations:\n$integrations\n"
+          ## Build suggested tag to use for each integration
+          #  base_version is date of merge commit in yyyymmdd format 
+          #  Increment semver minor if proposed tag already exists 
           for integration in $integrations
           do
             trimmed=$(echo ${integration} | sed 's:/*$::')
@@ -59,6 +86,7 @@ jobs:
               ((minor=i+1))
             done
             echo "Suggested Version: $version"
+            ## Create a new issue with proposed integration tag
             if [  -z ${GITHUB_TOKEN} ]; then
               echo -e "GITHUB_TOKEN empty, skipping issue creation" >&2
             else

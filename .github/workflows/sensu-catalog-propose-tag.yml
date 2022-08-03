@@ -36,9 +36,10 @@ jobs:
           d=`date --utc -d @$commit_epoch +%Y%m%d`
 
           ## Parse the PR Merge commit mesg for shasums to use in diff to discover what has changed
-          echo "Running: git show \${commit} | grep \"Merge:\""
-          merge_line=$(git show ${commit} | grep "Merge:")
-          echo "Merge Line: ${merge_line}"
+          echo "Running git show and grepping for Merge:"
+          
+          merge_line=$(git show ${commit} | grep '^Merge:')
+          echo "Found Merge Line: ${merge_line}"
           if [ -z "$merge_line" ]
           then
             echo "Problem reading 'Merge:' msg from git show ${commit}"

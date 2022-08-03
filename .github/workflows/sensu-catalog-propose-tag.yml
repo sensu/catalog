@@ -37,7 +37,7 @@ jobs:
 
           ## Parse the PR Merge commit mesg for shasums to use in diff to discover what has changed
           echo "Running git show to get commit msg" 
-          show_output=$(git show --format=format:%p ${commit} )
+          show_output=$(git show -s  --no-diff-merges --format=format:%p ${commit} )
           echo "Git Show Output:${show_output}}"
           if [ -z "$show_output" ]
           then
@@ -64,8 +64,8 @@ jobs:
 
           ## Use git diff --name-only  with the shawsums provided in the merge message
           ## to get the list of files changed as part of the PR merge
-          echo "Running: git diff --name-only ${sha1} ${sah2} | { grep \"integrations/\"  || test \$? = 1; }"
-          results=`git diff --name-only ${sha1} ${sah2} | { grep "integrations/"  || test $? = 1; }`
+          echo "Running: git diff --name-only ${sha1} ${sha2} | { grep \"integrations/\"  || test \$? = 1; }"
+          results=`git diff --name-only ${sha1} ${sha2} | { grep "integrations/"  || test $? = 1; }`
           if [ ${#results} -eq 0 ]; then
             echo "No integration files changed in commit ${commit}, taking no additional action" 
             exit 0

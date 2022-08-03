@@ -95,7 +95,7 @@ The InfluxDB Metrics integration does not produce any [metrics].
 [metrics]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
-[secret]: https://docs.sensu.io/sensu-go/latest/reference/secrets/
+[secrets]: https://docs.sensu.io/sensu-go/latest/reference/secrets/
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
 [API token]: https://docs.influxdata.com/influxdb/cloud/security/tokens/
 [organization]: https://docs.influxdata.com/influxdb/cloud/organizations/

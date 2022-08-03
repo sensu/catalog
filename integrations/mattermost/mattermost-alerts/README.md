@@ -28,7 +28,7 @@ The Mattermost integration does not have compatible dashboards.
 
    **Optional**: If you want to use a Sensu [secret] to represent the webhook URL, you will need the secret name when you install this integration.
 
-2. Decide which Mattermost [channel] should receive Sensu alerts. You will need the channel name to install this integration.
+1. Decide which Mattermost [channel] should receive Sensu alerts. You will need the channel name to install this integration.
 
 1. Add the `mattermost` [pipeline] to one or more [checks].
 

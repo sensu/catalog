@@ -84,7 +84,7 @@ The Jira Service Management integration does not produce any [metrics].
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [handler-templating]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handler-templates/
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
-[secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
+[secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [API token]: https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/
 [jira-plugin-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-jira-handler
 [issue type]: https://confluence.atlassian.com/servicedeskcloud/issue-types-1097176086.html

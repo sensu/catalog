@@ -36,20 +36,20 @@ jobs:
           d=`date --utc -d @$commit_epoch +%Y%m%d`
 
           ## Parse the PR Merge commit mesg for shasums to use in diff to discover what has changed
-          echo "Running git show and grepping for Merge:"
-          
-          merge_line=$(git show ${commit} | grep '^Merge:')
-          echo "Found Merge Line: ${merge_line}"
-          if [ -z "$merge_line" ]
+          echo "Running git show to get commit msg" 
+          show_output=$(git show --format=format:%p ${commit} )
+          echo "Git Show Output:${show_output}}"
+          if [ -z "$show_output" ]
           then
-            echo "Problem reading 'Merge:' msg from git show ${commit}"
+            echo "Problem with git show command"
             exit 1
           fi
-          echo "Running: echo \${merge_line}|  awk '{print \$2}')"
-          sha1=$(echo ${merge_line} |  awk '{print $2}')
+          echo "grepping show_output for parent sha"
+          echo "Running: echo \${show_output}|  awk '{print \$1}')"
+          sha1=$(echo ${show_output} |  awk '{print $1}')
           echo "SHA1: ${sha1}"
-          echo "Running: echo \${merge_line}|  awk '{print \$3}')"
-          sha2=$(echo ${merge_line} |  awk '{print $3}')
+          echo "Running: echo \${show_output}|  awk '{print \$2}')"
+          sha2=$(echo ${show_output} |  awk '{print $2}')
           echo "SHA2: ${sha2}"
           if [ -z "$sha1" ]
           then

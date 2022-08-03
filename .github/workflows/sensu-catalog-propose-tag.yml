@@ -38,15 +38,18 @@ jobs:
           ## Parse the PR Merge commit mesg for shasums to use in diff to discover what has changed
           echo "Running: git show \${commit} | grep \"Merge:\""
           merge_line=$(git show ${commit} | grep "Merge:")
+          echo "Merge Line: ${merge_line}"
           if [ -z "$merge_line" ]
           then
             echo "Problem reading 'Merge:' msg from git show ${commit}"
             exit 1
           fi
           echo "Running: echo \${merge_line}|  awk '{print \$2}')"
-          sha1=$(echo ${merge_line}|  awk '{print $2}')
+          sha1=$(echo ${merge_line} |  awk '{print $2}')
+          echo "SHA1: ${sha1}"
           echo "Running: echo \${merge_line}|  awk '{print \$3}')"
-          sha2=$(echo ${merge_line}|  awk '{print $3}')
+          sha2=$(echo ${merge_line} |  awk '{print $3}')
+          echo "SHA2: ${sha2}"
           if [ -z "$sha1" ]
           then
             echo "Problem reading sha1 from 'Merge:' msg from git show ${commit}"
@@ -60,11 +63,13 @@ jobs:
 
           ## Use git diff --name-only  with the shawsums provided in the merge message
           ## to get the list of files changed as part of the PR merge
+          echo "Running: git diff --name-only ${sha1} ${sah2} | { grep \"integrations/\"  || test \$? = 1; }"
           results=`git diff --name-only ${sha1} ${sah2} | { grep "integrations/"  || test $? = 1; }`
           if [ ${#results} -eq 0 ]; then
             echo "No integration files changed in commit ${commit}, taking no additional action" 
             exit 0
           fi
+          echo "Compiling list of changed integrations"
           ## Only consider files changed under integrations/ directory
           integrations=$(echo "${results}" | xargs -n 1 dirname  | sed -e 's/^integrations\///' |sort -u)
           echo -e "Detected Changed Integrations:\n$integrations\n"

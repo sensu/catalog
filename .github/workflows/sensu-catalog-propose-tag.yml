@@ -32,44 +32,23 @@ jobs:
             echo -e "commit empty, taking no additional action" >&2
             exit 0
           fi
+
+          ## Let's generate the timestamp from the commit info to be used in the suggestions version
           commit_epoch=$(git show -s --format=%ct ${commit})
           d=`date --utc -d @$commit_epoch +%Y%m%d`
 
-          ## Parse the PR Merge commit mesg for shasums to use in diff to discover what has changed
-          echo "Running git show to get commit msg" 
-          show_output=$(git show -s  --no-diff-merges --format=format:%p ${commit} )
-          echo "Git Show Output:${show_output}}"
-          if [ -z "$show_output" ]
-          then
-            echo "Problem with git show command"
-            exit 1
-          fi
-          echo "grepping show_output for parent sha"
-          echo "Running: echo \${show_output}|  awk '{print \$1}')"
-          sha1=$(echo ${show_output} |  awk '{print $1}')
-          echo "SHA1: ${sha1}"
-          echo "Running: echo \${show_output}|  awk '{print \$2}')"
-          sha2=$(echo ${show_output} |  awk '{print $2}')
-          echo "SHA2: ${sha2}"
-          if [ -z "$sha1" ]
-          then
-            echo "Problem reading sha1 from 'Merge:' msg from git show ${commit}"
-            exit 1
-          fi
-          if [ -z "$sha2" ]
-          then
-            echo "Problem reading sha1 from 'Merge:' msg from git show ${commit}"
-            exit 1
-          fi
-
-          ## Use git diff --name-only  with the shawsums provided in the merge message
+          ## Use git show to grab the diff associated with the merge
+          ## -p explicitly enable diff output
+          ## -m explicitly enable merged commit diff output
+          ## --name-only to output only the changed filenames
+          ## --format=format:""  to disable the commit mesg information and just show the changed files
           ## to get the list of files changed as part of the PR merge
-          echo "Running: git diff --name-only ${sha1} ${sha2} | { grep \"integrations/\"  || test \$? = 1; }"
-          results=`git diff --name-only ${sha1} ${sha2} | { grep "integrations/"  || test $? = 1; }`
+          results=`git show -m -p --name-only --format=format:"" ${commit} | { grep "integrations/"  || test $? = 1; }`
           if [ ${#results} -eq 0 ]; then
             echo "No integration files changed in commit ${commit}, taking no additional action" 
             exit 0
           fi
+
           echo "Compiling list of changed integrations"
           ## Only consider files changed under integrations/ directory
           integrations=$(echo "${results}" | xargs -n 1 dirname  | sed -e 's/^integrations\///' |sort -u)

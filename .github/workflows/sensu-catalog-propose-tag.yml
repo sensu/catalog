@@ -3,8 +3,7 @@ name: 'Sensu Catalog Propose Tag'
 
 on:
   pull_request:
-    branches:
-      - 'main'
+    types: [closed]
 
 jobs:
   propose-tag:
@@ -16,9 +15,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Fetch Tags
         run: git fetch --tags
+      - name: Log if fires unexpectedly   
+        shell: bash 
+        if: github.event.pull_request.merged != true
+        run: |
+          echo "Propose tag action fired when pr not merged"
       - name: Propose tag after PR merge    
         shell: bash 
-        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true 
+        if: github.event.pull_request.merged == true
         run: |
           commit=${commit:=${GITHUB_SHA}}
           echo "repo: ${GITHUB_REPOSITORY}"

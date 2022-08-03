@@ -49,7 +49,6 @@ This integration does not produce any events that should be processed by an aler
 
 1. This plugin uses a [Sensu Token][tokens] for variable substitution.
 
-
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
 [asset]: https://docs.sensu.io/sensu-go/latest/plugins/assets/

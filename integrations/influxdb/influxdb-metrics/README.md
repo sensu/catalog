@@ -81,8 +81,8 @@ The InfluxDB Metrics integration does not produce any [metrics].
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration. -->
 
-[InfluxDB Cloud] (InfluxDB documentation)
-[InfluxDB 1.x compatibility API] (InfluxDB documentation)
+- [InfluxDB Cloud] (InfluxDB documentation)
+- [InfluxDB 1.x compatibility API] (InfluxDB documentation)
 
 
 <!-- Links -->

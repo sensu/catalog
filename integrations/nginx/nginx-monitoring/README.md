@@ -125,7 +125,7 @@ Metric name | Description
 [plugins]: https://docs.sensu.io/sensu-go/latest/plugins/
 [metrics]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
-[tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
+[Token substitution]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [Sumo Logic NGINX apps]: https://www.sumologic.com/application/nginx/
 [Sensu Plus]: https://docs.sensu.io/sensu-go/latest/sensu-plus/
 [nginx_stub_status]: https://nginx.org/en/docs/http/ngx_http_stub_status_module.html

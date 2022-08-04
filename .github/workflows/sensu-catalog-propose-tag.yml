@@ -11,8 +11,10 @@ jobs:
     permissions:
       issues: write
     steps:
-      - name: Checkout code
+      - name: Checkout code from main branch
         uses: actions/checkout@v2
+        with:
+          ref: 'main'   
       - name: Fetch Tags
         run: git fetch --tags
       - name: Log if fires unexpectedly   
@@ -24,6 +26,7 @@ jobs:
         shell: bash 
         if: github.event.pull_request.merged == true
         run: |
+          git version
           commit=${commit:=${GITHUB_SHA}}
           echo "repo: ${GITHUB_REPOSITORY}"
           echo "sha: ${GITHUB_SHA}"

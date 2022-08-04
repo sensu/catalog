@@ -4,7 +4,7 @@
 
 The Prometheus Windows Exporter Metrics integration collects metrics from Windows hosts running the [Prometheus `windows_exporter`][prom-win-exp].
 
-**NOTE**: For Linux and macOS hosts, use Sensu's Prometheus Node Exporter integration.
+**NOTE**: For Linux and macOS hosts, use Sensu's Prometheus Node Exporter Metrics integration.
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 

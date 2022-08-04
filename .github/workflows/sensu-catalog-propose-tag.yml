@@ -25,6 +25,8 @@ jobs:
           echo "Propose tag action fired when pr not merged"
       - name: Propose tag after PR merge    
         shell: bash 
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         if: github.event.pull_request.merged == true
         run: |
           git version

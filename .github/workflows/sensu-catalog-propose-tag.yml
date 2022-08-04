@@ -27,6 +27,11 @@ jobs:
         if: github.event.pull_request.merged == true
         run: |
           git version
+          git status
+          git fetch
+          git checkout main
+          git status
+          git log -n 3
           commit=${commit:=${GITHUB_SHA}}
           echo "repo: ${GITHUB_REPOSITORY}"
           echo "sha: ${GITHUB_SHA}"

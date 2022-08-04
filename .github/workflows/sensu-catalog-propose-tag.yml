@@ -14,7 +14,8 @@ jobs:
       - name: Checkout code from main branch
         uses: actions/checkout@v2
         with:
-          ref: 'main'   
+          ref: 'main'
+          fetch-depth: 0   
       - name: Fetch Tags
         run: git fetch --tags
       - name: Log if fires unexpectedly   
@@ -28,10 +29,6 @@ jobs:
         run: |
           git version
           git status
-          git fetch
-          git checkout main
-          git status
-          git log -n 3
           commit=${commit:=${GITHUB_SHA}}
           echo "repo: ${GITHUB_REPOSITORY}"
           echo "sha: ${GITHUB_SHA}"
@@ -40,6 +37,11 @@ jobs:
             echo -e "commit empty, taking no additional action" >&2
             exit 0
           fi
+          echo "Log of commit"
+          git log -n 1 ${commit}
+
+          echo "Log of commit parent"
+          git log -n 1 ${commit}^
 
           ## Let's generate the timestamp from the commit info to be used in the suggestions version
           commit_epoch=$(git show -s --format=%ct ${commit})

@@ -8,7 +8,7 @@ to [Semantic Versioning][semver].
 ## Unreleased
 
 - Testing GitHub Action for automating release workflow (again).
-- Now Jef is testing GitHub Actions!!
+- Now Jef is testing GitHub Actions!!!
 
 ## [ 20220421.0.0 ] - 2022-04-21
 

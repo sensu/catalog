@@ -94,7 +94,7 @@ The Elasticsearch Events integration does not produce [metrics].
 [asset]: https://docs.sensu.io/sensu-go/latest/plugins/assets/
 [subscription]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/
 [subscriptions]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/
-[agents]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/
+[agent]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/
 [annotation]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#agent-annotations
 [plugins]: https://docs.sensu.io/sensu-go/latest/plugins/
 [metrics]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/

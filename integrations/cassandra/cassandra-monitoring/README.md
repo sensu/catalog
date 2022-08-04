@@ -189,7 +189,7 @@ The Cassandra Monitoring integration collects many [metrics] in [Graphite format
 [asset]: https://docs.sensu.io/sensu-go/latest/plugins/assets/
 [subscription]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/
 [subscriptions]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/
-[agents]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/
+[agent]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/
 [annotations]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#agent-annotations
 [plugins]: https://docs.sensu.io/sensu-go/latest/plugins/
 [metrics]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/

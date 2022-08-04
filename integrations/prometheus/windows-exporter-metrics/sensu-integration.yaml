@@ -7,7 +7,7 @@ metadata:
 spec:
   class: community
   provider: monitoring
-  display_name: Prometheus Windows Exporter Monitoring
+  display_name: Prometheus Windows Exporter Metrics
   short_description: Collect metrics from Prometheus windows_exporter
   supported_platforms:
     - windows

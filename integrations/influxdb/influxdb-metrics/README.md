@@ -87,6 +87,7 @@ The InfluxDB Metrics integration does not produce any [metrics].
 
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
+[checks]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
 [asset]: https://docs.sensu.io/sensu-go/latest/plugins/assets/
 [subscription]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/
 [agents]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/

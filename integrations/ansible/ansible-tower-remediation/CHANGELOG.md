@@ -7,7 +7,11 @@ to [Semantic Versioning][semver].
 
 ## Unreleased
 
-- N/A
+- Update display_name to Ansible Tower Remediation (from Ansible Tower) to match GitHub
+- Revise text labels and prompts in configuration modal
+- Add pipeline reference setup step and example in README
+- List and describe options for `io.sensu.ansible.config.actions` annotation in README
+- Update README link references to match headings on the linked pages
 
 ## [ 20220421.0.0 ] - 2022-04-21
 

@@ -7,8 +7,8 @@ metadata:
 spec:
   class: enterprise
   provider: remediation
-  display_name: Ansible Tower
-  short_description: Triggers Ansible Tower job templates for automated remediation.
+  display_name: Ansible Tower Remediation
+  short_description: Trigger Ansible Tower job templates for automated remediation
   tags:
     - ansible
     - remediation
@@ -23,19 +23,19 @@ spec:
       title: Ansible Tower API Configuration
     - type: markdown
       body: |
-        This integration requires a Ansible Tower API Host and API Token for API Authentication.
+        This integration requires an Ansible Tower API host and application token for API authentication.
 
-        Please visit [Ansible Tower API OAuth Guide] for more information.
+        Visit the Ansible Tower [Token-Based Authentication] documentation for more information.
 
-        [Ansible Tower API OAuth Guide]: https://docs.ansible.com/ansible-tower/latest/html/administration/oauth2_token_auth.html
+        [Token-Based Authentication]: https://docs.ansible.com/ansible-tower/latest/html/administration/oauth2_token_auth.html
     - type: question
       name: ansible_tower_host
       required: true
       input:
         type: string
-        title: Ansible Tower API Host
+        title: Ansible Tower API host name or IP address
         description: >-
-          Provide the API Host (i.e. hostname or IP address)
+          Provide the Ansible Tower API hostname or IP address
         default: "127.0.0.1"
     - type: question
       name: ansible_tower_api_token
@@ -50,17 +50,17 @@ spec:
             properties:
               option:
                 type: string
-                title: Ansible Tower API Token
+                title: Ansible Tower application token format
                 const: secret
                 constLocale:
                   title: Secret
                   description: >-
-                    Select this option to use Sensu Secrets Management
+                    Use a Sensu secret to provide the application token
               secret:
                 type: string
-                title: Ansible Tower API Token (Sensu Secret)
+                title: Secret name
                 description: >-
-                  Select the Ansible Tower API Token (Sensu Secret)
+                  Enter the secret name for the Ansible Tower application token
                 ref: secrets/v1/secret/metadata/name
           - type: object
             required:
@@ -69,17 +69,17 @@ spec:
             properties:
               option:
                 type: string
-                title: Ansible Tower API Token
+                title: Ansible Tower application token format
                 const: env_var
                 constLocale:
-                  title: Environment Variable
+                  title: Environment variable
                   description: >-
-                    Select this option to store sensitive configuration as environment variables
+                    Save the application token as a backend environment variable
               env_var:
                 type: string
-                title: Ansible Tower API Token
+                title: Ansible Tower application token
                 description: >-
-                  Provide the Ansible Tower API Token (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+                  Enter the Ansible Tower application token (token will be stored in the Sensu API as unencrypted plaintext)
   resource_patches:
     - resource:
         api_version: core/v2
@@ -102,11 +102,13 @@ spec:
       title: Success
     - type: markdown
       body: |
-        You have successfully enabled the Ansible Tower remediation integration.
+        You enabled the Ansible Tower Remediation integration.
 
-        Checks configured with the `ansible-tower` pipeline _and_ remediation actions (i.e. `io.sensu.ansible.config.actions` annotations) will be processed by Ansible Tower on [[ ansible_tower_host ]].
-
-        ```yaml
+        Ansible Tower will process events from checks that include the the `io.sensu.ansible.config.actions` remediation action annotation _and_ `ansible-tower` pipeline on [[ ansible_tower_host ]].
+        
+        Add the `ansible-tower` pipeline reference to one or more checks:
+        
+         ```yaml
         spec:
           pipelines:
             - api_version: core/v2

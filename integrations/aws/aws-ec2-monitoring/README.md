@@ -2,16 +2,13 @@
 
 <!-- Sensu Integration description; supports markdown -->
 
-The [AWS Elastic Cloud Compute (EC2)] monitoring integration collects EC2 metrics from [AWS CloudWatch], and alerts on various EC2 instance conditions.
-
-[AWS Elastic Cloud Compute (EC2)]: https://aws.amazon.com/ec2/
-[AWS CloudWatch]: https://aws.amazon.com/cloudwatch/
+The AWS EC2 Monitoring integration collects [Amazon Elastic Cloud Compute] (EC2) metrics from [AWS CloudWatch] and sends alerts on various EC2 instance conditions.
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 
-This integration includes the following resources:
+This integration includes the following Sensu resources:
 
-* `aws-ec2-metrics` [check]
+* `aws-{AWS_REGION}-ec2-metrics` [check]
 * `sensu/sensu-cloudwatch-check:0.1.0` [asset]
 
 ## Dashboards
@@ -22,102 +19,124 @@ This integration includes the following resources:
 
 <!-- ![](img/dashboard.png) -->
 
-Coming soon!
+The AWS EC2 Monitoring integration does not have compatible dashboards.
 
 ## Setup
 
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
 
-1. This integration requires access to AWS CloudWatch APIs.
+1. Confirm that you have access to [AWS CloudWatch APIs].
+   
+   The AWS EC2 Monitoring integration requires read-only access to AWS CloudWatch (e.g. `arn:aws:iam::aws:policy/CloudWatchReadOnlyAccess`).
 
-   All forms of AWS authentication supported by the [AWS CLI] are supported, including [EC2 IAM Instance Profiles]. This integration requires read-only access to AWS CloudWatch (e.g. `arn:aws:iam::aws:policy/CloudWatchReadOnlyAccess`).
+1. Get AWS authentication credentials.
+   
+   The AWS EC2 Monitoring integration accepts all forms of AWS authentication supported by the [AWS CLI]:
 
-   `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` secret(s) or environment variable(s) are not needed if the check(s) from this integration are run on a `sensu-agent` installed on an EC2 instance with an IAM Instance Profile containing the `arn:aws:iam::aws:policy/CloudWatchReadOnlyAccess`.
+   - AWS credential profile
+   - AWS access key ID + AWS secret access key
+   - [EC2 IAM instance profile]
 
-1. Configure Sensu Entity metadata with EC2 InstanceIDs
+   Avoid providing an AWS credential profile, access key ID, or secret access key in production environments. We suggest an alternative form of AWS authentication, such as EC2 IAM instance profiles.
 
-   This integration queries CloudWatch APIs to fetch EC2 instance metrics on a per-instance basis.
-   Sensu Agents should be configured to use the EC2 Instance ID as the entity name, or set one of the following annotations:
+   If the check from this integration will run on a Sensu agent installed on an EC2 instance whose EC2 IAM instance profile contains `arn:aws:iam::aws:policy/CloudWatchReadOnlyAccess`, you do not need to provide an AWS credential profile, access key ID, or secret access key.
+
+   **Optional**: If you want to use Sensu [secrets] to represent the AWS profile name, access key ID, or secret access key, you will need the secret names when you install this integration.
+
+1. Configure Sensu agent metadata with EC2 instance IDs
+
+   Configure Sensu agents to use the EC2 instance ID as the entity name **OR** add one of the following annotations to the agent configuration in `agent.yml`:
 
    * `aws_ec2_instance_id`
    * `instance_id`
 
-   Example `agent.yml`:
+   The AWS EC2 Monitoring integration queries CloudWatch APIs to fetch EC2 instance metrics on a per-instance basis.
+
+   <br>
+   <details><summary><strong>Example: Agent instance ID annotation</strong></summary>
 
    ```yaml
    annotations:
      aws_ec2_instance_id: i-424242
    ```
 
-[AWS CLI]: https://aws.amazon.com/cli/
-[EC2 IAM Instance Profiles]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html
+   ```yaml
+   annotations:
+     instance_id: i-424242
+   ```
+
+   </details>
+   <br>
+
+1. Decide which Sensu agents should execute the `aws-{AWS_REGION}-ec2-metrics` check. You will need the agent subscription names when you install this integration.
+
+1. If you want to use a Sensu [pipeline] to process AWS ALB Monitoring integration data, you will need the pipeline names when you install this integration.
+
+   You can configure separate pipelines for alerts, incident management, and metrics.
 
 ## Plugins
 
 <!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->
 
+The AWS EC2 Monitoring integration uses the following Sensu [plugins]:
+
 - [sensu/sensu-cloudwatch-check][sensu-cloudwatch-check-bonsai] ([GitHub][sensu-cloudwatch-check-github])
-
-## Metrics & Events
-
-<!-- List of all metrics or events collected by this integration. -->
-
-This integration collects dozens of [CloudWatch EC2 metrics] (i.e. `AWS/EC2` metrics).
-Please refer to the [List the available CloudWatch metrics for your instances] reference documentation for descriptions of each metric.
-
-[CloudWatch EC2 metrics]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/viewing_metrics_with_cloudwatch.html
-[List the available CloudWatch metrics for your instances]: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-cloudwatch-metrics.html
-
-| **Metric name** | **Tags** |
-|-----------------|----------|
-| **`aws_ec2_cpu_surplus_credits_charged_average`** | `InstanceId`, `entity` |
-| **`aws_ec2_cpu_surplus_credits_charged_sum`** | `InstanceId`, `entity` |
-| **`aws_ec2_cpu_credit_usage_average`** | `InstanceId`, `entity` |
-| **`aws_ec2_cpu_credit_usage_sum`** | `InstanceId`, `entity` |
-| **`aws_ec2_cpu_surplus_credit_balance_average`** | `InstanceId`, `entity` |
-| **`aws_ec2_cpu_surplus_credit_balance_sum`** | `InstanceId`, `entity` |
-| **`aws_ec2_cpu_credit_balance_average`** | `InstanceId`, `entity` |
-| **`aws_ec2_cpu_credit_balance_sum`** | `InstanceId`, `entity` |
-| **`aws_ec2_network_in`** | `InstanceId`, `entity` |
-| **`aws_ec2_network_packets_in`** | `InstanceId`, `entity` |
-| **`aws_ec2_cpu_utilization_average`** | `InstanceId`, `entity` |
-| **`aws_ec2_cpu_utilization_maximum`** | `InstanceId`, `entity` |
-| **`aws_ec2_cpu_utilization_minimum`** | `InstanceId`, `entity` |
-| **`aws_ec2_metadata_no_token`** | `InstanceId`, `entity` |
-| **`aws_ec2_status_check_failed_system`** | `InstanceId`, `entity` |
-| **`aws_ec2_status_check_failed__instance`** | `InstanceId`, `entity` |
-| **`aws_ec2_status_check_failed`** | `InstanceId`, `entity` |
-| **`aws_ec2_disk_write_bytes`** | `InstanceId`, `entity` |
-| **`aws_ec2_network_packets_out`** | `InstanceId`, `entity` |
-| **`aws_ec2_disk_read_ops`** | `InstanceId`, `entity` |
-| **`aws_ec2_disk_write_ops`** | `InstanceId`, `entity` |
-| **`aws_ec2_disk_read_bytes`** | `InstanceId`, `entity` |
-| **`aws_ec2_network_out`** | `InstanceId`, `entity` |
 
 ## Alerts
 
 <!-- List of all alerts generated by this integration. -->
 
-This integration produces the following events which should be processed by an alert or incident management [pipeline]:
+The AWS EC2 Monitoring integration produces the following events that should be processed by an alert or incident management pipeline:
 
-* CPUUtilization warning
+**CPUUtilization warning**
 
-  <!-- Description of the alert condition. -->
+Generates a WARNING event when the `aws_ec2_cpu_utilization_average` percentage exceeds a user-configurable minimum value (default 80).
 
-  A warning event is generated when `aws_ec2_cpu_utilization_average` exceeds a user-configurable minimum value (default: `80`%).
+**CPUUtilization critical**
 
-* CPUUtilization warning
+Generates a CRITICAL event when the `aws_ec2_cpu_utilization_average` percentage exceeds a user-configurable minimum value (default 90).
 
-  <!-- Description of the alert condition. -->
+## Metrics
 
-  A critical event is generated when `aws_ec2_cpu_utilization_average` exceeds a user-configurable minimum value (default: `90`%).
+<!-- List of all metrics or events collected by this integration. -->
+
+The AWS EC2 Monitoring integration collects CloudWatch EC2 metrics (i.e. `AWS/EC2` metrics), which are listed in the table below. For a description of each metric, read the [list of available CloudWatch metrics].
+
+Metric name | Tags
+----------- | ----
+`aws_ec2_cpu_surplus_credits_charged_average` | `InstanceId`, `entity`
+`aws_ec2_cpu_surplus_credits_charged_sum` | `InstanceId`, `entity`
+`aws_ec2_cpu_credit_usage_average` | `InstanceId`, `entity`
+`aws_ec2_cpu_credit_usage_sum` | `InstanceId`, `entity`
+`aws_ec2_cpu_surplus_credit_balance_average` | `InstanceId`, `entity`
+`aws_ec2_cpu_surplus_credit_balance_sum` | `InstanceId`, `entity`
+`aws_ec2_cpu_credit_balance_average` | `InstanceId`, `entity`
+`aws_ec2_cpu_credit_balance_sum` | `InstanceId`, `entity`
+`aws_ec2_network_in` | `InstanceId`, `entity`
+`aws_ec2_network_packets_in` | `InstanceId`, `entity`
+`aws_ec2_cpu_utilization_average` | `InstanceId`, `entity`
+`aws_ec2_cpu_utilization_maximum` | `InstanceId`, `entity`
+`aws_ec2_cpu_utilization_minimum` | `InstanceId`, `entity`
+`aws_ec2_metadata_no_token` | `InstanceId`, `entity`
+`aws_ec2_status_check_failed_system` | `InstanceId`, `entity`
+`aws_ec2_status_check_failed__instance` | `InstanceId`, `entity`
+`aws_ec2_status_check_failed` | `InstanceId`, `entity`
+`aws_ec2_disk_write_bytes` | `InstanceId`, `entity`
+`aws_ec2_network_packets_out` | `InstanceId`, `entity`
+`aws_ec2_disk_read_ops` | `InstanceId`, `entity`
+`aws_ec2_disk_write_ops` | `InstanceId`, `entity`
+`aws_ec2_disk_read_bytes` | `InstanceId`, `entity`
+`aws_ec2_network_out` | `InstanceId`, `entity`
 
 ## Reference Documentation
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
-1. This integration uses [Sensu Tokens][tokens] for variable substitution.
+* [Token substitution] (Sensu documentation): the AWS EC2 Monitoring integration supports Sensu tokens for variable substitution with data from Sensu entities
+* [Amazon CloudWatch API Reference][AWS CloudWatch APIs] (AWS documentation)
+* [List the available CloudWatch metrics for your instances][list of available CloudWatch metrics] (AWS documentation)
+
 
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
@@ -125,15 +144,20 @@ This integration produces the following events which should be processed by an a
 [subscription]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/
 [subscriptions]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/
 [agents]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/
-[annotation]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#general-configuration-flags
+[annotation]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#agent-annotations
 [plugins]: https://docs.sensu.io/sensu-go/latest/plugins/
 [metrics]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
 [secret]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
 [secrets]: https://docs.sensu.io/sensu-go/latest/operations/manage-secrets/secrets/
-[tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
+[Token substitution]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [sensu-plus]: https://sensu.io/features/analytics
-[{{dashboard-link}}]: #
 [sensu-cloudwatch-check-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-cloudwatch-check
 [sensu-cloudwatch-check-github]: https://github.com/sensu/sensu-cloudwatch-check
+[AWS Elastic Cloud Compute]: https://aws.amazon.com/ec2/
+[AWS CloudWatch]: https://aws.amazon.com/cloudwatch/
+[list of available CloudWatch metrics]: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-cloudwatch-metrics.html
+[AWS CLI]: https://aws.amazon.com/cli/
+[EC2 IAM instance profile]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html
+[AWS CloudWatch APIs]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/Welcome.html

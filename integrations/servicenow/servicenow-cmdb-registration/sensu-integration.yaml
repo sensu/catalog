@@ -225,7 +225,7 @@ spec:
       body: |
         You enabled the ServiceNow CMDB Registration integration.
 
-        To enable ServiceNow CMDB registration for all entities, list the `servicenow-cmdb` handler as a keepalive handler in the `agent.yml` configuration file:
+        To enable ServiceNow CMDB registration for all entities, list the `servicenow-cmdb` handler as a keepalive handler in the `agent.yml` configuration file and restart the agent:
 
         ```yaml
         keepalive-handlers:

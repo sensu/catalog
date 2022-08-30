@@ -1,0 +1,65 @@
+---
+api_version: catalog/v1
+type: Integration
+metadata:
+  namespace: system
+  name: keepalive-monitoring
+spec:
+  class: supported
+  provider: monitoring
+  display_name: Keepalive Monitoring
+  short_description: Keepalive monitoring adds entity keepalive monitoring.
+  supported_platforms:
+    - darwin
+    - linux
+    - windows
+  tags:
+    - keepalive
+    - system
+    - host
+    - linux
+    - macos
+    - windows
+  contributors:
+    - "@asachs01"
+  prompts:
+    - type: section
+      title: Pipeline Configuration
+    - type: markdown
+      body: |
+        Configure one or more [pipelines] for processing keepalives.
+
+        [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
+    - type: question
+      name: alerts_pipeline
+      required: false
+      input:
+        type: string
+        title: Alert Pipeline
+        description: >-
+          How do you want to be alerted for failures detected by this pipeline (e.g. Slack or Microsoft Teams)?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == "alerts"
+    - type: question
+      name: incidents_pipeline
+      required: false
+      input:
+        type: string
+        title: Incident Management Pipeline
+        description: >-
+          How do you want to process incidents for failures detected by this pipeline (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == "incidents"
+    - type: question
+      name: metrics_pipeline
+      required: false
+      input:
+        type: string
+        title: Metrics Pipeline
+        description: >-
+          How do you want to process metrics collected by this integration?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == "metrics"
+  resource_patches:
+    - resource:
+      api_version

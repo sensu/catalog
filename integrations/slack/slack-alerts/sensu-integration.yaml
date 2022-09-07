@@ -8,7 +8,7 @@ spec:
   class: supported
   provider: alerts
   display_name: Slack Alerts
-  short_description: Send alerts via Slack
+  short_description: Send alerts to a Slack channel
   tags:
     - slack
     - alerts
@@ -21,12 +21,10 @@ spec:
       title: Slack Configuration
     - type: markdown
       body: |
-        This integration requires a Slack Webhook URL for Slack API Authentication, and a default alerting channel.
+        Specify the Slack [webhook URL] and the [channel] that should receive alerts.
 
-        Please visit [Slack Incoming Webhook] and [Slack Channels] documentation for more information.
-
-        [Slack Incoming Webhook]: https://api.slack.com/messaging/webhooks
-        [Slack Channels]: https://slack.com/help/articles/360017938993-What-is-a-channel
+        [webhook URL]: https://api.slack.com/messaging/webhooks
+        [channel]: https://slack.com/help/articles/360017938993-What-is-a-channel
     - type: question
       name: slack_webhook_url
       required: true
@@ -40,17 +38,17 @@ spec:
             properties:
               option:
                 type: string
-                title: Slack Webhook URL
+                title: Slack webhook URL
                 const: secret
                 constLocale:
                   title: Secret
                   description: >-
-                    Select this option to use Sensu Secrets Management
+                    Use a Sensu secret to provide the Slack webhook URL
               secret:
                 type: string
-                title: Slack Webhook URL (Sensu Secret)
+                title: Secret name
                 description: >-
-                  Select the Slack Webhook URL (Sensu Secret)
+                  Enter the secret name for the Slack webhook URL
                 ref: secrets/v1/secret/metadata/name
           - type: object
             required:
@@ -59,26 +57,26 @@ spec:
             properties:
               option:
                 type: string
-                title: Slack Webhook URL
+                title: Slack webhook URL
                 const: env_var
                 constLocale:
-                  title: Environment Variable
+                  title: Environment variable
                   description: >-
-                    Select this option to store sensitive configuration as environment variables
+                    Save the Slack webhook URL as a backend environment variable
               env_var:
                 type: string
-                title: Slack Webhook URL
+                title: Slack webhook URL
                 description: >-
-                  Provide the Slack Webhook URL (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+                  Enter the Slack webhook URL (URL will be stored in the Sensu API as unencrypted plaintext)
     - type: question
       name: slack_channel
       required: true
       input:
         type: string
-        title: Slack Channel
+        title: Slack channel
         description: >-
-          Slack Channel (e.g. "#sensu", "#monitoring", "#ops", or "#alerts")
-        default: "#sensu"
+          Enter the name of the Slack channel that should receive alerts
+        default: "#alerts"
   resource_patches:
     - resource:
         api_version: core/v2
@@ -96,15 +94,16 @@ spec:
           value:
             secret: "[[slack_webhook_url.secret]]"
             name: SLACK_WEBHOOK_URL
-
   post_install:
     - type: section
       title: Success
     - type: markdown
       body: |
-        You have successfully enabled the Slack alerts integration.
+        You enabled the Slack integration.
 
-        Checks configured with the `slack` pipeline will generate alerts in the `[[slack_channel]]` channel.
+        Sensu will forward events from checks that reference the `slack` pipeline to `[[slack_channel]]`.
+
+        Add the `slack` pipeline reference to one or more checks:
 
         ```yaml
         spec:
@@ -112,11 +111,4 @@ spec:
             - api_version: core/v2
               type: Pipeline
               name: slack
-        ```
-
-        To customize the Slack channel on a per-Entity or per-Check basis, add the `sensu.io/plugins/slack/config/channel` annotation.
-
-        ```yaml
-        annotations:
-          sensu.io/plugins/slack/config/channel: "alternate-channel"
         ```

@@ -69,7 +69,7 @@ spec:
             properties:
               option:
                 type: string
-                title: ServiceNow Username
+                title: ServiceNow username
                 const: env_var
                 constLocale:
                   title: Environment uariable

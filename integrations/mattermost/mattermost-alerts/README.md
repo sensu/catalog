@@ -11,7 +11,7 @@ This integration provides the following Sensu resources:
 * `mattermost` [handler]
 * `mattermost_alerts` [event filter]
 * `mattermost` [pipeline]
-* `sensu/sensu-slack-handler` [asset]
+* `sensu/sensu-slack-handler:1.4.0` [asset]
 
 ## Dashboards
 

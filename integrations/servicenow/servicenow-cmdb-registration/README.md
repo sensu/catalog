@@ -13,7 +13,7 @@ This integration includes the following Sensu resources:
 * `servicenow-cmdb` [handler]
 * `discovery-only` [filter]
 * `servicenow-cmdb` [pipeline]
-* `sensu/sensu-servicenow-handler:3.0.0` [asset]
+* `sensu/sensu-servicenow-handler:3.0.2` [asset]
 
 ## Dashboards
 

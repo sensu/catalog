@@ -144,7 +144,7 @@ spec:
         type: string
         title: CMDB table
         description: >-
-          Enter the name of the ServiceNow table to use for managing CIs.
+          Enter the name of the ServiceNow table to use for managing CIs
         default: cmdb_ci
     - type: question
       name: servicenow_cmdb_key

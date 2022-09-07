@@ -72,7 +72,7 @@ spec:
                 title: ServiceNow username
                 const: env_var
                 constLocale:
-                  title: Environment uariable
+                  title: Environment variable
                   description: >-
                     Save the ServiceNow username as a backend environment variable
               env_var:

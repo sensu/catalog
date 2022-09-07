@@ -127,7 +127,6 @@ spec:
       title: ServiceNow Customizations
     - type: markdown
       body: |
-
         If your organization has a customized ServiceNow instance, provide the following configuration information to customize this integration:
 
         * Name of the ServiceNow CMDB table to use for managing Configuration Items (CIs)

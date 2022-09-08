@@ -62,8 +62,6 @@ The SSL Certificate File Monitoring (Local) integration uses the `output_metric_
 
 Generates a CRITICAL event if the `cert_issued_days` is greater than a user-configurable maximum value (default 398). Many clients do not accept certificates that are issued for more than [398 days].
 
-**NOTE**: You can configure the alert threshold values for SSL 
-
 ## Metrics
 
 <!-- List of all metrics or events collected by this integration. -->

@@ -81,7 +81,7 @@ spec:
         type: integer
         title: Days issued (CRITICAL threshold)
         description: >-
-          The maximum number of days since the certificate was issued before triggering a critical alert (default 398 days).
+          Specify the number of days for which the certificate is issued that will trigger a CRITICAL alert (default is 398)
     - type: section
       title: Pipeline Configuration
     - type: markdown

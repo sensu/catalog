@@ -52,11 +52,11 @@ spec:
       body: |
         Provide these configuration parameters for Sensu check thresholds:
 
-          * WARNING threshold for number of days left before SSL certificate expiry
-          * CRITICAL threshold for number of days left before SSL certificate expiry
-          * CRITICAL threshold for number of days for which the SSL certificate is issued (many clients do not accept certificates that are issued for more than [398 days])
+        * WARNING threshold for number of days left before SSL certificate expiry
+        * CRITICAL threshold for number of days left before SSL certificate expiry
+        * CRITICAL threshold for number of days for which the SSL certificate is issued (many clients do not accept certificates that are issued for more than [398 days])
 
-          [398 days]: https://www.ssl.com/blogs/398-day-browser-limit-for-ssl-tls-certificates-begins-september-1-2020/
+        [398 days]: https://www.ssl.com/blogs/398-day-browser-limit-for-ssl-tls-certificates-begins-september-1-2020/
     - type: question
       name: ssl_cert_check_days_left_warning_threshold
       input:

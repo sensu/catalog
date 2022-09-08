@@ -7,8 +7,8 @@ metadata:
 spec:
   class: supported
   provider: monitoring
-  display_name: Monitor and collect metrics for local SSL certificate files
-  short_description: Monitor Local SSL Certificate File Validity
+  display_name: SSL Certificate Monitoring (Local)
+  short_description: Monitor and collect metrics for local SSL certificate files
   supported_platforms:
     - linux
     - darwin

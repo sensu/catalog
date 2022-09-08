@@ -25,7 +25,7 @@ The Splunk Events integration makes Sensu event data available for searching and
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
 
-1. Get the Splunk endpoint host and port number. You will need this information when you install the integration.
+1. Get the Splunk endpoint host and port number. You will need this information to install the integration.
 
    **NOTE**: If Splunk Universal Forwarders are installed directly on Sensu backend nodes (or Kubernetes pods), use `localhost` or `127.0.0.1` as the host name.
 

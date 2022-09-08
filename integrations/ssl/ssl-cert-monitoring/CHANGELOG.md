@@ -7,7 +7,6 @@ to [Semantic Versioning][semver].
 
 ## Unreleased
 
-- Combine the file path and subscriptions installation sections in integration yaml
 - Revise text labels and prompts in configuration modal
 - Update summary for success screen in integration yaml file
 - Restore comments with instructions in README

@@ -154,7 +154,7 @@ Metric name | Description | Tags
 [sumo-host-app]: https://help.sumologic.com/07Sumo-Logic-Apps/14Hosts_and_Operating_Systems/Host_and_Process_Metrics
 [sumo-host-metrics]: https://help.sumologic.com/07Sumo-Logic-Apps/14Hosts_and_Operating_Systems/Host_and_Process_Metrics/Collect_Metrics_for_Host_and_Processes
 [sumo-host-app-blogpost]: https://www.sumologic.com/blog/monitoring-host-process-metrics/
-[pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
+[pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
 [Token substitution]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [integraton metrics]: #metrics
 [Metric threshold evaluation]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/#metric-threshold-evaluation

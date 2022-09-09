@@ -27,7 +27,7 @@ spec:
       title: SSL Certificate Path and Sensu Subscriptions
     - type: markdown
       body: |
-        Provide the path for your SSL certificate file and the subscriptions for Sensu agents that should execute the `ssl-certfile-monitoring` check
+        Provide the path for your SSL certificate file and the subscriptions for Sensu agents that should execute the `ssl-certfile-monitoring` check.
     - type: question
       name: path
       required: true

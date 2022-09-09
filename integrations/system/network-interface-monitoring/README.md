@@ -2,20 +2,22 @@
 
 <!-- Sensu Integration description; supports markdown -->
 
-The network interface monitoring integration provides metrics collection and alerting for network interface activity.
+The Network Interface Monitoring integration collects metrics and provides cross-platform monitoring for network interface activity.
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 
-This integration includes the following resources:
+This integration includes the following Sensu resources:
 
-* `network-interface-health` ([check])
-* `sensu/network-interface-check:0.1.0` ([asset])
+- `network-interface-health` [check]
+- `sensu/network-interface-check:0.1.0` [asset]
 
 ## Dashboards
 
 <!-- List of supported dashboards w/ screenshots (supports png, jpeg, and gif images; relative paths only; e.g. `![](img/dashboard-1.png)` )-->
 
-This integration is compatible with the [Sumo Logic Host monitoring dashboard][sumo-host-dashboard-link] (included w/ [Sensu Plus][sensu-plus]).
+The Network Interface Monitoring integration is compatible with the Sumo Logic [Host and Process Metrics][sumo-host-app] app, which is included with [Sensu Plus][sensu-plus].
+
+**Host Metrics Network dashboard**
 
 ![](img/dashboard.png)
 
@@ -24,129 +26,120 @@ This integration is compatible with the [Sumo Logic Host monitoring dashboard][s
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
 
-1. Optionally set the `networking_interface_include` or `networking_interface_exclude` agent [annotation] with a comma separately list of interfaces to inlcude/exclude in the metric output.  Note: Cannot use both annotations at the same time.
+1. Get the default interface to use for alerts and any interfaces you want to specifically exclude from or include in monitoring. You will need this information to install this integration.
+
+   **NOTE**: By default, this integration collect metrics from all network interfaces and alerts on dropped packets and errors on `eth0`.
+
+1. Decide which Sensu agents should execute the `network-interface-health` check. You will need the agent [subscription] names when you install this integration.
+
+   <details><summary><strong>Optional: Use a default subscription</strong></summary>
+
+   This integration includes several built-in subscriptions as defaults:
+
+   * `darwin`
+   * `linux`
+   * `windows`
+   * `system/darwin`
+   * `system/linux`
+   * `system/windows`
+   * `system`
+   * `system/network`
+
+   To use a default subscription, add it to the agents that should execute the `network-interface-health` check.
+
+   </details>
+   <br>
+
+1. If you want to use Sensu [pipelines] to process Network Interface Monitoring integration data, you will need the pipeline names when you install this integration.
+
+1. **Optional** Specify custom interfaces to include or exclude.
+
+   The Network Interface Monitoring integration includes and excludes the interfaces you specify when you install the integration.
+
+   To override the global interfaces and specify custom values on a per-entity basis, add **either** the * `networking_interface_include` or `networking_interface_exclude` [annotation] to the Sensu [agent] configuration file (`agent.yml`).
+
+   <details><summary><strong>Example: Custom interface include/exclude configuration</strong></summary>
+
+   ```yaml
+   annotations:
+     networking_interface_include: eth0
+   ```
+
+   ```yaml
+   annotations:
+     networking_interface_exclude: lo
+   ```
+
+   **NOTE**: Do not use both annotations at the same time. Use only one or the other.
+
+   </details>
+   <br>
 
 ## Plugins
 
 <!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->
 
+The Network Interface Monitoring integration uses the following Sensu [plugins]:
+
 - [sensu/network-interface-checks][network-interface-checks-bonsai] ([GitHub][network-interface-checks-github])
-
-## Metrics & Events
-
-<!-- List of all metrics or events collected by this integration. -->
-
-This integration collects the following [metrics]:
-
-* `bytes_recv`
-
-  Bytes received.
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `bytes_recv_rate`
-
-  Bytes sent per second (pre-calculated rate).
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `bytes_sent`
-
-  Bytes sent.
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `bytes_sent_rate`
-
-  Bytes sent per second (pre-calculated rate).
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `packets_recv`
-
-  Packets received.
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `packets_recv_rate`
-
-  Packets received per second (pre-calculated rate).
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `packets_sent`
-
-  Packets sent.
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `packets_sent_rate`
-
-  Packets sent per second (pre-calculated rate).
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `err_in`
-
-  Count of errors receiving inbound packets.
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `err_in_rate`
-
-  Count of errors receiving inbound packets per second (pre-calculated rate).
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `err_out`
-
-  Count of errors sending outbound packets.
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `err_out_rate`
-
-  Count of errors sending outbound packets per second (pre-calculated rate).
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `drop_in`
-
-  Count of dropped inbound packets.
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `drop_in_rate`
-
-  Count of dropped inbound packets per second (pre-calculated rate).
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `drop_out`
-
-  Count of dropped outbound packets.
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
-
-* `drop_out_rate`
-
-  Count of dropped outbound packets per second (pre-calculated rate).
-
-  Tags: `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
 
 ## Alerts
 
 <!-- List of all alerts generated by this integration. -->
 
-This integration produces the following events which should be processed by an alert or incident management [handler]:
+The Network Interface Monitoring integration
 
-* TODO
+The Network Interface Monitoring integration uses the `output_metric_thresholds` check attribute (available as of Sensu Go 6.7.0) to trigger the following alerts based on the `drop_in_rate`, `drop_out_rate`, `err_in_rate`, and `err_out_rate` [integration metrics]:
+
+**Dropped inbound packets rate**
+
+- Generates a WARNING event if the `drop_in_rate` is higher than the default of 0.0.
+
+**Dropped outbound packets rate**
+
+- Generates a WARNING event if the `drop_out_rate` is higher than the default of 0.0.
+
+**Inbound packets error rate**
+
+- Generates a WARNING event if the `err_in_rate` is higher than the default of 0.0.
+
+**Outbound packets error rate**
+
+- Generates a WARNING event if the `err_out_rate` is higher than the default of 0.0.
+
+## Metrics
+
+<!-- List of all metrics or events collected by this integration. -->
+
+The Network Interface Monitoring integration collects the following [metrics]:
+
+Metric name | Description | Tags
+----------- | ----------- | ----
+`bytes_recv` | Bytes received. | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`bytes_recv_rate` | Bytes received per second (pre-calculated rate). | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`bytes_sent` | Bytes sent. | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`bytes_sent_rate` | Bytes sent per second (pre-calculated rate). | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`packets_recv` | Packets received. | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`packets_recv_rate` | Packets received per second (pre-calculated rate). | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`packets_sent` | Packets sent. | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`packets_sent_rate` | Packets sent per second (pre-calculated rate). | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`err_in` | Count of errors receiving inbound packets. | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`err_in_rate` | Count of errors receiving inbound packets per second (pre-calculated rate). | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`err_out` | Count of errors sending outbound packets. | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`err_out_rate` | Count of errors sending outbound packets per second (pre-calculated rate). | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`drop_in` | Count of dropped inbound packets. | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`drop_in_rate` | Count of dropped inbound packets per second (pre-calculated rate). | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`drop_out` | Count of dropped outbound packets. | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
+`drop_out_rate` | Count of dropped outbound packets per second (pre-calculated rate). | `interface` (e.g. "eth0"), `namespace`, `os`, `entity`, `host.name`
 
 ## Reference Documentation
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
-1. This integration uses [Sensu Tokens][tokens] for variable substitution.
+* [Metric threshold evaluation] (Sensu documentation)
+* [Token substitution] (Sensu documentation): the Network Interface Monitoring integration supports Sensu tokens for variable substitution with data from Sensu entities
+* [Host and Process Metrics][sumo-host-app] (Sumo Logic documentation)
+
 
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
@@ -157,8 +150,11 @@ This integration produces the following events which should be processed by an a
 [plugins]: https://docs.sensu.io/sensu-go/latest/plugins/
 [metrics]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/
 [handler]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/
-[tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
+[Token substitution]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [sensu-plus]: https://sensu.io/features/analytics
-[sumo-host-dashboard-link]: https://www.sumologic.com/application/host-and-process-metrics/
+[sumo-host-app]: https://help.sumologic.com/07Sumo-Logic-Apps/14Hosts_and_Operating_Systems/Host_and_Process_Metrics
 [network-interface-checks-bonsai]: https://bonsai.sensu.io/assets/sensu/network-interface-checks
 [network-interface-checks-github]: https://github.com/sensu/network-interface-checks
+[Metric threshold evaluation]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/#metric-threshold-evaluation
+[integration metrics]: #metrics
+[pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/

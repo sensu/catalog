@@ -54,7 +54,7 @@ The Host Monitoring integration is compatible with the Sumo Logic [Host and Proc
 
    The Host Monitoring integration uses default thresholds for WARNING and CRITICAL alerts based on `system_cpu_used` and `system_mem_used`.
 
-   To override the default thresholds and specify custom values on a per-entity basis, add the followng [annotations] to the Sensu [agent] configuration file (`agent.yml`):
+   To override the default thresholds and specify custom values on a per-entity basis, add the following [annotations] to the Sensu [agent] configuration file (`agent.yml`):
 
    * `system_cpu_used_warning_threshold`
    * `system_cpu_used_critical_threshold`

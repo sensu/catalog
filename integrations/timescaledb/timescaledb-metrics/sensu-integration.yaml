@@ -8,7 +8,7 @@ spec:
   class: supported
   provider: metrics
   display_name: TimescaleDB Metrics
-  short_description: Send Sensu Metric Data to TimescaleDB
+  short_description: Send Sensu metrics data to TimescaleDB
   supported_platforms:
     - linux
   tags:
@@ -17,12 +17,12 @@ spec:
     - "@sensu"
   prompts:
     - type: section
-      title: TimescaleDB Database Connection (DSN)
+      title: TimescaleDB Database Connection
     - type: markdown
       body: |
-        The TimescaleDB Metrics integration requires a [Connection URI] (sometimes referred to as a "Data Source Name", or DSN) for connecting to TimescaleDB (e.g. `postgresql://username:password@127.0.0.1:5432/database`).
+        Provide the [connection URI] for the PostgreSQL data source (e.g. `postgresql://username:password@127.0.0.1:5432/database`)
 
-        [Connection URI]: https://www.postgresql.org/docs/current/libpq-connect.html#id-1.7.3.8.3.6
+        [connection URI]: https://www.postgresql.org/docs/current/libpq-connect.html#id-1.7.3.8.3.6
     - type: question
       name: timescaledb_dsn
       required: true
@@ -41,12 +41,12 @@ spec:
                 constLocale:
                   title: Secret
                   description: >-
-                    Select this option to use Sensu Secrets Management
+                    Use a Sensu secret to provide the connection URI
               secret:
                 type: string
-                title: TimescaleDB Database Connection URI (Sensu Secret)
+                title: Secret name
                 description: >-
-                  Select the TimescaleDB Database Connection URI (Sensu Secret)
+                  Enter the secret name for the connection URI
                 ref: secrets/v1/secret/metadata/name
           - type: object
             required:
@@ -58,14 +58,14 @@ spec:
                 title: TimescaleDB Database Connection URI
                 const: env_var
                 constLocale:
-                  title: Environment Variable
+                  title: Environment variable
                   description: >-
-                    Select this option to store sensitive configuration as environment variables
+                    Save the connection URI as a backend environment variable
               env_var:
                 type: string
-                title: TimescaleDB Database Connection URI
+                title: Connection URI
                 description: >-
-                  Provide the TimescaleDB Database Connection URI (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+                  Enter the connection URI (URI will be stored in the Sensu API as unencrypted plaintext)
   resource_patches:
     - resource:
         api_version: core/v2
@@ -80,15 +80,14 @@ spec:
           value:
             secret: "[[timescaledb_dsn.secret]]"
             name: TIMESCALEDB_DSN
-
   post_install:
     - type: section
       title: Success
     - type: markdown
       body: |
-        You have successfully enabled the TimescaleDB integration.
+        You enabled the TimescaleDB Metrics integration.
 
-        Checks configured with the `timescaledb-metrics` pipeline will send metrics to TimescaleDB.
+        To start sending Sensu metrics data to TimescaleDB, add the `timescaledb-metrics` pipeline to a check definition:
 
         ```yaml
         spec:

@@ -16,7 +16,7 @@ spec:
       api_version: pipeline/v1
       type: SumoLogicMetricsHandler
       name: sumologic-metrics
-  - name: sumologic-logs
+  - name: sumologic-events
     filters: []
     handler:
       api_version: core/v2

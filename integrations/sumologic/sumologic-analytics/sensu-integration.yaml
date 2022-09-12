@@ -11,7 +11,7 @@ spec:
   class: supported
   provider: metrics
   display_name: Sumo Logic Analytics
-  short_description: Process Sensu data with Sumo Logic for real-time analytics and turn-key dashboards
+  short_description: Send Sensu event and metrics data to Sumo Logic for real-time analytics and turnkey dashboards
   supported_platforms:
     - darwin
     - linux
@@ -27,14 +27,12 @@ spec:
     - "@thoward"
   prompts:
     - type: section
-      title: Sumo Logic HTTP Logs & Metrics Source
+      title: Sumo Logic HTTP Logs and Metrics Source Information
     - type: markdown
       body: |
-        This integration requires a Sumo Logic HTTP Logs & Metrics Source URL for integration with Sumo Logic.
+        Provide the URL for the Sumo Logic [HTTP Logs and Metrics Source] that should receive your Sensu event and metric data, as well as the source category to use for Sensu data.
 
-        Please visit the Sumo Logic ["HTTP Logs and Metrics Source"] reference documentation for more information.
-
-        ["HTTP Logs and Metrics Source"]: https://help.sumologic.com/03Send-Data/Sources/02Sources-for-Hosted-Collectors/HTTP-Source
+        [HTTP Logs and Metrics Source]: https://help.sumologic.com/03Send-Data/Sources/02Sources-for-Hosted-Collectors/HTTP-Source
     - type: question
       name: sumologic_url
       required: true
@@ -44,32 +42,21 @@ spec:
           - type: object
             required:
               - option
-            properties:
-              option:
-                type: string
-                title: Sumo Logic Source URL
-                const: none
-                constLocale:
-                  title: "—"
-
-          - type: object
-            required:
-              - option
               - secret
             properties:
               option:
                 type: string
-                title: Sumo Logic Source URL
+                title: Sumo Logic HTTP Logs and Metrics Source URL
                 const: secret
                 constLocale:
                   title: Secret
                   description: >-
-                    Select this option to use Sensu Secrets Management
+                    Use a Sensu secret to provide the HTTP Logs and Metrics Source URL
               secret:
                 type: string
-                title: Sumo Logic Source URL (Sensu Secret)
+                title: Secret name
                 description: >-
-                  Select the Sumo Logic Source URL (Sensu Secret)
+                  Enter the secret name for the HTTP Logs and Metrics Source URL
                 ref: secrets/v1/secret/metadata/name
           - type: object
             required:
@@ -78,17 +65,17 @@ spec:
             properties:
               option:
                 type: string
-                title: Sumo Logic Source URL
+                title: Sumo Logic HTTP Logs and Metrics Source URL
                 const: env_var
                 constLocale:
-                  title: Environment Variable
+                  title: Environment variable
                   description: >-
-                    Select this option to store sensitive configuration as plain text directly in the Sensu resource definitions.
+                    Save the HTTP Logs and Metrics Source URL as a backend environment variable
               env_var:
                 type: string
-                title: Sumo Logic Source URL
+                title: HTTP Logs and Metrics Source URL
                 description: >-
-                  Provide the Sumo Logic Source URL (NOTE: this will be stored in the Sensu API as unencrypted plaintext).
+                  Enter the HTTP Logs and Metrics Source URL (URL will be stored in the Sensu API as unencrypted plaintext)
     - type: question
       name: sumologic_source_category
       required: true
@@ -96,9 +83,8 @@ spec:
         type: string
         title: Source Category
         description: >-
-          SumoLogic source category for Sensu events 
+          Enter the Sumo Logic source category to use for Sensu events and metrics data
         default: "sensu-events"
-
   resource_patches:
     - resource:
         api_version: pipeline/v1
@@ -134,9 +120,9 @@ spec:
       title: Success
     - type: markdown
       body: |
-        You have successfully enabled the Sumo Logic integration.
+        You enabled the Sumo Logic Analytics integration.
 
-        Checks configured with the `sumologic` pipeline will send metrics and event data to Sumo Logic.
+        To start sending Sensu events and metrics data to Sumo Logic, add the `sumologic` pipeline to a check definition:
 
         ```yaml
         spec:

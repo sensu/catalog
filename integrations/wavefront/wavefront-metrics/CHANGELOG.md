@@ -7,7 +7,8 @@ to [Semantic Versioning][semver].
 
 ## Unreleased
 
-- N/A
+- Add a default host address in integration yaml
+
 
 ## [ 20220421.0.0 ] - 2022-04-21
 

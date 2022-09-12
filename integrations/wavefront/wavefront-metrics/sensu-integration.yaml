@@ -8,7 +8,7 @@ spec:
   class: supported
   provider: metrics
   display_name: Wavefront Metrics
-  short_description: "Send collected metric data to Wavefront for storage and visualization."
+  short_description: Send Sensu metrics data to Wavefront for storage and visualization.
   supported_platforms:
     - linux
   tags:
@@ -18,25 +18,26 @@ spec:
     - "@sensu"
   prompts:
     - type: section
-      title: Connection Settings
+      title: Wavefront Proxy Connection Settings
     - type: markdown
       body: |
-        This integration requires one or more Wavefront proxy connection settings.
+        Provide the host address and listening port for the Wavefront proxy that will ingest your Sensu metrics.
     - type: question
       name: wavefront_host
       required: true
       input:
         type: string
-        title: Wavefront Host
+        title: Wavefront proxy host address
         description: >-
-          Provide the Wavefront proxy host address.
+          Enter the host address for the Wavefront proxy
+        default: 127.0.0.1
     - type: question
       name: wavefront_port
       input:
         type: integer
-        title: Wavefront Port
+        title: Wavefront proxy listening port
         description: >-
-          Provide the Wavefront proxy port.
+          Enter the listening port for the Wavefront proxy
         default: 2878
   resource_patches:
     - resource:
@@ -54,9 +55,9 @@ spec:
       title: Success
     - type: markdown
       body: |
-        You have successfully enabled the Wavefront integration.
+        You enabled the Wavefront Metrics integration.
 
-        Checks configured with the `wavefront-metrics` pipeline will send metrics to Wavefront at `[[wavefront_host]]:[[wavefront_port]]`.
+        To start sending Sensu metrics data to Wavefront, add the `wavefront-metrics` pipeline to a check definition:
 
         ```yaml
         spec:

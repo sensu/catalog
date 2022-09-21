@@ -107,7 +107,7 @@ Metric name | Description
 
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
-[asset]: https://docs.sensu.io/sensu-go/latest/plugins/assets/
+[asset]: https://bonsai.sensu.io/assets/sensu/haproxy-check
 [subscription]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/
 [agent]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/
 [annotation]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#agent-annotations

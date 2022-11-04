@@ -57,6 +57,7 @@ metadata:
     io.sensu.bonsai.name: system-check
     io.sensu.bonsai.tags: centos, darwin, debian, linux, macos, red hat, redhat, rhel,
       rocky, ubuntu, vmware, windows
+    io.sensu.bonsai.namespace: sensu
 spec:
   builds:
   - url: https://assets.bonsai.sensu.io/8af6cb5445e816a68d29950f3a6404785f2b55bf/system-check_0.1.2_windows_amd64.tar.gz

@@ -8,7 +8,7 @@ spec:
   class: supported
   provider: monitoring
   display_name: Network interface monitoring
-  short_description: Cross-platform network interface monitoring for Windows, Linux, and macOS
+  short_description: Cross-platform network interface monitoring and metrics for Linux, macOS, and Windows
   supported_platforms:
     - darwin
     - linux
@@ -25,25 +25,20 @@ spec:
     - "@fguimond"
   prompts:
     - type: section
-      title: Configure Network Interface Monitoring
+      title: Network Interfaces
     - type: markdown
       body: |
-        By default, this integration will collect metrics from all network interfaces, and alert on dropped packets and errors on `eth0`.
+        By default, this integration will collect metrics from all network interfaces and alert on dropped packets and errors on `eth0`.
 
-        The following parameters will allow you to customize these defaults across all hosts.
-
-        * Default interface (e.g. "eth0")
-        * Interface filters (interfaces to include or exclude from network monitoring)
-
-        _NOTE: Please review the integration setup for instructions on how to override these defaults **on a per-host basis** using Sensu Agent annotations._
+        If you wish, specify a different default interface for all hosts. You can also choose whether to use filters to specifically exclude or include interfaces from network monitoring.
     - type: question
       name: default_interface
       required: true
       input:
         type: string
-        title: Default Network Interface
+        title: Default network interface
         description: >-
-          Default network interface to alert on (e.g. "eth0")
+          Specify the default network interface to alert on (default is `eth0`)
         default: eth0
     - type: question
       name: options
@@ -54,17 +49,17 @@ spec:
             properties:
               option:
                 type: string
-                title: "[Optional] Inclusive or exclusive filtering?"
+                title: "Optional: Choose an exclusive or inclusive filter"
                 const: excluded_interfaces
                 constLocale:
-                  title: Exclude Interfaces
+                  title: Exclude interfaces
                   description: >-
-                    Select this option to configure a list of interfaces to exclude from network monitoring (e.g. "lo")
+                    Select this option to configure a list of interfaces to exclude from network monitoring
               excluded_interfaces:
                 type: string
                 title: Interfaces to exclude
                 description: >-
-                  Comma-separated list of interfaces to exclude from monitoring (e.g. "lo")
+                  Enter a comma-separated list of interfaces to exclude from monitoring (e.g. `lo`)
                 default: ""
           - type: object
             properties:
@@ -73,27 +68,27 @@ spec:
                 title: "[Optional] Inclusive or exclusive filtering?"
                 const: included_interfaces
                 constLocale:
-                  title: Include Interfaces
+                  title: Include interfaces
                   description: >-
-                    Select this option to configure a list of interfaces to include in network monitoring (e.g. "eth0")
+                    Select this option to configure a list of interfaces to include in network monitoring
               included_interfaces:
                 type: string
                 title: Interfaces to include
                 description: >-
-                  Comma-separated list of interfaces to include in monitoring (e.g. "eth0")
+                  Enter a comma-separated list of interfaces to include in monitoring (e.g. `eth0`)
                 default: ""
     - type: section
-      title: Configure Sensu Subscriptions
+      title: Sensu Subscriptions
     - type: markdown
       body: |
-        Configure which Sensu Agent subscriptions this check should be run on.
+        Provide the subscriptions for Sensu agents that should execute the `network-interface-health` check.
     - type: question
       name: subscriptions
       input:
         type: array
         items:
           type: string
-          title: Sensu Subscriptions
+          title: Subscriptions
           ref: core/v2/entity/subscriptions
         default:
           - system
@@ -105,32 +100,20 @@ spec:
           - windows
           - windows/network
     - type: section
-      title: Configure Event Processing Pipelines
+      title: Pipeline Configuration
     - type: markdown
       body: |
-        Configure the event processing pipelines for processing events and metrics.
-      title: Configure Event Processing Pipelines
-    - type: markdown
-      body: |
-        This integration collects host metrics and can issue alerts using metric threaholds. You can configure different Sensu pipelines to use to process metrics and alerts.
-    - type: question
-      name: metrics_pipeline
-      required: false
-      input:
-        type: string
-        title: Metrics Pipeline
-        description: >-
-          How do you want to process metrics collected by this integration?
-        ref: core/v2/pipeline/metadata/name
-        refFilter: .labels.provider == 'metrics'
+        Name the [pipelines] you want to use to process Network Interface Monitoring integration data.
+
+        [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
     - type: question
       name: alerts_pipeline
       required: false
       input:
         type: string
-        title: Alert Pipeline
+        title: Alert pipeline name
         description: >-
-          How do you want to be alerted for failures detected by this integration (e.g. Slack or Microsoft Teams)?
+          Which pipeline do you want to use for alerts due to failures this integration detects?
         ref: core/v2/pipeline/metadata/name
         refFilter: .labels.provider == 'alerts'
     - type: question
@@ -138,11 +121,21 @@ spec:
       required: false
       input:
         type: string
-        title: Incident Pipeline
+        title: Incident management pipeline name
         description: >-
-          How do you want to process incidents for failures detected by this integration (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
+          Which pipeline do you want to use to process incidents due to failures this integration detects?
         ref: core/v2/pipeline/metadata/name
         refFilter: .labels.provider == 'incidents'
+    - type: question
+      name: metrics_pipeline
+      required: false
+      input:
+        type: string
+        title: Metrics pipeline name
+        description: >-
+          Which pipeline do you want to use to process the metrics this integration collects?
+        ref: core/v2/pipeline/metadata/name
+        refFilter: .labels.provider == 'metrics'
   resource_patches:
     - resource:
         api_version: core/v2
@@ -194,3 +187,11 @@ spec:
             api_version: core/v2
             type: Pipeline
             name: "[[incidents_pipeline]]"
+  post_install:
+    - type: section
+      title: Success
+    - type: markdown
+      body: |
+        You enabled the Network Interface Monitoring integration.
+
+        The `network-interface-health` check will run for all Sensu agents with these subscriptions: [[subscriptions]].

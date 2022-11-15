@@ -8,7 +8,7 @@ spec:
   class: supported
   provider: monitoring
   display_name: SSL Certificate Monitoring (Remote)
-  short_description: Monitor Remote SSL Certificate Validity
+  short_description: Monitor and collect metrics for remote SSL certificate files
   supported_platforms:
     - linux
     - darwin
@@ -24,14 +24,10 @@ spec:
     - "@thoward"
   prompts:
     - type: section
-      title: SSL Certificate Check
+      title: SSL Certificate Protocol, Host, and Port
     - type: markdown
       body: |
-        Configure your SSL Certificate Check with the following parameters:
-
-        * Protocol (HTTPS or TCP)
-        * Host
-        * Port
+        Specify the protocol, endpoint host, and endpoint port for the SSL certificate.
     - type: question
       name: protocol
       required: true
@@ -39,7 +35,7 @@ spec:
         type: string
         title: Protocol
         description: >-
-          What protocol should be used to retrieve the SSL certificate (HTTPS or TCP)
+          Select the protocol to use to retrieve the SSL certificate (HTTPS or TCP)
         enum:
           - https
           - tcp
@@ -49,65 +45,67 @@ spec:
       required: true
       input:
         type: string
-        title: Host
+        title: Remote endpoint host
         description: >-
-          Provide the HTTP endpoint host (e.g. "api.mycompany.com")
+          Enter the host for the remote endpoint URL (e.g. `api.mycompany.com`)
         default: docs.sensu.io
     - type: question
       name: port
       required: true
       input:
         type: integer
-        title: HTTPS Endpoint Port
+        title: Remote endpoint port
         description: >-
-          Provide the HTTP endpoint port (e.g. 443 for HTTPS)
+          Enter the port for the remote endpoint URL (e.g. `443` for HTTPS)
         default: 443
     - type: section
       title: Check Thresholds
     - type: markdown
       body: |
-        Configure Sensu check warning and critical thresholds for:
+        Provide these configuration parameters for Sensu check thresholds:
 
-          * Days Left Minimum Thresholds (warning and critical)
-          * Days Since Issued Maximum Threshold
+        * WARNING threshold for number of days left before SSL certificate expiry
+        * CRITICAL threshold for number of days left before SSL certificate expiry
+        * CRITICAL threshold for number of days for which the SSL certificate is issued (many clients do not accept certificates that are issued for more than [398 days])
 
-    - type: question
-      name: ssl_cert_check_days_left_critical_threshold
-      required: false
-      input:
-        default: 7
-        type: integer
-        title: Days Left Critical Threshold
-        description: >-
-          The minimum number of days left on the certificate before triggering a critical alert (default 7 days).
+        [398 days]: https://www.ssl.com/blogs/398-day-browser-limit-for-ssl-tls-certificates-begins-september-1-2020/
     - type: question
       name: ssl_cert_check_days_left_warning_threshold
+      required: false
       input:
         default: 15
         type: integer
-        title: Days Left Warning Threshold
+        title: Days left (WARNING threshold)
         description: >-
-          The minimum number of days left on the certificate before triggering a warning alert (default 15 days).
+          Specify the number of days remaining before SSL certificate expiry that will trigger a WARNING alert (default is 15)
+    - type: question
+      name: ssl_cert_check_days_left_critical_threshold
+      input:
+        default: 7
+        type: integer
+        title: Days left (CRITICAL threshold)
+        description: >-
+          Specify the number of days remaining before SSL certificate expiry that will trigger a CRITICAL alert (default is 7)
     - type: question
       name: ssl_cert_check_days_issued_critical_threshold
       input:
         default: 398
         type: integer
-        title: Days Issued Critical Threshold
+        title: Days issued (CRITICAL threshold)
         description: >-
-          The maximum number of days since the certificate was issued before triggering a critical alert (default 398 days).
+          Specify the number of days for which the certificate is issued that will trigger a CRITICAL alert (default is 398)
     - type: section
-      title: Configure Sensu Subscriptions
+      title: Sensu Subscriptions
     - type: markdown
       body: |
-        Configure which Sensu Agent subscriptions this check should be run on.
+        Specify the subscriptions for Sensu agents that should execute the `{ENDPOINT_HOST}-ssl-cert-check` check.
     - type: question
       name: subscriptions
       input:
         type: array
         items:
           type: string
-          title: Sensu Subscriptions
+          title: Subscriptions
           ref: core/v2/entity/subscriptions
         default:
           - ssl
@@ -115,17 +113,17 @@ spec:
       title: Pipeline Configuration
     - type: markdown
       body: |
-        Configure one or more [pipelines] for processing SSL Cert monitoring events.
+        Name the [pipelines] you want to use to process SSL Certificate File Monitoring (Remote) integration data.
 
-        [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/
+        [pipelines]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
     - type: question
       name: alert_pipeline
       required: false
       input:
         type: string
-        title: Alert Pipeline
+        title: Alert pipeline name
         description: >-
-          How do you want to be alerted for failures detected by this pipeline (e.g. Slack or Microsoft Teams)?
+          Which pipeline do you want to use for alerts due to failures this integration detects?
         ref: core/v2/pipeline/metadata/name
         refFilter: .labels.provider == "alerts"
     - type: question
@@ -133,9 +131,9 @@ spec:
       required: false
       input:
         type: string
-        title: Incident Management Pipeline
+        title: Incident management pipeline name
         description: >-
-          How do you want to process incidents for failures detected by this pipeline (e.g. Atlassian JIRA/ServiceDesk, or Pagerduty)?
+          Which pipeline do you want to use to process incidents due to failures this integration detects?
         ref: core/v2/pipeline/metadata/name
         refFilter: .labels.provider == "incidents"
     - type: question
@@ -143,9 +141,9 @@ spec:
       required: false
       input:
         type: string
-        title: Metrics Pipeline
+        title: Metrics pipeline name
         description: >-
-          How do you want to process metrics collected by this integration?
+          Which pipeline do you want to use to process the metrics this integration collects?
         ref: core/v2/pipeline/metadata/name
         refFilter: .labels.provider == "metrics"
   resource_patches:
@@ -167,7 +165,7 @@ spec:
             --cert [[protocol]]://[[host]]:[[port]]/
         - path: /spec/subscriptions
           op: replace
-          value: subscriptions
+          value: "[[subscriptions]]"
         - path: /spec/pipelines/-
           op: add
           value:
@@ -200,4 +198,6 @@ spec:
       title: Success
     - type: markdown
       body: |
-        You have successfully enabled SSL Certificate monitoring.
+        You enabled the SSL Certificate File Monitoring (Remote) integration for the certificate at [[path]].
+
+        The `{ENDPOINT_HOST}-ssl-cert-check` check will run for all Sensu agents with these subscriptions: [[subscriptions]].

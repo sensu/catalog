@@ -2,28 +2,24 @@
 
 <!-- Sensu Integration description; supports markdown -->
 
-The ServiceNow CMDB Registration integration provides automated registration of discovered Sensu Entities as ServiceNow CMDB Configuration Items.
+The ServiceNow CMDB Registration integration automatically registers Sensu entities as ServiceNow configuration management database (CMDB) Configuration Items (CIs).
 
-This integration will create/update ServiceNow CMDB Configuration Items.
-It supports custom CMDB tables and custom CMDB fields, with per-host configuration overrides.
-See the Setup section below for more information.
-
-This integration is compatible with ServiceNow versions "Rome" or older.
+This integration is compatible with ServiceNow versions **Rome and older**.
 
 <!-- Provide a high level overview of the integration contents (e.g. checks, filters, mutators, handlers, assets, etc) -->
 
-This integration includes the following resources:
+This integration includes the following Sensu resources:
 
-* `servicenow-cmdb` [pipeline]
 * `servicenow-cmdb` [handler]
 * `discovery-only` [filter]
-* `sensu/sensu-servicenow-handler:3.0.0` [asset]
+* `servicenow-cmdb` [pipeline]
+* `sensu/sensu-servicenow-handler:3.0.2` [asset]
 
 ## Dashboards
 
 <!-- List of compatible dashboards w/ screenshots (supports png, jpeg, and gif images; relative paths only; e.g. `![](img/dashboard-1.png)` )-->
 
-This integration is compatible with ServiceNow CMDB dashboards.
+The ServiceNow CMDB Registration integration is compatible with ServiceNow CMDB dashboards.
 
 ![](img/cmdb-dashboard.png)
 
@@ -32,20 +28,38 @@ This integration is compatible with ServiceNow CMDB dashboards.
 <!-- Sensu Integration setup instructions, including Sensu agent configuration and external component configuration -->
 <!-- EXAMPLE: what configuration (if any) is required in a third-party service to enable monitoring? -->
 
-1. **Enable ServiceNow CMDB registration using `--keepalive-handlers`**
+1. Get the ServiceNow instance's base URL (e.g. https://mycompany.service-now.com), username, and password.
 
-   To enable ServiceNow CMDB registration for all entities, configure the `--keepalive-handlers=servicenow-cmdb` flag, or modify `backend.yml` with the following contents, then restart the Sensu backend(s):
+   **Optional**: If you want to use Sensu [secrets] to represent the ServiceNow username and password, you will need the secret names when you install this integration.
+
+1. If your organization has a customized ServiceNow instance, get the following configuration information:
+
+    - Name of the ServiceNow CMDB table to use for managing CIs
+    - Field name that Sensu should use to look up CIs (the CMDB key)
+    - [Handler templates][handler-templating] for CI and asset tag naming
+    - Custom CI properties to populate from Sensu entity [annotations]
+
+    **NOTE**: If you are using an unmodified ServiceNow instance, the installation steps for this integration include default configuration details. You do not need custom configuration to use this integration.
+
+1. Enable ServiceNow CMDB registration by specifying an agent keepalive handler or a check pipeline reference.
+
+   <details><summary><strong>Example: Agent keepalive handler configuration</strong></summary>
+
+   To enable ServiceNow CMDB registration for all entities, list the `servicenow-cmdb` handler as a value for the [keepalive-handlers] agent configuration option in the `agent.yml` configuration file:
 
    ```yaml
    keepalive-handlers:
      - servicenow-cmdb
    ```
 
-   _NOTE: in clustered deployments, you will need to configure & restart every Sensu backend for [`keepalive-handlers` configuration][keepalive-handlers] to take effect._
+   **NOTE**: You must [restart] the Sensu agent for the keepalive handler configuration to take effect.
 
-   Alternatively, checks configured with the `servicenow-cmdb` [pipeline] may be used to enable CMDB registration.
+   </details>
+   <br>
+   
+   <details><summary><strong>Example: Check pipeline reference configuration</strong></summary>
 
-   Example:
+   To enable ServiceNow CMDB registration only for entities that execute a specific check, add the `servicenow-cmdb` [pipeline] to the check definition.
 
    ```yaml
    spec:
@@ -55,13 +69,14 @@ This integration is compatible with ServiceNow CMDB dashboards.
          name: servicenow-cmdb
    ```
 
-   [keepalive-handlers]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handlers/#keepalive-event-handlers
+   </details>
+   <br>
 
-1. **[OPTIONAL] Customize ServiceNow CMDB configuration on a per-host basis**
+1. **Optional** Specify custom ServiceNow CMDB configuration on a per-entity or per-check basis.
 
-   Sensu Entity annotations may be used to override the default ServiceNow CMDB integration configuration.
+   <details><summary><strong>Example: Custom CMDB table and asset tag configuration</strong></summary>
 
-   Examples:
+   The ServiceNow CMDB Registration integration uses the configuration parameters you specify during installation. To override the installed configuration for a single entity or check, add [annotations] with the prefix `servicenow/config/` to the `agent.yml` configuration file or the check definition.
 
    ```yaml
    annotations:
@@ -69,17 +84,22 @@ This integration is compatible with ServiceNow CMDB dashboards.
      servicenow/config/cmdb-asset-tag: "aws/us-west-2/instances/i-424242"
    ```
 
-   For more information, please visit the [ServiceNow Handler "Annotations" reference documentation].
+   For a complete list of available annotations, read the [sensu/sensu-servicenow-handler annotations documentation].
 
-2. **[OPTIONAL] Customize ServiceNow CMDB Configuration Item properties**
+   </details>
+   <br>
 
-   This integration supports custom ServiceNow CMDBs tables with custom fields.
-   To enable custom fields set the `--cmdb-properties` flag (e.g. `--cmdb-properties asset_tag,store_id`).
-   _NOTE: The integration installation wizard will prompt you for a list of custom fields._
+1. **Optional** Configure custom ServiceNow CMDB CI properties.
 
-   Once enabled, custom properties can be set on a per-host basis using `servicenow/table/cmdb/<fieldname>` Entity annotations.
+   <details><summary><strong>Example: Custom ServiceNow CMDB CI property configuration</strong></summary>
 
-   Example `agent.yml` (assuming `--cmdb-properties: asset_tag,store_id`):
+   The ServiceNow CMDB Registration integration supports ServiceNow CMDB tables with custom fields.
+
+   When you install this integration, you can list custom CI properties to populate from Sensu entity [annotations] with the prefix `servicenow/table/cmdb/`. If an entity includes a matching annotation, Sensu will populate the corresponding field in the ServiceNow CMDB table with the annotation's value.
+
+   For example, if you list the `asset_tag` and `store_id` custom CI properties when you install this integration, Sensu will check entities for matching annotations.
+
+   Set the entity annotations in the `agent.yml` configuration file:
 
    ```yaml
    annotations:
@@ -87,20 +107,23 @@ This integration is compatible with ServiceNow CMDB dashboards.
      servicenow/table/cmdb/store_id: "1234"
    ```
 
-[Sensu Entity]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-entities/entities/
-[ServiceNow Handler "Annotations" reference documentation]: https://bonsai.sensu.io/assets/sensu/sensu-servicenow-handler#annotations
+   To add custom CI properties after installing this integration, update the `servicenow-cmdb` handler command to list the additional properties in the `--cmdb-properties` flag values:
+
+   ```yaml
+   command: >-
+    sensu-servicenow-handler --cmdb-registration --cmdb-table cmdb_ci --cmdb-key name --cmdb-name "{{ .Entity.Name }}" --cmdb-asset-tag "sensu/{{ .Entity.Namespace }}/{{ .Entity.Name }}" --cmdb-properties "asset_tag,store_id,category,location"
+   ```
+
+   </details>
+   <br>
 
 ## Plugins
 
 <!-- Links to any Sensu Integration dependencies (i.e. Sensu Plugins) -->
 
+The ServiceNow CMDB Registration integration uses the following Sensu [plugins]:
+
 - [sensu/sensu-servicenow-handler][sensu-servicenow-handler-bonsai]
-
-## Metrics & Events
-
-<!-- List of all metrics or events collected by this integration. -->
-
-This integration does not produce any [metrics].
 
 ## Alerts
 
@@ -108,13 +131,21 @@ This integration does not produce any [metrics].
 
 <!-- This integration provides an alert & incident management processing pipeline for use with other monitoring integrations. By default this integration will process all events passing the [built-in `is_incident` filter][is_incident] (i.e. failing events and resolution events only). Event processing via this integration may be suppressed using [Sensu Silencing][silences] (see the [built-in `not_silenced` filter][not_silenced] for more details). -->
 
-This integration does not produce any events that should be processed by an alert or incident management [pipeline].
+The ServiceNow CMDB Registration integration does not produce any events that should be processed by an alert or incident management [pipeline].
+
+## Metrics
+
+<!-- List of all metrics or events collected by this integration. -->
+
+The ServiceNow CMDB Registration integration does not produce any [metrics].
 
 ## Reference Documentation
 
 <!-- Please provide links to any relevant reference documentation to help users learn more and/or troubleshoot this integration; specifically including any third-party software documentation. -->
 
-1. This integration uses [Handler Templating][handler-templating] for variable substitution.
+* [Handler templating][handler-templating] (Sensu documentation): the ServiceNow CMDB Registration integration supports handler templating for variable substitution with data from Sensu events
+* [Configuration Management Database][servicenow-cmdb] (ServiceNow documentation)
+
 
 <!-- Links -->
 [check]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/checks/
@@ -122,7 +153,8 @@ This integration does not produce any events that should be processed by an aler
 [subscription]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/
 [subscriptions]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/subscriptions/
 [agents]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/
-[annotation]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#general-configuration-flags
+[annotation]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#agent-annotations
+[annotations]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#agent-annotations
 [plugins]: https://docs.sensu.io/sensu-go/latest/plugins/
 [metrics]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/metrics/
 [pipeline]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/pipelines/
@@ -134,6 +166,8 @@ This integration does not produce any events that should be processed by an aler
 [tokens]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/tokens/
 [handler-templating]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-process/handler-templates/
 [sensu-plus]: https://sensu.io/features/analytics
-[{{dashboard-link}}]: #
 [sensu-servicenow-handler-bonsai]: https://bonsai.sensu.io/assets/sensu/sensu-servicenow-handler
-
+[servicenow-cmdb]: https://docs.servicenow.com/bundle/rome-servicenow-platform/page/product/configuration-management/concept/c_ITILConfigurationManagement.html
+[restart]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#restart-the-service
+[keepalive-handlers]: https://docs.sensu.io/sensu-go/latest/observability-pipeline/observe-schedule/agent/#keepalive-handlers-option
+[sensu/sensu-servicenow-handler annotations documentation]: https://bonsai.sensu.io/assets/sensu/sensu-servicenow-handler#annotations

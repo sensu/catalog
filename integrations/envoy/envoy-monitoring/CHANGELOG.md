@@ -7,7 +7,15 @@ to [Semantic Versioning][semver].
 
 ## Unreleased
 
-- *n/a*
+- Remove linux, darwin, windows tags and subscriptions in integration yaml
+- Add fields for alert and incident pipelines in integration yaml
+- Revise text labels and prompts in configuration modal
+- Add patch for interval in integration yaml
+- Add summary for success screen in integration yaml file
+- Add several setup steps and options in README
+- Add separate Alerts section in README
+- Update README link references to match headings on the linked pages
+- Add reference documentation list
 
 ## [0.1.0] - {{current_date}}
 
